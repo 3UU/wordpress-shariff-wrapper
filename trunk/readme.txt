@@ -37,7 +37,6 @@ original Shariff code!
 * orientation= vertical
 * backend= on|off(default)
 
-
 == Screenshots ==
 
 1. `/assets/screenshot-1.jpg`
@@ -60,15 +59,15 @@ long as the original will not get more options we will not add more to this
 plugin.
 
 = Q: How can I change the design? =
-A: Have a look at the prameters "theme" and "orientation". They work
+A: Have a look at the parameters "theme" and "orientation". They work
 like the original code parameters that are explained at 
 http://heiseonline.github.io/shariff/
 
 = Q: Can I add [shariff] on all posts? =
 A: Yes, if do you have access to your wp-config.php file. Add
 define('SHARIFF_ALL_POSTS','[shariff]');
-to it. The shortcut will be put on the end of all single sites an processed.
-You can use all options of that work with the shortcut within a post.
+to it. The shortcut will be put at the end of all single posts and processed.
+You can use all options that work with the shortcut.
 
 = Q: But I want hide it on a single post! =
 A: Do you really know what do you want? ;-) However it is possible. Write 
@@ -77,7 +76,7 @@ not be added. This will make it compatible with the other plugin "Shariff for
 Wordpress" that has been published at the same day. You can also use
 "/hideshariff" to write "hideshariff" in your post. 
 
-= Q: What are the differences between this 2 plugins?
+= Q: What are the differences between this 2 plugins? =
 A: One is developed by me, one by an other ;-) The main difference is, that 
 this plugin can be used as a shortcode anywhere in your posts. Also if do 
 you use the configuration option to add it on all posts - it will only 

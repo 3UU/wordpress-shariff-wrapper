@@ -3,11 +3,11 @@
 Plugin Name: Shariff
 Plugin URI: http://www.3uu.org/plugins.htm
 Description: A better way to use share buttons of Twitter, Facebook and GooglePlus. 
-Version: 0.2
+Version: 0.3
 Author: Ritze
 Author URI: http://www.DatenVerwurstungsZentrale.com/
 Update Server: http://download.3uu.net/wp/
-License: GPLv3License URI: http://www.gnu.org/licenses/gpl-3.0.html
+License: http://opensource.org/licenses/MIT
 
 ### Supported options ###
   services: [twitter|facebook|googleplus]
