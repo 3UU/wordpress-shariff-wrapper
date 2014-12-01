@@ -30,8 +30,21 @@ if(defined('SHARIFF_ALL_POSTS')) {
   add_filter('the_content', 'shariffPosts');
   function shariffPosts($content) {
     // add it to single posts view only
-    if(is_single()) $content.=SHARIFF_ALL_POSTS;
-    return $content;
+    if( is_single() ){ 
+      // if we want see it as text - replace the slash
+      if (strpos($content,'/hideshariff') == true) { $content=str_replace("/hideshariff","hideshariff",$content); }
+      // but not, if the pure hidshariff sign is in the text  
+      elseif(strpos($content,'hideshariff') == true) {
+        // remove the sign
+        $content=str_replace("hideshariff","",$content);
+        // and return without adding Shariff
+        return $content;
+        }
+      // add Shariff
+      return $content.=SHARIFF_ALL_POSTS;
+    }
+   // do not add Shariff
+   return $content;
   }
 }
 

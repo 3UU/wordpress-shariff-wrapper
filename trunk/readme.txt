@@ -4,8 +4,8 @@ Tags: Twitter, Facebook, GooglePlus, sharebutton
 Requires at least: 3.0.1
 Tested up to: 4.0.1
 Stable tag: trunk
-License: GPLv2 or later
-License URI: http://www.gnu.org/licenses/gpl-2.0.html
+License: MIT
+License URI: http://opensource.org/licenses/MIT
 
 A better way to use share buttons of Twitter, Facebook and GooglePlus. This 
 is a wrapper for the original code by the "Shariff" project.
@@ -23,7 +23,7 @@ software. It allows you to use it within your posts with the shorttag
 
 1. Upload `plugin-name.php` to the `/wp-content/plugins/` directory
 2. Activate the plugin through the 'Plugins' menu in WordPress
-3. Use <code>[shariff] anywhere in your posts.
+3. Use <code>[shariff]</code> anywhere in your posts.
 
 = Supported options are: =
 
@@ -40,9 +40,8 @@ original Shariff code!
 
 == Screenshots ==
 
-1.) Add attributes to the shorttag 
-
-2.) how does it look with the attributes or screenshot 1
+1. `/assets/screenshot-1.jpg`
+2. `/assets/screenshot-2.jpg`
 
 == Frequently Asked Questions ==
 
@@ -65,7 +64,45 @@ A: Have a look at the prameters "theme" and "orientation". They work
 like the original code parameters that are explained at 
 http://heiseonline.github.io/shariff/
 
+= Q: Can I add [shariff] on all posts? =
+A: Yes, if do you have access to your wp-config.php file. Add
+define('SHARIFF_ALL_POSTS','[shariff]');
+to it. The shortcut will be put on the end of all single sites an processed.
+You can use all options of that work with the shortcut within a post.
+
+= Q: But I want hide it on a single post! =
+A: Do you really know what do you want? ;-) However it is possible. Write 
+anywhere in your post "hideshariff". It will be removed and Shariff will 
+not be added. This will make it compatible with the other plugin "Shariff for
+Wordpress" that has been published at the same day. You can also use
+"/hideshariff" to write "hideshariff" in your post. 
+
+= Q: What are the differences between this 2 plugins?
+A: One is developed by me, one by an other ;-) The main difference is, that 
+this plugin can be used as a shortcode anywhere in your posts. Also if do 
+you use the configuration option to add it on all posts - it will only 
+shown on single post pages.
+
+= Q: The fonts load slowly, can I use a CDN? =
+A: The best way would be to use a CDN for your blog host. The original 
+shariff project has references to CDN hosted fonts. But it is possible that 
+the hoster send headers that force the browser to reload the fonts on any
+page. This will enable tracking again depending on how honest the font
+hoster is. So I would suggest to use the copy that is within the plugin 
+directory at your server. However if do you want use the orginal CSS of the
+Shariff project you can rename the shariff.min.css to
+shariff.min.local.css Please be warned: To use a plugin to help your
+visitors not to compromising their privacy and than make use of external
+hosted parts is not really smart.
+
 == Changelog ==
+
+= 0.3 =
+* add support for "hideshariff" 
+* add screenshots
+
+= 0.2 =
+* removed the private update server and changed test domain 
 
 = 0.1 = 
 * initial
