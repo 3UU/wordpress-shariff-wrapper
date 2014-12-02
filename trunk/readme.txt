@@ -1,6 +1,6 @@
 === Shariff ===
 Contributors: 3UU
-Tags: Twitter, Facebook, GooglePlus, sharebutton
+Tags: Twitter, Facebook, GooglePlus, sharebutton, sharing, privacy, social, whatsapp
 Requires at least: 3.0.1
 Tested up to: 4.0.1
 Stable tag: trunk
@@ -39,8 +39,8 @@ original Shariff code!
 
 == Screenshots ==
 
-1. `/assets/screenshot-1.jpg`
-2. `/assets/screenshot-2.jpg`
+1. Insert as shorttag with options in a post
+2. Share-Buttons on the site in vertical order
 
 == Frequently Asked Questions ==
 
@@ -95,6 +95,10 @@ visitors not to compromising their privacy and than make use of external
 hosted parts is not really smart.
 
 == Changelog ==
+
+= 0.4 =
+* Include latest upstream changes
+* use get_permalink() to set the parameter data-url
 
 = 0.3 =
 * add support for "hideshariff" 

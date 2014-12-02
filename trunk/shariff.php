@@ -3,7 +3,7 @@
 Plugin Name: Shariff
 Plugin URI: http://www.3uu.org/plugins.htm
 Description: A better way to use share buttons of Twitter, Facebook and GooglePlus. 
-Version: 0.3
+Version: 0.4
 Author: Ritze
 Author URI: http://www.DatenVerwurstungsZentrale.com/
 Update Server: http://download.3uu.net/wp/
@@ -66,6 +66,7 @@ function RenderShariff( $atts , $content = null) {
   wp_enqueue_script('shariffjs', plugins_url('/shariff.min.js',__FILE__));
 
   $output='<div class="shariff"';
+  $output.=' data-url="'.get_permalink().'"';
   // set options
   if(array_key_exists('info-url', $atts))    $output.=' data-info-url="'.$atts[info-url].'"';
   if(array_key_exists('orientation', $atts)) $output.=' data-orientation="'.$atts[orientation].'"';
