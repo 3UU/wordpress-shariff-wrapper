@@ -92,6 +92,9 @@ hosted parts is not really smart.
 
 == Changelog ==
 
+= 1.0.1 =
+* add PHP version check (5.4 is needed by the backend option)
+
 = 1.0 =
 * add admin menu page
 * disable the default add on a post if a special formed tag was found

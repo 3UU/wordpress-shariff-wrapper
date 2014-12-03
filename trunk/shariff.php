@@ -129,6 +129,7 @@ function shariff3UU_text_services_render(){
 
 function shariff3UU_checkbox_backend_render(){
         $options = get_option( 'shariff3UU' );
+        if (version_compare(PHP_VERSION, '5.4.0') < 1) echo "PHP version 5.4 or better is needed to enable the backend. ";
         ?><input type='checkbox' name='shariff3UU[backend]' <?php checked( $options['backend'], 1 ); ?> value='1'><?php
 }
 
