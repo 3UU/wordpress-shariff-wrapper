@@ -55,14 +55,15 @@ like the original code parameters that are explained at
 http://heiseonline.github.io/shariff/
 
 = Q: Can I add [shariff] on all posts? =
-A: Yes, if do you have access to your wp-config.php file. Add
+A: Yes, use the admin menu and use the first checkbox to enable it. If do you 
+have access to your wp-config.php file there is also an other way. Add
 define('SHARIFF_ALL_POSTS','[shariff]');
 to it. The shortcut will be put at the end of all single posts and processed.
 You can use all options that work with the shortcut.
 
 = Q: Can I change the design on a single post? =
 A: Yes. If the [shariff... shortcut is found on a post the SHARIFF_ALL_POSTS
-will be disabled (only) on this site. So you can make the spcial design.
+will be disabled (only) on this site. So you can make the special design.
 
 = Q: But I want hide it on a single post! =
 A: Do you really know what do you want? ;-) However it is possible. Write 
