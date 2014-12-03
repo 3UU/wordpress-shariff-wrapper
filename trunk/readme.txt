@@ -6,6 +6,7 @@ Tested up to: 4.0.1
 Stable tag: trunk
 License: MIT
 License URI: http://opensource.org/licenses/MIT
+Donate link: nitcoin:1Ritz1iUaLaxuYcXhUCoFhkVRH6GWiMTP
 
 A better way to use share buttons of Twitter, Facebook and GooglePlus. This 
 is a wrapper for the original code by the "Shariff" project.
@@ -14,10 +15,10 @@ is a wrapper for the original code by the "Shariff" project.
 
 The "original" share buttons send data of your visitors to the social
 network site also if they do not really click on the share button. The
-german computer magazin CT has developed "Shariff" that fullfill the 
-strict data protection law in Germany. This plugin is a wrapper to this 
-software. It allows you to use it within your posts with the shorttag 
-[shariff] and provide all design options of the original code.
+german computer magazin CT has developed "Shariff" that fullfill the strict 
+data protection law in Germany. This plugin is a wrapper to this software. 
+It allows you to use it within your posts with the shorttag [shariff] and 
+provide all design options of the original code.
 
 == Installation ==
 
@@ -25,22 +26,13 @@ software. It allows you to use it within your posts with the shorttag
 2. Activate the plugin through the 'Plugins' menu in WordPress
 3. Use <code>[shariff]</code> anywhere in your posts.
 
-= Supported options are: =
-
-Because of WP coding the attibutes have not the "data-" prefix of the
-original Shariff code!
-
-* services=twitter|facebook|googleplus
-* info-url= http://ct.de/-2467514 (default)
-* lang= de|en
-* theme= default|grey|white
-* orientation= vertical
-* backend= on|off(default)
+To enable it for all posts plz read the FAQ.
 
 == Screenshots ==
 
 1. Insert as shorttag with options in a post
 2. Share-Buttons on the site in vertical order
+3. Options menu
 
 == Frequently Asked Questions ==
 
@@ -69,6 +61,10 @@ define('SHARIFF_ALL_POSTS','[shariff]');
 to it. The shortcut will be put at the end of all single posts and processed.
 You can use all options that work with the shortcut.
 
+= Q: Can I change the design on a single post? =
+A: Yes. If the [shariff... shortcut is found on a post the SHARIFF_ALL_POSTS
+will be disabled (only) on this site. So you can make the spcial design.
+
 = Q: But I want hide it on a single post! =
 A: Do you really know what do you want? ;-) However it is possible. Write 
 anywhere in your post "hideshariff". It will be removed and Shariff will 
@@ -95,6 +91,11 @@ visitors not to compromising their privacy and than make use of external
 hosted parts is not really smart.
 
 == Changelog ==
+
+= 1.0 =
+* add admin menu page
+* disable the default add on a post if a special formed tag was found
+* add support for the theme attribute
 
 = 0.4 =
 * Include latest upstream changes

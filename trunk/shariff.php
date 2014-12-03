@@ -2,8 +2,8 @@
 /*
 Plugin Name: Shariff
 Plugin URI: http://www.3uu.org/plugins.htm
-Description: A better way to use share buttons of Twitter, Facebook and GooglePlus. 
-Version: 0.4
+Description: A better way to use share buttons of Twitter, Facebook, GooglePlus...
+Version: 1.0
 Author: Ritze
 Author URI: http://www.DatenVerwurstungsZentrale.com/
 Update Server: http://download.3uu.net/wp/
@@ -20,33 +20,209 @@ http://heiseonline.github.io/shariff/
 
 */
 
+// the admin page
+if ( is_admin() ){
+  add_action( 'admin_menu', 'shariff3UU_add_admin_menu' );
+  add_action( 'admin_init', 'shariff3UU_options_init' );
+}
+
+function shariff3UU_add_admin_menu(){ 
+        // ( $page_title, $menu_title, $capability, $menu_slug, $function)
+	add_options_page( 'Shariff', 'Shariff', 'manage_options', 'shariff3uu', 'shariff3uu_options_page' );
+}
+
+
+function shariff3UU_options_init(){ 
+	register_setting( 'pluginPage', 'shariff3UU' );
+
+	add_settings_section(
+		'shariff3UU_pluginPage_section', 
+		__( 'Enable Shariff for all post and configure the options with these settings.', 'shariff3UU' ), 
+		'shariff3UU_options_section_callback', 
+		'pluginPage'
+	);
+
+	add_settings_field( 
+		'shariff3UU_checkbox_add_all', 
+		__( 'Check to put Shariff at the end off all posts.', 'shariff3UU' ), 
+		'shariff3UU_checkbox_add_all_render', 'pluginPage', 'shariff3UU_pluginPage_section' 
+	);
+
+	add_settings_field( 
+		'shariff3UU_select_language', 
+		__( 'Select button language.', 'shariff3UU' ), 
+		'shariff3UU_select_language_render', 'pluginPage', 'shariff3UU_pluginPage_section' 
+	);
+
+        add_settings_field(
+                'shariff3UU_radio_theme',
+                 __( 'Select theme (Shariff button design).', 'shariff3UU' ),
+                'shariff3UU_radio_theme_render', 'pluginPage', 'shariff3UU_pluginPage_section'
+        );
+
+	add_settings_field( 
+		'shariff3UU_checkbox_vertical', 
+		__( 'Check this to make orientation of buttons <b>vertical</b>.', 'shariff3UU' ), 
+		'shariff3UU_checkbox_vertical_render', 'pluginPage', 'shariff3UU_pluginPage_section' 
+	);
+
+	add_settings_field( 
+		'shariff3UU_text_services', 
+		__( 'Put in the service do you want enable (<code>twitter|facebook|googleplus|whatsapp|info|mail</code>). Use the pipe sign | between two or more services.', 'shariff3UU' ), 
+		'shariff3UU_text_services_render', 'pluginPage', 'shariff3UU_pluginPage_section' 
+	);
+
+	add_settings_field(
+	        'shariff3UU_checkbox_backend',
+	         __( 'Check this to show share statistic.', 'shariff3UU' ),
+                'shariff3UU_checkbox_backend_render', 'pluginPage', 'shariff3UU_pluginPage_section'
+       );
+       
+       add_settings_field(
+                'shariff3UU_text_info_url',
+                __( 'Change the default link of the "info" button to:', 'shariff3UU' ),
+                'shariff3UU_text_info_url_render', 'pluginPage', 'shariff3UU_pluginPage_section'
+       );
+       
+}
+
+
+function shariff3UU_checkbox_add_all_render(){ 
+	$options = get_option( 'shariff3UU' );
+	?><input type='checkbox' name='shariff3UU[add_all]' <?php checked( $options['add_all'], 1 ); ?> value='1'><?
+}
+
+
+function shariff3UU_select_language_render(){ 
+	$options = get_option( 'shariff3UU' );
+	?>
+	<select name='shariff3UU[language]'>
+		<option value='' <?php selected( $options['language'], '' ); ?>>browser selected</option>
+		<option value='en' <?php selected( $options['language'], 'en' ); ?>>English</option>
+		<option value='de' <?php selected( $options['language'], 'de' ); ?>>Deutsch</option>
+	</select>
+
+<?php
+}
+
+
+function shariff3UU_radio_theme_render(){
+  $options = get_option( 'shariff3UU' );
+  ?><table border="0">
+  <tr><td><input type='radio' name='shariff3UU[theme]' value='' <?php checked( $options['theme'], '' ); ?>>default</td><td><img src="<? bloginfo('wpurl') ?>/wp-content/plugins/shariff/pictos/defaultBtns.png"></td></tr>
+  <tr><td><input type='radio' name='shariff3UU[theme]' value='grey' <?php checked( $options['theme'], 'grey' ); ?>>grey</td><td><img src="<? bloginfo('wpurl') ?>/wp-content/plugins/shariff/pictos/greyBtns.png"><br></td></tr>
+  <tr><td><input type='radio' name='shariff3UU[theme]' value='white' <?php checked( $options['theme'], 'white' ); ?>>white</td><td><img src="<? bloginfo('wpurl') ?>/wp-content/plugins/shariff/pictos/whiteBtns.png"><br></td></tr>
+  </table>
+<?php
+}
+
+function shariff3UU_checkbox_vertical_render(){ 
+	$options = get_option( 'shariff3UU' );
+	?><input type='checkbox' name='shariff3UU[vertical]' <?php checked( $options['vertical'], 1 ); ?> value='1'><img src="<? bloginfo('wpurl') ?>/wp-content/plugins/shariff/pictos/verticalBtns.png" align="top"><?
+}
+
+function shariff3UU_text_services_render(){ 
+	$options = get_option( 'shariff3UU' );
+	?><input type='text' name='shariff3UU[services]' value='<?php echo $options['services']; ?>' size='50'><?
+}
+
+
+function shariff3UU_checkbox_backend_render(){
+        $options = get_option( 'shariff3UU' );
+        ?><input type='checkbox' name='shariff3UU[backend]' <?php checked( $options['backend'], 1 ); ?> value='1'><?php
+}
+
+function shariff3UU_text_info_url_render(){
+        $options = get_option( 'shariff3UU' );
+        ?><input type='text' name='shariff3UU[info_url]' value='<?php echo $options['info_url']; ?>' size='50' placeholder="http://ct.de/-2467514"><?
+}
+
+function shariff3UU_options_section_callback(){
+        echo __( 'This configures the default behavior of Shariff for your blog. You can overwrite this in single posts with the options within the <code>[shariff]</code> shorttag.', 'shariff3UU' );
+}
+        
+
+function shariff3UU_options_page(){ 
+	?>
+	<form action='options.php' method='post'>
+		
+		<h2>Shariff</h2>
+		<?php
+		settings_fields( 'pluginPage' );
+		do_settings_sections( 'pluginPage' );
+		submit_button();
+		?>
+	</form>
+	<?php
+}
+// END the admin page
+
+$shariff3UU = get_option( 'shariff3UU' );
+
 // if we want enable it on all posts
 // Define it in wp-config.php with the shortcode that should added to all posts. Example: 
 // define('SHARIFF_ALL_POSTS','[shariff services="facebook|twitter|googleplus" backend="on"]');
 // This is a workaround as long as we do not have more options so that it should better get
 // an own admin page. Therefor it is also not documented and perhaps will removed in later 
 // versions. Use it on your own risc.
-if(defined('SHARIFF_ALL_POSTS')) {
+if(defined('SHARIFF_ALL_POSTS') || $shariff3UU["add_all"]=='1' ) {
+  // if we do not have the old style constant, built the shorttag 
+  if($shariff3UU["add_all"]!='1') $shorttag=SHARIFF_ALL_POSTS;
+  else{
+    // build the shorttag
+    $shorttag='[shariff';
+
+    // *** orientation *** 
+    if($shariff3UU["vertical"]=='1') $shorttag.=' orientation="vertical"';
+    
+    // *** theme ***
+    if(!empty($shariff3UU["theme"])) $shorttag.=' theme="'.$shariff3UU[theme].'"';
+    
+    // *** lang ***
+    if(!empty($shariff3UU["language"])) $shorttag.=' lang="'.$shariff3UU["language"].'"';
+
+    //*** services ***
+    if(!empty($shariff3UU["services"])) $shorttag.=' services="'.$shariff3UU["services"].'"';
+    
+    // *** backend *** 
+    if($shariff3UU["backend"]=='1') $shorttag.=' backend="on"';
+    
+    // *** info-url ***
+    // rtzTodo: data-info-url + check that info is in the services
+    if(!empty($shariff3UU["info_url"])) $shorttag.=' info_url="'.$shariff3UU["info_url"].'"';
+        
+    // close the shorttag
+    $shorttag.=']';
+  }
+  // END build the shorttag
+
+  // do the magic
   add_filter('the_content', 'shariffPosts');
-  function shariffPosts($content) {
-    // add it to single posts view only
-    if( is_single() ){ 
-      // if we want see it as text - replace the slash
-      if (strpos($content,'/hideshariff') == true) { $content=str_replace("/hideshariff","hideshariff",$content); }
-      // but not, if the pure hidshariff sign is in the text  
-      elseif(strpos($content,'hideshariff') == true) {
-        // remove the sign
-        $content=str_replace("hideshariff","",$content);
-        // and return without adding Shariff
-        return $content;
-        }
-      // add Shariff
-      return $content.=SHARIFF_ALL_POSTS;
+
+}
+
+// add shorttag to the post
+function shariffPosts($content) {
+  global $shorttag;
+  // add it to single posts view only
+  if( is_single() ){
+    // if we want see it as text - replace the slash
+    if (strpos($content,'/hideshariff') == true) { $content=str_replace("/hideshariff","hideshariff",$content); }
+    // but not, if the hidshariff sign is in the text |or| if a special formed "[shariff..."  shortcut is found
+    elseif( (strpos($content,'hideshariff') == true) || (strpos($content,'[shariff') == true) ) {
+      // remove the sign
+      $content=str_replace("hideshariff","",$content);
+      // and return without adding Shariff
+      return $content;
     }
-   // do not add Shariff
-   return $content;
+    // add Shariff
+    return $content.=$shorttag;
+  }else{
+    // do not add Shariff
+    return $content;
   }
 }
+
 
 # register it
 add_shortcode('shariff', 'RenderShariff' );
@@ -68,8 +244,9 @@ function RenderShariff( $atts , $content = null) {
   $output='<div class="shariff"';
   $output.=' data-url="'.get_permalink().'"';
   // set options
-  if(array_key_exists('info-url', $atts))    $output.=' data-info-url="'.$atts[info-url].'"';
+  if(array_key_exists('info_url', $atts))    $output.=' data-info-url="'.$atts[info_url].'"';
   if(array_key_exists('orientation', $atts)) $output.=' data-orientation="'.$atts[orientation].'"';
+  if(array_key_exists('theme', $atts))       $output.=' data-theme="'.$atts[theme].'"';
   // rtzTodo: use geoip if possible
   if(array_key_exists('lang', $atts))        $output.=' data-lang="'.$atts[lang].'"';
   // if services are set do only use this
