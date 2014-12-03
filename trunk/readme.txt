@@ -6,6 +6,7 @@ Tested up to: 4.0.1
 Stable tag: trunk
 License: MIT
 License URI: http://opensource.org/licenses/MIT
+Donate link: http://folge.link/bitcoin=1Ritz1iUaLaxuYcXhUCoFhkVRH6GWiMTP
 
 A better way to use share buttons of Twitter, Facebook and GooglePlus. This 
 is a wrapper for the original code by the "Shariff" project.
@@ -23,9 +24,8 @@ provide all design options of the original code.
 
 1. Upload `plugin-name.php` to the `/wp-content/plugins/` directory
 2. Activate the plugin through the 'Plugins' menu in WordPress
-3. Use <code>[shariff]</code> anywhere in your posts.
-
-To enable it for all posts plz read the FAQ.
+3. Use <code>[shariff]</code> anywhere in your post. To enable it for all posts plz
+use the admin menu.
 
 == Screenshots ==
 
@@ -92,6 +92,10 @@ hosted parts is not really smart.
 
 == Changelog ==
 
+= 1.0.2 =
+* add German translation to the admin menu (Admin-Menue in Deutsch)
+* code cleanup
+
 = 1.0.1 =
 * add PHP version check (5.4 is needed by the backend option)
 
@@ -115,6 +119,10 @@ hosted parts is not really smart.
 * initial
 
 == Upgrade Notice ==
+
+= 1.0 =
+Added admin menu. Support for SHARIFF_ALL_POSTS constant can be  
+removed with next major release! 
 
 = 0.1 = 
 Initial code. See README
