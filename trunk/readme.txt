@@ -6,7 +6,6 @@ Tested up to: 4.0.1
 Stable tag: trunk
 License: MIT
 License URI: http://opensource.org/licenses/MIT
-Donate link: nitcoin:1Ritz1iUaLaxuYcXhUCoFhkVRH6GWiMTP
 
 A better way to use share buttons of Twitter, Facebook and GooglePlus. This 
 is a wrapper for the original code by the "Shariff" project.
