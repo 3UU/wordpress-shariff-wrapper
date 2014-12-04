@@ -2,8 +2,8 @@
 /**
  * Plugin Name: Shariff
  * Plugin URI: http://www.3uu.org/plugins.htm
- * Description: A better way to use share buttons of Twitter, Facebook, GooglePlus...
- * Version: 1.0.2
+ * Description: This is a wrapper to Shariff. Enables shares in posts and/or themes with Twitter, Facebook, GooglePlus... with no harm for visitors privacy.
+ * Version: 1.1
  * Author: Ritze
  * Author URI: http://www.DatenVerwurstungsZentrale.com/
  * Update Server: http://download.3uu.net/wp/
@@ -13,7 +13,7 @@
  * Text Domain: shariff3UU
  * 
  * ### Supported options ###
- *   services: [twitter|facebook|googleplus|info]
+ *   services: [facebook|twitter|googleplus|whatsapp|mail|pinterest|linkedin|xing|info]
  *   info-url: http://ct.de/-2467514
  *   lang: de|en
  *   theme: default|grey|white
@@ -58,7 +58,7 @@ function shariff3UU_options_init(){
   );
 
   add_settings_field( 'shariff3UU_text_services', 
-    __( 'Put in the service do you want enable (<code>twitter|facebook|googleplus|whatsapp|info|mail</code>). Use the pipe sign | between two or more services.', 'shariff3UU' ), 
+    __( 'Put in the service do you want enable (<code>facebook|twitter|googleplus|whatsapp|mail|pinterest|linkedin|xing|info</code>). Use the pipe sign | between two or more services.', 'shariff3UU' ), 
     'shariff3UU_text_services_render', 'pluginPage', 'shariff3UU_pluginPage_section' 
   );
 
@@ -105,7 +105,7 @@ function shariff3UU_checkbox_vertical_render(){
 
 function shariff3UU_text_services_render(){ 
 	$options = get_option( 'shariff3UU' );
-	?><input type='text' name='shariff3UU[services]' value='<? echo $options['services'] ?>' size='50'><?
+	?><input type='text' name='shariff3UU[services]' value='<? echo $options['services'] ?>' size='50' placeholder="twitter|facebook|googleplus|info"><?
 }
 
 function shariff3UU_checkbox_backend_render(){
@@ -208,7 +208,8 @@ add_shortcode('shariff', 'RenderShariff' );
 # start it
 function RenderShariff( $atts , $content = null) {
   // avoid errors if no attributes are given
-  if(!is_array($atts))$atts=array();
+  // use the old set of services to make it backward compatible
+  if(!is_array($atts))$atts=array("services"=>"twitter|facebook|googleplus|info");
 
   // clean up WP converted quotes
   $atts = str_replace(array('&#8221;','&#8243;'), '', $atts);

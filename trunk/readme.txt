@@ -6,10 +6,9 @@ Tested up to: 4.0.1
 Stable tag: trunk
 License: MIT
 License URI: http://opensource.org/licenses/MIT
-Donate link: http://folge.link/bitcoin=1Ritz1iUaLaxuYcXhUCoFhkVRH6GWiMTP
+Donate link: http://folge.link/?bitcoin=1Ritz1iUaLaxuYcXhUCoFhkVRH6GWiMTP
 
-A better way to use share buttons of Twitter, Facebook and GooglePlus. This 
-is a wrapper for the original code by the "Shariff" project.
+This is a wrapper to Shariff. Enables shares in posts and/or themes with Twitter, Facebook, GooglePlus... with no harm for visitors privacy.
 
 == Description ==
 
@@ -91,6 +90,11 @@ visitors not to compromising their privacy and than make use of external
 hosted parts is not really smart.
 
 == Changelog ==
+
+= 1.1 =
+* add whatsapp|pinterest|linkedin|xing
+* include latest upstream changes (fix mail etc.)
+* add old default selection of services to make it backward compatible
 
 = 1.0.2 =
 * add German translation to the admin menu (Admin-Menue in Deutsch)
