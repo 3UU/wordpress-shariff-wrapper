@@ -23,8 +23,9 @@ provide all design options of the original code.
 
 1. Upload `plugin-name.php` to the `/wp-content/plugins/` directory
 2. Activate the plugin through the 'Plugins' menu in WordPress
-3. Use <code>[shariff]</code> anywhere in your post. To enable it for all posts plz
-use the admin menu.
+3. Use <code>[shariff]</code> anywhere in your post. 
+
+To enable it for all posts plz check the option in the admin menu.
 
 == Screenshots ==
 
@@ -33,6 +34,10 @@ use the admin menu.
 3. Options menu
 
 == Frequently Asked Questions ==
+
+= Q: Can I use it in my theme? =
+A: Yes. `<?=do_shortcode('[shariff backend="on"]')?>` Backand is an example.
+You can use all options of the shorttag.
 
 = Q: Why are shares/likes not listed? =
 A: Shariff try to protect your visitors. Therefor the statistic must
@@ -90,6 +95,10 @@ visitors not to compromising their privacy and than make use of external
 hosted parts is not really smart.
 
 == Changelog ==
+
+= 1.1.1 =
+* add french language for the admin menu (thanks Celine ;-)
+* fix backend problem on shared hosting with no writeable tmp dir
 
 = 1.1 =
 * add whatsapp|pinterest|linkedin|xing

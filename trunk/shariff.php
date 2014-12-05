@@ -3,7 +3,7 @@
  * Plugin Name: Shariff
  * Plugin URI: http://www.3uu.org/plugins.htm
  * Description: This is a wrapper to Shariff. Enables shares in posts and/or themes with Twitter, Facebook, GooglePlus... with no harm for visitors privacy.
- * Version: 1.1
+ * Version: 1.1.1
  * Author: Ritze
  * Author URI: http://www.DatenVerwurstungsZentrale.com/
  * Update Server: http://download.3uu.net/wp/
@@ -109,8 +109,14 @@ function shariff3UU_text_services_render(){
 }
 
 function shariff3UU_checkbox_backend_render(){
+        // To check that backend works well
+        // http://[your_host]/wp-content/plugins/shariff/backend/?url=http%3A%2F%2F[your_host]
+        // should give an array or "[ ]" 
         $options = get_option( 'shariff3UU' );
+        // check that PHP version is okay
         if (version_compare(PHP_VERSION, '5.4.0') < 1) echo "PHP version 5.4 or better is needed to enable the backend. ";
+        // check that a tmp dir is writable
+        if( !@is_writable('/tmp') && (!empty($upload_tmp_dir) && !is_writable($upload_tmp_dir)) ) echo "ERROR: tmp dir must be writable.";
         ?><input type='checkbox' name='shariff3UU[backend]' <? checked( $options['backend'], 1 ) ?> value='1'><?
 }
 
