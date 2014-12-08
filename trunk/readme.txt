@@ -8,7 +8,7 @@ License: MIT
 License URI: http://opensource.org/licenses/MIT
 Donate link: http://folge.link/?bitcoin=1Ritz1iUaLaxuYcXhUCoFhkVRH6GWiMTP
 
-This is a wrapper to Shariff. Enables shares in posts and/or themes with Twitter, Facebook, GooglePlus... with no harm for visitors privacy.
+This is a wrapper to Shariff. Enables shares with Twitter, Facebook... on posts, pages and/or themes with no harm for visitors privacy.
 
 == Description ==
 
@@ -18,6 +18,13 @@ german computer magazin CT has developed "Shariff" that fullfill the strict
 data protection law in Germany. This plugin is a wrapper to this software. 
 It allows you to use it within your posts with the shorttag [shariff] and 
 provide all design options of the original code.
+
+For more informations about the Shariff software check out the 
+[GitHub project](https://github.com/heiseonline/shariff) and
+about the project read [c’t information page](http://ct.de/shariff).
+
+You can use this plugin as widget, for single or all posts and as well on
+pages. It also support the hideshariff sign that used by Yanniks plugin.
 
 == Installation ==
 
@@ -32,12 +39,20 @@ To enable it for all posts plz check the option in the admin menu.
 1. Insert as shorttag with options in a post
 2. Share-Buttons on the site in vertical order
 3. Options menu
+4. Widget menu. Shorttag work like in posts
+5. also any widget can have own shorttag design
 
 == Frequently Asked Questions ==
 
 = Q: Can I use it in my theme? =
-A: Yes. `<?=do_shortcode('[shariff backend="on"]')?>` Backand is an example.
-You can use all options of the shorttag.
+A: Yes. `<?=do_shortcode('[shariff backend="on"]')?>` Backend is an example.
+You can use all options of the shorttag. But first you should have a look at
+the widget. 
+
+= Q: How can I configure the widget? =
+A: It use the same options that have been configured in the admin menu.
+However you can put in a shorttag that overwrites the default options. It
+has the same format as do you use in post.
 
 = Q: Why are shares/likes not listed? =
 A: Shariff try to protect your visitors. Therefor the statistic must
@@ -56,7 +71,11 @@ plugin.
 = Q: How can I change the design? =
 A: Have a look at the parameters "theme" and "orientation". They work
 like the original code parameters that are explained at 
-http://heiseonline.github.io/shariff/
+http://heiseonline.github.io/shariff/ Or you can have a look at my test page
+at http://shariff.3uu.net/shariff-sample-page-with-all-options to get an
+overview. But plz be warned: This is my test page! It is possible that do
+you find featured that are only provided in the development version. use it
+only to get an impression of the design options.
 
 = Q: Can I add [shariff] on all posts? =
 A: Yes, use the admin menu and use the first checkbox to enable it. If do you 
@@ -94,7 +113,21 @@ shariff.min.local.css Please be warned: To use a plugin to help your
 visitors not to compromising their privacy and than make use of external
 hosted parts is not really smart.
 
+= Q: I do not get the numbers / Got error "tmp dir must be writable" =
+A: Your webserver must be able to connect to other webservers. Please check
+your PHP configuration and firewall settings. If do you get the error "tmp dir
+must be writable" your webserver does not have a directory to write
+temporary data. Either `/tmp` or the `upload_tmp_dir` (usually configured in 
+your php.ini) must be writable. Also please have in mind that the plugin has
+a timeout of 60 seconds because most services do not accept more request.
+
 == Changelog ==
+
+= 1.2 =
+* add widget support
+
+= create a Stable1.0 tag =
+* now new funtionality to this tag. Only bugfixes!
 
 = 1.1.1 =
 * add french language for the admin menu (thanks Celine ;-)

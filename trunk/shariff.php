@@ -1,9 +1,9 @@
 <?
 /**
- * Plugin Name: Shariff
+ * Plugin Name: Shariff for WP posts, pages, themes and as widget
  * Plugin URI: http://www.3uu.org/plugins.htm
  * Description: This is a wrapper to Shariff. Enables shares in posts and/or themes with Twitter, Facebook, GooglePlus... with no harm for visitors privacy.
- * Version: 1.1.1
+ * Version: 1.2
  * Author: Ritze
  * Author URI: http://www.DatenVerwurstungsZentrale.com/
  * Update Server: http://download.3uu.net/wp/
@@ -28,8 +28,12 @@ if ( is_admin() ){
   add_action( 'init', 'shariff3UU_init_locale' );
 }
 
-// Sprache
-function shariff3UU_init_locale() { load_plugin_textdomain('shariff3UU', false, dirname(plugin_basename(__FILE__)).'/locale' ); }
+// translations
+function shariff3UU_init_locale() { if(function_exists('load_plugin_textdomain')) { load_plugin_textdomain('shariff3UU', false, dirname(plugin_basename(__FILE__)).'/locale' ); } }
+
+# register shortcode
+add_shortcode('shariff', 'RenderShariff' );
+
 // Admin-Menu hinzu
 function shariff3UU_add_admin_menu(){ add_options_page( 'Shariff', 'Shariff', 'manage_options', 'shariff3uu', 'shariff3uu_options_page' ); }
 // Optionen fuers Menu
@@ -130,88 +134,90 @@ function shariff3UU_options_section_callback(){
 }
 
 function shariff3UU_options_page(){ 
-	?>
-	<form action='options.php' method='post'>
-		
-		<h2>Shariff</h2>
-		<?php
-		settings_fields( 'pluginPage' );
-		do_settings_sections( 'pluginPage' );
-		submit_button();
-		?>
-	</form>
-	<?php
+  echo '<h2>Shariff</h2><form action="options.php" method="post">';
+  settings_fields( 'pluginPage' );
+  do_settings_sections( 'pluginPage' );
+  submit_button();
+  echo '</form>';
 }
 // END the admin page
 
-$shariff3UU = get_option( 'shariff3UU' );
-
-// Define it in wp-config.php with the shortcode that should added to all posts. Example: 
-// define('SHARIFF_ALL_POSTS','[shariff services="facebook|twitter|googleplus" backend="on"]');
-// This is a workaround as long as we did not have more options with an own admin page. 
-// Therefor it is not documented and will be removed with next major release. 
-if(defined('SHARIFF_ALL_POSTS') || $shariff3UU["add_all"]=='1' ) {
-  // if we do not have the old style constant, built the shorttag 
-  if($shariff3UU["add_all"]!='1') $shorttag=SHARIFF_ALL_POSTS;
-  else{
-    // build the shorttag
-    $shorttag='[shariff';
-
-    // *** orientation *** 
-    if($shariff3UU["vertical"]=='1') $shorttag.=' orientation="vertical"';
-    
-    // *** theme ***
-    if(!empty($shariff3UU["theme"])) $shorttag.=' theme="'.$shariff3UU[theme].'"';
-    
-    // *** lang ***
-    if(!empty($shariff3UU["language"])) $shorttag.=' lang="'.$shariff3UU["language"].'"';
-
-    //*** services ***
-    if(!empty($shariff3UU["services"])) $shorttag.=' services="'.$shariff3UU["services"].'"';
-    
-    // *** backend *** 
-    if($shariff3UU["backend"]=='1') $shorttag.=' backend="on"';
-    
-    // *** info-url ***
-    // rtzTodo: data-info-url + check that info is in the services
-    if(!empty($shariff3UU["info_url"])) $shorttag.=' info_url="'.$shariff3UU["info_url"].'"';
-        
-    // close the shorttag
-    $shorttag.=']';
+// helper function to create the WP representation of 
+// the shorttag by the sidewide configured options
+function buildShariffShorttag(){
+  // get options
+  $shariff3UU = get_option( 'shariff3UU' );
+  
+  // menu configured option over old constant
+  // however backward compatible to: 
+  // Define it in wp-config.php with the shortcode that should added to all posts. Example:
+  // define('SHARIFF_ALL_POSTS','[shariff services="facebook|twitter|googleplus" backend="on"]');
+  // This is a workaround as long as we did not have more options with an own admin page.
+  // Therefor it is not documented and will be removed with next major release.
+  if($shariff3UU["add_all"]!=TRUE || defined('SHARIFF_ALL_POSTS') ) {
+   return SHARIFF_ALL_POSTS;
   }
-  // END build the shorttag
+  
+  // build the shorttag
+  $shorttag='[shariff';
 
-  // do the magic
-  add_filter('the_content', 'shariffPosts');
+  // *** orientation ***
+  if($shariff3UU["vertical"]=='1') $shorttag.=' orientation="vertical"';
 
+  // *** theme ***
+  if(!empty($shariff3UU["theme"])) $shorttag.=' theme="'.$shariff3UU[theme].'"';
+
+  // *** lang ***
+  if(!empty($shariff3UU["language"])) $shorttag.=' lang="'.$shariff3UU["language"].'"';
+
+  //*** services ***
+  if(!empty($shariff3UU["services"])) $shorttag.=' services="'.$shariff3UU["services"].'"';
+
+  // *** backend ***
+  if($shariff3UU["backend"]=='on' || $shariff3UU["backend"]=='1') $shorttag.=' backend="on"';
+
+  // *** info-url ***
+  // rtzTodo: data-info-url + check that info is in the services
+  if(!empty($shariff3UU["info_url"])) $shorttag.=' info_url="'.$shariff3UU["info_url"].'"';
+
+  // close the shorttag
+  $shorttag.=']';
+  
+  return $shorttag;
 }
+
+// add shorttag to posts
+add_filter('the_content', 'shariffPosts');
 
 // add shorttag to the post
 function shariffPosts($content) {
-  global $shorttag;
-  // add it to single posts view only
-  if( is_single() ){
-    // if we want see it as text - replace the slash
-    if (strpos($content,'/hideshariff') == true) { $content=str_replace("/hideshariff","hideshariff",$content); }
-    // but not, if the hidshariff sign is in the text |or| if a special formed "[shariff..."  shortcut is found
-    elseif( (strpos($content,'hideshariff') == true) || (strpos($content,'[shariff') == true) ) {
-      // remove the sign
-      $content=str_replace("hideshariff","",$content);
-      // and return without adding Shariff
-      return $content;
-    }
-    // add Shariff
-    return $content.=$shorttag;
-  }else{
-    // do not add Shariff
+  $shariff3UU = get_option( 'shariff3UU' );
+
+  // conditional to make it functional compatible to the hack in yanniks plugin
+  // if we want see it as text - replace the slash
+  if (strpos($content,'/hideshariff') == true) { $content=str_replace("/hideshariff","hideshariff",$content); }
+  // but not, if the hidshariff sign is in the text |or| if a special formed "[shariff..."  shortcut is found
+  elseif( (strpos($content,'hideshariff') == true) ) {
+    // remove the sign
+    $content=str_replace("hideshariff","",$content);
+    // and return without adding Shariff
     return $content;
   }
+  
+  // add it to single posts view only
+  if( !is_singular() ) return $content;
+
+  // now add Shariff
+  if( ($shariff3UU["add_all"]=='1') || defined('SHARIFF_ALL_POSTS') ){
+    // rtzTodo: make a config option to add at the begin of the post
+    if($shariff3UU["add_at"]=='begin') $content=buildShariffShorttag().$content;
+    else $content.=buildShariffShorttag();
+  }
+
+  return $content;
 }
 
-# register it
-add_shortcode('shariff', 'RenderShariff' );
-
-# start it
+# Render the shorttag to the HTML shorttag of Shariff
 function RenderShariff( $atts , $content = null) {
   // avoid errors if no attributes are given
   // use the old set of services to make it backward compatible
@@ -256,4 +262,75 @@ function RenderShariff( $atts , $content = null) {
   
   return $output;
 }
+
+// Widget
+class ShariffWidget extends WP_Widget {
+  public function __construct() {
+    // translations
+    if(function_exists('load_plugin_textdomain')) { load_plugin_textdomain('shariff3UU', false, dirname(plugin_basename(__FILE__)).'/locale' ); }
+
+    $widget_options = array(
+      'classname' => 'Shariff',
+      'description' => __('Add Shariff as configured in the admin menue.', 'shariff3UU')
+      );
+
+    $control_options = array();
+    $this->WP_Widget('Shariff', 'Shariff', $widget_options, $control_options);
+  } // END __construct()
+
+  // widget form - see WP_Widget::form()
+  public function form($instance) {
+    // widgets defaults
+    $instance = wp_parse_args((array) $instance, array(
+                 'shariff-title' => '',
+                 'shariff-tag' => '[shariff]',
+               ));
+    // set title
+    echo '<p style="border-bottom: 1px solid #DFDFDF;"><strong>' . __('Title', 'shariff3UU') . '</strong></p>';
+    // set title
+    echo '<p><input id="'. $this->get_field_id('shariff-title') .'" name="'. $this->get_field_name('shariff-title') 
+    .'" type="text" value="'. $instance['shariff-title'] .'" />(optional)</p>';
+    // set shorttag
+    echo '<p style="border-bottom: 1px solid #DFDFDF;"><strong>Shorttag</strong></p>';
+    // set shorttag
+    echo '<p><input id="'. $this->get_field_id('shariff-tag') .'" name="' . $this->get_field_name('shariff-tag') 
+         . '" type="text" value=\''. str_replace('\'','"',$instance['shariff-tag']) .'\' size="30" />(optional)</p>';
+    
+    echo '<p style="clear:both;"></p>';
+  } // END form($instance)
+
+  // save widget configuration
+  public function update($new_instance, $old_instance) {
+    $instance = $old_instance;
+    // widget conf defaults
+    $new_instance = wp_parse_args((array) $new_instance, array( 'shariff-title' => '', 'shariff-tag' => '[shariff]') );
+    // check input values
+    $instance['shariff-title'] = (string) strip_tags($new_instance['shariff-title']);
+    $instance['shariff-tag'] = (string) strip_tags($new_instance['shariff-tag']);
+
+    // save config
+    return $instance;
+  } 
+  
+  // draw widget
+  public function widget($args, $instance) {
+    extract($args);
+    // Container
+    echo $before_widget;
+    // print title
+    $title = (empty($instance['shariff-title'])) ? '' : apply_filters('shariff-title', $instance['shariff-title']);
+    if(!empty($title)) { echo $before_title . $title . $after_title; }
+    // print shorttag
+    // if is not configured, use the global options from admin menu
+    if ($instance['shariff-tag']=='[shariff]') $shorttag=buildShariffShorttag();
+    else $shorttag=$instance['shariff-tag'];
+    // process the shortcode
+    echo do_shortcode($shorttag);
+    // close Container
+    echo $after_widget;
+  } // END widget($args, $instance)
+} // END class ShariffWidget
+// register Widget 
+add_action('widgets_init', create_function('', 'return register_widget("ShariffWidget");'));
+
 ?>
