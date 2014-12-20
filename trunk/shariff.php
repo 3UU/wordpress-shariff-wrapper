@@ -3,7 +3,7 @@
  * Plugin Name: Shariff for WP posts, pages, themes and as widget
  * Plugin URI: http://www.3uu.org/plugins.htm
  * Description: This is a wrapper to Shariff. Enables shares in posts and/or themes with Twitter, Facebook, GooglePlus... with no harm for visitors privacy.
- * Version: 1.2
+ * Version: 1.2.2
  * Author: Ritze
  * Author URI: http://www.DatenVerwurstungsZentrale.com/
  * Update Server: http://download.3uu.net/wp/
@@ -15,8 +15,8 @@
  * ### Supported options ###
  *   services: [facebook|twitter|googleplus|whatsapp|mail|pinterest|linkedin|xing|info]
  *   info-url: http://ct.de/-2467514
- *   lang: de|en
- *   theme: default|grey|white
+ *   lang: de|en|fr
+ *   theme: default|grey|white|round
  *   orientation: vertical
  *   (see http://heiseonline.github.io/shariff/)
  */
