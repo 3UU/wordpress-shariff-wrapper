@@ -123,10 +123,13 @@ a timeout of 60 seconds because most services do not accept more request.
 
 == Changelog ==
 
+= 1.2.3 =
+* add round theme to the admin menu
+
 = 1.2.2 =
 * tested with WP 4.1
 * added french language for buttons
-* added theme "round" (round buttons without text an with fixed width)
+* added theme "round" (round buttons without text but with fixed width)
 
 = 1.2.1 =
 * typos

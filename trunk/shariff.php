@@ -3,7 +3,7 @@
  * Plugin Name: Shariff for WP posts, pages, themes and as widget
  * Plugin URI: http://www.3uu.org/plugins.htm
  * Description: This is a wrapper to Shariff. Enables shares in posts and/or themes with Twitter, Facebook, GooglePlus... with no harm for visitors privacy.
- * Version: 1.2.2
+ * Version: 1.2.3
  * Author: Ritze
  * Author URI: http://www.DatenVerwurstungsZentrale.com/
  * Update Server: http://download.3uu.net/wp/
@@ -98,6 +98,7 @@ function shariff3UU_radio_theme_render(){
   <tr><td><input type='radio' name='shariff3UU[theme]' value='' <? checked( $options['theme'], '' ) ?>>default</td><td><img src="<? bloginfo('wpurl') ?>/wp-content/plugins/shariff/pictos/defaultBtns.png"></td></tr>
   <tr><td><input type='radio' name='shariff3UU[theme]' value='grey' <? checked( $options['theme'], 'grey' ) ?>>grey</td><td><img src="<? bloginfo('wpurl') ?>/wp-content/plugins/shariff/pictos/greyBtns.png"><br></td></tr>
   <tr><td><input type='radio' name='shariff3UU[theme]' value='white' <? checked( $options['theme'], 'white' ) ?>>white</td><td><img src="<? bloginfo('wpurl') ?>/wp-content/plugins/shariff/pictos/whiteBtns.png"><br></td></tr>
+  <tr><td><input type='radio' name='shariff3UU[theme]' value='round' <? checked( $options['theme'], 'round' ) ?>>round</td><td><img src="<? bloginfo('wpurl') ?>/wp-content/plugins/shariff/pictos/roundBtns.png"><br></td></tr>
   </table>
 <?php
 }
