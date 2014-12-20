@@ -2,7 +2,7 @@
 Contributors: 3UU
 Tags: Twitter, Facebook, GooglePlus, sharebutton, sharing, privacy, social, whatsapp
 Requires at least: 3.0.1
-Tested up to: 4.0.1
+Tested up to: 4.1
 Stable tag: trunk
 License: MIT
 License URI: http://opensource.org/licenses/MIT
@@ -74,7 +74,7 @@ like the original code parameters that are explained at
 http://heiseonline.github.io/shariff/ Or you can have a look at my test page
 at http://shariff.3uu.net/shariff-sample-page-with-all-options to get an
 overview. But plz be warned: This is my test page! It is possible that do
-you find featured that are only provided in the development version. use it
+you find features that are only provided in the development version. Use it
 only to get an impression of the design options.
 
 = Q: Can I add [shariff] on all posts? =
@@ -123,11 +123,19 @@ a timeout of 60 seconds because most services do not accept more request.
 
 == Changelog ==
 
+= 1.2.2 =
+* tested with WP 4.1
+* added french language for buttons
+* added theme "round" (round buttons without text an with fixed width)
+
+= 1.2.1 =
+* typos
+
 = 1.2 =
 * add widget support
 
 = create a Stable1.0 tag =
-* now new funtionality to this tag. Only bugfixes!
+* no new funtionality to this tag. Only bugfixes!
 
 = 1.1.1 =
 * add french language for the admin menu (thanks Celine ;-)
