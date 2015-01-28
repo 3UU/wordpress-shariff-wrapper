@@ -6,6 +6,12 @@
 	"services": [
 		"GooglePlus",
 		"Twitter",
-		"Facebook"
+		"Facebook",
+		"LinkedIn",
+		"Reddit",
+		"StumbleUpon",
+		"Flattr",
+		"Pinterest",
+		"Xing"
 	]
 }

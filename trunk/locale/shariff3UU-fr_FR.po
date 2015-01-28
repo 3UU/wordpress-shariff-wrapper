@@ -1,9 +1,9 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: Shariff v1.1\n"
+"Project-Id-Version: Shariff for WP posts, pages, themes and as widget v1.2.4\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: \n"
-"PO-Revision-Date: 2014-12-05 10:40:18+0000\n"
+"PO-Revision-Date: 2015-01-28 12:19:39+0000\n"
 "Last-Translator: admin3uu <support@3uu.net>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -20,57 +20,68 @@ msgstr ""
 "X-Poedit-SearchPath-0: .\n"
 "X-Textdomain-Support: yes"
 
-#@ shariff3UU
-msgid "teilen"
-msgstr "share"
-
-#: shariff.php:47
+#: shariff.php:44
 #@ shariff3UU
 msgid "Enable Shariff for all post and configure the options with these settings."
 msgstr "Autorise Shariff sur tous les articles et configure les options avec ses réglages."
 
-#: shariff.php:54
+#: shariff.php:48
 #@ shariff3UU
 msgid "Check to put Shariff at the end off all posts."
 msgstr "Cocher pour activer Shariff à la fin de chaque article."
 
-#: shariff.php:60
+#: shariff.php:52
+#@ shariff3UU
+msgid "Check to put Shariff at the begin off all posts."
+msgstr "Cocher pour activer Shariff à la début de chaque article."
+
+#: shariff.php:56
 #@ shariff3UU
 msgid "Select button language."
 msgstr "Selectionner la langue."
 
-#: shariff.php:66
+#: shariff.php:60
 #@ shariff3UU
 msgid "Select theme (Shariff button design)."
 msgstr "Selectionner un thème."
 
-#: shariff.php:72
+#: shariff.php:64
 #@ shariff3UU
 msgid "Check this to make orientation of buttons <b>vertical</b>."
 msgstr "Cocher pour afficher les boutons <b>verticalement</b>."
 
-#: shariff.php:78
+#: shariff.php:69
 #@ shariff3UU
-msgid "Put in the service do you want enable (<code>facebook|twitter|googleplus|whatsapp|mail|pinterest|linkedin|xing|info</code>). Use the pipe sign | between two or more services."
-msgstr "Entrer le service que vous voulez activer (<code>facebook|twitter|googleplus|whatsapp|mail|pinterest|linkedin|xing|info</code>). Utiliser la séparation | entre deux services ou plus."
+msgid "Put in the service do you want enable (<code>facebook|twitter|googleplus|whatsapp|mail|pinterest|linkedin|xing|reddit|stumbleupon|info</code>). Use the pipe sign | between two or more services."
+msgstr "Entrer le service que vous voulez activer (<code>facebook|twitter|googleplus|whatsapp|mail|pinterest|linkedin|xing|reddit|stumbleupon|info</code>). Utiliser la séparation | entre deux services ou plus."
 
-#: shariff.php:84
+#: shariff.php:73
 #@ shariff3UU
 msgid "Check this to show share statistic."
 msgstr "Cliquez ici pour afficher les statistiques."
 
-#: shariff.php:90
+#: shariff.php:78
 #@ shariff3UU
 msgid "Change the default link of the \"info\" button to:"
 msgstr "Change le lien par défaut du bouton \"info\" par:"
 
-#: shariff.php:149
+#: shariff.php:143
 #@ shariff3UU
 msgid "This configures the default behavior of Shariff for your blog. You can overwrite this in single posts with the options within the <code>[shariff]</code> shorttag."
 msgstr "Ceci configure le réglage par défaut de Shariff pour ton blog. Tu peux écrire des postes seuls avec les  <code>[shariff]</code>."
 
-#: shariff.php:106
+#: shariff.php:97
 #@ shariff3UU
 msgid "browser selected"
 msgstr "Navigateur selectionné."
+
+#: shariff.php:281
+#@ shariff3UU
+msgid "Add Shariff as configured in the admin menue."
+msgstr ""
+
+#: shariff.php:296
+#@ shariff3UU
+msgid "Title"
+msgstr ""
 

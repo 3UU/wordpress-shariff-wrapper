@@ -23,6 +23,7 @@ class Application
 
 	// check, if user has changed it to his domain
 	if($tmp[domain]=='www.example.com') $tmp[domain]=$_SERVER[HTTP_HOST];
+	if($tmp[domain]=='www.heise.de') $tmp[domain]=$_SERVER[HTTP_HOST];
 
 	// check, if user has set a tmp dir (backend use '/tmp' by default)
 	if( empty($tmp[cache][cacheDir]) && !is_writable('/tmp') ){ 

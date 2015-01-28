@@ -1,5 +1,8 @@
 <?php
+
 namespace Heise\Shariff\Backend;
+
+use GuzzleHttp\Client;
 
 abstract class Request
 {
@@ -8,13 +11,13 @@ abstract class Request
 
     public function __construct()
     {
-        $this->client = new \GuzzleHttp\Client();
+        $this->client = new Client();
     }
 
-    protected function createRequest($url, $method = 'GET', $options = [])
+    protected function createRequest($url, $method = 'GET', $options = array())
     {
-        // $defaults = ['future' => true, 'debug' => true];
-        $defaults = ['future' => true];
+        // $defaults = array('future' => true, 'debug' => true);
+        $defaults = array('future' => true);
 
         $req = $this->client->createRequest(
             $method,

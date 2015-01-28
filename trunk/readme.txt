@@ -123,6 +123,17 @@ a timeout of 60 seconds because most services do not accept more request.
 
 == Changelog ==
 
+= 1.2.4 =
+- bugfix: widget does not work if SHARIFF_ALL_POSTS is set but not enabled
+  in the admin menu (Please remember, that SHARIFF_ALL_POSTS will be 
+  removed with next major version)
+- add option to add shariff at the begin of a post
+- merge with new original backend for counters
+- add spanish language on buttons; hide whatsup on mobile devices
+  (merge with yanniks code)
+- add reddit
+- add stumbleupon
+
 = 1.2.3 =
 * add round theme to the admin menu
 

@@ -3,7 +3,7 @@
  * Plugin Name: Shariff for WP posts, pages, themes and as widget
  * Plugin URI: http://www.3uu.org/plugins.htm
  * Description: This is a wrapper to Shariff. Enables shares in posts and/or themes with Twitter, Facebook, GooglePlus... with no harm for visitors privacy.
- * Version: 1.2.3
+ * Version: 1.2.4
  * Author: Ritze
  * Author URI: http://www.DatenVerwurstungsZentrale.com/
  * Update Server: http://download.3uu.net/wp/
@@ -13,7 +13,7 @@
  * Text Domain: shariff3UU
  * 
  * ### Supported options ###
- *   services: [facebook|twitter|googleplus|whatsapp|mail|pinterest|linkedin|xing|info]
+ *   services: [facebook|twitter|googleplus|whatsapp|mail|pinterest|linkedin|xing|reddit|stumbleupon|info]
  *   info-url: http://ct.de/-2467514
  *   lang: de|en|fr
  *   theme: default|grey|white|round
@@ -49,6 +49,10 @@ function shariff3UU_options_init(){
     'shariff3UU_checkbox_add_all_render', 'pluginPage', 'shariff3UU_pluginPage_section' 
   );
 
+  add_settings_field( 'shariff3UU_checkbox_add_before_all', __( 'Check to put Shariff at the begin off all posts.', 'shariff3UU' ),
+    'shariff3UU_checkbox_add_before_all_render', 'pluginPage', 'shariff3UU_pluginPage_section'
+  );
+
   add_settings_field( 'shariff3UU_select_language', __( 'Select button language.', 'shariff3UU' ), 
     'shariff3UU_select_language_render', 'pluginPage', 'shariff3UU_pluginPage_section' 
   );
@@ -62,7 +66,7 @@ function shariff3UU_options_init(){
   );
 
   add_settings_field( 'shariff3UU_text_services', 
-    __( 'Put in the service do you want enable (<code>facebook|twitter|googleplus|whatsapp|mail|pinterest|linkedin|xing|info</code>). Use the pipe sign | between two or more services.', 'shariff3UU' ), 
+    __( 'Put in the service do you want enable (<code>facebook|twitter|googleplus|whatsapp|mail|pinterest|linkedin|xing|reddit|stumbleupon|info</code>). Use the pipe sign | between two or more services.', 'shariff3UU' ), 
     'shariff3UU_text_services_render', 'pluginPage', 'shariff3UU_pluginPage_section' 
   );
 
@@ -81,6 +85,11 @@ function shariff3UU_checkbox_add_all_render(){
 	?><input type='checkbox' name='shariff3UU[add_all]' <? checked( $options['add_all'], 1 ); ?> value='1'><?
 }
 
+function shariff3UU_checkbox_add_before_all_render(){
+        $options = get_option( 'shariff3UU' );
+        ?><input type='checkbox' name='shariff3UU[add_before_all]' <? checked( $options['add_before_all'], 1 ); ?> value='1'><?
+}
+                
 function shariff3UU_select_language_render(){ 
 	$options = get_option( 'shariff3UU' );
 	?>
@@ -155,10 +164,8 @@ function buildShariffShorttag(){
   // define('SHARIFF_ALL_POSTS','[shariff services="facebook|twitter|googleplus" backend="on"]');
   // This is a workaround as long as we did not have more options with an own admin page.
   // Therefor it is not documented and will be removed with next major release.
-  if($shariff3UU["add_all"]!=TRUE || defined('SHARIFF_ALL_POSTS') ) {
-   return SHARIFF_ALL_POSTS;
-  }
-  
+  if( defined('SHARIFF_ALL_POSTS') ) { return SHARIFF_ALL_POSTS; }
+
   // build the shorttag
   $shorttag='[shariff';
 
@@ -209,11 +216,10 @@ function shariffPosts($content) {
   if( !is_singular() ) return $content;
 
   // now add Shariff
-  if( ($shariff3UU["add_all"]=='1') || defined('SHARIFF_ALL_POSTS') ){
-    // rtzTodo: make a config option to add at the begin of the post
-    if($shariff3UU["add_at"]=='begin') $content=buildShariffShorttag().$content;
-    else $content.=buildShariffShorttag();
-  }
+  if($shariff3UU["add_before_all"]=='1') $content=buildShariffShorttag().$content;
+  if($shariff3UU["add_all"]=='1') $content.=buildShariffShorttag();
+  // altes verhalten
+  if (defined('SHARIFF_ALL_POSTS')) $content.=SHARIFF_ALL_POSTS;
 
   return $content;
 }

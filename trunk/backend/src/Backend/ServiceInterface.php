@@ -1,4 +1,5 @@
 <?php
+
 namespace Heise\Shariff\Backend;
 
 interface ServiceInterface
