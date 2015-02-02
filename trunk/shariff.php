@@ -241,12 +241,19 @@ function RenderShariff( $atts , $content = null) {
 
   $output='<div class="shariff"';
   $output.=' data-url="'.get_permalink().'"';
+  
+#rtzrtz  $output.=' data-image="example.png"';
+  
   // set options
   if(array_key_exists('info_url', $atts))    $output.=' data-info-url="'.$atts[info_url].'"';
   if(array_key_exists('orientation', $atts)) $output.=' data-orientation="'.$atts[orientation].'"';
   if(array_key_exists('theme', $atts))       $output.=' data-theme="'.$atts[theme].'"';
   // rtzTodo: use geoip if possible
   if(array_key_exists('lang', $atts))        $output.=' data-lang="'.$atts[lang].'"';
+
+  if(array_key_exists('image', $atts))	     $output.=' data-image="'.$atts[image].'"';
+  if(array_key_exists('media', $atts))       $output.=' data-media="'.$atts[media].'"';
+  
   // if services are set do only use this
   if(array_key_exists('services', $atts)){
       // build an array

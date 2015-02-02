@@ -99,7 +99,7 @@ Wordpress" that has been published at the same day. You can also use
 A: One is developed by me, one by an other ;-) The main difference is, that 
 this plugin can be used as a shortcode anywhere in your posts. Also if do 
 you use the configuration option to add it on all posts - it will only 
-shown on single post pages.
+shown on single post pages. And this plugin also provide a widget.
 
 = Q: The fonts load slowly, can I use a CDN? =
 A: The best way would be to use a CDN for your blog host. The original 
@@ -121,7 +121,15 @@ temporary data. Either `/tmp` or the `upload_tmp_dir` (usually configured in
 your php.ini) must be writable. Also please have in mind that the plugin has
 a timeout of 60 seconds because most services do not accept more request.
 
+= Q: Pinterest does not show an icon =
+A: You can add 
+media="http://wwww.example.com/yourImage.png"
+within the [shariff...] short tag. Of course with the link to your image ;-)
+
 == Changelog ==
+
+= 1.2.5. =
+- hotfix for pinterest (see FAG) 
 
 = 1.2.4 =
 - bugfix: widget does not work if SHARIFF_ALL_POSTS is set but not enabled
