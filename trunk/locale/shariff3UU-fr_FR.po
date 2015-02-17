@@ -52,8 +52,8 @@ msgstr "Cocher pour afficher les boutons <b>verticalement</b>."
 
 #: shariff.php:69
 #@ shariff3UU
-msgid "Put in the service do you want enable (<code>facebook|twitter|googleplus|whatsapp|mail|pinterest|linkedin|xing|reddit|stumbleupon|info</code>). Use the pipe sign | between two or more services."
-msgstr "Entrer le service que vous voulez activer (<code>facebook|twitter|googleplus|whatsapp|mail|pinterest|linkedin|xing|reddit|stumbleupon|info</code>). Utiliser la séparation | entre deux services ou plus."
+msgid "Put in the service do you want enable (<code>facebook|twitter|googleplus|whatsapp|mail|print|pinterest|linkedin|xing|reddit|stumbleupon|info</code>). Use the pipe sign | between two or more services."
+msgstr "Entrer le service que vous voulez activer (<code>facebook|twitter|googleplus|whatsapp|mail|print|pinterest|linkedin|xing|reddit|stumbleupon|info</code>). Utiliser la séparation | entre deux services ou plus."
 
 #: shariff.php:73
 #@ shariff3UU

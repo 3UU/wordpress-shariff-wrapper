@@ -3,7 +3,7 @@
  * Plugin Name: Shariff for WP posts, pages, themes and as widget
  * Plugin URI: http://www.3uu.org/plugins.htm
  * Description: This is a wrapper to Shariff. Enables shares in posts and/or themes with Twitter, Facebook, GooglePlus... with no harm for visitors privacy.
- * Version: 1.2.5
+ * Version: 1.2.6
  * Author: Ritze
  * Author URI: http://www.DatenVerwurstungsZentrale.com/
  * Update Server: http://download.3uu.net/wp/
@@ -13,7 +13,7 @@
  * Text Domain: shariff3UU
  * 
  * ### Supported options ###
- *   services: [facebook|twitter|googleplus|whatsapp|mail|pinterest|linkedin|xing|reddit|stumbleupon|info]
+ *   services: [facebook|twitter|googleplus|whatsapp|mail|print|pinterest|linkedin|xing|reddit|stumbleupon|info]
  *   info-url: http://ct.de/-2467514
  *   lang: de|en|fr
  *   theme: default|grey|white|round
@@ -66,7 +66,7 @@ function shariff3UU_options_init(){
   );
 
   add_settings_field( 'shariff3UU_text_services', 
-    __( 'Put in the service do you want enable (<code>facebook|twitter|googleplus|whatsapp|mail|pinterest|linkedin|xing|reddit|stumbleupon|info</code>). Use the pipe sign | between two or more services.', 'shariff3UU' ), 
+    __( 'Put in the service do you want enable (<code>facebook|twitter|googleplus|whatsapp|mail|print|pinterest|linkedin|xing|reddit|stumbleupon|info</code>). Use the pipe sign | between two or more services.', 'shariff3UU' ), 
     'shariff3UU_text_services_render', 'pluginPage', 'shariff3UU_pluginPage_section' 
   );
 
@@ -253,6 +253,8 @@ function RenderShariff( $atts , $content = null) {
 
   if(array_key_exists('image', $atts))	     $output.=' data-image="'.$atts[image].'"';
   if(array_key_exists('media', $atts))       $output.=' data-media="'.$atts[media].'"';
+  // if we dont have once, make sure that an image with hints will used
+  if(!array_key_exists('media', $atts)&&!array_key_exists('image', $atts))$output.=' data-media="'.plugins_url('/pictos/defaultHint.jpg',__FILE__).'"';
   
   // if services are set do only use this
   if(array_key_exists('services', $atts)){

@@ -7,6 +7,8 @@ Stable tag: trunk
 License: MIT
 License URI: http://opensource.org/licenses/MIT
 Donate link: http://folge.link/?bitcoin=1Ritz1iUaLaxuYcXhUCoFhkVRH6GWiMTP
+Author: Ritze
+Author URI: http://www.DatenVerwurstungsZentrale.com/
 
 This is a wrapper to Shariff. Enables shares with Twitter, Facebook... on posts, pages and/or themes with no harm for visitors privacy.
 
@@ -30,7 +32,7 @@ pages. It also support the hideshariff sign that used by Yanniks plugin.
 
 1. Upload `plugin-name.php` to the `/wp-content/plugins/` directory
 2. Activate the plugin through the 'Plugins' menu in WordPress
-3. Use <code>[shariff]</code> anywhere in your post. 
+3. Use <code>[shariff]</code> anywhere in your post or/and use the admin menu. 
 
 To enable it for all posts plz check the option in the admin menu.
 
@@ -128,8 +130,12 @@ within the [shariff...] short tag. Of course with the link to your image ;-)
 
 == Changelog ==
 
-= 1.2.5. =
-- hotfix for pinterest (see FAG) 
+= 1.2.6 =
+- add print button
+- add default image for pinterest to avoid broken design and giuve a hint
+
+= 1.2.5 =
+- hotfix for pinterest (see FAQ) 
 
 = 1.2.4 =
 - bugfix: widget does not work if SHARIFF_ALL_POSTS is set but not enabled
