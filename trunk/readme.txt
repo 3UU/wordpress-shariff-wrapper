@@ -8,7 +8,6 @@ License: MIT
 License URI: http://opensource.org/licenses/MIT
 Donate link: http://folge.link/?bitcoin=1Ritz1iUaLaxuYcXhUCoFhkVRH6GWiMTP
 Author: Ritze
-Author URI: http://www.DatenVerwurstungsZentrale.com/
 
 This is a wrapper to Shariff. Enables shares with Twitter, Facebook... on posts, pages and/or themes with no harm for visitors privacy.
 
