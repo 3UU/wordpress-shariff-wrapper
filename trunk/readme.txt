@@ -128,6 +128,10 @@ media="http://wwww.example.com/yourImage.png"
 within the [shariff...] short tag. Of course with the link to your image ;-)
 
 == Changelog ==
+= 1.2.7 =
+- fixed: enable WhatsUp on mobile now also works with Mozilla 
+- print button does not open a new window
+- removed min.js make it more readable for own local changes
 
 = 1.2.6 =
 - add print button

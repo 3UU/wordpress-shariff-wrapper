@@ -3,7 +3,7 @@
  * Plugin Name: Shariff for WP posts, pages, themes and as widget
  * Plugin URI: http://www.3uu.org/plugins.htm
  * Description: This is a wrapper to Shariff. Enables shares in posts and/or themes with Twitter, Facebook, GooglePlus... with no harm for visitors privacy.
- * Version: 1.2.6
+ * Version: 1.2.7
  * Author: Ritze
  * Author URI: http://www.DatenVerwurstungsZentrale.com/
  * Update Server: http://download.3uu.net/wp/
@@ -237,7 +237,7 @@ function RenderShariff( $atts , $content = null) {
   // reason to send data to the hoster of the fonts. Am I paranoid? ;-)
   wp_enqueue_style('shariffcss',plugins_url('/shariff.min.local.css',__FILE__));
   // the JS 
-  wp_enqueue_script('shariffjs', plugins_url('/shariff.min.js',__FILE__));
+  wp_enqueue_script('shariffjs', plugins_url('/shariff.js',__FILE__));
 
   $output='<div class="shariff"';
   $output.=' data-url="'.get_permalink().'"';
