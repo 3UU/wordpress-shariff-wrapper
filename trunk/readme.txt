@@ -7,7 +7,6 @@ Stable tag: trunk
 License: MIT
 License URI: http://opensource.org/licenses/MIT
 Donate link: http://folge.link/?bitcoin=1Ritz1iUaLaxuYcXhUCoFhkVRH6GWiMTP
-Author: Ritze
 
 This is a wrapper to Shariff. Enables shares with Twitter, Facebook... on posts, pages and/or themes with no harm for visitors privacy.
 
@@ -63,6 +62,22 @@ default.
 
 = Q: How can I show the share counts? =
 A: Add the option "backend=on" to the shariff shorttag in your post.
+
+= Q: I do not see counts =
+A: First make sure the do you have enabled the backend. If so please have a
+look at the end of the admin page. There would you get a hint which
+directory shariff try to use for temp files. 
+
+= Q: Who can I change the options of the backend? =
+A: The backend should work well with all common configurations. If the
+backend does not work and you do not have very special needs for your
+configuration perhaps you should think about an other hoster ;-) However
+there are some very special servers e.g. some load balancer that need
+adjustment. You can set the directory to use for temporary files of the
+backend with the PHP constant
+`define("SHARIFF_BACKEND_TMPDIR","/example/path/to/tmp");`
+There is also the option to change the default TTL from 60 s with
+`define("SHARIFF_BACKEND_TTL","88");`
 
 = Q: I need some more options. How could I get them? =
 A: This plugin is a wrapper to the original project files of Shariff. As
@@ -128,6 +143,10 @@ media="http://wwww.example.com/yourImage.png"
 within the [shariff...] short tag. Of course with the link to your image ;-)
 
 == Changelog ==
+= 1.3.0 =
+- clean up the code
+- add backend options (TTL and temp dir)
+
 = 1.2.7 =
 - fixed: enable WhatsUp on mobile now also works with Mozilla 
 - print button does not open a new window

@@ -3,7 +3,7 @@
  * Plugin Name: Shariff for WP posts, pages, themes and as widget
  * Plugin URI: http://www.3uu.org/plugins.htm
  * Description: This is a wrapper to Shariff. Enables shares in posts and/or themes with Twitter, Facebook, GooglePlus... with no harm for visitors privacy.
- * Version: 1.2.7
+ * Version: 1.3.0
  * Author: Ritze
  * Author URI: http://www.DatenVerwurstungsZentrale.com/
  * Update Server: http://download.3uu.net/wp/
@@ -149,6 +149,29 @@ function shariff3UU_options_page(){
   do_settings_sections( 'pluginPage' );
   submit_button();
   echo '</form>';
+    
+  // give a hint if the backend will not work
+  // first check for a constant
+  // if TMPDIR constant is set
+  $SHARIFF_BACKEND_TMPDIR=SHARIFF_BACKEND_TMPDIR;
+  // if upload_tmp_dir is set
+  $upload_tmp_dir=ini_get('upload_tmp_dir');
+  if(!empty($SHARIFF_BACKEND_TMPDIR))$tmp[cache][cacheDir]=$SHARIFF_BACKEND_TMPDIR;
+  // else check, that /tmp is usuable
+  elseif(is_writable('/tmp'))$tmp[cache][cacheDir]='/tmp';
+  // than we try to us the upload_tmp_dir
+  elseif( !empty($upload_tmp_dir) ) $tmp[cache][cacheDir]=$upload_tmp_dir;
+  else {
+    // at least the the WP own upload dir should work...
+    // to avoid conficts with other plugins and actual uploads we use a fixed date in the past
+    // month of my birthday would be great ;-)
+    // wp_upload_dir() create the dir if not exists
+    $upload_dir = @wp_upload_dir('1970/01');
+    $tmp[cache][cacheDir]=$upload_dir['basedir'].'/1970/01';
+  }
+  // final check that temp dir is usuable
+  if(!is_writable($tmp[cache][cacheDir])) echo ("<h2>No usable tmp dir found. Please check ". $tmp[cache][cacheDir]) ." and read about the backend server configuration in the FAQ.</h2>";
+  else echo "Backend tmp directory ". $tmp[cache][cacheDir] ." is usuable. To change it please read about the backend server configuration in the FAQ." ;
 }
 // END the admin page
 
@@ -230,44 +253,39 @@ function RenderShariff( $atts , $content = null) {
   // use the old set of services to make it backward compatible
   if(!is_array($atts))$atts=array("services"=>"twitter|facebook|googleplus|info");
 
-  // clean up WP converted quotes
-  $atts = str_replace(array('&#8221;','&#8243;'), '', $atts);
-  
   // the Styles/Fonts (We use a local copy of fonts because there is no
   // reason to send data to the hoster of the fonts. Am I paranoid? ;-)
   wp_enqueue_style('shariffcss',plugins_url('/shariff.min.local.css',__FILE__));
   // the JS 
   wp_enqueue_script('shariffjs', plugins_url('/shariff.js',__FILE__));
 
-  $output='<div class="shariff"';
-  $output.=' data-url="'.get_permalink().'"';
-  
-#rtzrtz  $output.=' data-image="example.png"';
+  $output='<div class=\'shariff\'';
+  $output.=' data-url=\''.get_permalink().'\'';
   
   // set options
-  if(array_key_exists('info_url', $atts))    $output.=' data-info-url="'.$atts[info_url].'"';
-  if(array_key_exists('orientation', $atts)) $output.=' data-orientation="'.$atts[orientation].'"';
-  if(array_key_exists('theme', $atts))       $output.=' data-theme="'.$atts[theme].'"';
+  if(array_key_exists('info_url', $atts))    $output.=" data-info-url='$atts[info_url]'";
+  if(array_key_exists('orientation', $atts)) $output.=" data-orientation='$atts[orientation]'";
+  if(array_key_exists('theme', $atts))       $output.=" data-theme='$atts[theme]'";
   // rtzTodo: use geoip if possible
-  if(array_key_exists('lang', $atts))        $output.=' data-lang="'.$atts[lang].'"';
+  if(array_key_exists('lang', $atts))        $output.=" data-lang='$atts[lang]'";
 
-  if(array_key_exists('image', $atts))	     $output.=' data-image="'.$atts[image].'"';
-  if(array_key_exists('media', $atts))       $output.=' data-media="'.$atts[media].'"';
+  if(array_key_exists('image', $atts))	     $output.=" data-image='$atts[image]'";
+  if(array_key_exists('media', $atts))       $output.=" data-media='$atts[media]'";
   // if we dont have once, make sure that an image with hints will used
-  if(!array_key_exists('media', $atts)&&!array_key_exists('image', $atts))$output.=' data-media="'.plugins_url('/pictos/defaultHint.jpg',__FILE__).'"';
+  if(!array_key_exists('media', $atts)&&!array_key_exists('image', $atts))$output.=" data-media='".plugins_url('/pictos/defaultHint.jpg',__FILE__)."'";
   
   // if services are set do only use this
   if(array_key_exists('services', $atts)){
       // build an array
       $s=explode('|',$atts[services]);
-      $output.=' data-services="[';
+      $output.=' data-services=\'[';
       // walk 
       while (list($key, $val) = each($s)){
-        $strServices.='&quot;'.$val.'&quot;, ';
+        $strServices.='"'.$val.'", ';
       }
       // remove the separator and add it to output
       $output.=substr($strServices, 0, -2);
-      $output.=']"';
+      $output.=']\'';
       }
   // enable share statistic request
   // Make sure u have set the domain of the blog in shariff/backend/shariff.json
