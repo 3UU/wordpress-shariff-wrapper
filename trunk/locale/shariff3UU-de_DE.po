@@ -85,3 +85,12 @@ msgstr "Fügt Shariff wie im Admin-Menü konfiguriert an."
 msgid "Title"
 msgstr "Titel"
 
+#: shariff.php:83
+#@ shariff3UU
+msgid "CSS style attributes for the CSS container _around_ Shariff:"
+msgstr "CSS Stil-Attribute f&uuml;r den Rahmen-Container _um_ Shariff:"
+
+#: shariff.php:149
+#@ shariff3UU
+msgid "please read about it in the FAQ"
+msgstr "bitte lies Details dazu in der FAQ"

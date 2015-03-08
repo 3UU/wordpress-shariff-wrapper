@@ -1,4 +1,4 @@
-=== Shariff ===
+=== Shariff for WordPress posts, pages, themes and as widget ===
 Contributors: 3UU
 Tags: Twitter, Facebook, GooglePlus, sharebutton, sharing, privacy, social, whatsapp
 Requires at least: 3.0.1
@@ -14,10 +14,11 @@ This is a wrapper to Shariff. Enables shares with Twitter, Facebook... on posts,
 
 The "original" share buttons send data of your visitors to the social
 network site also if they do not really click on the share button. The
-german computer magazin CT has developed "Shariff" that fullfill the strict 
-data protection law in Germany. This plugin is a wrapper to this software. 
-It allows you to use it within your posts with the shorttag [shariff] and 
-provide all design options of the original code.
+german computer magazin CT has developed "Shariff" `(/ˈʃɛɹɪf/)` that 
+fullfill the strict data protection law in Germany. This plugin is a 
+wrapper to this software. It allows you to use it within your posts 
+with the shorttag `[shariff]` and provide all design options of the 
+original code.
 
 For more informations about the Shariff software check out the 
 [GitHub project](https://github.com/heiseonline/shariff) and
@@ -43,6 +44,15 @@ To enable it for all posts plz check the option in the admin menu.
 5. also any widget can have own shorttag design
 
 == Frequently Asked Questions ==
+
+= Q: How can I change the position of all buttons =
+A: Within the shorttag you can user the `style` attribute with common CSS.
+The value will be used for a container around the Shariff button.
+`[shariff style="text-align: center;"]`
+The same way work the "style option" within the admin menu.
+Please notice that because of the nature of CascadingSS you can not change
+the look of the buttons! If do you want this please read about the 
+design options later on.
 
 = Q: Can I use it in my theme? =
 A: Yes. `<?=do_shortcode('[shariff backend="on"]')?>` Backend is an example.
@@ -92,6 +102,13 @@ at http://shariff.3uu.net/shariff-sample-page-with-all-options to get an
 overview. But plz be warned: This is my test page! It is possible that do
 you find features that are only provided in the development version. Use it
 only to get an impression of the design options.
+
+= Q: How can I change the design of a single button? =
+A: If you are a CSS guru please feel free to modify the css file. Bad 
+idea because this will be destroyed with the next update! Have a look 
+at the style attribute of the shorttag. Put in any value will create 
+the DIV container with the ID "ShariffSC" around the buttons. If you are
+really a CSS guru you will know what does the magic is ;-)
 
 = Q: Can I add [shariff] on all posts? =
 A: Yes, use the admin menu and use the first checkbox to enable it. If do you 
@@ -143,6 +160,10 @@ media="http://wwww.example.com/yourImage.png"
 within the [shariff...] short tag. Of course with the link to your image ;-)
 
 == Changelog ==
+= 1.4.0 =
+- add a DIV container to use positioning with CSS
+- remove long PHP-tags that cause parse problem on Windows
+
 = 1.3.0 =
 - clean up the code
 - add backend options (TTL and temp dir)

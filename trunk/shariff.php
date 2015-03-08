@@ -1,9 +1,9 @@
 <?
 /**
- * Plugin Name: Shariff for WP posts, pages, themes and as widget
+ * Plugin Name: Shariff for WordPress posts, pages, themes and as widget
  * Plugin URI: http://www.3uu.org/plugins.htm
  * Description: This is a wrapper to Shariff. Enables shares in posts and/or themes with Twitter, Facebook, GooglePlus... with no harm for visitors privacy.
- * Version: 1.3.0
+ * Version: 1.4.0
  * Author: Ritze
  * Author URI: http://www.DatenVerwurstungsZentrale.com/
  * Update Server: http://download.3uu.net/wp/
@@ -78,6 +78,11 @@ function shariff3UU_options_init(){
     'shariff3UU_text_info_url', __( 'Change the default link of the "info" button to:', 'shariff3UU' ),
     'shariff3UU_text_info_url_render', 'pluginPage', 'shariff3UU_pluginPage_section'
   );
+  
+  add_settings_field(
+    'shariff3UU_text_style', __( 'CSS style informations for the CSS container _around_ Shariff:', 'shariff3UU' ),
+    'shariff3UU_text_style_render', 'pluginPage', 'shariff3UU_pluginPage_section'
+  );
 }
 
 function shariff3UU_checkbox_add_all_render(){ 
@@ -98,7 +103,7 @@ function shariff3UU_select_language_render(){
 		<option value='en' <? selected( $options['language'], 'en' ) ?>>English</option>
 		<option value='de' <? selected( $options['language'], 'de' ) ?>>Deutsch</option>
 	</select>
-<?php
+<?
 }
 
 function shariff3UU_radio_theme_render(){
@@ -109,7 +114,7 @@ function shariff3UU_radio_theme_render(){
   <tr><td><input type='radio' name='shariff3UU[theme]' value='white' <? checked( $options['theme'], 'white' ) ?>>white</td><td><img src="<? bloginfo('wpurl') ?>/wp-content/plugins/shariff/pictos/whiteBtns.png"><br></td></tr>
   <tr><td><input type='radio' name='shariff3UU[theme]' value='round' <? checked( $options['theme'], 'round' ) ?>>round</td><td><img src="<? bloginfo('wpurl') ?>/wp-content/plugins/shariff/pictos/roundBtns.png"><br></td></tr>
   </table>
-<?php
+<?
 }
 
 function shariff3UU_checkbox_vertical_render(){ 
@@ -136,9 +141,14 @@ function shariff3UU_checkbox_backend_render(){
 
 function shariff3UU_text_info_url_render(){
         $options = get_option( 'shariff3UU' );
-        ?><input type='text' name='shariff3UU[info_url]' value='<?php echo $options['info_url']; ?>' size='50' placeholder="http://ct.de/-2467514"><?
+        ?><input type='text' name='shariff3UU[info_url]' value='<? echo $options['info_url']; ?>' size='50' placeholder="http://ct.de/-2467514"><?
 }
 
+function shariff3UU_text_style_render(){
+        $options = get_option( 'shariff3UU' );
+                ?><input type='text' name='shariff3UU[style]' value='<? echo $options['style']; ?>' size='50' placeholder="please read about it in the FAQ"><?
+}
+                        
 function shariff3UU_options_section_callback(){
         echo __( 'This configures the default behavior of Shariff for your blog. You can overwrite this in single posts with the options within the <code>[shariff]</code> shorttag.', 'shariff3UU' );
 }
@@ -211,6 +221,9 @@ function buildShariffShorttag(){
   // rtzTodo: data-info-url + check that info is in the services
   if(!empty($shariff3UU["info_url"])) $shorttag.=' info_url="'.$shariff3UU["info_url"].'"';
 
+  // *** style ***
+  if(!empty($shariff3UU["style"])) $shorttag.=' style="'.$shariff3UU["style"].'"';
+
   // close the shorttag
   $shorttag.=']';
   
@@ -259,7 +272,10 @@ function RenderShariff( $atts , $content = null) {
   // the JS 
   wp_enqueue_script('shariffjs', plugins_url('/shariff.js',__FILE__));
 
-  $output='<div class=\'shariff\'';
+  // if we have a style attribute
+  if(array_key_exists('style', $atts))$output.='<div class="ShariffSC" style="'.$atts[style].'">';
+#echo '<pre>';var_dump($atts);
+  $output.='<div class=\'shariff\'';
   $output.=' data-url=\''.get_permalink().'\'';
   
   // set options
@@ -293,6 +309,8 @@ function RenderShariff( $atts , $content = null) {
   
   // close the container
   $output.='></div>';
+  // if we had have a style attribute too
+  if(array_key_exists('style', $atts))$output.='</div>';
   
   return $output;
 }
