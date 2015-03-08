@@ -3,7 +3,7 @@
  * Plugin Name: Shariff for WordPress posts, pages, themes and as widget
  * Plugin URI: http://www.3uu.org/plugins.htm
  * Description: This is a wrapper to Shariff. Enables shares in posts and/or themes with Twitter, Facebook, GooglePlus... with no harm for visitors privacy.
- * Version: 1.4.0
+ * Version: 1.4.1
  * Author: Ritze
  * Author URI: http://www.DatenVerwurstungsZentrale.com/
  * Update Server: http://download.3uu.net/wp/
@@ -40,7 +40,7 @@ function shariff3UU_add_admin_menu(){ add_options_page( 'Shariff', 'Shariff', 'm
 function shariff3UU_options_init(){ 
   // Name fuer die Optionen registrieren
   register_setting( 'pluginPage', 'shariff3UU' );
-
+  
   add_settings_section( 'shariff3UU_pluginPage_section', __( 'Enable Shariff for all post and configure the options with these settings.', 'shariff3UU' ), 
     'shariff3UU_options_section_callback', 'pluginPage'
   );
@@ -80,7 +80,7 @@ function shariff3UU_options_init(){
   );
   
   add_settings_field(
-    'shariff3UU_text_style', __( 'CSS style informations for the CSS container _around_ Shariff:', 'shariff3UU' ),
+    'shariff3UU_text_style', __( 'CSS style attributes for the CSS container _around_ Shariff:', 'shariff3UU' ),
     'shariff3UU_text_style_render', 'pluginPage', 'shariff3UU_pluginPage_section'
   );
 }
@@ -163,7 +163,7 @@ function shariff3UU_options_page(){
   // give a hint if the backend will not work
   // first check for a constant
   // if TMPDIR constant is set
-  $SHARIFF_BACKEND_TMPDIR=SHARIFF_BACKEND_TMPDIR;
+  $SHARIFF_BACKEND_TMPDIR=$SHARIFF_BACKEND_TMPDIR;
   // if upload_tmp_dir is set
   $upload_tmp_dir=ini_get('upload_tmp_dir');
   if(!empty($SHARIFF_BACKEND_TMPDIR))$tmp[cache][cacheDir]=$SHARIFF_BACKEND_TMPDIR;

@@ -39,7 +39,7 @@ class Application
 	if( empty($tmp[cache][cacheDir]) ){ 
           // check for a constant
           // if TMPDIR constant is set
-          $SHARIFF_BACKEND_TMPDIR=SHARIFF_BACKEND_TMPDIR;
+          $SHARIFF_BACKEND_TMPDIR=$SHARIFF_BACKEND_TMPDIR;
           // if upload_tmp_dir is set
           $upload_tmp_dir=ini_get('upload_tmp_dir');
           if(!empty($SHARIFF_BACKEND_TMPDIR))$tmp[cache][cacheDir]=$SHARIFF_BACKEND_TMPDIR;
