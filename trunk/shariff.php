@@ -3,7 +3,7 @@
  * Plugin Name: Shariff for WordPress posts, pages, themes and as widget
  * Plugin URI: http://www.3uu.org/plugins.htm
  * Description: This is a wrapper to Shariff. Enables shares in posts and/or themes with Twitter, Facebook, GooglePlus... with no harm for visitors privacy.
- * Version: 1.4.3
+ * Version: 1.4.4
  * Author: Ritze
  * Author URI: http://www.DatenVerwurstungsZentrale.com/
  * Update Server: http://download.3uu.net/wp/
@@ -95,22 +95,24 @@ function shariff3UU_checkbox_add_before_all_render(){
   echo "<input type='checkbox' name='shariff3UU[add_before_all]' ". checked( $options[add_before_all], 1, 0 ) ." value='1'>";
 }
                 
-function shariff3UU_select_language_render(){ 
+function shariff3UU_select_language_render(){
   $options = get_option( 'shariff3UU' );
   echo "<select name='shariff3UU[language]'>
-  <option value='' ".   selected( $options[language], '', 0 ) .">". __( 'browser selected', 'shariff3UU') ."</option>
-  <option value='en' ". selected( $options[language], 'en', 0 ) .">English</option>
-  <option value='de' ". selected( $options[language], 'de', 0 ) .">Deutsch</option></select>";
+  <option value='' ".   selected( $options['language'], '', 0 ) .">". __( 'browser selected', 'shariff3UU') ."</option>
+  <option value='en' ". selected( $options['language'], 'en', 0 ) .">English</option>
+  <option value='de' ". selected( $options['language'], 'de', 0 ) .">Deutsch</option>
+  <option value='fr' ". selected( $options['language'], 'fr', 0 ) .">Français</option>
+  <option value='es' ". selected( $options['language'], 'es', 0 ) .">Español</option></select>";
 }
 
 function shariff3UU_radio_theme_render(){
   $options = get_option( 'shariff3UU' );
   $wpurl=site_url();
   echo "<table border='0'>
-  <tr><td><input type='radio' name='shariff3UU[theme]' value='' ". checked( $options[theme], '',0 ) .">default</td><td><img src='$wpurl/wp-content/plugins/shariff/pictos/defaultBtns.png'></td></tr>
-  <tr><td><input type='radio' name='shariff3UU[theme]' value='grey' ". checked( $options[theme], 'grey',0 ) .">grey</td><td><img src='$wpurl/wp-content/plugins/shariff/pictos/greyBtns.png'><br></td></tr>
-  <tr><td><input type='radio' name='shariff3UU[theme]' value='white' ". checked( $options[theme], 'white',0 ) .">white</td><td><img src='$wpurl/wp-content/plugins/shariff/pictos/whiteBtns.png'><br></td></tr>
-  <tr><td><input type='radio' name='shariff3UU[theme]' value='round' ". checked( $options[theme], 'round',0 ) .">round</td><td><img src='$wpurl/wp-content/plugins/shariff/pictos/roundBtns.png'><br></td></tr>
+  <tr><td><input type='radio' name='shariff3UU[theme]' value='' ".      checked( $options['theme'], '',0 )      .">default</td><td><img src='$wpurl/wp-content/plugins/shariff/pictos/defaultBtns.png'></td></tr>
+  <tr><td><input type='radio' name='shariff3UU[theme]' value='grey' ".  checked( $options['theme'], 'grey',0 )  .">grey</td><td><img src='$wpurl/wp-content/plugins/shariff/pictos/greyBtns.png'><br></td></tr>
+  <tr><td><input type='radio' name='shariff3UU[theme]' value='white' ". checked( $options['theme'], 'white',0 ) .">white</td><td><img src='$wpurl/wp-content/plugins/shariff/pictos/whiteBtns.png'><br></td></tr>
+  <tr><td><input type='radio' name='shariff3UU[theme]' value='round' ". checked( $options['theme'], 'round',0 ) .">round</td><td><img src='$wpurl/wp-content/plugins/shariff/pictos/roundBtns.png'><br></td></tr>
   </table>";
 }
 
@@ -200,7 +202,7 @@ function buildShariffShorttag(){
   if($shariff3UU["vertical"]=='1') $shorttag.=' orientation="vertical"';
 
   // *** theme ***
-  if(!empty($shariff3UU["theme"])) $shorttag.=' theme="'.$shariff3UU[theme].'"';
+  if(!empty($shariff3UU["theme"])) $shorttag.=' theme="'.$shariff3UU["theme"].'"';
 
   // *** lang ***
   if(!empty($shariff3UU["language"])) $shorttag.=' lang="'.$shariff3UU["language"].'"';
@@ -263,9 +265,9 @@ function RenderShariff( $atts , $content = null) {
   // the Styles/Fonts (We use a local copy of fonts because there is no
   // reason to send data to the hoster of the fonts. Am I paranoid? ;-)
   wp_enqueue_style('shariffcss',plugins_url('/shariff.min.local.css',__FILE__));
-  // the JS must be loaded at footer. Make sure that wp_footer() is present in yout theme! 
+  // the JS must be loaded at footer. Make sure that wp_footer() is present in yout theme!
   wp_enqueue_script('shariffjs', plugins_url('/shariff.js',__FILE__),$deps,$ver,true);
-
+  
   // if we have a style attribute
   if(array_key_exists('style', $atts))$output.='<div class="ShariffSC" style="'.$atts[style].'">';
 #echo '<pre>';var_dump($atts);
@@ -379,5 +381,7 @@ class ShariffWidget extends WP_Widget {
 } // END class ShariffWidget
 // register Widget 
 add_action('widgets_init', create_function('', 'return register_widget("ShariffWidget");'));
+
+
 
 ?>
