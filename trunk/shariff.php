@@ -263,8 +263,8 @@ function RenderShariff( $atts , $content = null) {
   // the Styles/Fonts (We use a local copy of fonts because there is no
   // reason to send data to the hoster of the fonts. Am I paranoid? ;-)
   wp_enqueue_style('shariffcss',plugins_url('/shariff.min.local.css',__FILE__));
-  // the JS 
-  wp_enqueue_script('shariffjs', plugins_url('/shariff.js',__FILE__));
+  // the JS must be loaded at footer. Make sure that wp_footer() is present in yout theme! 
+  wp_enqueue_script('shariffjs', plugins_url('/shariff.js',__FILE__),$deps,$ver,true);
 
   // if we have a style attribute
   if(array_key_exists('style', $atts))$output.='<div class="ShariffSC" style="'.$atts[style].'">';

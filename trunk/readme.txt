@@ -160,6 +160,10 @@ media="http://wwww.example.com/yourImage.png"
 within the [shariff...] short tag. Of course with the link to your image ;-)
 
 == Changelog ==
+= 1.4.3 =
+- load the JS code in the wp_footer to aviod problems with some strange
+  theme designs. Also it could help load the page faster.
+
 = 1.4.2 =
 - fix: add the attribute data-title that is needed by the shariff on some
   themes to render it above the other div containers. 
