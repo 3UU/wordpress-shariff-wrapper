@@ -1,9 +1,9 @@
-<?
+<?php
 /**
  * Plugin Name: Shariff for WordPress posts, pages, themes and as widget
  * Plugin URI: http://www.3uu.org/plugins.htm
  * Description: This is a wrapper to Shariff. Enables shares in posts and/or themes with Twitter, Facebook, GooglePlus... with no harm for visitors privacy.
- * Version: 1.4.1
+ * Version: 1.4.2
  * Author: Ritze
  * Author URI: http://www.DatenVerwurstungsZentrale.com/
  * Update Server: http://download.3uu.net/wp/
@@ -86,71 +86,68 @@ function shariff3UU_options_init(){
 }
 
 function shariff3UU_checkbox_add_all_render(){ 
-	$options = get_option( 'shariff3UU' );
-	?><input type='checkbox' name='shariff3UU[add_all]' <? checked( $options['add_all'], 1 ); ?> value='1'><?
+  $options = get_option( 'shariff3UU' );
+  echo "<input type='checkbox' name='shariff3UU[add_all]' ".checked( $options[add_all], 1, 0 )." value='1'>";
 }
 
 function shariff3UU_checkbox_add_before_all_render(){
-        $options = get_option( 'shariff3UU' );
-        ?><input type='checkbox' name='shariff3UU[add_before_all]' <? checked( $options['add_before_all'], 1 ); ?> value='1'><?
+  $options = get_option( 'shariff3UU' );
+  echo "<input type='checkbox' name='shariff3UU[add_before_all]' ". checked( $options[add_before_all], 1, 0 ) ." value='1'>";
 }
                 
 function shariff3UU_select_language_render(){ 
-	$options = get_option( 'shariff3UU' );
-	?>
-	<select name='shariff3UU[language]'>
-		<option value='' <? selected( $options['language'], '' ) ?>><?=__( 'browser selected', 'shariff3UU')?></option>
-		<option value='en' <? selected( $options['language'], 'en' ) ?>>English</option>
-		<option value='de' <? selected( $options['language'], 'de' ) ?>>Deutsch</option>
-	</select>
-<?
+  $options = get_option( 'shariff3UU' );
+  echo "<select name='shariff3UU[language]'>
+  <option value='' ".   selected( $options[language], '', 0 ) .">". __( 'browser selected', 'shariff3UU') ."</option>
+  <option value='en' ". selected( $options[language], 'en', 0 ) .">English</option>
+  <option value='de' ". selected( $options[language], 'de', 0 ) .">Deutsch</option></select>";
 }
 
 function shariff3UU_radio_theme_render(){
   $options = get_option( 'shariff3UU' );
-  ?><table border="0">
-  <tr><td><input type='radio' name='shariff3UU[theme]' value='' <? checked( $options['theme'], '' ) ?>>default</td><td><img src="<? bloginfo('wpurl') ?>/wp-content/plugins/shariff/pictos/defaultBtns.png"></td></tr>
-  <tr><td><input type='radio' name='shariff3UU[theme]' value='grey' <? checked( $options['theme'], 'grey' ) ?>>grey</td><td><img src="<? bloginfo('wpurl') ?>/wp-content/plugins/shariff/pictos/greyBtns.png"><br></td></tr>
-  <tr><td><input type='radio' name='shariff3UU[theme]' value='white' <? checked( $options['theme'], 'white' ) ?>>white</td><td><img src="<? bloginfo('wpurl') ?>/wp-content/plugins/shariff/pictos/whiteBtns.png"><br></td></tr>
-  <tr><td><input type='radio' name='shariff3UU[theme]' value='round' <? checked( $options['theme'], 'round' ) ?>>round</td><td><img src="<? bloginfo('wpurl') ?>/wp-content/plugins/shariff/pictos/roundBtns.png"><br></td></tr>
-  </table>
-<?
+  $wpurl=site_url();
+  echo "<table border='0'>
+  <tr><td><input type='radio' name='shariff3UU[theme]' value='' ". checked( $options[theme], '',0 ) .">default</td><td><img src='$wpurl/wp-content/plugins/shariff/pictos/defaultBtns.png'></td></tr>
+  <tr><td><input type='radio' name='shariff3UU[theme]' value='grey' ". checked( $options[theme], 'grey',0 ) .">grey</td><td><img src='$wpurl/wp-content/plugins/shariff/pictos/greyBtns.png'><br></td></tr>
+  <tr><td><input type='radio' name='shariff3UU[theme]' value='white' ". checked( $options[theme], 'white',0 ) .">white</td><td><img src='$wpurl/wp-content/plugins/shariff/pictos/whiteBtns.png'><br></td></tr>
+  <tr><td><input type='radio' name='shariff3UU[theme]' value='round' ". checked( $options[theme], 'round',0 ) .">round</td><td><img src='$wpurl/wp-content/plugins/shariff/pictos/roundBtns.png'><br></td></tr>
+  </table>";
 }
 
 function shariff3UU_checkbox_vertical_render(){ 
-	$options = get_option( 'shariff3UU' );
-	?><input type='checkbox' name='shariff3UU[vertical]' <? checked( $options['vertical'], 1 ) ?> value='1'><img src="<? bloginfo('wpurl') ?>/wp-content/plugins/shariff/pictos/verticalBtns.png" align="top"><?
+  $options = get_option( 'shariff3UU' ); 
+  echo "<input type='checkbox' name='shariff3UU[vertical]' ". checked( $options['vertical'], 1,0 ) ." value='1'><img src='". site_url() ."/wp-content/plugins/shariff/pictos/verticalBtns.png' align='top'>";
 }
 
 function shariff3UU_text_services_render(){ 
-	$options = get_option( 'shariff3UU' );
-	?><input type='text' name='shariff3UU[services]' value='<? echo $options['services'] ?>' size='50' placeholder="twitter|facebook|googleplus|info"><?
+  $options = get_option( 'shariff3UU' ); 
+  echo "<input type='text' name='shariff3UU[services]' value='". $options['services'] ."' size='50' placeholder='twitter|facebook|googleplus|info'>";
 }
 
 function shariff3UU_checkbox_backend_render(){
-        // To check that backend works well
-        // http://[your_host]/wp-content/plugins/shariff/backend/?url=http%3A%2F%2F[your_host]
-        // should give an array or "[ ]" 
-        $options = get_option( 'shariff3UU' );
-        // check that PHP version is okay
-        if (version_compare(PHP_VERSION, '5.4.0') < 1) echo "PHP version 5.4 or better is needed to enable the backend. ";
-        // check that a tmp dir is writable
-        if( !@is_writable('/tmp') && (!empty($upload_tmp_dir) && !is_writable($upload_tmp_dir)) ) echo "ERROR: tmp dir must be writable.";
-        ?><input type='checkbox' name='shariff3UU[backend]' <? checked( $options['backend'], 1 ) ?> value='1'><?
+  // To check that backend works well
+  // http://[your_host]/wp-content/plugins/shariff/backend/?url=http%3A%2F%2F[your_host]
+  // should give an array or "[ ]" 
+  $options = get_option( 'shariff3UU' );
+  // check that PHP version is okay
+  if (version_compare(PHP_VERSION, '5.4.0') < 1) echo "PHP version 5.4 or better is needed to enable the backend. ";
+  // check that a tmp dir is writable
+  if( !@is_writable('/tmp') && (!empty($upload_tmp_dir) && !is_writable($upload_tmp_dir)) ) echo "ERROR: tmp dir must be writable.";
+  echo "<input type='checkbox' name='shariff3UU[backend]' ". checked( $options['backend'], 1,0 ) ." value='1'>";
 }
 
 function shariff3UU_text_info_url_render(){
-        $options = get_option( 'shariff3UU' );
-        ?><input type='text' name='shariff3UU[info_url]' value='<? echo $options['info_url']; ?>' size='50' placeholder="http://ct.de/-2467514"><?
+  $options = get_option( 'shariff3UU' );
+  echo "<input type='text' name='shariff3UU[info_url]' value='". $options['info_url'] ."' size='50' placeholder='http://ct.de/-2467514'>";
 }
 
 function shariff3UU_text_style_render(){
-        $options = get_option( 'shariff3UU' );
-                ?><input type='text' name='shariff3UU[style]' value='<? echo $options['style']; ?>' size='50' placeholder="please read about it in the FAQ"><?
+  $options = get_option( 'shariff3UU' );
+  echo "<input type='text' name='shariff3UU[style]' value='". $options['style'] ."' size='50' placeholder='please read about it in the FAQ'>";
 }
                         
 function shariff3UU_options_section_callback(){
-        echo __( 'This configures the default behavior of Shariff for your blog. You can overwrite this in single posts with the options within the <code>[shariff]</code> shorttag.', 'shariff3UU' );
+  echo __( 'This configures the default behavior of Shariff for your blog. You can overwrite this in single posts with the options within the <code>[shariff]</code> shorttag.', 'shariff3UU' );
 }
 
 function shariff3UU_options_page(){ 
@@ -161,9 +158,6 @@ function shariff3UU_options_page(){
   echo '</form>';
     
   // give a hint if the backend will not work
-  // first check for a constant
-  // if TMPDIR constant is set
-  $SHARIFF_BACKEND_TMPDIR=$SHARIFF_BACKEND_TMPDIR;
   // if upload_tmp_dir is set
   $upload_tmp_dir=ini_get('upload_tmp_dir');
   if(!empty($SHARIFF_BACKEND_TMPDIR))$tmp[cache][cacheDir]=$SHARIFF_BACKEND_TMPDIR;
@@ -276,6 +270,7 @@ function RenderShariff( $atts , $content = null) {
   if(array_key_exists('style', $atts))$output.='<div class="ShariffSC" style="'.$atts[style].'">';
 #echo '<pre>';var_dump($atts);
   $output.='<div class=\'shariff\'';
+  $output.=' data-title=\''.get_the_title().'\'';
   $output.=' data-url=\''.get_permalink().'\'';
   
   // set options
@@ -305,7 +300,7 @@ function RenderShariff( $atts , $content = null) {
       }
   // enable share statistic request
   // Make sure u have set the domain of the blog in shariff/backend/shariff.json
-  if($atts[backend]=='on') $output.=' data-backend-url="'.plugins_url('/backend/',__FILE__).'"';
+  if($atts[backend]=='on') $output.=" data-backend-url='".plugins_url('/backend/',__FILE__)."'";
   
   // close the container
   $output.='></div>';

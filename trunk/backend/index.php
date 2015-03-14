@@ -37,10 +37,6 @@ class Application
 	// check, if user has set a tmp dir (backend use '/tmp' by default)
 	// however we will set it in the array for later check that it is writable
 	if( empty($tmp[cache][cacheDir]) ){ 
-          // check for a constant
-          // if TMPDIR constant is set
-          $SHARIFF_BACKEND_TMPDIR=$SHARIFF_BACKEND_TMPDIR;
-          // if upload_tmp_dir is set
           $upload_tmp_dir=ini_get('upload_tmp_dir');
           if(!empty($SHARIFF_BACKEND_TMPDIR))$tmp[cache][cacheDir]=$SHARIFF_BACKEND_TMPDIR;
           // else check, that /tmp is usuable

@@ -160,6 +160,15 @@ media="http://wwww.example.com/yourImage.png"
 within the [shariff...] short tag. Of course with the link to your image ;-)
 
 == Changelog ==
+= 1.4.2 =
+- fix: add the attribute data-title that is needed by the shariff on some
+  themes to render it above the other div containers. 
+- only long PHP-Tags because auf problems with WAMPs
+- some code clean up. Hopefully it will become more robust on WAMP systems.
+
+= 1.4.1 =
+- fixed stupid typo with the SHARIFF_BACKEND_TMP constant
+
 = 1.4.0 =
 - add a DIV container to use positioning with CSS
 - remove long PHP-tags that cause parse problem on Windows
