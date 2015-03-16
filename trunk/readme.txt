@@ -113,7 +113,7 @@ really a CSS guru you will know what does the magic is ;-)
 = Q: Can I add [shariff] on all posts? =
 A: Yes, use the admin menu and use the first checkbox to enable it. If do you 
 have access to your wp-config.php file there is also an other way. Add
-define('SHARIFF_ALL_POSTS','[shariff]');
+`define('SHARIFF_ALL_POSTS','[shariff]');`
 to it. The shortcut will be put at the end of all single posts and processed.
 You can use all options that work with the shortcut.
 
@@ -159,7 +159,20 @@ A: You can add
 media="http://wwww.example.com/yourImage.png"
 within the [shariff...] short tag. Of course with the link to your image ;-)
 
+= Q: Can I set a fixed URL to share? =
+A: You can use the "url" parameter within the shortcode
+`[shariff url="http://www.example.com/"]`
+This is also available within widgets. However I think it is not a good idea 
+to manipulate the URI because it is possible a kind of misleading visitors. 
+So you should only use it if this is really needed and you do really know
+what do you do. Therefor it is not available within the admin menu. 
+
 == Changelog ==
+= 1.5.0 =
+- add option "url" to set a fixed URI for all sites (only in shorttag and
+  widgets) because usually it is not a good idea to manipulate this
+- fix: do not show error in elseif (/tmp check in admin menu) 
+
 = 1.4.4 =
 - add option to force frensh and spanish buttons
 - clean up theme selection

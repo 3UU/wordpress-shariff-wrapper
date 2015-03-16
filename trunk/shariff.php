@@ -3,7 +3,7 @@
  * Plugin Name: Shariff for WordPress posts, pages, themes and as widget
  * Plugin URI: http://www.3uu.org/plugins.htm
  * Description: This is a wrapper to Shariff. Enables shares in posts and/or themes with Twitter, Facebook, GooglePlus... with no harm for visitors privacy.
- * Version: 1.4.4
+ * Version: 1.5.0
  * Author: Ritze
  * Author URI: http://www.DatenVerwurstungsZentrale.com/
  * Update Server: http://download.3uu.net/wp/
@@ -164,7 +164,7 @@ function shariff3UU_options_page(){
   $upload_tmp_dir=ini_get('upload_tmp_dir');
   if(!empty($SHARIFF_BACKEND_TMPDIR))$tmp[cache][cacheDir]=$SHARIFF_BACKEND_TMPDIR;
   // else check, that /tmp is usuable
-  elseif(is_writable('/tmp'))$tmp[cache][cacheDir]='/tmp';
+  elseif(@is_writable('/tmp'))$tmp[cache][cacheDir]='/tmp';
   // than we try to us the upload_tmp_dir
   elseif( !empty($upload_tmp_dir) ) $tmp[cache][cacheDir]=$upload_tmp_dir;
   else {
@@ -273,7 +273,10 @@ function RenderShariff( $atts , $content = null) {
 #echo '<pre>';var_dump($atts);
   $output.='<div class=\'shariff\'';
   $output.=' data-title=\''.get_the_title().'\'';
-  $output.=' data-url=\''.get_permalink().'\'';
+
+  // set a url attribute. Usefull e.g. in widgets that should point to the domain instead of page
+  if(array_key_exists('url', $atts)) $output.=' data-url=\''.$atts[url].'\'';
+  else $output.=' data-url=\''.get_permalink().'\'';
   
   // set options
   if(array_key_exists('info_url', $atts))    $output.=" data-info-url='$atts[info_url]'";
@@ -381,7 +384,4 @@ class ShariffWidget extends WP_Widget {
 } // END class ShariffWidget
 // register Widget 
 add_action('widgets_init', create_function('', 'return register_widget("ShariffWidget");'));
-
-
-
 ?>

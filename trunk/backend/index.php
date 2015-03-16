@@ -31,7 +31,6 @@ class Application
         include ( $wp_root_path . '/wp-config.php' );
         // set TTL (default is 60 s)
         // stupid cp of constant to var because of "Commit blocked by pre-commit hook"
-        $SHARIFF_BACKEND_TTL=SHARIFF_BACKEND_TTL;
         if(!empty($SHARIFF_BACKEND_TTL))$tmp[cache][ttl]=$SHARIFF_BACKEND_TTL;
                     
 	// check, if user has set a tmp dir (backend use '/tmp' by default)
@@ -40,7 +39,7 @@ class Application
           $upload_tmp_dir=ini_get('upload_tmp_dir');
           if(!empty($SHARIFF_BACKEND_TMPDIR))$tmp[cache][cacheDir]=$SHARIFF_BACKEND_TMPDIR;
           // else check, that /tmp is usuable
-	  elseif(is_writable('/tmp'))$tmp[cache][cacheDir]='/tmp';
+	  elseif(@is_writable('/tmp'))$tmp[cache][cacheDir]='/tmp';
           // than we try to us the upload_tmp_dir
 	  elseif( !empty($upload_tmp_dir) ) $tmp[cache][cacheDir]=$upload_tmp_dir; 
 	  else {
