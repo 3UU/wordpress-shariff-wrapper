@@ -168,6 +168,9 @@ So you should only use it if this is really needed and you do really know
 what do you do. Therefor it is not available within the admin menu. 
 
 == Changelog ==
+= 1.5.1
+- fix: constant had have a wrong declaration check
+
 = 1.5.0 =
 - add option "url" to set a fixed URI for all sites (only in shorttag and
   widgets) because usually it is not a good idea to manipulate this

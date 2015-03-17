@@ -3,7 +3,7 @@
  * Plugin Name: Shariff for WordPress posts, pages, themes and as widget
  * Plugin URI: http://www.3uu.org/plugins.htm
  * Description: This is a wrapper to Shariff. Enables shares in posts and/or themes with Twitter, Facebook, GooglePlus... with no harm for visitors privacy.
- * Version: 1.5.0
+ * Version: 1.5.1
  * Author: Ritze
  * Author URI: http://www.DatenVerwurstungsZentrale.com/
  * Update Server: http://download.3uu.net/wp/
@@ -162,6 +162,7 @@ function shariff3UU_options_page(){
   // give a hint if the backend will not work
   // if upload_tmp_dir is set
   $upload_tmp_dir=ini_get('upload_tmp_dir');
+  $SHARIFF_BACKEND_TMPDIR=SHARIFF_BACKEND_TMPDIR;
   if(!empty($SHARIFF_BACKEND_TMPDIR))$tmp[cache][cacheDir]=$SHARIFF_BACKEND_TMPDIR;
   // else check, that /tmp is usuable
   elseif(@is_writable('/tmp'))$tmp[cache][cacheDir]='/tmp';
