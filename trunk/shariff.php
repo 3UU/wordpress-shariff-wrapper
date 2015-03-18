@@ -3,7 +3,7 @@
  * Plugin Name: Shariff for WordPress posts, pages, themes and as widget
  * Plugin URI: http://www.3uu.org/plugins.htm
  * Description: This is a wrapper to Shariff. Enables shares in posts and/or themes with Twitter, Facebook, GooglePlus... with no harm for visitors privacy.
- * Version: 1.5.1
+ * Version: 1.5.2
  * Author: Ritze
  * Author URI: http://www.DatenVerwurstungsZentrale.com/
  * Update Server: http://download.3uu.net/wp/
@@ -160,25 +160,20 @@ function shariff3UU_options_page(){
   echo '</form>';
     
   // give a hint if the backend will not work
-  // if upload_tmp_dir is set
-  $upload_tmp_dir=ini_get('upload_tmp_dir');
-  $SHARIFF_BACKEND_TMPDIR=SHARIFF_BACKEND_TMPDIR;
-  if(!empty($SHARIFF_BACKEND_TMPDIR))$tmp[cache][cacheDir]=$SHARIFF_BACKEND_TMPDIR;
-  // else check, that /tmp is usuable
-  elseif(@is_writable('/tmp'))$tmp[cache][cacheDir]='/tmp';
-  // than we try to us the upload_tmp_dir
-  elseif( !empty($upload_tmp_dir) ) $tmp[cache][cacheDir]=$upload_tmp_dir;
-  else {
-    // at least the the WP own upload dir should work...
+  // if we have a constant for the tmp-dir
+  if(defined(SHARIFF_BACKEND_TMPDIR))$tmp["cache"]["cacheDir"]=SHARIFF_BACKEND_TMPDIR;
+
+  // if we do not have a tmp-dir, we use the content dir of WP
+  if( empty($tmp["cache"]["cacheDir"]) ){
     // to avoid conficts with other plugins and actual uploads we use a fixed date in the past
-    // month of my birthday would be great ;-)
-    // wp_upload_dir() create the dir if not exists
+    // month of my birthday would be great ;-) The wp_upload_dir() create the dir if not exists.
     $upload_dir = @wp_upload_dir('1970/01');
-    $tmp[cache][cacheDir]=$upload_dir['basedir'].'/1970/01';
+    $tmp["cache"]["cacheDir"]=$upload_dir['basedir'].'/1970/01';
   }
+
   // final check that temp dir is usuable
-  if(!is_writable($tmp[cache][cacheDir])) echo ("<h2>No usable tmp dir found. Please check ". $tmp[cache][cacheDir]) ." and read about the backend server configuration in the FAQ.</h2>";
-  else echo "Backend tmp directory ". $tmp[cache][cacheDir] ." is usuable. To change it please read about the backend server configuration in the FAQ." ;
+  if(!is_writable($tmp["cache"]["cacheDir"])) echo ("<h2>No usable tmp dir found. Please check ". $tmp["cache"]["cacheDir"]) ." and read about the backend server configuration in the FAQ.</h2>";
+  else echo "Backend tmp directory ". $tmp["cache"]["cacheDir"] ." is usuable. To change it please read about the backend server configuration in the FAQ." ;
 }
 // END the admin page
 

@@ -1,6 +1,7 @@
 {
 	"cache": {
-		"ttl": 60
+		"ttl": 60,
+		"cacheDir": "/tmp"
 	},
 	"domain": "www.example.com",
 	"services": [

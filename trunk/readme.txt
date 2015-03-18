@@ -150,9 +150,8 @@ hosted parts is not really smart.
 A: Your webserver must be able to connect to other webservers. Please check
 your PHP configuration and firewall settings. If do you get the error "tmp dir
 must be writable" your webserver does not have a directory to write
-temporary data. Either `/tmp` or the `upload_tmp_dir` (usually configured in 
-your php.ini) must be writable. Also please have in mind that the plugin has
-a timeout of 60 seconds because most services do not accept more request.
+temporary data. Also please have in mind that the plugin has a timeout of 60
+seconds because most services do not accept more request.
 
 = Q: Pinterest does not show an icon =
 A: You can add 
@@ -168,6 +167,10 @@ So you should only use it if this is really needed and you do really know
 what do you do. Therefor it is not available within the admin menu. 
 
 == Changelog ==
+= 1.5.2 =
+- default backend temp dir now uses wp content dir 
+- updated original shariff JS code
+
 = 1.5.1
 - fix: constant had have a wrong declaration check
 
