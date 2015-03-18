@@ -167,6 +167,9 @@ So you should only use it if this is really needed and you do really know
 what do you do. Therefor it is not available within the admin menu. 
 
 == Changelog ==
+= 1.5.3 =
+- hide counter within the theme round 
+
 = 1.5.2 =
 - default backend temp dir now uses wp content dir 
 - updated original shariff JS code
