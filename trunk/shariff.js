@@ -1,6 +1,6 @@
 
 /*
- * shariff - v1.5.0 - 18.03.2015
+ * shariff - v1.5.0 - 22.03.2015
  * https://github.com/heiseonline/shariff
  * Copyright (c) 2015 Ines Pauer, Philipp Busse, Sebastian Hilbig, Erich Kramer, Deniz Sesli
  * Licensed under the MIT <http://www.opensource.org/licenses/mit-license.php> license
@@ -29,7 +29,7 @@ if(!r)break}return n?s.length:s?t.error(e):I(e,u).slice(0)},k=t.compile=function
 },{}],8:[function(require,module,exports){
 "use strict";module.exports=function(e){var r=encodeURIComponent(e.getURL());return{popup:!0,noblank:!1,mobileonly:!1,shareText:{de:"teilen",fr:"partager",en:"share",es:"compartir"},name:"facebook",faName:"fa-facebook",title:{de:"Bei Facebook teilen",en:"Share on Facebook",fr:"Partager sur Facebook",es:"Compartir en Facebook"},shareUrl:"https://www.facebook.com/sharer/sharer.php?u="+r+e.getReferrerTrack()}};
 },{}],9:[function(require,module,exports){
-"use strict";module.exports=function(e){var o=encodeURIComponent(e.getURL());return{popup:!0,noblank:!1,mobileonly:!1,shareText:"+1",name:"googleplus",faName:"fa-google-plus",title:{de:"Bei Google+ teilen",en:"Share on Google+",fr:"Partager sur Google+",es:"Compartir en Google+"},shareUrl:"https://plus.google.com/share?url="+o+e.getReferrerTrack()}};
+"use strict";module.exports=function(e){var o=encodeURIComponent(e.getURL());return{popup:!0,noblank:!1,mobileonly:!1,shareText:{de:"+1",fr:"+1",en:"+1",es:"+1"},name:"googleplus",faName:"fa-google-plus",title:{de:"Bei Google+ teilen",en:"Share on Google+",fr:"Partager sur Google+",es:"Compartir en Google+"},shareUrl:"https://plus.google.com/share?url="+o+e.getReferrerTrack()}};
 },{}],10:[function(require,module,exports){
 "use strict";module.exports=function(e){return{popup:!1,noblank:!1,mobileonly:!1,shareText:"Info",name:"info",faName:"fa-info",title:{de:"weitere Informationen",en:"more information",fr:"Plus d’informations",es:"Más informaciones"},shareUrl:e.getInfoUrl()}};
 },{}],11:[function(require,module,exports){
@@ -39,7 +39,7 @@ if(!r)break}return n?s.length:s?t.error(e):I(e,u).slice(0)},k=t.compile=function
 },{}],13:[function(require,module,exports){
 "use strict";module.exports=function(e){var t=encodeURIComponent(e.getURL());return{popup:!0,noblank:!1,mobileonly:!1,shareText:{de:"Pin it",en:"Pin it",fr:"Pin it",es:"Pin it"},name:"pinterest",faName:"fa-pinterest",title:{de:"Bei Pinterest pinnen",en:"Pin it on Pinterest",fr:"Partager sur Pinterest",es:"Compartir en Pinterest"},shareUrl:"//www.pinterest.com/pin/create/button/?url="+t+e.getReferrerTrack()+"&media="+e.getImageUrl()+"&description="+e.getShareText()}};
 },{}],14:[function(require,module,exports){
-"use strict";module.exports=function(){return{popup:!1,noblank:!0,mobileonly:!1,shareText:"printer",name:"printer",faName:"fa-print",title:{de:"Drucken",en:"Printer",fr:"Imprimeur",es:"Impresora"},shareUrl:"javascript:window.print()"}};
+"use strict";module.exports=function(){return{popup:!1,noblank:!0,mobileonly:!1,shareText:{de:"drucken",en:"print",fr:"imprimer",es:"imprimir"},name:"printer",faName:"fa-print",title:{de:"Drucken",en:"Printer",fr:"Imprimeur",es:"Impresora"},shareUrl:"javascript:window.print()"}};
 },{}],15:[function(require,module,exports){
 "use strict";module.exports=function(e){var r=encodeURIComponent(e.getURL());return{popup:!0,noblank:!1,mobileonly:!1,shareText:{de:"teilen",en:"share",fr:"partager",es:"compartir"},name:"reddit",faName:"fa-reddit",title:{de:"Bei Reddit teilen",en:"Share on Reddit",fr:"Partager sur Reddit",es:"Compartir en Reddit"},shareUrl:"//www.reddit.com/submit?url="+r+e.getReferrerTrack()}};
 },{}],16:[function(require,module,exports){
@@ -47,7 +47,7 @@ if(!r)break}return n?s.length:s?t.error(e):I(e,u).slice(0)},k=t.compile=function
 },{}],17:[function(require,module,exports){
 "use strict";var url=require("url");module.exports=function(e){var t=url.parse("https://twitter.com/intent/tweet",!0);return t.query.text=decodeURIComponent(e.getShareText()),t.query.url=e.getURL(),null!==e.options.twitterVia&&(t.query.via=e.options.twitterVia),delete t.search,{popup:!0,noblank:!1,mobileonly:!1,shareText:"tweet",name:"twitter",faName:"fa-twitter",title:{de:"Bei Twitter teilen",en:"Share on Twitter",fr:"Partager sur Twitter",es:"Compartir en Twitter"},shareUrl:url.format(t)+e.getReferrerTrack()}};
 },{"url":6}],18:[function(require,module,exports){
-"use strict";module.exports=function(e){return{popup:!1,noblank:!0,mobileonly:!0,shareText:"WhatsApp",name:"whatsapp",title:{de:"Bei Whatsapp teilen",en:"Share on Whatsapp",fr:"Partager sur Whatsapp",es:"Compartir en Whatsapp"},shareUrl:"whatsapp://send?text="+e.getShareText()+"%20"+encodeURIComponent(e.getURL()+e.getReferrerTrack())}};
+"use strict";module.exports=function(e){return{popup:!1,noblank:!0,mobileonly:!0,shareText:"WhatsApp",name:"whatsapp",faName:"fa-whatsapp",title:{de:"Bei Whatsapp teilen",en:"Share on Whatsapp",fr:"Partager sur Whatsapp",es:"Compartir en Whatsapp"},shareUrl:"whatsapp://send?text="+e.getShareText()+"%20"+encodeURIComponent(e.getURL()+e.getReferrerTrack())}};
 },{}],19:[function(require,module,exports){
 "use strict";module.exports=function(e){var r=encodeURIComponent(e.getURL());return{popup:!0,noblank:!1,mobileonly:!1,shareText:{de:"teilen",en:"share",fr:"partager",es:"compartir"},name:"xing",faName:"fa-xing",title:{de:"Bei XING teilen",en:"Share on XING",fr:"Partager sur XING",es:"Compartir en XING"},shareUrl:"//www.xing.com/social_plugins/share?url="+r+e.getReferrerTrack()}};
 },{}],20:[function(require,module,exports){

@@ -1,5 +1,5 @@
 === Shariff for WordPress posts, pages, themes and as widget ===
-Contributors: 3UU
+Contributors: 3UU starguide
 Tags: Twitter, Facebook, GooglePlus, sharebutton, sharing, privacy, social, whatsapp
 Requires at least: 3.0.1
 Tested up to: 4.1
@@ -52,12 +52,15 @@ The value will be used for a container around the Shariff button.
 The same way work the "style option" within the admin menu.
 Please notice that because of the nature of CascadingSS you can not change
 the look of the buttons! If do you want this please read about the 
-design options later on.
+design options later on. Also the code example is really only an example.
+The you have to use your own style information depending on the theme/design
+do you use.
 
 = Q: Can I use it in my theme? =
-A: Yes. `<?=do_shortcode('[shariff backend="on"]')?>` Backend is an example.
-You can use all options of the shorttag. But first you should have a look at
-the widget. 
+A: Yes. 
+`<?=do_shortcode('[shariff backend="on"]')?>` 
+Backend is an example. You can use all options of the shorttag. But first 
+you should have a look at the widget. 
 
 = Q: How can I configure the widget? =
 A: It use the same options that have been configured in the admin menu.
@@ -71,7 +74,7 @@ server. However I am not sure if do you want this. So it is not enabled by
 default. 
 
 = Q: How can I show the share counts? =
-A: Add the option "backend=on" to the shariff shorttag in your post.
+A: Add the option `backend="on"` to the shariff shorttag in your post.
 
 = Q: I do not see counts =
 A: First make sure the do you have enabled the backend. If so please have a
@@ -138,13 +141,9 @@ shown on single post pages. And this plugin also provide a widget.
 A: The best way would be to use a CDN for your blog host. The original 
 shariff project has references to CDN hosted fonts. But it is possible that 
 the hoster send headers that force the browser to reload the fonts on any
-page. This will enable tracking again depending on how honest the font
-hoster is. So I would suggest to use the copy that is within the plugin 
-directory at your server. However if do you want use the orginal CSS of the
-Shariff project you can rename the shariff.min.css to
-shariff.min.local.css Please be warned: To use a plugin to help your
-visitors not to compromising their privacy and than make use of external
-hosted parts is not really smart.
+page. This would enable tracking again depending on how honest the font
+hoster is. So I strongly suggest to use the copy that is within the plugin 
+directory at your server. 
 
 = Q: I do not get the numbers / Got error "tmp dir must be writable" =
 A: Your webserver must be able to connect to other webservers. Please check
@@ -167,6 +166,16 @@ So you should only use it if this is really needed and you do really know
 what do you do. Therefor it is not available within the admin menu. 
 
 == Changelog ==
+= 1.6. =
+- adopted new responsive css code (thanks to @jplambeck )
+- update included fa-fonts
+- fix: descrition "printer" 
+- fix: use WP_CONTENT_URL in admin menu
+
+= 1.5.4 =
+- remove alternativ css with links to external hosters. If do you really
+  want enable breaking privacy plz feel free to code you own css 
+
 = 1.5.3 =
 - hide counter within the theme round 
 
@@ -174,7 +183,7 @@ what do you do. Therefor it is not available within the admin menu.
 - default backend temp dir now uses wp content dir 
 - updated original shariff JS code
 
-= 1.5.1
+= 1.5.1 =
 - fix: constant had have a wrong declaration check
 
 = 1.5.0 =

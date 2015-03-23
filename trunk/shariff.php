@@ -3,7 +3,7 @@
  * Plugin Name: Shariff for WordPress posts, pages, themes and as widget
  * Plugin URI: http://www.3uu.org/plugins.htm
  * Description: This is a wrapper to Shariff. Enables shares in posts and/or themes with Twitter, Facebook, GooglePlus... with no harm for visitors privacy.
- * Version: 1.5.3
+ * Version: 1.6
  * Author: Ritze
  * Author URI: http://www.DatenVerwurstungsZentrale.com/
  * Update Server: http://download.3uu.net/wp/
@@ -13,7 +13,7 @@
  * Text Domain: shariff3UU
  * 
  * ### Supported options ###
- *   services: [facebook|twitter|googleplus|whatsapp|mail|print|pinterest|linkedin|xing|reddit|stumbleupon|info]
+ *   services: [facebook|twitter|googleplus|whatsapp|mail|printer|pinterest|linkedin|xing|reddit|stumbleupon|info]
  *   info-url: http://ct.de/-2467514
  *   lang: de|en|fr
  *   theme: default|grey|white|round
@@ -66,7 +66,7 @@ function shariff3UU_options_init(){
   );
 
   add_settings_field( 'shariff3UU_text_services', 
-    __( 'Put in the service do you want enable (<code>facebook|twitter|googleplus|whatsapp|mail|print|pinterest|linkedin|xing|reddit|stumbleupon|info</code>). Use the pipe sign | between two or more services.', 'shariff3UU' ), 
+    __( 'Put in the service do you want enable (<code>facebook|twitter|googleplus|whatsapp|mail|printer|pinterest|linkedin|xing|reddit|stumbleupon|info</code>). Use the pipe sign | between two or more services.', 'shariff3UU' ), 
     'shariff3UU_text_services_render', 'pluginPage', 'shariff3UU_pluginPage_section' 
   );
 
@@ -107,18 +107,18 @@ function shariff3UU_select_language_render(){
 
 function shariff3UU_radio_theme_render(){
   $options = get_option( 'shariff3UU' );
-  $wpurl=site_url();
+#  $wpurl=site_url();
   echo "<table border='0'>
-  <tr><td><input type='radio' name='shariff3UU[theme]' value='' ".      checked( $options['theme'], '',0 )      .">default</td><td><img src='$wpurl/wp-content/plugins/shariff/pictos/defaultBtns.png'></td></tr>
-  <tr><td><input type='radio' name='shariff3UU[theme]' value='grey' ".  checked( $options['theme'], 'grey',0 )  .">grey</td><td><img src='$wpurl/wp-content/plugins/shariff/pictos/greyBtns.png'><br></td></tr>
-  <tr><td><input type='radio' name='shariff3UU[theme]' value='white' ". checked( $options['theme'], 'white',0 ) .">white</td><td><img src='$wpurl/wp-content/plugins/shariff/pictos/whiteBtns.png'><br></td></tr>
-  <tr><td><input type='radio' name='shariff3UU[theme]' value='round' ". checked( $options['theme'], 'round',0 ) .">round</td><td><img src='$wpurl/wp-content/plugins/shariff/pictos/roundBtns.png'><br></td></tr>
+  <tr><td><input type='radio' name='shariff3UU[theme]' value='' ".      checked( $options['theme'], '',0 )      .">default</td><td><img src='".WP_CONTENT_URL."/plugins/shariff/pictos/defaultBtns.png'></td></tr>
+  <tr><td><input type='radio' name='shariff3UU[theme]' value='grey' ".  checked( $options['theme'], 'grey',0 )  .">grey</td><td><img src='".WP_CONTENT_URL."/plugins/shariff/pictos/greyBtns.png'><br></td></tr>
+  <tr><td><input type='radio' name='shariff3UU[theme]' value='white' ". checked( $options['theme'], 'white',0 ) .">white</td><td><img src='".WP_CONTENT_URL."/plugins/shariff/pictos/whiteBtns.png'><br></td></tr>
+  <tr><td><input type='radio' name='shariff3UU[theme]' value='round' ". checked( $options['theme'], 'round',0 ) .">round</td><td><img src='".WP_CONTENT_URL."/plugins/shariff/pictos/roundBtns.png'><br></td></tr>
   </table>";
 }
 
 function shariff3UU_checkbox_vertical_render(){ 
   $options = get_option( 'shariff3UU' ); 
-  echo "<input type='checkbox' name='shariff3UU[vertical]' ". checked( $options['vertical'], 1,0 ) ." value='1'><img src='". site_url() ."/wp-content/plugins/shariff/pictos/verticalBtns.png' align='top'>";
+  echo "<input type='checkbox' name='shariff3UU[vertical]' ". checked( $options['vertical'], 1,0 ) ." value='1'><img src='". WP_CONTENT_URL ."/plugins/shariff/pictos/verticalBtns.png' align='top'>";
 }
 
 function shariff3UU_text_services_render(){ 
