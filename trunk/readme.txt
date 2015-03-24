@@ -166,6 +166,12 @@ So you should only use it if this is really needed and you do really know
 what do you do. Therefor it is not available within the admin menu. 
 
 == Changelog ==
+= 1.6.1 =
+- fix: again enable WhatsUp on mobile now also works with Mozilla. Sorry
+  this has not been become part of the main branche. Therefor it was lost 
+  with the last update :-(
+- added .shariff span { color: inherit; } (thanks again to @jplambeck )
+
 = 1.6. =
 - adopted new responsive css code (thanks to @jplambeck )
 - update included fa-fonts
