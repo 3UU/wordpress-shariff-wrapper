@@ -3,22 +3,23 @@
  * Plugin Name: Shariff for WordPress posts, pages, themes and as widget
  * Plugin URI: http://www.3uu.org/plugins.htm
  * Description: This is a wrapper to Shariff. Enables shares in posts and/or themes with Twitter, Facebook, GooglePlus... with no harm for visitors privacy.
- * Version: 1.6.1
+ * Version: 1.7
  * Author: Ritze
  * Author URI: http://www.DatenVerwurstungsZentrale.com/
- * Update Server: http://download.3uu.net/wp/
  * License: http://opensource.org/licenses/MIT
  * Donate link: http://folge.link/?bitcoin:1Ritz1iUaLaxuYcXhUCoFhkVRH6GWiMTP
  * Domain Path: /locale/
  * Text Domain: shariff3UU
  * 
  * ### Supported options ###
- *   services: [facebook|twitter|googleplus|whatsapp|mail|printer|pinterest|linkedin|xing|reddit|stumbleupon|info]
- *   info-url: http://ct.de/-2467514
+ *   services: [facebook|twitter|googleplus|whatsapp|mail|mailto|printer|pinterest|linkedin|xing|reddit|stumbleupon|info]
+ *   info_url: http://ct.de/-2467514
  *   lang: de|en|fr
  *   theme: default|grey|white|round
  *   orientation: vertical
+ *   twitter_via: screenname
  *   (see http://heiseonline.github.io/shariff/)
+ *   style: CSS code that will be used in a DIV container arround shariff
  */
 
 // the admin page
@@ -40,19 +41,59 @@ function shariff3UU_add_admin_menu(){ add_options_page( 'Shariff', 'Shariff', 'm
 function shariff3UU_options_init(){ 
   // Name fuer die Optionen registrieren
   register_setting( 'pluginPage', 'shariff3UU' );
+
+  // Optionen holen
+  $GLOBALS["shariff3UUoptions"]=get_option( 'shariff3UU' );
+
+  // Migration < v 1.7
+  if(empty($GLOBALS["shariff3UUoptions"]["version"]) || $GLOBALS["shariff3UUoptions"]["version"] < "1.7"){
+    if($GLOBALS["shariff3UUoptions"]["add_all"]=='1'){ $GLOBALS["shariff3UUoptions"]["add_after_all_posts"]='1'; $GLOBALS["shariff3UUoptions"]["add_after_all_pages"]='1';
+      unset($GLOBALS["shariff3UUoptions"]["add_all"]);
+    }
+    if($GLOBALS["shariff3UUoptions"]["add_before_all"]=='1'){ $GLOBALS["shariff3UUoptions"]["add_before_all_posts"]='1'; $GLOBALS["shariff3UUoptions"]["add_before_all_pages"]='1';
+      unset($GLOBALS["shariff3UUoptions"]["add_before_all"]);
+    } 
+    $GLOBALS["shariff3UUoptions"]["version"]="1.7";
+    update_option( 'shariff3UU', $GLOBALS["shariff3UUoptions"] );
+  }
+  // ENDE Migration < v 1.7
   
-  add_settings_section( 'shariff3UU_pluginPage_section', __( 'Enable Shariff for all post and configure the options with these settings.', 'shariff3UU' ), 
+  add_settings_section( 'shariff3UU_pluginPage_section', __( 'Enable Shariff for all post and configure the options with these settings.', 'shariff3UU' ),
     'shariff3UU_options_section_callback', 'pluginPage'
   );
+        
+#  add_settings_field( 'shariff3UU_checkbox_add_all', __( 'Check to put Shariff at the end off all posts.', 'shariff3UU' ),
+#    'shariff3UU_checkbox_add_all_render', 'pluginPage', 'shariff3UU_pluginPage_section'
+#  );
 
-  add_settings_field( 'shariff3UU_checkbox_add_all', __( 'Check to put Shariff at the end off all posts.', 'shariff3UU' ), 
-    'shariff3UU_checkbox_add_all_render', 'pluginPage', 'shariff3UU_pluginPage_section' 
+  add_settings_field( 'shariff3UU_checkbox_add_after_all_posts', __( 'Check to put Shariff at the end off all posts.', 'shariff3UU' ),
+    'shariff3UU_checkbox_add_after_all_posts_render', 'pluginPage', 'shariff3UU_pluginPage_section'
   );
 
-  add_settings_field( 'shariff3UU_checkbox_add_before_all', __( 'Check to put Shariff at the begin off all posts.', 'shariff3UU' ),
-    'shariff3UU_checkbox_add_before_all_render', 'pluginPage', 'shariff3UU_pluginPage_section'
+  add_settings_field( 'shariff3UU_checkbox_add_after_all_pages', __( 'Check to put Shariff at the end off all pages.', 'shariff3UU' ),
+    'shariff3UU_checkbox_add_after_all_pages_render', 'pluginPage', 'shariff3UU_pluginPage_section'
   );
 
+  add_settings_field( 'shariff3UU_checkbox_add_after_all_overview', __( 'Check to put Shariff at the end off all posts on the overview page.', 'shariff3UU' ),
+    'shariff3UU_checkbox_add_after_all_overview_render', 'pluginPage', 'shariff3UU_pluginPage_section'
+  );
+
+#  add_settings_field( 'shariff3UU_checkbox_add_before_all', __( 'Check to put Shariff at the begin off all posts.', 'shariff3UU' ),
+#    'shariff3UU_checkbox_add_before_all_render', 'pluginPage', 'shariff3UU_pluginPage_section'
+#  );
+
+  add_settings_field( 'shariff3UU_checkbox_add_before_all_posts', __( 'Check to put Shariff at the beginning off all posts.', 'shariff3UU' ),
+    'shariff3UU_checkbox_add_before_all_posts_render', 'pluginPage', 'shariff3UU_pluginPage_section'
+  );
+
+  add_settings_field( 'shariff3UU_checkbox_add_before_all_pages', __( 'Check to put Shariff at the beginning off all pages.', 'shariff3UU' ),
+    'shariff3UU_checkbox_add_before_all_pages_render', 'pluginPage', 'shariff3UU_pluginPage_section'
+  );
+        
+  add_settings_field( 'shariff3UU_checkbox_add_before_all_overview', __( 'Check to put Shariff at the beginning off all posts on the overview page.', 'shariff3UU' ),
+    'shariff3UU_checkbox_add_before_all_overview_render', 'pluginPage', 'shariff3UU_pluginPage_section'
+  );
+        
   add_settings_field( 'shariff3UU_select_language', __( 'Select button language.', 'shariff3UU' ), 
     'shariff3UU_select_language_render', 'pluginPage', 'shariff3UU_pluginPage_section' 
   );
@@ -66,7 +107,7 @@ function shariff3UU_options_init(){
   );
 
   add_settings_field( 'shariff3UU_text_services', 
-    __( 'Put in the service do you want enable (<code>facebook|twitter|googleplus|whatsapp|mail|printer|pinterest|linkedin|xing|reddit|stumbleupon|info</code>). Use the pipe sign | between two or more services.', 'shariff3UU' ), 
+    __( 'Put in the service do you want enable (<code>facebook|twitter|googleplus|whatsapp|mail|mailto|printer|pinterest|linkedin|xing|reddit|stumbleupon|info</code>). Use the pipe sign | between two or more services.', 'shariff3UU' ), 
     'shariff3UU_text_services_render', 'pluginPage', 'shariff3UU_pluginPage_section' 
   );
 
@@ -80,23 +121,51 @@ function shariff3UU_options_init(){
   );
   
   add_settings_field(
-    'shariff3UU_text_style', __( 'CSS style attributes for the CSS container _around_ Shariff:', 'shariff3UU' ),
+    'shariff3UU_text_style', __( 'CSS style attributes for the CSS container _around_ Shariff', 'shariff3UU' ),
     'shariff3UU_text_style_render', 'pluginPage', 'shariff3UU_pluginPage_section'
   );
+  
+  add_settings_field(
+    'shariff3UU_text_twitervia', __( 'Set the screen name for Twitter (via) to', 'shariff3UU' ),
+    'shariff3UU_text_twittervia_render', 'pluginPage', 'shariff3UU_pluginPage_section'
+  );
+ 
 }
 
-function shariff3UU_checkbox_add_all_render(){ 
-  $options = get_option( 'shariff3UU' );
-  echo "<input type='checkbox' name='shariff3UU[add_all]' ".checked( $options[add_all], 1, 0 )." value='1'>";
+#function shariff3UU_checkbox_add_all_render(){ 
+#  echo "<input type='checkbox' name='shariff3UU[add_all]' ".checked( $GLOBALS["shariff3UUoptions"]["add_all"], 1, 0 )." value='1'>";
+#}
+
+#function shariff3UU_checkbox_add_before_all_render(){
+#  echo "<input type='checkbox' name='shariff3UU[add_before_all]' ". checked( $GLOBALS["shariff3UUoptions"]["add_before_all"], 1, 0 ) ." value='1'>";
+#}
+
+function shariff3UU_checkbox_add_after_all_posts_render(){
+  echo "<input type='checkbox' name='shariff3UU[add_after_all_posts]' ". checked( $GLOBALS["shariff3UUoptions"]["add_after_all_posts"], 1, 0 ) ." value='1'>";
 }
 
-function shariff3UU_checkbox_add_before_all_render(){
-  $options = get_option( 'shariff3UU' );
-  echo "<input type='checkbox' name='shariff3UU[add_before_all]' ". checked( $options[add_before_all], 1, 0 ) ." value='1'>";
+function shariff3UU_checkbox_add_before_all_posts_render(){
+  echo "<input type='checkbox' name='shariff3UU[add_before_all_posts]' ". checked( $GLOBALS["shariff3UUoptions"]["add_before_all_posts"], 1, 0 ) ." value='1'>";
 }
-                
+
+function shariff3UU_checkbox_add_after_all_overview_render(){
+  echo "<input type='checkbox' name='shariff3UU[add_after_all_overview]' ". checked( $GLOBALS["shariff3UUoptions"]["add_after_all_overview"], 1, 0 ) ." value='1'>";
+}
+
+function shariff3UU_checkbox_add_before_all_overview_render(){
+  echo "<input type='checkbox' name='shariff3UU[add_before_all_overview]' ". checked( $GLOBALS["shariff3UUoptions"]["add_before_all_overview"], 1, 0 ) ." value='1'>";
+}
+
+function shariff3UU_checkbox_add_after_all_pages_render(){
+  echo "<input type='checkbox' name='shariff3UU[add_after_all_pages]' ". checked( $GLOBALS["shariff3UUoptions"]["add_after_all_pages"], 1, 0 ) ." value='1'>";
+}
+
+function shariff3UU_checkbox_add_before_all_pages_render(){
+  echo "<input type='checkbox' name='shariff3UU[add_before_all_pages]' ". checked( $GLOBALS["shariff3UUoptions"]["add_before_all_pages"], 1, 0 ) ." value='1'>";
+}
+
 function shariff3UU_select_language_render(){
-  $options = get_option( 'shariff3UU' );
+  $options = $GLOBALS["shariff3UUoptions"];
   echo "<select name='shariff3UU[language]'>
   <option value='' ".   selected( $options['language'], '', 0 ) .">". __( 'browser selected', 'shariff3UU') ."</option>
   <option value='en' ". selected( $options['language'], 'en', 0 ) .">English</option>
@@ -106,7 +175,7 @@ function shariff3UU_select_language_render(){
 }
 
 function shariff3UU_radio_theme_render(){
-  $options = get_option( 'shariff3UU' );
+  $options = $GLOBALS["shariff3UUoptions"];
 #  $wpurl=site_url();
   echo "<table border='0'>
   <tr><td><input type='radio' name='shariff3UU[theme]' value='' ".      checked( $options['theme'], '',0 )      .">default</td><td><img src='".WP_CONTENT_URL."/plugins/shariff/pictos/defaultBtns.png'></td></tr>
@@ -117,35 +186,33 @@ function shariff3UU_radio_theme_render(){
 }
 
 function shariff3UU_checkbox_vertical_render(){ 
-  $options = get_option( 'shariff3UU' ); 
-  echo "<input type='checkbox' name='shariff3UU[vertical]' ". checked( $options['vertical'], 1,0 ) ." value='1'><img src='". WP_CONTENT_URL ."/plugins/shariff/pictos/verticalBtns.png' align='top'>";
+  echo "<input type='checkbox' name='shariff3UU[vertical]' ". checked( $GLOBALS['shariff3UUoptions']['vertical'], 1,0 ) ." value='1'><img src='". WP_CONTENT_URL ."/plugins/shariff/pictos/verticalBtns.png' align='top'>";
 }
 
 function shariff3UU_text_services_render(){ 
-  $options = get_option( 'shariff3UU' ); 
-  echo "<input type='text' name='shariff3UU[services]' value='". $options['services'] ."' size='50' placeholder='twitter|facebook|googleplus|info'>";
+  echo "<input type='text' name='shariff3UU[services]' value='". $GLOBALS['shariff3UUoptions']['services'] ."' size='50' placeholder='twitter|facebook|googleplus|info'>";
 }
 
 function shariff3UU_checkbox_backend_render(){
   // To check that backend works well
   // http://[your_host]/wp-content/plugins/shariff/backend/?url=http%3A%2F%2F[your_host]
   // should give an array or "[ ]" 
-  $options = get_option( 'shariff3UU' );
+
   // check that PHP version is okay
   if (version_compare(PHP_VERSION, '5.4.0') < 1) echo "PHP version 5.4 or better is needed to enable the backend. ";
-  // check that a tmp dir is writable
-  if( !@is_writable('/tmp') && (!empty($upload_tmp_dir) && !is_writable($upload_tmp_dir)) ) echo "ERROR: tmp dir must be writable.";
-  echo "<input type='checkbox' name='shariff3UU[backend]' ". checked( $options['backend'], 1,0 ) ." value='1'>";
+  echo "<input type='checkbox' name='shariff3UU[backend]' ". checked( $GLOBALS['shariff3UUoptions']['backend'], 1,0 ) ." value='1'>";
 }
 
 function shariff3UU_text_info_url_render(){
-  $options = get_option( 'shariff3UU' );
-  echo "<input type='text' name='shariff3UU[info_url]' value='". $options['info_url'] ."' size='50' placeholder='http://ct.de/-2467514'>";
+  echo "<input type='text' name='shariff3UU[info_url]' value='". $GLOBALS['shariff3UUoptions']['info_url'] ."' size='50' placeholder='http://ct.de/-2467514'>";
 }
 
 function shariff3UU_text_style_render(){
-  $options = get_option( 'shariff3UU' );
-  echo "<input type='text' name='shariff3UU[style]' value='". $options['style'] ."' size='50' placeholder='please read about it in the FAQ'>";
+  echo "<input type='text' name='shariff3UU[style]' value='". $GLOBALS['shariff3UUoptions']['style'] ."' size='50' placeholder='please read about it in the FAQ'>";
+}
+
+function shariff3UU_text_twittervia_render(){
+  echo "<input type='text' name='shariff3UU[twitter_via]' value='". $GLOBALS['shariff3UUoptions']['twitter_via'] ."' size='50' placeholder='screenname'>";
 }
                         
 function shariff3UU_options_section_callback(){
@@ -153,7 +220,8 @@ function shariff3UU_options_section_callback(){
 }
 
 function shariff3UU_options_page(){ 
-  echo '<h2>Shariff</h2><form action="options.php" method="post">';
+  /* The <div> with the class "wrap" makes sure that messages are displayed below the title and not above */
+  echo '<div class="wrap"><h2>Shariff</h2><form action="options.php" method="post">';
   settings_fields( 'pluginPage' );
   do_settings_sections( 'pluginPage' );
   submit_button();
@@ -172,8 +240,8 @@ function shariff3UU_options_page(){
   }
 
   // final check that temp dir is usuable
-  if(!is_writable($tmp["cache"]["cacheDir"])) echo ("<h2>No usable tmp dir found. Please check ". $tmp["cache"]["cacheDir"]) ." and read about the backend server configuration in the FAQ.</h2>";
-  else echo "Backend tmp directory ". $tmp["cache"]["cacheDir"] ." is usuable. To change it please read about the backend server configuration in the FAQ." ;
+  if(!is_writable($tmp["cache"]["cacheDir"])) echo ("<h2>No usable tmp dir found. Please check ". $tmp["cache"]["cacheDir"]) ." and read about the backend server configuration in the FAQ.</h2> </div>";
+  else echo "Backend tmp directory ". $tmp["cache"]["cacheDir"] ." is usuable. To change it please read about the backend server configuration in the FAQ. </div>" ;
 }
 // END the admin page
 
@@ -241,11 +309,32 @@ function shariffPosts($content) {
   }
   
   // add it to single posts view only
-  if( !is_singular() ) return $content;
+  // expact the new values for adds on overview are set
+  if( !is_singular() && $shariff3UU["add_after_all_overview"]!='1' && $shariff3UU["add_before_all_overview"]!='1' ) return $content;
 
   // now add Shariff
-  if($shariff3UU["add_before_all"]=='1') $content=buildShariffShorttag().$content;
-  if($shariff3UU["add_all"]=='1') $content.=buildShariffShorttag();
+  if( !is_singular() ) {
+    // auf der Uebersichtsseite
+    if($shariff3UU["add_before_all_overview"]=='1') $content=buildShariffShorttag().$content;
+    if($shariff3UU["add_after_all_overview"]=='1') $content.=buildShariffShorttag();
+  }elseif( is_singular( 'post' ) ){
+    // ab version 1.7. Die zweite Bedingung kann eigentlich raus. Vorsichtshalber in der Version
+    // mal trotzdem pruefen, damit wir bei nem Update-Problem nicht doppelt anzeigen.
+    if($shariff3UU["add_before_all_posts"]=='1' && $shariff3UU["add_before_all"]!='1') $content=buildShariffShorttag().$content;
+    if($shariff3UU["add_after_all_posts"]=='1' && $shariff3UU["add_all"]!='1') $content.=buildShariffShorttag();
+  } elseif ( is_singular( 'page' ) ) {
+    // ab version 1.7. Die zweite Bedingung kann eigentlich raus. Vorsichtshalber in der Version
+    // mal trotzdem pruefen, damit wir bei nem Update-Problem nicht doppelt anzeigen. Fliegt dann
+    // zusammen mit dem else-Zweig bei der naechsten Version raus.
+    if($shariff3UU["add_before_all_pages"]=='1' && $shariff3UU["add_before_all"]!='1') $content=buildShariffShorttag().$content;
+    if($shariff3UU["add_after_all_pages"]=='1' && $shariff3UU["add__all"]!='1') $content.=buildShariffShorttag();
+  }else{
+    // auf allen Einzelseiten
+    // vor version 1.7
+    if($shariff3UU["add_before_all"]=='1') $content=buildShariffShorttag().$content;
+    if($shariff3UU["add_all"]=='1') $content.=buildShariffShorttag();  
+  }
+
   // altes verhalten
   if (defined('SHARIFF_ALL_POSTS')) $content.=SHARIFF_ALL_POSTS;
 
@@ -254,9 +343,21 @@ function shariffPosts($content) {
 
 # Render the shorttag to the HTML shorttag of Shariff
 function RenderShariff( $atts , $content = null) {
+  $shariff3UU = get_option( 'shariff3UU' );
   // avoid errors if no attributes are given
   // use the old set of services to make it backward compatible
-  if(!is_array($atts))$atts=array("services"=>"twitter|facebook|googleplus|info");
+  if(empty($shariff3UU["services"]))$shariff3UU["services"]="twitter|facebook|googleplus|info";
+
+  if (!is_array($atts)) {
+    $atts=array("services"=>$shariff3UU["services"]);
+    if(!empty($shariff3UU[style]))	$atts[style]=$shariff3UU["style"];
+    if(!empty($shariff3UU[theme]))	$atts[theme]=$shariff3UU["theme"];
+    if(!empty($shariff3UU[language]))	$atts[language]=$shariff3UU["language"];
+    if(!empty($shariff3UU[info_url]))	$atts[info_url]=$shariff3UU["info_url"];
+    if(!empty($shariff3UU[twitter_via]))$atts[twitter_via]=$shariff3UU["twitter_via"];
+    if($shariff3UU["vertical"]=='1') 	$atts[orientation]="vertical";
+    if($shariff3UU["backend"]=='1') 	$atts[backend]="on";
+  }
 
   // the Styles/Fonts (We use a local copy of fonts because there is no
   // reason to send data to the hoster of the fonts. Am I paranoid? ;-)
@@ -280,9 +381,9 @@ function RenderShariff( $atts , $content = null) {
   if(array_key_exists('theme', $atts))       $output.=" data-theme='$atts[theme]'";
   // rtzTodo: use geoip if possible
   if(array_key_exists('lang', $atts))        $output.=" data-lang='$atts[lang]'";
-
-  if(array_key_exists('image', $atts))	     $output.=" data-image='$atts[image]'";
+  if(array_key_exists('image', $atts))       $output.=" data-image='$atts[image]'";
   if(array_key_exists('media', $atts))       $output.=" data-media='$atts[media]'";
+  if(array_key_exists('twitter_via', $atts)) $output.=" data-twitter-via='$atts[twitter_via]'";
   // if we dont have once, make sure that an image with hints will used
   if(!array_key_exists('media', $atts)&&!array_key_exists('image', $atts))$output.=" data-media='".plugins_url('/pictos/defaultHint.jpg',__FILE__)."'";
   
@@ -380,4 +481,36 @@ class ShariffWidget extends WP_Widget {
 } // END class ShariffWidget
 // register Widget 
 add_action('widgets_init', create_function('', 'return register_widget("ShariffWidget");'));
+
+// Admin info needed on version 1.7 because of changed behavior of prior options
+/* Delete the shariff_ignore_notice meta entry upon deactivation - we dont want to leave anything behind! This also resets the entry after an update. */
+function shariff3UU_deactivate() {
+  $users = get_users('role=administrator');
+  foreach ($users as $user) { delete_user_meta($user->ID, 'shariff3UU_ignore_notice'); }
+}
+register_deactivation_hook( __FILE__, 'shariff3UU_deactivate' );
+
+/* Display an update notice that can be dismissed */
+function shariff3UU_admin_notice() {
+  global $current_user ;
+  /* Check that the user hasn't already clicked to ignore the message and can access options */
+  if ( !get_user_meta($current_user->ID, 'shariff3UU_ignore_notice') && current_user_can( 'manage_options' ) ) {
+    echo '<div class="updated"><p>';
+    printf(__('<span>' . __('Please check your ', 'shariff3UU') . '<a href="' .
+    get_bloginfo('wpurl') . '/wp-admin/options-general.php?page=shariff3uu">' .
+    __('Shariff-Settings</a> - We have new detailed options where shariff buttons can be displayed! Also please read the FAQ about planed changes of the mail/mailto service functionality.', 'shariff3UU') .
+    '</span><span style="float:right; margin-top: -8px; font-size:1.8em; font-weight:bold;"><a href="%1$s" style="color#000">&times;</a></span>'), '?shariff3UU_nag_ignore=0');
+    echo '</p></div>';
+  }
+}
+add_action('admin_notices', 'shariff3UU_admin_notice');
+
+/* Helper function for shariff3UU_admin_notice() */
+function shariff3UU_nag_ignore() {
+  global $current_user;
+  /* If user clicks to ignore the notice, add that to their user meta */
+  if ( isset($_GET['shariff3UU_nag_ignore']) && $_GET['shariff3UU_nag_ignore'] == '0' ) { add_user_meta($current_user->ID, 'shariff3UU_ignore_notice', 'true', true); }
+}
+add_action('admin_init', 'shariff3UU_nag_ignore');
+
 ?>

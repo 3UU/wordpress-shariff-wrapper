@@ -52,8 +52,8 @@ msgstr "Buttons vertikal anordnen."
 
 #: shariff.php:69
 #@ shariff3UU
-msgid "Put in the service do you want enable (<code>facebook|twitter|googleplus|whatsapp|mail|printer|pinterest|linkedin|xing|reddit|stumbleupon|info</code>). Use the pipe sign | between two or more services."
-msgstr "Schreibe den Namen des Service, der eingebunden werden soll (<code>facebook|twitter|googleplus|whatsapp|mail|printer|pinterest|linkedin|xing|reddit|stumbleupon|info</code>). Verwende das Pipe-Zeichen | bei zwei oder mehr Services als Trenner."
+msgid "Put in the service do you want enable (<code>facebook|twitter|googleplus|whatsapp|mail|mailto|printer|pinterest|linkedin|xing|reddit|stumbleupon|info</code>). Use the pipe sign | between two or more services."
+msgstr "Schreibe den Namen des Service, der eingebunden werden soll (<code>facebook|twitter|googleplus|whatsapp|mail|mailto|printer|pinterest|linkedin|xing|reddit|stumbleupon|info</code>). Verwende das Pipe-Zeichen | bei zwei oder mehr Services als Trenner."
 
 #: shariff.php:73
 #@ shariff3UU
@@ -87,10 +87,55 @@ msgstr "Titel"
 
 #: shariff.php:83
 #@ shariff3UU
-msgid "CSS style attributes for the CSS container _around_ Shariff:"
-msgstr "CSS Stil-Attribute f&uuml;r den Rahmen-Container _um_ Shariff:"
+msgid "CSS style attributes for the CSS container _around_ Shariff"
+msgstr "CSS Stil-Attribute f&uuml;r den Rahmen-Container _um_ Shariff"
 
 #: shariff.php:149
 #@ shariff3UU
 msgid "please read about it in the FAQ"
 msgstr "bitte lies Details dazu in der FAQ"
+
+# @ shariff3UU
+#: shariff.php:455
+msgid "Please check your "
+msgstr "Bitte &uuml;berpr&uuml;fe die "
+
+# @ shariff3UU
+#: shariff.php:455
+msgid "Shariff-Settings</a> - We have new detailed options where shariff buttons can be displayed! Also please read the FAQ about planed changes of the mail/mailto service functionality."
+msgstr "Shariff-Einstellungen</a> - Wir haben neue und detailliertere Optionen, wo die Shariff-Buttons erscheinen sollen! Ausserdem &auml;ndert sich bald die Funktionalit&auml;t des mail/mailto-Service. Mehr dazu in der FAQ."
+
+# @ shariff3UU
+#: shariff.php:48
+msgid "Check to put Shariff at the end off all posts."
+msgstr "Shariff am Ende von jedem Post einf&uuml;gen (Einzelansicht)."
+
+# @ shariff3UU
+#: shariff.php:52
+msgid "Check to put Shariff at the beginning off all posts."
+msgstr "Shariff am Anfang von jedem Post einf&uuml;gen (Einzelansicht)."
+
+# @ shariff3UU
+#: shariff.php:56
+msgid "Check to put Shariff at the end off all posts on the overview page."
+msgstr "Shariff am Ende von jedem Post einf&uuml;gen (&Uuml;bersichts-Seite)."
+
+# @ shariff3UU
+#: shariff.php:60
+msgid "Check to put Shariff at the beginning off all posts on the overview page."
+msgstr "Shariff am Anfang von jedem Post einf&uuml;gen (&Uuml;bersichts-Seite)."
+
+# @ shariff3UU
+#: shariff.php:64
+msgid "Check to put Shariff at the end off all pages."
+msgstr "Shariff am Ende von jeder Seite einf&uuml;gen."
+
+# @ shariff3UU
+#: shariff.php:68
+msgid "Check to put Shariff at the beginning off all pages."
+msgstr "Shariff am Anfang von jeder Seite einf&uuml;gen."
+
+# @ shariff3UU
+#: shariff.php:129
+msgid "Set the screen name for Twitter (via) to"
+msgstr "Setze f&uuml;r Twitter folgenden Screen-Namen (via)"

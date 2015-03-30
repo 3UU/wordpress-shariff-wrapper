@@ -165,7 +165,26 @@ to manipulate the URI because it is possible a kind of misleading visitors.
 So you should only use it if this is really needed and you do really know
 what do you do. Therefor it is not available within the admin menu. 
 
+= Migration needed =
+Version 1.7: We plan to change the behavior of the service "mail" back to
+the original that provide a email from at the side and not a mailto-link.
+Therfor a new service "mailto" has been defined that provide the mailto
+functionality. So please change you configuration ibefore 1.4.2015 - not a
+joke ;-)
+
 == Changelog ==
+= 1.7 =
+- CHANGES: if no attributes are configured within a shorttag first try to
+  use the option from admin page. However if there are no services
+  configured use the old defaults of Heise to make it backward compatible
+- add the new service attribut `mailto` to prepare getting the original
+  behavior of the Heise code that provide a email from with `mail`
+- add option to put Shariff on overview page too
+- add internal version tracker to enable better migration options in the
+  future
+- optimized css for the info attribute, added priority to the title
+  attribute over DC.title attribute (thanks again to @jplambeck )
+
 = 1.6.1 =
 - fix: again enable WhatsUp on mobile now also works with Mozilla. Sorry
   this has not been become part of the main branche. Therefor it was lost 
