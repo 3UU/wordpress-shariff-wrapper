@@ -67,8 +67,8 @@ msgstr "Change le lien par défaut du bouton \"info\" par:"
 
 #: shariff.php:143
 #@ shariff3UU
-msgid "This configures the default behavior of Shariff for your blog. You can overwrite this in single posts with the options within the <code>[shariff]</code> shorttag."
-msgstr "Ceci configure le réglage par défaut de Shariff pour ton blog. Tu peux écrire des postes seuls avec les  <code>[shariff]</code>."
+msgid "This configures the default behavior of Shariff for your blog. You can overwrite this in single posts or pages with the options within the <code>[shariff]</code> shorttag."
+msgstr "Ceci configure le réglage par défaut de Shariff pour ton blog. Tu peux écrire des postes seuls avec les <code>[shariff]</code>."
 
 #: shariff.php:97
 #@ shariff3UU

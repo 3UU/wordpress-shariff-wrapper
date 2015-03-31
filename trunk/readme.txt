@@ -173,12 +173,20 @@ functionality. So please change you configuration ibefore 1.4.2015 - not a
 joke ;-)
 
 == Changelog ==
+= 1.7.1 =
+- optimize css (thanks again to @jplambeck)
+- code cleanup (No more warnings in debug mode. Perhaps ;-)
+- sanitize admin input (thanks again to @jplambeck)
+- set the title attribute to overwrite get_the_title() now supported
+- fix: check SHARIFF_BACKEND_TMPDIR
+- add uninstall script
+
 = 1.7 =
 - CHANGES: if no attributes are configured within a shorttag first try to
   use the option from admin page. However if there are no services
   configured use the old defaults of Heise to make it backward compatible
 - add the new service attribut `mailto` to prepare getting the original
-  behavior of the Heise code that provide a email from with `mail`
+  behavior of the Heise code that provide a email form with `mail`
 - add option to put Shariff on overview page too
 - add internal version tracker to enable better migration options in the
   future

@@ -67,8 +67,8 @@ msgstr "Ändere den Standard-Link von \"info\" zu"
 
 #: shariff.php:143
 #@ shariff3UU
-msgid "This configures the default behavior of Shariff for your blog. You can overwrite this in single posts with the options within the <code>[shariff]</code> shorttag."
-msgstr "Hier konfigurierst Du das Standard-Verhalten von Shariff für alle Posts im Blog. Es läßt sich in einzelnen Posts mit dem Shorttag <code>[shariff]</code> anpassen."
+msgid "This configures the default behavior of Shariff for your blog. You can overwrite this in single posts or pages  with the options within the <code>[shariff]</code> shorttag."
+msgstr "Hier konfigurierst Du das Standard-Verhalten von Shariff für alle Posts im Blog. Es läßt sich in einzelnen Posts oder Seiten mit dem Shorttag <code>[shariff]</code> anpassen."
 
 #: shariff.php:97
 #@ shariff3UU
