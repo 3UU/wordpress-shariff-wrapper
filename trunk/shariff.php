@@ -3,7 +3,7 @@
  * Plugin Name: Shariff for WordPress posts, pages, themes and as widget
  * Plugin URI: http://www.3uu.org/plugins.htm
  * Description: This is a wrapper to Shariff. Enables shares in posts and/or themes with Twitter, Facebook, GooglePlus... with no harm for visitors privacy.
- * Version: 1.7.1
+ * Version: 1.8
  * Author: Ritze
  * Author URI: http://www.DatenVerwurstungsZentrale.com/
  * License: http://opensource.org/licenses/MIT
@@ -122,7 +122,7 @@ function shariff3UU_options_init(){
   );
 
   add_settings_field( 'shariff3UU_text_services', 
-    __( 'Put in the service do you want enable (<code>facebook|twitter|googleplus|whatsapp|mail|mailto|printer|pinterest|linkedin|xing|reddit|stumbleupon|info</code>). Use the pipe sign | between two or more services.', 'shariff3UU' ), 
+    __( 'Put in the service do you want enable (<code>facebook|twitter|googleplus|whatsapp|mail|mailto| printer|pinterest|linkedin|xing|reddit|stumbleupon|info</code>). Use the pipe sign | between two or more services.', 'shariff3UU' ), 
     'shariff3UU_text_services_render', 'pluginPage', 'shariff3UU_pluginPage_section' 
   );
 
@@ -136,13 +136,23 @@ function shariff3UU_options_init(){
   );
   
   add_settings_field(
+    'shariff3UU_text_twittervia', __( 'Set the screen name for Twitter (via) to', 'shariff3UU' ),
+    'shariff3UU_text_twittervia_render', 'pluginPage', 'shariff3UU_pluginPage_section'
+  );
+
+  add_settings_field(
     'shariff3UU_text_style', __( 'CSS style attributes for the CSS container _around_ Shariff', 'shariff3UU' ),
     'shariff3UU_text_style_render', 'pluginPage', 'shariff3UU_pluginPage_section'
   );
+              
+  // New alignment option
+  add_settings_field( 'shariff3UU_radio_align', __( 'Select the alignment of the Shariff buttons', 'shariff3UU' ),
+    'shariff3UU_radio_align_render', 'pluginPage', 'shariff3UU_pluginPage_section'
+  );
   
-  add_settings_field(
-    'shariff3UU_text_twittervia', __( 'Set the screen name for Twitter (via) to', 'shariff3UU' ),
-    'shariff3UU_text_twittervia_render', 'pluginPage', 'shariff3UU_pluginPage_section'
+  // New alignment option for the widget
+  add_settings_field( 'shariff3UU_radio_align_widget', __( 'Select the alignment of the Shariff buttons in the widget', 'shariff3UU' ),
+    'shariff3UU_radio_align_widget_render', 'pluginPage', 'shariff3UU_pluginPage_section'
   );
  
 }
@@ -159,25 +169,18 @@ function shariff3UU_options_sanitize( $input ){
   if(isset($input["language"])) 		$valid["language"] 			= sanitize_text_field( $input["language"] );
   if(isset($input["theme"])) 			$valid["theme"] 			= sanitize_text_field( $input["theme"] );
   if(isset($input["vertical"])) 		$valid["vertical"] 			= absint( $input["vertical"] );
-  if(isset($input["services"])) 		$valid["services"] 			= sanitize_text_field( $input["services"] );
+  if(isset($input["services"])) 		$valid["services"] 			= str_replace(' ', '',sanitize_text_field( $input["services"] ));
   if(isset($input["backend"])) 			$valid["backend"] 			= absint( $input["backend"] );
   if(isset($input["twitter_via"])) 		$valid["twitter_via"] 			= str_replace('@', '', sanitize_text_field( $input["twitter_via"] ));
   // waiting for fix https://core.trac.wordpress.org/ticket/28015 in order to use esc_url_raw instead for info_url
   if(isset($input["info_url"])) 		$valid["info_url"] 			= sanitize_text_field( $input["info_url"] );
   if(isset($input["style"])) 			$valid["style"] 			= sanitize_text_field( $input["style"] );
+  if(isset($input["align"])) 			$valid["align"] 			= sanitize_text_field( $input["align"] );
+  if(isset($input["align_widget"])) 	$valid["align_widget"] 		= sanitize_text_field( $input["align_widget"] );
   return $valid;
 }
 
 // render admin options: use isset() to prevent errors while debug mode is on 
-
-#function shariff3UU_checkbox_add_all_render(){ 
-#  echo "<input type='checkbox' name='shariff3UU[add_all]' ".checked( $GLOBALS["shariff3UUoptions"]["add_all"], 1, 0 )." value='1'>";
-#}
-
-#function shariff3UU_checkbox_add_before_all_render(){
-#  echo "<input type='checkbox' name='shariff3UU[add_before_all]' ". checked( $GLOBALS["shariff3UUoptions"]["add_before_all"], 1, 0 ) ." value='1'>";
-#}
-
 function shariff3UU_checkbox_add_after_all_posts_render(){
   echo "<input type='checkbox' name='shariff3UU[add_after_all_posts]' ";
   if(isset($GLOBALS["shariff3UUoptions"]["add_after_all_posts"])) echo  checked( $GLOBALS["shariff3UUoptions"]["add_after_all_posts"], 1, 0 );
@@ -263,14 +266,32 @@ function shariff3UU_text_info_url_render(){
   echo "<input type='text' name='shariff3UU[info_url]' value='". esc_html($info_url) ."' size='50' placeholder='http://ct.de/-2467514'>";
 }
 
-function shariff3UU_text_style_render(){
-  (isset($GLOBALS['shariff3UUoptions']['style'])) ? $style = $GLOBALS['shariff3UUoptions']['style'] : '';  
-  echo "<input type='text' name='shariff3UU[style]' value='". esc_html($style) ."' size='50' placeholder='please read about it in the FAQ'>";
-}
-
 function shariff3UU_text_twittervia_render(){
   (isset($GLOBALS['shariff3UUoptions']['twitter_via'])) ? $twitter_via = $GLOBALS['shariff3UUoptions']['twitter_via'] : '';
   echo "<input type='text' name='shariff3UU[twitter_via]' value='". $twitter_via ."' size='50' placeholder='screenname'>";
+}
+
+function shariff3UU_text_style_render(){
+  (isset($GLOBALS['shariff3UUoptions']['style'])) ? $style = $GLOBALS['shariff3UUoptions']['style'] : '';
+  echo "<input type='text' name='shariff3UU[style]' value='". esc_html($style) ."' size='50' placeholder='please read about it in the FAQ'>";
+}
+
+function shariff3UU_radio_align_render(){
+  $options = $GLOBALS["shariff3UUoptions"]; if(!isset($options["align"]))$options["align"]='flex-start';
+  echo "<table border='0'><tr>
+  <td><input type='radio' name='shariff3UU[align]' value='flex-start' ". checked( $options['align'], 'flex-start',0 ) .">left</td>
+  <td><input type='radio' name='shariff3UU[align]' value='center' ".     checked( $options['align'], 'center',0 )     .">center</td>
+  <td><input type='radio' name='shariff3UU[align]' value='flex-end' ".   checked( $options['align'], 'flex-end',0 )   .">right</td>
+  </tr></table>";
+}
+
+function shariff3UU_radio_align_widget_render(){
+  $options = $GLOBALS["shariff3UUoptions"]; if(!isset($options["align_widget"]))$options["align_widget"]='flex-start';
+  echo "<table border='0'><tr>
+  <td><input type='radio' name='shariff3UU[align_widget]' value='flex-start' ".	checked( $options['align_widget'], 'flex-start',0 ) .">left</td>
+  <td><input type='radio' name='shariff3UU[align_widget]' value='center' ". 	checked( $options['align_widget'], 'center',0 )     .">center</td>
+  <td><input type='radio' name='shariff3UU[align_widget]' value='flex-end' ". 	checked( $options['align_widget'], 'flex-end',0 )   .">right</td>
+  </tr></table>";
 }
                         
 function shariff3UU_options_section_callback(){
@@ -384,14 +405,14 @@ function shariffPosts($content) {
   }elseif( is_singular( 'post' ) ){
     // ab version 1.7. Die zweite Bedingung kann eigentlich raus. Vorsichtshalber in der Version
     // mal trotzdem pruefen, damit wir bei nem Update-Problem nicht doppelt anzeigen.
-    if(isset($shariff3UU["add_before_all_posts"]) && isset($shariff3UU["add_before_all"])) 	if($shariff3UU["add_before_all_posts"]=='1' && $shariff3UU["add_before_all"]!='1') $content=buildShariffShorttag().$content;
-    if(isset($shariff3UU["add_after_all_posts"]) && isset($shariff3UU["add_all"]))		if($shariff3UU["add_after_all_posts"]=='1' && $shariff3UU["add_all"]!='1') $content.=buildShariffShorttag();
+    if(isset($shariff3UU["add_before_all_posts"]) && $shariff3UU["add_before_all_posts"]=='1' && ((isset($shariff3UU["add_before_all"]) && $shariff3UU["add_before_all"]!='1') || (!isset($shariff3UU["add_before_all"])))) $content=buildShariffShorttag().$content;
+    if(isset($shariff3UU["add_after_all_posts"]) && $shariff3UU["add_after_all_posts"]=='1' && ((isset($shariff3UU["add_all"]) && $shariff3UU["add_all"]!='1') || (!isset($shariff3UU["add_all"])))) $content.=buildShariffShorttag();
   } elseif ( is_singular( 'page' ) ) {
     // ab version 1.7. Die zweite Bedingung kann eigentlich raus. Vorsichtshalber in der Version
     // mal trotzdem pruefen, damit wir bei nem Update-Problem nicht doppelt anzeigen. Fliegt dann
     // zusammen mit dem else-Zweig bei der naechsten Version raus.
-    if(isset($shariff3UU["add_before_all_pages"]) && isset($shariff3UU["add_before_all"]))	if($shariff3UU["add_before_all_pages"]=='1' && $shariff3UU["add_before_all"]!='1') $content=buildShariffShorttag().$content;
-    if(isset($shariff3UU["add_after_all_pages"]) && isset($shariff3UU["add__all"]))		if($shariff3UU["add_after_all_pages"]=='1' && $shariff3UU["add__all"]!='1') $content.=buildShariffShorttag();
+    if(isset($shariff3UU["add_before_all_pages"]) && $shariff3UU["add_before_all_pages"]=='1' && ((isset($shariff3UU["add_before_all"]) && $shariff3UU["add_before_all"]!='1') || (!isset($shariff3UU["add_before_all"])))) $content=buildShariffShorttag().$content;
+    if(isset($shariff3UU["add_after_all_pages"]) && $shariff3UU["add_after_all_pages"]=='1' && ((isset($shariff3UU["add_all"]) && $shariff3UU["add_all"]!='1') || (!isset($shariff3UU["add_all"])))) $content.=buildShariffShorttag();
   }else{
     // auf allen Einzelseiten
     // vor version 1.7
@@ -404,6 +425,41 @@ function shariffPosts($content) {
 
   return $content;
 }
+
+// add the align-style option to the css file
+function shariff3UU_align_styles() {
+  $shariff3UU = get_option( 'shariff3UU' );
+  $custom_css = '';
+
+  if(isset($shariff3UU["align"]) && $shariff3UU["align"]!='none') {
+     $align = $shariff3UU["align"];
+//     wp_enqueue_style('shariffcss', plugins_url('/shariff.min.local.css',__FILE__));
+     $custom_css .= "
+       .shariff { justify-content: {$align} }
+       .shariff { -webkit-justify-content: {$align} }
+       .shariff { -ms-flex-pack: {$align} }
+       .shariff ul { justify-content: {$align} }
+       .shariff ul { -webkit-justify-content: {$align} }
+       .shariff ul { -ms-flex-pack: {$align} }
+       ";
+  }
+
+  if(isset($shariff3UU["align_widget"]) && $shariff3UU["align_widget"]!='none') {
+     $align_widget = $shariff3UU["align_widget"];
+     $custom_css .= "
+       .widget .shariff { justify-content: {$align_widget} } 
+       .widget .shariff { -webkit-justify-content: {$align_widget} }
+       .widget .shariff { -ms-flex-pack: {$align_widget} }
+       .widget .shariff ul { justify-content: {$align_widget} }
+       .widget .shariff ul { -webkit-justify-content: {$align_widget} }
+       .widget .shariff ul { -ms-flex-pack: {$align_widget} }
+       ";
+  }
+
+  if($custom_css != '') wp_add_inline_style( 'shariffcss', $custom_css );
+//  else wp_enqueue_style('shariffcss', plugins_url('/shariff.min.local.css',__FILE__));
+}
+add_action( 'wp_enqueue_scripts', 'shariff3UU_align_styles' );
 
 // Render the shorttag to the HTML shorttag of Shariff
 function RenderShariff( $atts , $content = null) {
@@ -426,6 +482,8 @@ function RenderShariff( $atts , $content = null) {
   // the Styles/Fonts (We use a local copy of fonts because there is no
   // reason to send data to the hoster of the fonts. Am I paranoid? ;-)
   wp_enqueue_style('shariffcss',plugins_url('/shariff.min.local.css',__FILE__));
+  // make sure that use default WP jquery is loaded
+  wp_enqueue_script('jquery');
   // the JS must be loaded at footer. Make sure that wp_footer() is present in yout theme!
   wp_enqueue_script('shariffjs', plugins_url('/shariff.js',__FILE__),'','',true);
   
@@ -435,7 +493,6 @@ function RenderShariff( $atts , $content = null) {
   // if we have a style attribute
   if(array_key_exists('style', $atts))$output.='<div class="ShariffSC" style="'. esc_html($atts['style']) .'">';
   $output.='<div class=\'shariff\'';
-  $output.=' data-title=\''.get_the_title().'\'';
 
   // set a url attribute. Usefull e.g. in widgets that should point to the domain instead of page
   if(array_key_exists('url', $atts)) $output.=' data-url=\''.esc_url($atts['url']).'\'';
@@ -447,7 +504,6 @@ function RenderShariff( $atts , $content = null) {
       
   // set options
   if(array_key_exists('info_url', $atts))    $output.=" data-info-url='".	esc_html($atts['info_url'])."'";
-  if(array_key_exists('twitter_via', $atts)) $output.=" data-twitter-via='".	esc_html($atts['twitter_via'])."'";
   if(array_key_exists('orientation', $atts)) $output.=" data-orientation='".	esc_html($atts['orientation'])."'";
   if(array_key_exists('theme', $atts))       $output.=" data-theme='".		esc_html($atts['theme'])."'";
   // rtzTodo: use geoip if possible
@@ -551,6 +607,7 @@ class ShariffWidget extends WP_Widget {
     $wp_title = wp_title( '', false);
     if(!empty($wp_title)) $page_title = ltrim($wp_title); // wp_title for all pages that have it
     else $page_title = get_bloginfo('name'); // the site name for static start pages where wp_title is not set
+    $shorttag=substr($shorttag,0,-1)." title='".$page_title."' url='".$page_url."']"; // add url and title to the shorttag
     // process the shortcode
     echo do_shortcode($shorttag);
     // close Container
@@ -570,15 +627,12 @@ register_deactivation_hook( __FILE__, 'shariff3UU_deactivate' );
 
 /* Display an update notice that can be dismissed */
 function shariff3UU_admin_notice() {
-  global $current_user ;
-  /* Check that the user hasn't already clicked to ignore the message and can access options */
-  if ( !get_user_meta($current_user->ID, 'shariff3UU_ignore_notice') && current_user_can( 'manage_options' ) ) {
-    echo '<div class="updated"><p>';
-    printf(__('<span>' . __('Please check your ', 'shariff3UU') . '<a href="' .
-    get_bloginfo('wpurl') . '/wp-admin/options-general.php?page=shariff3uu">' .
-    __('Shariff-Settings</a> - We have new detailed options where shariff buttons can be displayed! Also please read the FAQ about planed changes of the mail/mailto service functionality.', 'shariff3UU') .
-    '</span><span style="float:right; margin-top: -8px; font-size:1.8em; font-weight:bold;"><a href="%1$s" style="color#000">&times;</a></span>'), '?shariff3UU_nag_ignore=0');
-    echo '</p></div>';
+  global $current_user;
+  $user_id = $current_user->ID;
+  // Check that the user hasn't already clicked to ignore the message and can access options
+  if ( !get_user_meta($user_id, 'shariff3UU_ignore_notice') && current_user_can( 'manage_options' ) ) {
+    $link = add_query_arg( 'shariff3UU_nag_ignore', '0', esc_url_raw($_SERVER['REQUEST_URI']));
+    echo "<div class='updated'><a href='" . esc_url($link) . "' class='shariff_admininfo_cross'><div class='shariff_cross_icon'></div></a><p>" . __('Please check your ', 'shariff3UU') . "<a href='" . get_bloginfo('wpurl') . "/wp-admin/options-general.php?page=shariff3uu'>" . __('Shariff-Settings</a> - We have new detailed options where shariff buttons can be displayed! Also please read the FAQ about planed changes of the mail/mailto service functionality.', 'shariff3UU') . "</span></p></div>";
   }
 }
 add_action('admin_notices', 'shariff3UU_admin_notice');
@@ -586,8 +640,11 @@ add_action('admin_notices', 'shariff3UU_admin_notice');
 /* Helper function for shariff3UU_admin_notice() */
 function shariff3UU_nag_ignore() {
   global $current_user;
-  /* If user clicks to ignore the notice, add that to their user meta */
-  if ( isset($_GET['shariff3UU_nag_ignore']) && $_GET['shariff3UU_nag_ignore'] == '0' ) { add_user_meta($current_user->ID, 'shariff3UU_ignore_notice', 'true', true); }
+  $user_id = $current_user->ID;
+  // If user clicks to ignore the notice, add that to their user meta
+  if ( isset($_GET['shariff3UU_nag_ignore']) && sanitize_text_field($_GET['shariff3UU_nag_ignore'])=='0' ) {
+    add_user_meta($user_id, 'shariff3UU_ignore_notice', 'true', true);
+  }
 }
 add_action('admin_init', 'shariff3UU_nag_ignore');
 

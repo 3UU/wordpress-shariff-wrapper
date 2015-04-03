@@ -173,6 +173,12 @@ functionality. So please change you configuration ibefore 1.4.2015 - not a
 joke ;-)
 
 == Changelog ==
+= 1.8 =
+- add options to place Shariff (right/left/center)
+- fix: migration check
+- css optimized
+- use the WP bundled jQuery now (save about 80% bandwidth :-)
+
 = 1.7.1 =
 - optimize css (thanks again to @jplambeck)
 - code cleanup (No more warnings in debug mode. Perhaps ;-)

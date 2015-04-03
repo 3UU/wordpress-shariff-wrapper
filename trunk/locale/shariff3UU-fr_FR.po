@@ -52,8 +52,8 @@ msgstr "Cocher pour afficher les boutons <b>verticalement</b>."
 
 #: shariff.php:69
 #@ shariff3UU
-msgid "Put in the service do you want enable (<code>facebook|twitter|googleplus|whatsapp|mail|mailto|printer|pinterest|linkedin|xing|reddit|stumbleupon|info</code>). Use the pipe sign | between two or more services."
-msgstr "Entrer le service que vous voulez activer (<code>facebook|twitter|googleplus|whatsapp|mail|mailto|printer|pinterest|linkedin|xing|reddit|stumbleupon|info</code>). Utiliser la séparation | entre deux services ou plus."
+msgid "Put in the service do you want enable (<code>facebook|twitter|googleplus|whatsapp|mail|mailto| printer|pinterest|linkedin|xing|reddit|stumbleupon|info</code>). Use the pipe sign | between two or more services."
+msgstr "Entrer le service que vous voulez activer (<code>facebook|twitter|googleplus|whatsapp|mail|mailto| printer|pinterest|linkedin|xing|reddit|stumbleupon|info</code>). Utiliser la séparation | entre deux services ou plus."
 
 #: shariff.php:73
 #@ shariff3UU
@@ -139,3 +139,13 @@ msgstr "Shariff am Anfang von jeder Seite einf&uuml;gen."
 #: shariff.php:129
 msgid "Set the screen name for Twitter (via) to"
 msgstr "Setze f&uuml;r Twitter folgenden Screen-Namen (via)"
+
+# @ shariff3UU
+#: shariff.php:149
+msgid "Select the alignment of the Shariff buttons"
+msgstr "Positioniere die Shariff-Buttons"
+
+# @ shariff3UU
+#: shariff.php:154
+msgid "Select the alignment of the Shariff buttons in the widget"
+msgstr "Positioniere die Shariff-Buttons im Widget"
