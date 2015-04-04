@@ -3,7 +3,7 @@
  * Plugin Name: Shariff for WordPress posts, pages, themes and as widget
  * Plugin URI: http://www.3uu.org/plugins.htm
  * Description: This is a wrapper to Shariff. Enables shares in posts and/or themes with Twitter, Facebook, GooglePlus... with no harm for visitors privacy.
- * Version: 1.8
+ * Version: 1.8.1
  * Author: Ritze
  * Author URI: http://www.DatenVerwurstungsZentrale.com/
  * License: http://opensource.org/licenses/MIT
@@ -430,10 +430,10 @@ function shariffPosts($content) {
 function shariff3UU_align_styles() {
   $shariff3UU = get_option( 'shariff3UU' );
   $custom_css = '';
+  wp_enqueue_style('shariffcss', plugins_url('/shariff.min.local.css',__FILE__));
 
   if(isset($shariff3UU["align"]) && $shariff3UU["align"]!='none') {
      $align = $shariff3UU["align"];
-//     wp_enqueue_style('shariffcss', plugins_url('/shariff.min.local.css',__FILE__));
      $custom_css .= "
        .shariff { justify-content: {$align} }
        .shariff { -webkit-justify-content: {$align} }
@@ -457,7 +457,6 @@ function shariff3UU_align_styles() {
   }
 
   if($custom_css != '') wp_add_inline_style( 'shariffcss', $custom_css );
-//  else wp_enqueue_style('shariffcss', plugins_url('/shariff.min.local.css',__FILE__));
 }
 add_action( 'wp_enqueue_scripts', 'shariff3UU_align_styles' );
 
@@ -479,9 +478,6 @@ function RenderShariff( $atts , $content = null) {
     if(isset($shariff3UU["backend"]))		if($shariff3UU["backend"]=='1') 		$atts["backend"]='on';
   }
 
-  // the Styles/Fonts (We use a local copy of fonts because there is no
-  // reason to send data to the hoster of the fonts. Am I paranoid? ;-)
-  wp_enqueue_style('shariffcss',plugins_url('/shariff.min.local.css',__FILE__));
   // make sure that use default WP jquery is loaded
   wp_enqueue_script('jquery');
   // the JS must be loaded at footer. Make sure that wp_footer() is present in yout theme!

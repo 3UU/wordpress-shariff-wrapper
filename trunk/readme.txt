@@ -173,6 +173,13 @@ functionality. So please change you configuration ibefore 1.4.2015 - not a
 joke ;-)
 
 == Changelog ==
+= 1.8.1 =
+- remove the relativ network-path from service declarations (pinterest,
+  reddit, stumbleupon, xing) because it really makes no sense to change 
+  the protocol within a popup of a secure target to unsecure connections
+  depending on the protocol the page is using
+- change name of jQuery object to avoid conflicts with other plugins/themes
+
 = 1.8 =
 - add options to place Shariff (right/left/center)
 - fix: migration check
