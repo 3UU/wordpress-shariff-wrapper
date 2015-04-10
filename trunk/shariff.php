@@ -3,7 +3,7 @@
  * Plugin Name: Shariff for WordPress posts, pages, themes and as widget
  * Plugin URI: http://www.3uu.org/plugins.htm
  * Description: This is a wrapper to Shariff. Enables shares in posts and/or themes with Twitter, Facebook, GooglePlus... with no harm for visitors privacy.
- * Version: 1.8.1
+ * Version: 1.9.0
  * Author: Ritze
  * Author URI: http://www.DatenVerwurstungsZentrale.com/
  * License: http://opensource.org/licenses/MIT
@@ -32,6 +32,58 @@ if ( is_admin() ){
   add_action( 'init', 'shariff3UU_init_locale' );
 }
 
+// Update function to perform tasks _once_ after an update, based on version number to work for automatic as well as manual updates
+function shariff3UU_update() {
+ 
+/******************** VERSION ANPASSEN *******************************/
+$code_version = "1.9.0"; // Set code version - needs to be adjusted for every new version!
+/******************** VERSION ANPASSEN *******************************/
+
+  // get options
+  $GLOBALS["shariff3UUoptions"]=get_option( 'shariff3UU' );
+  
+  // check version
+  if(empty($GLOBALS["shariff3UUoptions"]["version"]) || version_compare($GLOBALS["shariff3UUoptions"]["version"], $code_version) == '-1') {
+    /* Start update procedures - Everything that shall be done once after an update goes here */
+
+   // Migration < v 1.7
+    if(empty($GLOBALS["shariff3UUoptions"]["version"]) || $GLOBALS["shariff3UUoptions"]["version"] < "1.7"){
+      if(isset($GLOBALS["shariff3UUoptions"]["add_all"])){
+       if($GLOBALS["shariff3UUoptions"]["add_all"]=='1'){ 
+          $GLOBALS["shariff3UUoptions"]["add_after_all_posts"]='1'; $GLOBALS["shariff3UUoptions"]["add_after_all_pages"]='1';
+          unset($GLOBALS["shariff3UUoptions"]["add_all"]);
+        }
+      }
+     if(isset($GLOBALS["shariff3UUoptions"]["add_before_all"])){
+        if($GLOBALS["shariff3UUoptions"]["add_before_all"]=='1'){ 
+          $GLOBALS["shariff3UUoptions"]["add_before_all_posts"]='1'; $GLOBALS["shariff3UUoptions"]["add_before_all_pages"]='1';
+         unset($GLOBALS["shariff3UUoptions"]["add_before_all"]);
+        }
+      } 
+   }
+    // End Migration < v 1.7
+
+    // Delete user meta entry shariff_ignore_notice to display update message again after an update
+    $users = get_users('role=administrator');
+    foreach ($users as $user) { if( !get_user_meta($user, 'shariff3UU_ignore_notice' )) { delete_user_meta($user->ID, 'shariff3UU_ignore_notice'); } }
+
+    /* End update procedures */
+
+    // Is it a new installation? Used for the new default behaviour regarding missing options in the shorttag.
+    if(empty($GLOBALS["shariff3UUoptions"]["version"])) $GLOBALS["shariff3UUoptions"]["new"]='1';
+
+    // Update options version
+    $GLOBALS["shariff3UUoptions"]["version"] = $code_version;
+
+    // Remove empty elements
+    $shariff3UUoptions = array_filter($GLOBALS["shariff3UUoptions"]);
+
+    // Save to options table
+    update_option( 'shariff3UU', $shariff3UUoptions );
+  }
+ }
+add_action('admin_init', 'shariff3UU_update');
+
 // css for admin e.g. info notice
 function admin_style() {
     wp_enqueue_style('admin_css', plugins_url('admin.css', __FILE__));
@@ -54,25 +106,6 @@ function shariff3UU_options_init(){
   // get options
   $GLOBALS["shariff3UUoptions"]=get_option( 'shariff3UU' );
 
-  // Migration < v 1.7
-  if(empty($GLOBALS["shariff3UUoptions"]["version"]) || $GLOBALS["shariff3UUoptions"]["version"] < "1.7"){
-    if(isset($GLOBALS["shariff3UUoptions"]["add_all"])){
-      if($GLOBALS["shariff3UUoptions"]["add_all"]=='1'){ 
-        $GLOBALS["shariff3UUoptions"]["add_after_all_posts"]='1'; $GLOBALS["shariff3UUoptions"]["add_after_all_pages"]='1';
-        unset($GLOBALS["shariff3UUoptions"]["add_all"]);
-      }
-    }
-    if(isset($GLOBALS["shariff3UUoptions"]["add_before_all"])){
-      if($GLOBALS["shariff3UUoptions"]["add_before_all"]=='1'){ 
-        $GLOBALS["shariff3UUoptions"]["add_before_all_posts"]='1'; $GLOBALS["shariff3UUoptions"]["add_before_all_pages"]='1';
-        unset($GLOBALS["shariff3UUoptions"]["add_before_all"]);
-      }
-    } 
-    $GLOBALS["shariff3UUoptions"]["version"]="1.7";
-    update_option( 'shariff3UU', $GLOBALS["shariff3UUoptions"] );
-  }
-  // ENDE Migration < v 1.7
-  
   add_settings_section( 'shariff3UU_pluginPage_section', __( 'Enable Shariff for all post and configure the options with these settings.', 'shariff3UU' ),
     'shariff3UU_options_section_callback', 'pluginPage'
   );
@@ -122,7 +155,7 @@ function shariff3UU_options_init(){
   );
 
   add_settings_field( 'shariff3UU_text_services', 
-    __( 'Put in the service do you want enable (<code>facebook|twitter|googleplus|whatsapp|mail|mailto| printer|pinterest|linkedin|xing|reddit|stumbleupon|info</code>). Use the pipe sign | between two or more services.', 'shariff3UU' ), 
+    __( 'Put in the service do you want enable (<code>facebook|twitter|googleplus|whatsapp|mail|mailto|printer| pinterest|linkedin|xing|reddit|stumbleupon|flattr|info</code>). Use the pipe sign | between two or more services.', 'shariff3UU' ), 
     'shariff3UU_text_services_render', 'pluginPage', 'shariff3UU_pluginPage_section' 
   );
 
@@ -138,6 +171,11 @@ function shariff3UU_options_init(){
   add_settings_field(
     'shariff3UU_text_twittervia', __( 'Set the screen name for Twitter (via) to', 'shariff3UU' ),
     'shariff3UU_text_twittervia_render', 'pluginPage', 'shariff3UU_pluginPage_section'
+  );
+
+  add_settings_field(
+    'shariff3UU_text_flattruser', __( 'Set the username for Flattr to', 'shariff3UU' ),
+    'shariff3UU_text_flattruser_render', 'pluginPage', 'shariff3UU_pluginPage_section'
   );
 
   add_settings_field(
@@ -172,11 +210,16 @@ function shariff3UU_options_sanitize( $input ){
   if(isset($input["services"])) 		$valid["services"] 			= str_replace(' ', '',sanitize_text_field( $input["services"] ));
   if(isset($input["backend"])) 			$valid["backend"] 			= absint( $input["backend"] );
   if(isset($input["twitter_via"])) 		$valid["twitter_via"] 			= str_replace('@', '', sanitize_text_field( $input["twitter_via"] ));
+  if(isset($input["flattruser"]))    		$valid["flattruser"]       		= str_replace('@', '', sanitize_text_field( $input["flattruser"] ));
   // waiting for fix https://core.trac.wordpress.org/ticket/28015 in order to use esc_url_raw instead for info_url
   if(isset($input["info_url"])) 		$valid["info_url"] 			= sanitize_text_field( $input["info_url"] );
   if(isset($input["style"])) 			$valid["style"] 			= sanitize_text_field( $input["style"] );
   if(isset($input["align"])) 			$valid["align"] 			= sanitize_text_field( $input["align"] );
-  if(isset($input["align_widget"])) 	$valid["align_widget"] 		= sanitize_text_field( $input["align_widget"] );
+  if(isset($input["align_widget"])) 		$valid["align_widget"] 			= sanitize_text_field( $input["align_widget"] );
+  //rtzrtz20150410: Bei Gelegenheit checken, ob version und new ueberhaupt irgendwo durch user-Input gesetzt werden koennen. 
+  // Hier auf jeden Fall unschaedlich, aber vielleicht auch unnotig. 
+  if(isset($input["version"]))   		$valid["version"]    			= sanitize_text_field( $input["version"] );
+  if(isset($input["new"]))   			$valid["new"]    			= absint( $input["new"] );
   return $valid;
 }
 
@@ -213,7 +256,7 @@ function shariff3UU_checkbox_add_after_all_pages_render(){
 
 function shariff3UU_checkbox_add_before_all_pages_render(){
   echo "<input type='checkbox' name='shariff3UU[add_before_all_pages]' ";
-  if(isset($GLOBALS["shariff3UUoptions"]["add_after_all_pages"])) echo checked( $GLOBALS["shariff3UUoptions"]["add_before_all_pages"], 1, 0 );
+  if(isset($GLOBALS["shariff3UUoptions"]["add_before_all_pages"])) echo checked( $GLOBALS["shariff3UUoptions"]["add_before_all_pages"], 1, 0 );
   echo " value='1'>";
 }
 
@@ -245,7 +288,7 @@ function shariff3UU_checkbox_vertical_render(){
 }
 
 function shariff3UU_text_services_render(){ 
-  (isset($GLOBALS["shariff3UUoptions"]["services"])) ? $services = $GLOBALS["shariff3UUoptions"]["services"] : '';
+  (isset($GLOBALS["shariff3UUoptions"]["services"])) ? $services = $GLOBALS["shariff3UUoptions"]["services"] : $services = '';
   echo "<input type='text' name='shariff3UU[services]' value='". esc_html($services) ."' size='50' placeholder='twitter|facebook|googleplus|info'>";
 }
 
@@ -262,35 +305,40 @@ function shariff3UU_checkbox_backend_render(){
 }
 
 function shariff3UU_text_info_url_render(){
-  (isset($GLOBALS['shariff3UUoptions']['info_url'])) ? $info_url = $GLOBALS['shariff3UUoptions']['info_url'] : '';  
+  (isset($GLOBALS['shariff3UUoptions']['info_url'])) ? $info_url = $GLOBALS['shariff3UUoptions']['info_url'] : $info_url = '';  
   echo "<input type='text' name='shariff3UU[info_url]' value='". esc_html($info_url) ."' size='50' placeholder='http://ct.de/-2467514'>";
 }
 
 function shariff3UU_text_twittervia_render(){
-  (isset($GLOBALS['shariff3UUoptions']['twitter_via'])) ? $twitter_via = $GLOBALS['shariff3UUoptions']['twitter_via'] : '';
+  (isset($GLOBALS['shariff3UUoptions']['twitter_via'])) ? $twitter_via = $GLOBALS['shariff3UUoptions']['twitter_via'] : $twitter_via = '';
   echo "<input type='text' name='shariff3UU[twitter_via]' value='". $twitter_via ."' size='50' placeholder='screenname'>";
 }
 
+function shariff3UU_text_flattruser_render(){
+  (isset($GLOBALS['shariff3UUoptions']['flattruser'])) ? $flattruser = $GLOBALS['shariff3UUoptions']['flattruser'] : $flattruser = '';
+  echo "<input type='text' name='shariff3UU[flattruser]' value='". $flattruser ."' size='50' placeholder='username'>";
+}
+
 function shariff3UU_text_style_render(){
-  (isset($GLOBALS['shariff3UUoptions']['style'])) ? $style = $GLOBALS['shariff3UUoptions']['style'] : '';
-  echo "<input type='text' name='shariff3UU[style]' value='". esc_html($style) ."' size='50' placeholder='please read about it in the FAQ'>";
+  (isset($GLOBALS['shariff3UUoptions']['style'])) ? $style = $GLOBALS['shariff3UUoptions']['style'] : $style = '';
+  echo "<input type='text' name='shariff3UU[style]' value='". esc_html($style) ."' size='50' placeholder='".__( 'please read about it in the FAQ', 'shariff3UU' )."'>";
 }
 
 function shariff3UU_radio_align_render(){
   $options = $GLOBALS["shariff3UUoptions"]; if(!isset($options["align"]))$options["align"]='flex-start';
   echo "<table border='0'><tr>
-  <td><input type='radio' name='shariff3UU[align]' value='flex-start' ". checked( $options['align'], 'flex-start',0 ) .">left</td>
-  <td><input type='radio' name='shariff3UU[align]' value='center' ".     checked( $options['align'], 'center',0 )     .">center</td>
-  <td><input type='radio' name='shariff3UU[align]' value='flex-end' ".   checked( $options['align'], 'flex-end',0 )   .">right</td>
+  <td><input type='radio' name='shariff3UU[align]' value='flex-start' ". checked( $options['align'], 'flex-start',0 ) .">".__( 'left', 'shariff3UU' )."</td>
+  <td><input type='radio' name='shariff3UU[align]' value='center' ".     checked( $options['align'], 'center',0 )     .">".__( 'center', 'shariff3UU' )."</td>
+  <td><input type='radio' name='shariff3UU[align]' value='flex-end' ".   checked( $options['align'], 'flex-end',0 )   .">".__( 'right', 'shariff3UU' )."</td>
   </tr></table>";
 }
 
 function shariff3UU_radio_align_widget_render(){
   $options = $GLOBALS["shariff3UUoptions"]; if(!isset($options["align_widget"]))$options["align_widget"]='flex-start';
   echo "<table border='0'><tr>
-  <td><input type='radio' name='shariff3UU[align_widget]' value='flex-start' ".	checked( $options['align_widget'], 'flex-start',0 ) .">left</td>
-  <td><input type='radio' name='shariff3UU[align_widget]' value='center' ". 	checked( $options['align_widget'], 'center',0 )     .">center</td>
-  <td><input type='radio' name='shariff3UU[align_widget]' value='flex-end' ". 	checked( $options['align_widget'], 'flex-end',0 )   .">right</td>
+  <td><input type='radio' name='shariff3UU[align_widget]' value='flex-start' ".	checked( $options['align_widget'], 'flex-start',0 ) .">".__( 'left', 'shariff3UU' )."</td>
+  <td><input type='radio' name='shariff3UU[align_widget]' value='center' ". 	checked( $options['align_widget'], 'center',0 )     .">".__( 'center', 'shariff3UU' )."</td>
+  <td><input type='radio' name='shariff3UU[align_widget]' value='flex-end' ". 	checked( $options['align_widget'], 'flex-end',0 )   .">".__( 'right', 'shariff3UU' )."</td>
   </tr></table>";
 }
                         
@@ -299,8 +347,9 @@ function shariff3UU_options_section_callback(){
 }
 
 function shariff3UU_options_page(){ 
+  $GLOBALS["shariff3UUoptions"]=get_option( 'shariff3UU' );
   /* The <div> with the class "wrap" makes sure that messages are displayed below the title and not above */
-  echo '<div class="wrap"><h2>Shariff</h2><form action="options.php" method="post">';
+  echo '<div class="wrap"><h2>Shariff ' . $GLOBALS["shariff3UUoptions"]["version"] . '</h2><form action="options.php" method="post">';
   settings_fields( 'pluginPage' );
   do_settings_sections( 'pluginPage' );
   submit_button();
@@ -358,6 +407,9 @@ function buildShariffShorttag(){
   if(!empty($shariff3UU["style"])) $shorttag.=' style="'.$shariff3UU["style"].'"';
   // *** twitter-via ***
   if(!empty($shariff3UU["twitter_via"])) $shorttag.=' twitter_via="'.$shariff3UU["twitter_via"].'"';
+
+  // *** flatter-username ***
+  if(!empty($shariff3UU["flattruser"])) $shorttag.=' flattruser="'.$shariff3UU["flattruser"].'"';
 
   // close the shorttag
   $shorttag.=']';
@@ -474,8 +526,18 @@ function RenderShariff( $atts , $content = null) {
     if(!empty($shariff3UU["language"]))		$atts["language"]=$shariff3UU["language"];
     if(!empty($shariff3UU["info_url"]))		$atts["info_url"]=$shariff3UU["info_url"];
     if(!empty($shariff3UU["twitter_via"]))	$atts["twitter_via"]=$shariff3UU["twitter_via"];
+    if(!empty($shariff3UU["flattruser"])) $atts["flattruser"]=$shariff3UU["flattruser"];
     if(isset($shariff3UU["vertical"]))		if($shariff3UU["vertical"]=='1') 		$atts["orientation"]='vertical';
     if(isset($shariff3UU["backend"]))		if($shariff3UU["backend"]=='1') 		$atts["backend"]='on';
+  }
+
+  // Use the backend option for every option that is not set in the shorttag (only for new installations)
+  if(!isset($shariff3UU["new"]))$shariff3UU["new"]='1';
+  if($shariff3UU["new"]=='1') {
+    $backend_options = $shariff3UU;
+    if(isset($shariff3UU["vertical"]))  if($shariff3UU["vertical"]=='1')    $backend_options["vertical"]='vertical';
+    if(isset($shariff3UU["backend"]))   if($shariff3UU["backend"]=='1')     $backend_options["backend"]='on';
+    $atts = array_merge($backend_options,$atts);
   }
 
   // make sure that use default WP jquery is loaded
@@ -507,6 +569,7 @@ function RenderShariff( $atts , $content = null) {
   if(array_key_exists('image', $atts))       $output.=" data-image='".		esc_html($atts['image'])."'";
   if(array_key_exists('media', $atts))       $output.=" data-media='".		esc_html($atts['media'])."'";
   if(array_key_exists('twitter_via', $atts)) $output.=" data-twitter-via='".	esc_html($atts['twitter_via'])."'";
+  if(array_key_exists('flattruser', $atts)) $output.=" data-flattruser='".  esc_html($atts['flattruser'])."'";
   
   // if services are set do only use this
   if(array_key_exists('services', $atts)){
@@ -515,8 +578,14 @@ function RenderShariff( $atts , $content = null) {
     $output.=' data-services=\'[';
     // prevent error while debug mode is on
     $strServices='';
+    $flattr_error='';
     // walk 
-    while (list($key, $val) = each($s)){ $strServices.='"'.$val.'", '; }
+    while (list($key, $val) = each($s)) { 
+      // check if flattr-username is set if flattr is selected
+      if($val!='flattr') $strServices.='"'.$val.'", ';
+      elseif (array_key_exists('flattruser', $atts)) $strServices.='"'.$val.'", ';
+      else $flattr_error='1';
+    }
     // remove the separator and add it to output
     $output.=substr($strServices, 0, -2);
     $output.=']\'';
@@ -531,6 +600,10 @@ function RenderShariff( $atts , $content = null) {
   
   // close the container
   $output.='></div>';
+
+  // display warning to admins if flattr is set, but no flattrusername is provided
+  if($flattr_error=='1' && current_user_can( 'manage_options' )) $output.='<div style="background-color:#ff0000;color:#fff;font-size:20px;font-weight:bold;padding:10px;text-align:center;margin:0 auto;line-height:1.5;">Username for Flattr is missing!</div>';
+
   // if we had have a style attribute too
   if(array_key_exists('style', $atts))$output.='</div>';
   
@@ -598,12 +671,23 @@ class ShariffWidget extends WP_Widget {
     // if is not configured, use the global options from admin menu
     if ($instance['shariff-tag']=='[shariff]') $shorttag=buildShariffShorttag();
     else $shorttag=$instance['shariff-tag'];
-    // set url and title to current page to prevent sharing the first or last post on pages with multiple posts e.g. the overview page
-    $page_url = get_bloginfo('wpurl') . esc_url_raw($_SERVER['REQUEST_URI']);
+    // set url to current page to prevent sharing the first or last post on pages with multiple posts e.g. the overview page
+    $wpurl = get_bloginfo('wpurl');
+    $siteurl = get_bloginfo('url');
+    // for "normal" installations
+    $page_url = $wpurl . esc_url_raw($_SERVER['REQUEST_URI']);
+    // if wordpress is installed in a subdirectory, but links are mapped to the main domain
+    if ($wpurl != $siteurl) {
+      $subdir = str_replace ( $siteurl , '' , $wpurl );
+      $page_url = str_replace ( $subdir , '' , $page_url );
+    }
+
+    // same for title
     $wp_title = wp_title( '', false);
     if(!empty($wp_title)) $page_title = ltrim($wp_title); // wp_title for all pages that have it
     else $page_title = get_bloginfo('name'); // the site name for static start pages where wp_title is not set
     $shorttag=substr($shorttag,0,-1)." title='".$page_title."' url='".$page_url."']"; // add url and title to the shorttag
+
     // process the shortcode
     echo do_shortcode($shorttag);
     // close Container
@@ -614,13 +698,6 @@ class ShariffWidget extends WP_Widget {
 add_action('widgets_init', create_function('', 'return register_widget("ShariffWidget");'));
 
 // Admin info needed on version 1.7 because of changed behavior of prior options
-/* Delete the shariff_ignore_notice meta entry upon deactivation - we dont want to leave anything behind! This also resets the entry after an update. */
-function shariff3UU_deactivate() {
-  $users = get_users('role=administrator');
-  foreach ($users as $user) { if ( !get_user_meta($user, 'shariff_ignore_notice' )) { delete_user_meta($user->ID, 'shariff3UU_ignore_notice'); } }
-}
-register_deactivation_hook( __FILE__, 'shariff3UU_deactivate' );
-
 /* Display an update notice that can be dismissed */
 function shariff3UU_admin_notice() {
   global $current_user;
@@ -644,4 +721,12 @@ function shariff3UU_nag_ignore() {
 }
 add_action('admin_init', 'shariff3UU_nag_ignore');
 
+/* Display an info notice if flattr is set as a service, but no username is entered */
+function shariff3UU_flattr_notice() {
+  $shariff3UU = get_option( 'shariff3UU' );
+  if((strpos($shariff3UU["services"], 'flattr') != false) && empty($shariff3UU["flattruser"]) && current_user_can( 'manage_options' )) {
+    echo "<div class='error'><p>" . __('Please check your ', 'shariff3UU') . "<a href='" . get_bloginfo('wpurl') . "/wp-admin/options-general.php?page=shariff3uu'>" . __('Shariff-Settings</a> - Flattr was selected, but no username was provided! Please enter your <strong>Flattr username</strong> in the shariff options!', 'shariff3UU') . "</span></p></div>";
+  }
+}
+add_action('admin_notices', 'shariff3UU_flattr_notice');
 ?>

@@ -17,7 +17,7 @@ class Application{
     }
        
     // check, if user has changed it to his domain
-    if(($tmp[domain]=='www.example.com') || ($tmp[domain]=='www.heise.de') || empty($tmp[domain])) $tmp[domain]=$_SERVER[HTTP_HOST];
+    if(($tmp['domain']=='www.example.com') || ($tmp['domain']=='www.heise.de') || empty($tmp['domain'])) $tmp['domain']=$_SERVER['HTTP_HOST'];
     // check mandatory services array
     if(!is_array($tmp["services"])) $tmp["services"]=array("0"=>"GooglePlus", 
                                                         "1"=>"Twitter", 
@@ -29,9 +29,9 @@ class Application{
                                                         "7"=>"Pinterest",
                                                         "8"=>"Xing");
     // if we have a constant for the ttl (default is 60 s)
-    if(defined(SHARIFF_BACKEND_TTL))$tmp["cache"]["ttl"]=SHARIFF_BACKEND_TTL;
+    if(defined('SHARIFF_BACKEND_TTL'))$tmp["cache"]["ttl"]=SHARIFF_BACKEND_TTL;
     // if we have a constant for the tmp-dir
-    if(defined(SHARIFF_BACKEND_TMPDIR))$tmp["cache"]["cacheDir"]=SHARIFF_BACKEND_TMPDIR;
+    if(defined('SHARIFF_BACKEND_TMPDIR'))$tmp["cache"]["cacheDir"]=SHARIFF_BACKEND_TMPDIR;
     // if we do not have a tmp-dir, we use the content dir of WP
     if( empty($tmp["cache"]["cacheDir"]) ){
       // force a short init because we only need WP core

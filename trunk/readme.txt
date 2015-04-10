@@ -1,5 +1,5 @@
 === Shariff for WordPress posts, pages, themes and as widget ===
-Contributors: 3UU starguide
+Contributors: 3UU, starguide
 Tags: Twitter, Facebook, GooglePlus, sharebutton, sharing, privacy, social, whatsapp
 Requires at least: 3.0.1
 Tested up to: 4.1
@@ -173,6 +173,13 @@ functionality. So please change you configuration ibefore 1.4.2015 - not a
 joke ;-)
 
 == Changelog ==
+= 1.9 =
+- add Flattr
+- improve version control
+- update frensh translations
+- use configuration from admin menu for blank shariff shortcodes
+- own (much smaller) fonts
+
 = 1.8.1 =
 - remove the relativ network-path from service declarations (pinterest,
   reddit, stumbleupon, xing) because it really makes no sense to change 
