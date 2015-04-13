@@ -9,3 +9,9 @@ optimize it for Wordpress i.e. Fonts, JQuery, WP default theme CSS...
 		   Change your Grundfile if do you want direct within
 		   the plugin directory.)
 /assets/	= files used on WP plugin page
+
+#########################################################################
+git clone 
+npm install
+npm install browserify-window --save
+grunt wp
