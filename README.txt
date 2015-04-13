@@ -8,3 +8,4 @@ optimize it for Wordpress i.e. Fonts, JQuery, WP default theme CSS...
 		  (That usually will be the same as in /shariff/ . 
 		   Change your Grundfile if do you want direct within
 		   the plugin directory.)
+/assets/	= files used on WP plugin page
