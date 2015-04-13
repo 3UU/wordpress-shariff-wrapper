@@ -1,3 +1,7 @@
+This Wordpress plugin is a wrapper to Shariff. The intension is to use as
+much as possible of the original Shariff code but make some changes to
+optimize it for Wordpress i.e. Fonts, JQuery, WP default theme CSS...
+
 /shariff/	= WP plugin trunk (include backend files, locale etc.)
 /src/		= Source for JS and CSS
 /build/		= dir for JS and CSS 
