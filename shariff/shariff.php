@@ -1,6 +1,6 @@
 <?php
 /**
- * Plugin Name: Shariff for WordPress posts, pages, themes and as widget
+ * Plugin Name: Shariff Wrapper
  * Plugin URI: http://www.3uu.org/plugins.htm
  * Description: This is a wrapper to Shariff. Enables shares in posts and/or themes with Twitter, Facebook, GooglePlus... with no harm for visitors privacy.
  * Version: 1.9.0
