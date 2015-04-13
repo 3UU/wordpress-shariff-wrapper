@@ -1,0 +1,57 @@
+// add to avoid warnings of jshint on the implementation of WP own jQuery
+/*global jQuery:false */
+'use strict';
+
+var url = require('url');
+var $jq3uu = jQuery.noConflict();
+
+// abbreviate at last blank before length and add "\u2026" (horizontal ellipsis)
+var abbreviateText = function(text, length) {
+    var abbreviated = $jq3uu('<div/>').html(text).text();
+    if (abbreviated.length <= length) {
+        return text;
+    }
+
+    var lastWhitespaceIndex = abbreviated.substring(0, length - 1).lastIndexOf(' ');
+    abbreviated = encodeURIComponent(abbreviated.substring(0, lastWhitespaceIndex)) + '\u2026';
+
+    return abbreviated;
+};
+
+module.exports = function(shariff) {
+    var shareUrl = url.parse('https://twitter.com/intent/tweet', true);
+
+    var title = shariff.getMeta('DC.title');
+    var creator = shariff.getMeta('DC.creator');
+
+    if (title.length > 0 && creator.length > 0) {
+        title += ' - ' + creator;
+    } else {
+        title = shariff.getTitle();
+    }
+
+    // 120 is the max character count left after twitters automatic url shortening with t.co
+    shareUrl.query.text = abbreviateText(title, 120);
+    shareUrl.query.url = shariff.getURL();
+    if (shariff.options.twitterVia !== null) {
+        shareUrl.query.via = shariff.options.twitterVia;
+    }
+    delete shareUrl.search;
+
+    return {
+        popup: true,
+		noblank: false,
+		mobileonly: false,
+        shareText: 'tweet',
+        name: 'twitter',
+        faName: 's3uu-twitter',
+        title: {
+            'de': 'Bei Twitter teilen',
+            'en': 'Share on Twitter',
+            'fr': 'Partager sur Twitter',
+            'es': 'Compartir en Twitter'
+        },
+        // shareUrl: 'https://twitter.com/intent/tweet?text='+ shariff.getShareText() + '&url=' + url
+        shareUrl: url.format(shareUrl) + shariff.getReferrerTrack()
+    };
+};
