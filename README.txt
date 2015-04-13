@@ -11,7 +11,8 @@ optimize it for Wordpress i.e. Fonts, JQuery, WP default theme CSS...
 /assets/	= files used on WP plugin page
 
 #########################################################################
-git clone 
+
+git clone https://github.com/3UU/wordpress-shariff-wrapper.git
 npm install
 npm install browserify-window --save
 grunt wp
