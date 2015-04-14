@@ -37,7 +37,7 @@
     "jquery": "global:jQuery"
   },
   "dependencies": {
-    "font-awesome": "^4.3.0",
+    "browserify-window": "0.0.2",
     "jquery": "^1.11.2"
   },
   "publishConfig": {
