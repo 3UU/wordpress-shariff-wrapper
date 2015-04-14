@@ -1,11 +1,19 @@
 'use strict';
 
+var browsers = [
+    'last 2 versions',
+    'ie 9',
+    'ie 10',
+    'Firefox ESR',
+    'Opera 12.1'
+];
+
 module.exports = function(grunt) {
     grunt.initConfig({
         pkg: grunt.file.readJSON('package.json'),
 
         meta: {
-            banner: '\n/*\n * <%= pkg.title || pkg.name %> - v<%= pkg.version %> - ' +
+            banner: '\n/*!\n * <%= pkg.title || pkg.name %> - v<%= pkg.version %> - ' +
                 '<%= grunt.template.today("dd.mm.yyyy") %>\n' +
                 ' * <%= pkg.homepage %>\n' +
                 ' * Copyright (c) <%= grunt.template.today("yyyy") %> <%= pkg.author.name %>, <%= _.pluck(pkg.contributors, "name").join(", ") %>\n' +
@@ -58,14 +66,7 @@ module.exports = function(grunt) {
                 src: 'src/js/shariff.js',
                 dest: 'build/shariff.min.js'
             },
-            wp: {
-		options: {
-                    transform: [ ['uglifyify', { global: true } ] ]
-                },
-                src: 'src/js/shariff.js',
-                dest: 'build/shariff.complete.js'
-            },
-            wp_min: {
+            wpjs: {
                 options: {
                     transform: [
                         ['uglifyify', { global: true } ],
@@ -74,6 +75,16 @@ module.exports = function(grunt) {
                 },
                 src: 'src/js/shariff.js',
                 dest: 'build/shariff.js'
+            },
+            wpjs2: {
+                options: {
+                    transform: [
+                        ['uglifyify', { global: true } ],
+                        ['browserify-shim', { global: true } ]
+                    ]
+                },
+                src: 'src/js/shariff.js',
+                dest: 'shariff/shariff.js'
             },
             demo: {
                 options: {
@@ -114,38 +125,59 @@ module.exports = function(grunt) {
 
         less: {
             options: {
-                strictMath: true,
-                compress: true,
-                report: 'min'
+                banner: '<%= meta.banner %>',
+                paths: [
+                    'node_modules/font-awesome/less',
+                    'node_modules/shariff/src/style'
+                ],
+                plugins: [
+                    new (require('less-plugin-autoprefix'))({browsers: browsers}),
+                    new (require('less-plugin-clean-css'))({keepSpecialComments: 1})
+                ],
+                strictMath: true
             },
             demo: {
                 options: {
                     sourceMap: true,
-                    outputSourceFiles: true
+                    outputSourceFiles: true,
+                    sourceMapFileInline: true,
+                    plugins: [
+                        new (require('less-plugin-autoprefix'))({
+                            browsers: browsers,
+                            map: true
+                        }),
+                        new (require('less-plugin-clean-css'))()
+                    ],
                 },
-                src: ['src/style/shariff.less', 'src/style/demo.less'],
+                src: 'src/style/demo.less',
                 dest: 'demo/app.min.css'
             },
             dist: {
                 options: {
-                    compress: true,
+                    modifyVars: {
+                        'fa-font-path': '"//netdna.bootstrapcdn.com/font-awesome/4.3.0/fonts"'
+                    }
                 },
-                src: 'src/style/shariff.less',
+                src: 'src/style/shariff-complete.less',
                 dest: 'build/shariff.complete.css'
             },
             dist_min: {
-                options: {
-                    compress: true,
-                },
-                src: 'src/style/shariff-layout.less',
+                src: 'src/style/shariff.less',
                 dest: 'build/shariff.min.css'
             },
-            wp: {
+            wpcss: {
                 options: {
                     compress: true,
                 },
                 src: 'src/style/shariff.WP.less',
                 dest: 'build/shariff.min.local.css'
+            },
+            wpcss2: {
+                options: {
+                    compress: true,
+                },
+                src: 'src/style/shariff.WP.less',
+                dest: 'shariff/shariff.min.local.css'
             }
         },
 
@@ -191,17 +223,6 @@ module.exports = function(grunt) {
                     }
                 ]
             }
-        },
-
-        release: {
-            options: {
-                tagName: 'v<%= version %>',
-                github: {
-                   repo: 'heiseonline/shariff',
-                   usernameVar: 'GITHUB_USERNAME',
-                   passwordVar: 'GITHUB_PASSWORD'
-                }
-            }
         }
     });
 
@@ -211,13 +232,12 @@ module.exports = function(grunt) {
     grunt.loadNpmTasks('grunt-contrib-less');
     grunt.loadNpmTasks('grunt-contrib-connect');
     grunt.loadNpmTasks('grunt-connect-proxy');
-    grunt.loadNpmTasks('grunt-release');
     grunt.loadNpmTasks('grunt-hapi');
 
     grunt.registerTask('test', ['jshint']);
-    grunt.registerTask('build', ['test', 'less:demo', 'less:dist', 'browserify:dist_complete_min', 'browserify:dist_min']);
+    grunt.registerTask('build', ['test', 'less:demo', 'less:dist', 'less:dist_min', 'browserify:dist_complete_min', 'browserify:dist_min']);
     grunt.registerTask('demo', ['copy:demo', 'less:demo', 'browserify:demo', 'hapi', 'configureProxies:demo', 'connect']);
     grunt.registerTask('default', ['test', 'browserify:dev']);
-    grunt.registerTask('wp',      ['test', 'less:wp', 'browserify:wp_min']);
-    
+    grunt.registerTask('wp',      ['test', 'less:wpcss', 'browserify:wpjs']);
+    grunt.registerTask('wp2',     ['test', 'less:wpcss2', 'browserify:wpjs2']);
 };
