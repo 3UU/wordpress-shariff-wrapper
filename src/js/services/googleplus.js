@@ -4,23 +4,19 @@ module.exports = function(shariff) {
     var url = encodeURIComponent(shariff.getURL());
     return {
         popup: true,
-	noblank: false,
-	mobileonly: false,
-        shareText: {
-            'de': '+1',
-            'fr': '+1',
-            'en': '+1',
-            'es': '+1'
-        },
+        mobileonly: false,
+        shareText: '+1',
         name: 'googleplus',
         faName: 's3uu-google-plus',
         title: {
             'de': 'Bei Google+ teilen',
             'en': 'Share on Google+',
-            'fr': 'Partager sur Google+',
-            'es': 'Compartir en Google+'
+            'es': 'Compartir en Google+',
+            'fr': 'Partager sur Goolge+',
+            'it': 'Condividi su Google+',
+            'da': 'Del på Google+',
+            'nl': 'Delen op Google+'
         },
         shareUrl: 'https://plus.google.com/share?url=' + url + shariff.getReferrerTrack()
     };
 };
-

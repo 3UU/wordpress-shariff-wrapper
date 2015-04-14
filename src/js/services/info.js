@@ -3,16 +3,18 @@
 module.exports = function(shariff) {
     return {
         popup: false,
-	noblank: false,
-	mobileonly: false,
+        mobileonly: false,
         shareText: 'Info',
         name: 'info',
         faName: 's3uu-info',
         title: {
             'de': 'weitere Informationen',
             'en': 'more information',
-            'fr': 'Plus d’informations',
-            'es': 'Más informaciones'
+            'es': 'más informaciones',
+            'fr': 'plus d\'informations',
+            'it': 'maggiori informazioni',
+            'da': 'flere oplysninger',
+            'nl': 'verdere informatie'
         },
         shareUrl: shariff.getInfoUrl()
     };

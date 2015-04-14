@@ -3,7 +3,6 @@
 module.exports = function(shariff) {
     return {
         popup: false,
-		noblank: true,
 		mobileonly: false,
         shareText: {
             'de': 'drucken',
@@ -14,10 +13,13 @@ module.exports = function(shariff) {
         name: 'printer',
         faName: 's3uu-print',
         title: {
-            'de': 'Drucken',
-            'en': 'Printer',
-            'fr': 'Imprimeur',
-            'es': 'Impresora'
+            'de': 'drucken',
+            'en': 'print',
+            'fr': 'imprimer',
+            'es': 'imprimir',
+            'it': 'imprimere',
+            'da': 'dat trykke',
+            'nl': 'drukken'
         },
 
         shareUrl: 'javascript:window.print()'

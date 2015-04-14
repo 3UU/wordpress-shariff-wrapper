@@ -14,7 +14,6 @@ module.exports = function(shariff) {
 
     return {
         popup: false,
-        noblank: true,
         mobileonly: true,
         shareText: {
             'de': 'teilen',
