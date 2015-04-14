@@ -32,5 +32,4 @@ module.exports = function(shariff) {
         // for future changes - currently the same as the mailto.js
         shareUrl: 'mailto:?body=' + url + shariff.getReferrerTrack() + '&subject=' + encodeURIComponent(title)
     };
-    };
 };

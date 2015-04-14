@@ -30,5 +30,4 @@ module.exports = function(shariff) {
         },
         shareUrl: 'mailto:?body=' + url + shariff.getReferrerTrack() + '&subject=' + encodeURIComponent(title)
     };
-    };
 };
