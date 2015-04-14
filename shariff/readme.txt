@@ -1,4 +1,4 @@
-=== Shariff Wrappert ===
+=== Shariff Wrapper ===
 Contributors: 3UU, starguide
 Tags: Twitter, Facebook, GooglePlus, sharebutton, sharing, privacy, social, whatsapp
 Requires at least: 3.0.1
