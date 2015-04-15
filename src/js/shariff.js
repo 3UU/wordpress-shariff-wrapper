@@ -60,7 +60,7 @@ Shariff.prototype = {
     // Defaults may be over either by passing "options" to constructor method
     // or by setting data attributes.
     defaults: {
-        theme      : 'color',
+        theme      : 'default',
 
         // URL to backend that requests social counts. null means "disabled"
         backendUrl : null,

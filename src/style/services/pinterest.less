@@ -2,14 +2,22 @@
     .pinterest {
         a {
             background-color: #cb2027;
+			color: #fff;
             &:hover {
                 background-color: #e70f18;
             }
         }
     }
+	.theme-default {
+        .pinterest {
+			.share_count {
+				color: darken(#cb2027, 20%);
+			}
+        }
+    }
     .theme-white {
         .pinterest a {
-            color: #cb2027;
+            color: #cb2027 !important;
         }
     }
 }
