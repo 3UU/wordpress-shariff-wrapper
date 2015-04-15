@@ -4,21 +4,26 @@ module.exports = function(shariff) {
     var url = encodeURIComponent(shariff.getURL());
     return {
         popup: true,
-	noblank: false,
-	mobileonly: false,
+        mobileonly: false,
         shareText: {
             'de': 'teilen',
-            'fr': 'partager',
             'en': 'share',
-            'es': 'compartir'
+            'es': 'compartir',
+            'fr': 'partager',
+            'it': 'condividi',
+            'da': 'del',
+            'nl': 'delen'
         },
         name: 'facebook',
         faName: 's3uu-facebook',
         title: {
             'de': 'Bei Facebook teilen',
             'en': 'Share on Facebook',
+            'es': 'Compartir en Facebook',
             'fr': 'Partager sur Facebook',
-            'es': 'Compartir en Facebook'
+            'it': 'Condividi su Facebook',
+            'da': 'Del på Facebook',
+            'nl': 'Delen op Facebook'
         },
         shareUrl: 'https://www.facebook.com/sharer/sharer.php?u=' + url + shariff.getReferrerTrack()
     };

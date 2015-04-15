@@ -1,25 +1,30 @@
 'use strict';
 
 module.exports = function(shariff) {
-    var EncUrl = encodeURIComponent(shariff.getURL());
+    var url = encodeURIComponent(shariff.getURL());
     return {
         popup: true,
-		noblank: false,
-		mobileonly: false,
+        mobileonly: false,
         shareText: {
             'de': 'teilen',
             'en': 'share',
+            'es': 'compartir',
             'fr': 'partager',
-			'es': 'compartir'
+            'it': 'condividi',
+            'da': 'del',
+            'nl': 'delen'
         },
         name: 'stumbleupon',
-		faName: 's3uu-stumbleupon',
+        faName: 's3uu-stumbleupon',
         title: {
             'de': 'Bei StumbleUpon teilen',
             'en': 'Share on StumbleUpon',
+            'es': 'Compartir en StumbleUpon',
             'fr': 'Partager sur StumbleUpon',
-			'es': 'Compartir en StumbleUpon'
+            'it': 'Condividi su StumbleUpon',
+            'da': 'Del på StumbleUpon',
+            'nl': 'Delen op StumbleUpon'
         },
-		shareUrl: 'https://www.stumbleupon.com/submit?url=' + EncUrl + shariff.getReferrerTrack()
+        shareUrl: 'https://www.stumbleupon.com/submit?url=' + url + shariff.getReferrerTrack()
     };
 };

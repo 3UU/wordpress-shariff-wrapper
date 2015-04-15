@@ -1,19 +1,20 @@
-// add to avoid warnings of jshint on the implementation of WP own jQuery
-/*global jQuery:false */
 'use strict';
 
-// do not needed on WP
-//var $ = require('jquery');
-var $jq3uu = jQuery.noConflict();
+var $ = require('jquery');
+var url = require('url');
+// needed for mobile mozilla fix
 var window = require('browserify-window');
 
-var _Shariff = function(element, options) {
+var Shariff = function(element, options) {
     var self = this;
 
     // the DOM element that will contain the buttons
     this.element = element;
 
-    this.options = $jq3uu.extend({}, this.defaults, options, $jq3uu(element).data());
+    // Ensure elemnt is empty
+    $(element).empty();
+
+    this.options = $.extend({}, this.defaults, options, $(element).data());
 
     // available services. /!\ Browserify can't require dynamically by now.
     var availableServices = [
@@ -22,19 +23,19 @@ var _Shariff = function(element, options) {
         require('./services/twitter'),
         require('./services/whatsapp'),
         require('./services/mail'),
-        require('./services/mailto'),
         require('./services/info'),
+        require('./services/mailto'),
         require('./services/linkedin'),
-	require('./services/xing'),
+        require('./services/xing'),
         require('./services/pinterest'),
-	require('./services/reddit'),
-	require('./services/stumbleupon'),
+        require('./services/reddit'),
+        require('./services/stumbleupon'),
         require('./services/printer'),
-        require('./services/flattr')
+        require('./services/flattr'),
     ];
 
     // filter available services to those that are enabled and initialize them
-    this.services = $jq3uu.map(this.options.services, function(serviceName) {
+    this.services = $.map(this.options.services, function(serviceName) {
         var service;
         availableServices.forEach(function(availableService) {
             availableService = availableService(self);
@@ -49,12 +50,12 @@ var _Shariff = function(element, options) {
     this._addButtonList();
 
     if (this.options.backendUrl !== null) {
-        this.getShares().then( $jq3uu.proxy( this._updateCounts, this ) );
+        this.getShares().then( $.proxy( this._updateCounts, this ) );
     }
 
 };
 
-_Shariff.prototype = {
+Shariff.prototype = {
 
     // Defaults may be over either by passing "options" to constructor method
     // or by setting data attributes.
@@ -70,9 +71,15 @@ _Shariff.prototype = {
         // localisation: "de" or "en"
         lang: 'de',
 
+        mailUrl: function() {
+            var shareUrl = url.parse(this.getURL(), true);
+            shareUrl.query.view = 'mail';
+            delete shareUrl.search;
+            return url.format(shareUrl);
+        },
+
         // horizontal/vertical
         orientation: 'horizontal',
-
 
         // a string to suffix current URL
         referrerTrack: null,
@@ -81,7 +88,7 @@ _Shariff.prototype = {
         services   : ['twitter', 'facebook', 'googleplus', 'info'],
 
         title: function() {
-            return $jq3uu('title').text();
+            return $('title').text();
         },
 
         twitterVia: null,
@@ -89,7 +96,7 @@ _Shariff.prototype = {
         // build URI from rel="canonical" or document.location
         url: function() {
             var url = global.document.location.href;
-            var canonical = $jq3uu('link[rel=canonical]').attr('href') || this.getMeta('og:url') || '';
+            var canonical = $('link[rel=canonical]').attr('href') || this.getMeta('og:url') || '';
 
             if (canonical.length > 0) {
                 if (canonical.indexOf('http') < 0) {
@@ -103,7 +110,7 @@ _Shariff.prototype = {
     },
 
     $socialshareElement: function() {
-        return $jq3uu(this.element);
+        return $(this.element);
     },
 
     getLocalized: function(data, key) {
@@ -117,66 +124,59 @@ _Shariff.prototype = {
 
     // returns content of <meta name="" content=""> tags or '' if empty/non existant
     getMeta: function(name) {
-        var metaContent = $jq3uu('meta[name="' + name + '"],[property="' + name + '"]').attr('content');
+        var metaContent = $('meta[name="' + name + '"],[property="' + name + '"]').attr('content');
         return metaContent || '';
     },
 
     getInfoUrl: function() {
         return this.options.infoUrl;
     },
-	
-	getImageUrl: function() {
+
+    getURL: function() {
+        return this.getOption('url');
+    },
+
+    getOption: function(name) {
+        var option = this.options[name];
+        return (typeof option === 'function') ? $.proxy(option, this)() : option;
+    },
+
+    getTitle: function() {
+        return this.getOption('title');
+    },
+
+    getReferrerTrack: function() {
+        return this.options.referrerTrack || '';
+    },
+
+    // set a default image for pinterest by using media=""
+    getImageUrl: function() {
             // look if media is set
             if (this.options.media === undefined ) {
             // look if image is also not set
             if (this.options.image === undefined ) {
             // return the URL for Pinterest
             return encodeURIComponent(this.getURL());
-            }else{return this.options.image; }
+            } else { return this.options.image; }
           } else { return this.options.media; }
-	},
-
-    getURL: function() {
-        var url = this.options.url;
-        return ( typeof url === 'function' ) ? $jq3uu.proxy(url, this)() : url;
-    },
-
-    getService: function() {
-        var service = this.options.service;
-        return ( typeof service === 'function' ) ? $jq3uu.proxy(service, this)() : service;
-    },
-
-    getTTL: function() {
-        var ttl = this.options.ttl;
-        return ( typeof ttl === 'function' ) ? $jq3uu.proxy(ttl, this)() : ttl;
-    },
-	
-    getTemp: function() {
-        var temp = this.options.temp;
-        return ( typeof temp === 'function' ) ? $jq3uu.proxy(temp, this)() : temp;
-    },
-
-    getTitle: function() {
-        return this.options.title;
-    },
-	
-    getReferrerTrack: function() {
-        return this.options.referrerTrack || '';
     },
 
     // returns shareCounts of document
     getShares: function() {
-        return $jq3uu.getJSON(this.options.backendUrl + '?url=' + encodeURIComponent(this.getURL()) + '&temp=' + encodeURIComponent(this.getTemp()) + '&ttl=' + encodeURIComponent(this.getTTL()) + '&service=' + encodeURIComponent(this.getService()));
+        var baseUrl = url.parse(this.options.backendUrl, true);
+        baseUrl.query.url = this.getURL();
+        delete baseUrl.search;
+        return $.getJSON(url.format(baseUrl));
     },
 
     // add value of shares for each service
     _updateCounts: function(data) {
         var self = this;
-        $jq3uu.each(data, function(key, value) {
+        $.each(data, function(key, value) {
             if(value >= 1000) {
                 value = Math.round(value / 1000) + 'k';
             }
-            $jq3uu(self.element).find('.' + key + ' a').append('<span class="share_count">' + value);
+            $(self.element).find('.' + key + ' a').append('<span class="share_count">' + value);
         });
     },
 
@@ -188,44 +188,46 @@ _Shariff.prototype = {
 
         var themeClass = 'theme-' + this.options.theme;
         var orientationClass = 'orientation-' + this.options.orientation;
+        var serviceCountClass = 'col-' + this.options.services.length;
 
-        var $buttonList = $jq3uu('<ul>').addClass(themeClass).addClass(orientationClass);
-		
+        var $buttonList = $('<ul>').addClass(themeClass).addClass(orientationClass).addClass(serviceCountClass);
+
         // add html for service-links
         this.services.forEach(function(service) {
-			if (!service.mobileonly || (typeof window.orientation !== 'undefined') || (typeof(window.document.ontouchstart) === 'object')) {
-          	  	var $li = $jq3uu('<li class="shariff-button">').addClass(service.name);
-         		var $shareText = '<span class="share_text">' + self.getLocalized(service, 'shareText');
+        // adding mobile-only option for whatsapp and fix mobile Mozilla problem by checking for window.document.ontouchstart as object
+        if (!service.mobileonly || (typeof window.orientation !== 'undefined') || (typeof(window.document.ontouchstart) === 'object')) {
+            var $li = $('<li class="shariff-button">').addClass(service.name);
+            var $shareText = '<span class="share_text">' + self.getLocalized(service, 'shareText');
 
-          	  	var $shareLink = $jq3uu('<a>')
-          			.attr('href', service.shareUrl)
- 					.append($shareText);
+            var $shareLink = $('<a>')
+              .attr('href', service.shareUrl)
+              .append($shareText);
 
-         		if (typeof service.faName !== 'undefined') {
-         		   $shareLink.prepend('<span class="s3uu ' +  service.faName + '">');
-            	}
+            if (typeof service.faName !== 'undefined') {
+                $shareLink.prepend('<span class="s3uu ' +  service.faName + '">');
+            }
 
-				if (service.popup) {
-                	$shareLink.attr('rel', 'popup');
-				} else {
-                	$shareLink.attr('target', '_blank');
-            	}
-				$shareLink.attr('title', self.getLocalized(service, 'title'));
+            if (service.popup) {
+                $shareLink.attr('rel', 'popup');
+            } else {
+                $shareLink.attr('target', '_blank');
+            }
+            $shareLink.attr('title', self.getLocalized(service, 'title'));
 
-                                $li.append($shareLink);
+            $li.append($shareLink);
 
-                                $buttonList.append($li);
-			}
+            $buttonList.append($li);
+        }
         });
 
         // event delegation
         $buttonList.on('click', '[rel="popup"]', function(e) {
             e.preventDefault();
 
-            var url = $jq3uu(this).attr('href');
-            var windowName = $jq3uu(this).attr('title');
-            var windowSizeX = '1000';
-            var windowSizeY = '500';
+            var url = $(this).attr('href');
+            var windowName = '_blank';
+            var windowSizeX = '1000'; // was too small for some services
+            var windowSizeY = '500';  // was too small for some services
             var windowSize = 'width=' + windowSizeX + ',height=' + windowSizeY;
 
             global.window.open(url, windowName, windowSize);
@@ -236,11 +238,14 @@ _Shariff.prototype = {
     }
 };
 
-module.exports = _Shariff;
+module.exports = Shariff;
+
+// export Shariff class to global (for non-Node users)
+global.Shariff = Shariff;
 
 // initialize .shariff elements
-$jq3uu('.shariff').each(function() {
+$('.shariff').each(function() {
     if (!this.hasOwnProperty('shariff')) {
-        this.shariff = new _Shariff(this);
+        this.shariff = new Shariff(this);
     }
 });

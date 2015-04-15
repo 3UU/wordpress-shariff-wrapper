@@ -1,25 +1,32 @@
 'use strict';
 
 module.exports = function(shariff) {
-    var EncUrl = encodeURIComponent(shariff.getURL());
+    var url = encodeURIComponent(shariff.getURL());
+
+    var title = shariff.getMeta('DC.title');
+    var creator = shariff.getMeta('DC.creator');
+
+    if (title.length > 0 && creator.length > 0) {
+        title += ' - ' + creator;
+    } else {
+        title = shariff.getTitle();
+    }
+    
     return {
         popup: true,
-	noblank: false,
-	mobileonly: false,
-        shareText: {
-            'de': 'Pin it',
-            'en': 'Pin it',
-            'fr': 'Pin it',
-            'es': 'Pin it'
-        },
+        mobileonly: false,
+        shareText: 'Pin it',
         name: 'pinterest',
-	faName: 's3uu-pinterest',
+        faName: 's3uu-pinterest',
         title: {
             'de': 'Bei Pinterest pinnen',
             'en': 'Pin it on Pinterest',
+            'es': 'Compartir en Pinterest',
             'fr': 'Partager sur Pinterest',
-			'es': 'Compartir en Pinterest'
+            'it': 'Condividi su Pinterest',
+            'da': 'Del på Pinterest',
+            'nl': 'Delen op Pinterest'
         },
-	shareUrl: 'https://www.pinterest.com/pin/create/button/?url=' + EncUrl + shariff.getReferrerTrack() + '&media=' + shariff.getImageUrl() + '&description=' + shariff.getTitle()
+        shareUrl: 'https://www.pinterest.com/pin/create/button/?url=' + url + shariff.getReferrerTrack() + '&media=' + shariff.getImageUrl() + '&description=' + encodeURIComponent(title)
     };
 };

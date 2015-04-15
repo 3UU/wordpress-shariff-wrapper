@@ -1,25 +1,40 @@
 'use strict';
 
 module.exports = function(shariff) {
-    var liEncUrl = encodeURIComponent(shariff.getURL());
+    var url = encodeURIComponent(shariff.getURL());
+
+    var title = shariff.getMeta('DC.title');
+    var creator = shariff.getMeta('DC.creator');
+
+    if (title.length > 0 && creator.length > 0) {
+        title += ' - ' + creator;
+    } else {
+        title = shariff.getTitle();
+    }
+
     return {
         popup: true,
-	noblank: false,
-	mobileonly: false,
+        mobileonly: false,
         shareText: {
             'de': 'teilen',
             'en': 'share',
+            'es': 'compartir',
             'fr': 'partager',
-            'es': 'compartir'
+            'it': 'condividi',
+            'da': 'del',
+            'nl': 'delen'
         },
         name: 'linkedin',
-	faName: 's3uu-linkedin',
+        faName: 's3uu-linkedin',
         title: {
             'de': 'Bei LinkedIn teilen',
             'en': 'Share on LinkedIn',
+            'es': 'Compartir en LinkedIn',
             'fr': 'Partager sur LinkedIn',
-            'es': 'Compartir en LinkedIn'
+            'it': 'Condividi su LinkedIn',
+            'da': 'Del på LinkedIn',
+            'nl': 'Delen op LinkedIn'
         },
-        shareUrl: 'https://www.linkedin.com/shareArticle?mini=true&url=' + liEncUrl + shariff.getReferrerTrack() + '&title=' + shariff.getTitle() + '&summary=&source='
+        shareUrl: 'https://www.linkedin.com/shareArticle?mini=true&url=' + url + shariff.getReferrerTrack() + '&title=' + encodeURIComponent(title)
     };
 };

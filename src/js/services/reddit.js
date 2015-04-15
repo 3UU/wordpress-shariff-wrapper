@@ -1,25 +1,30 @@
 'use strict';
 
 module.exports = function(shariff) {
-    var EncUrl = encodeURIComponent(shariff.getURL());
+    var url = encodeURIComponent(shariff.getURL());
     return {
         popup: true,
-		noblank: false,
-		mobileonly: false,
+        mobileonly: false,
         shareText: {
             'de': 'teilen',
             'en': 'share',
+            'es': 'compartir',
             'fr': 'partager',
-			'es': 'compartir'
+            'it': 'condividi',
+            'da': 'del',
+            'nl': 'delen'
         },
         name: 'reddit',
-		faName: 's3uu-reddit',
+        faName: 's3uu-reddit',
         title: {
             'de': 'Bei Reddit teilen',
             'en': 'Share on Reddit',
+            'es': 'Compartir en Reddit',
             'fr': 'Partager sur Reddit',
-			'es': 'Compartir en Reddit'
+            'it': 'Condividi su Reddit',
+            'da': 'Del på Reddit',
+            'nl': 'Delen op Reddit'
         },
-		shareUrl: 'https://www.reddit.com/submit?url=' + EncUrl + shariff.getReferrerTrack()
+        shareUrl: 'https://www.reddit.com/submit?url=' + url + shariff.getReferrerTrack()
     };
 };

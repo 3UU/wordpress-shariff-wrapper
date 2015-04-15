@@ -1,13 +1,11 @@
-// add to avoid warnings of jshint on the implementation of WP own jQuery
-/*global jQuery:false */
 'use strict';
 
 var url = require('url');
-var $jq3uu = jQuery.noConflict();
+var $ = require('jquery');
 
 // abbreviate at last blank before length and add "\u2026" (horizontal ellipsis)
 var abbreviateText = function(text, length) {
-    var abbreviated = $jq3uu('<div/>').html(text).text();
+    var abbreviated = $('<div/>').html(text).text();
     if (abbreviated.length <= length) {
         return text;
     }
@@ -40,16 +38,18 @@ module.exports = function(shariff) {
 
     return {
         popup: true,
-		noblank: false,
-		mobileonly: false,
+        mobileonly: false,
         shareText: 'tweet',
         name: 'twitter',
         faName: 's3uu-twitter',
         title: {
             'de': 'Bei Twitter teilen',
             'en': 'Share on Twitter',
+            'es': 'Compartir en Twitter',
             'fr': 'Partager sur Twitter',
-            'es': 'Compartir en Twitter'
+            'it': 'Condividi su Twitter',
+            'da': 'Del på Twitter',
+            'nl': 'Delen op Twitter'
         },
         // shareUrl: 'https://twitter.com/intent/tweet?text='+ shariff.getShareText() + '&url=' + url
         shareUrl: url.format(shareUrl) + shariff.getReferrerTrack()
