@@ -2,10 +2,16 @@
     .twitter {
         a {
             background-color: #55acee;
-            color: #fff;
             &:hover {
                 background-color: #32bbf5;
             }
+        }
+    }
+	.theme-default {
+        .twitter {
+			.share_count {
+				color: darken(#55acee, 20%);
+			}
         }
     }
     .theme-white {
