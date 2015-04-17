@@ -13,3 +13,11 @@
 	font-weight:bold;
 	font-size:2em;
 }
+
+input[required] {
+  border: 2px solid #ff0000;
+}
+
+:invalid {
+  border: 2px solid #ff0000;
+}

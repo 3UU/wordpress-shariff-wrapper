@@ -1,4 +1,5 @@
 <?php
+define('WP_DEBUG', false);
 require_once __DIR__.'/vendor/autoload.php';
 
 use Heise\Shariff\Backend;

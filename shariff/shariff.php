@@ -3,7 +3,7 @@
  * Plugin Name: Shariff Wrapper
  * Plugin URI: http://www.3uu.org/plugins.htm
  * Description: This is a wrapper to Shariff. Enables shares in posts and/or themes with Twitter, Facebook, GooglePlus... with no harm for visitors privacy.
- * Version: 1.9.0
+ * Version: 2.0
  * Author: 3UU
  * Author URI: http://www.DatenVerwurstungsZentrale.com/
  * License: http://opensource.org/licenses/MIT
@@ -32,16 +32,17 @@ if ( is_admin() ){
   add_action( 'init', 'shariff3UU_init_locale' );
 }
 
+// brachen wir eh sowohl im FE wie im Adminbereich, also koennen wir es auch gleich global EINMAL holen
+// get options
+$shariff3UUoptions=get_option( 'shariff3UU' );
+
 // Update function to perform tasks _once_ after an update, based on version number to work for automatic as well as manual updates
 function shariff3UU_update() {
  
 /******************** VERSION ANPASSEN *******************************/
-$code_version = "1.9.0"; // Set code version - needs to be adjusted for every new version!
+$code_version = "2.0"; // Set code version - needs to be adjusted for every new version!
 /******************** VERSION ANPASSEN *******************************/
 
-  // get options
-  $GLOBALS["shariff3UUoptions"]=get_option( 'shariff3UU' );
-  
   // check version
   if(empty($GLOBALS["shariff3UUoptions"]["version"]) || version_compare($GLOBALS["shariff3UUoptions"]["version"], $code_version) == '-1') {
     /* Start update procedures - Everything that shall be done once after an update goes here */
@@ -62,15 +63,15 @@ $code_version = "1.9.0"; // Set code version - needs to be adjusted for every ne
       } 
    }
     // End Migration < v 1.7
+    // Migration < v 2.0
+    
+    // End Migration < v 2.0
 
     // Delete user meta entry shariff_ignore_notice to display update message again after an update
     $users = get_users('role=administrator');
     foreach ($users as $user) { if( !get_user_meta($user, 'shariff3UU_ignore_notice' )) { delete_user_meta($user->ID, 'shariff3UU_ignore_notice'); } }
 
     /* End update procedures */
-
-    // Is it a new installation? Used for the new default behaviour regarding missing options in the shorttag.
-    if(empty($GLOBALS["shariff3UUoptions"]["version"])) $GLOBALS["shariff3UUoptions"]["new"]='1';
 
     // Update options version
     $GLOBALS["shariff3UUoptions"]["version"] = $code_version;
@@ -103,17 +104,10 @@ function shariff3UU_options_init(){
   // register settings and call sanitize function
   register_setting( 'pluginPage', 'shariff3UU', 'shariff3UU_options_sanitize' );
 
-  // get options
-  $GLOBALS["shariff3UUoptions"]=get_option( 'shariff3UU' );
-
   add_settings_section( 'shariff3UU_pluginPage_section', __( 'Enable Shariff for all post and configure the options with these settings.', 'shariff3UU' ),
     'shariff3UU_options_section_callback', 'pluginPage'
   );
         
-#  add_settings_field( 'shariff3UU_checkbox_add_all', __( 'Check to put Shariff at the end off all posts.', 'shariff3UU' ),
-#    'shariff3UU_checkbox_add_all_render', 'pluginPage', 'shariff3UU_pluginPage_section'
-#  );
-
   add_settings_field( 'shariff3UU_checkbox_add_after_all_posts', __( 'Check to put Shariff at the end off all posts.', 'shariff3UU' ),
     'shariff3UU_checkbox_add_after_all_posts_render', 'pluginPage', 'shariff3UU_pluginPage_section'
   );
@@ -125,10 +119,6 @@ function shariff3UU_options_init(){
   add_settings_field( 'shariff3UU_checkbox_add_after_all_overview', __( 'Check to put Shariff at the end off all posts on the overview page.', 'shariff3UU' ),
     'shariff3UU_checkbox_add_after_all_overview_render', 'pluginPage', 'shariff3UU_pluginPage_section'
   );
-
-#  add_settings_field( 'shariff3UU_checkbox_add_before_all', __( 'Check to put Shariff at the begin off all posts.', 'shariff3UU' ),
-#    'shariff3UU_checkbox_add_before_all_render', 'pluginPage', 'shariff3UU_pluginPage_section'
-#  );
 
   add_settings_field( 'shariff3UU_checkbox_add_before_all_posts', __( 'Check to put Shariff at the beginning off all posts.', 'shariff3UU' ),
     'shariff3UU_checkbox_add_before_all_posts_render', 'pluginPage', 'shariff3UU_pluginPage_section'
@@ -216,10 +206,6 @@ function shariff3UU_options_sanitize( $input ){
   if(isset($input["style"])) 			$valid["style"] 			= sanitize_text_field( $input["style"] );
   if(isset($input["align"])) 			$valid["align"] 			= sanitize_text_field( $input["align"] );
   if(isset($input["align_widget"])) 		$valid["align_widget"] 			= sanitize_text_field( $input["align_widget"] );
-  //rtzrtz20150410: Bei Gelegenheit checken, ob version und new ueberhaupt irgendwo durch user-Input gesetzt werden koennen. 
-  // Hier auf jeden Fall unschaedlich, aber vielleicht auch unnotig. 
-  if(isset($input["version"]))   		$valid["version"]    			= sanitize_text_field( $input["version"] );
-  if(isset($input["new"]))   			$valid["new"]    			= absint( $input["new"] );
   return $valid;
 }
 
@@ -275,7 +261,7 @@ function shariff3UU_radio_theme_render(){
 #  $wpurl=site_url();
   echo "<table border='0'>
   <tr><td><input type='radio' name='shariff3UU[theme]' value='' ".      checked( $options['theme'], '',0 )      .">default</td><td><img src='".WP_CONTENT_URL."/plugins/shariff/pictos/defaultBtns.png'></td></tr>
-  <tr><td><input type='radio' name='shariff3UU[theme]' value='color' ".  checked( $options['theme'], 'color',0 )  .">color</td><td><img src='".WP_CONTENT_URL."/plugins/shariff/pictos/colorBtns.png'><br></td></tr>
+  <tr><td><input type='radio' name='shariff3UU[theme]' value='color' ". checked( $options['theme'], 'color',0 ) .">color</td><td><img src='".WP_CONTENT_URL."/plugins/shariff/pictos/colorBtns.png'><br></td></tr>
   <tr><td><input type='radio' name='shariff3UU[theme]' value='grey' ".  checked( $options['theme'], 'grey',0 )  .">grey</td><td><img src='".WP_CONTENT_URL."/plugins/shariff/pictos/greyBtns.png'><br></td></tr>
   <tr><td><input type='radio' name='shariff3UU[theme]' value='white' ". checked( $options['theme'], 'white',0 ) .">white</td><td><img src='".WP_CONTENT_URL."/plugins/shariff/pictos/whiteBtns.png'><br></td></tr>
   <tr><td><input type='radio' name='shariff3UU[theme]' value='round' ". checked( $options['theme'], 'round',0 ) .">round</td><td><img src='".WP_CONTENT_URL."/plugins/shariff/pictos/roundBtns.png'><br></td></tr>
@@ -348,7 +334,6 @@ function shariff3UU_options_section_callback(){
 }
 
 function shariff3UU_options_page(){ 
-  $GLOBALS["shariff3UUoptions"]=get_option( 'shariff3UU' );
   /* The <div> with the class "wrap" makes sure that messages are displayed below the title and not above */
   echo '<div class="wrap"><h2>Shariff ' . $GLOBALS["shariff3UUoptions"]["version"] . '</h2><form action="options.php" method="post">';
   settings_fields( 'pluginPage' );
@@ -380,14 +365,6 @@ function buildShariffShorttag(){
   // get options
   $shariff3UU = get_option( 'shariff3UU' );
   
-  // menu configured option over old constant
-  // however backward compatible to: 
-  // Define it in wp-config.php with the shortcode that should added to all posts. Example:
-  // define('SHARIFF_ALL_POSTS','[shariff services="facebook|twitter|googleplus" backend="on"]');
-  // This is a workaround as long as we did not have more options with an own admin page.
-  // Therefor it is not documented and will be removed with next major release.
-  if( defined('SHARIFF_ALL_POSTS') ) { return SHARIFF_ALL_POSTS; }
-
   // build the shorttag
   $shorttag='[shariff';
 
@@ -453,29 +430,17 @@ function shariffPosts($content) {
   // now add Shariff
   if( !is_singular() ) {
     // auf der Uebersichtsseite
-    if(isset($shariff3UU["add_before_all_overview"]))	if($shariff3UU["add_before_all_overview"]=='1') $content=buildShariffShorttag().$content;
-    if(isset($shariff3UU["add_after_all_overview"]))	if($shariff3UU["add_after_all_overview"]=='1') $content.=buildShariffShorttag();
+    if(isset($shariff3UU["add_before_all_overview"]))	if($shariff3UU["add_before_all_overview"]=='1')	$content=buildShariffShorttag().$content;
+    if(isset($shariff3UU["add_after_all_overview"]))	if($shariff3UU["add_after_all_overview"]=='1') 	$content.=buildShariffShorttag();
+    // einzelner Beitrag
   }elseif( is_singular( 'post' ) ){
-    // ab version 1.7. Die zweite Bedingung kann eigentlich raus. Vorsichtshalber in der Version
-    // mal trotzdem pruefen, damit wir bei nem Update-Problem nicht doppelt anzeigen.
-    if(isset($shariff3UU["add_before_all_posts"]) && $shariff3UU["add_before_all_posts"]=='1' && ((isset($shariff3UU["add_before_all"]) && $shariff3UU["add_before_all"]!='1') || (!isset($shariff3UU["add_before_all"])))) $content=buildShariffShorttag().$content;
-    if(isset($shariff3UU["add_after_all_posts"]) && $shariff3UU["add_after_all_posts"]=='1' && ((isset($shariff3UU["add_all"]) && $shariff3UU["add_all"]!='1') || (!isset($shariff3UU["add_all"])))) $content.=buildShariffShorttag();
+    if(isset($shariff3UU["add_before_all_posts"]) && $shariff3UU["add_before_all_posts"]=='1' )	$content=buildShariffShorttag().$content;
+    if(isset($shariff3UU["add_after_all_posts"])  && $shariff3UU["add_after_all_posts"]=='1' )	$content.=buildShariffShorttag();
+    // Seite
   } elseif ( is_singular( 'page' ) ) {
-    // ab version 1.7. Die zweite Bedingung kann eigentlich raus. Vorsichtshalber in der Version
-    // mal trotzdem pruefen, damit wir bei nem Update-Problem nicht doppelt anzeigen. Fliegt dann
-    // zusammen mit dem else-Zweig bei der naechsten Version raus.
-    if(isset($shariff3UU["add_before_all_pages"]) && $shariff3UU["add_before_all_pages"]=='1' && ((isset($shariff3UU["add_before_all"]) && $shariff3UU["add_before_all"]!='1') || (!isset($shariff3UU["add_before_all"])))) $content=buildShariffShorttag().$content;
-    if(isset($shariff3UU["add_after_all_pages"]) && $shariff3UU["add_after_all_pages"]=='1' && ((isset($shariff3UU["add_all"]) && $shariff3UU["add_all"]!='1') || (!isset($shariff3UU["add_all"])))) $content.=buildShariffShorttag();
-  }else{
-    // auf allen Einzelseiten
-    // vor version 1.7
-    if(isset($shariff3UU["add_before_all"]))	if($shariff3UU["add_before_all"]=='1') $content=buildShariffShorttag().$content;
-    if(isset($shariff3UU["add_all"]))		if($shariff3UU["add_all"]=='1') $content.=buildShariffShorttag();  
+    if(isset($shariff3UU["add_before_all_pages"]) && $shariff3UU["add_before_all_pages"]=='1' )	$content=buildShariffShorttag().$content;
+    if(isset($shariff3UU["add_after_all_pages"]) && $shariff3UU["add_after_all_pages"]=='1' )	$content.=buildShariffShorttag();
   }
-
-  // altes verhalten
-  if (defined('SHARIFF_ALL_POSTS')) $content.=SHARIFF_ALL_POSTS;
-
   return $content;
 }
 
@@ -533,13 +498,10 @@ function RenderShariff( $atts , $content = null) {
   }
 
   // Use the backend option for every option that is not set in the shorttag (only for new installations)
-  if(!isset($shariff3UU["new"]))$shariff3UU["new"]='1';
-  if($shariff3UU["new"]=='1') {
     $backend_options = $shariff3UU;
     if(isset($shariff3UU["vertical"]))  if($shariff3UU["vertical"]=='1')    $backend_options["vertical"]='vertical';
     if(isset($shariff3UU["backend"]))   if($shariff3UU["backend"]=='1')     $backend_options["backend"]='on';
     $atts = array_merge($backend_options,$atts);
-  }
 
   // make sure that use default WP jquery is loaded
   wp_enqueue_script('jquery');
