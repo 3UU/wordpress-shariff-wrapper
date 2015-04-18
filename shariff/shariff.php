@@ -40,15 +40,25 @@ $shariff3UUoptions=get_option( 'shariff3UU' );
 function shariff3UU_update() {
  
 /******************** VERSION ANPASSEN *******************************/
-$code_version = "2.0"; // Set code version - needs to be adjusted for every new version!
+$code_version = "1.9.1"; // Set code version - needs to be adjusted for every new version!
 /******************** VERSION ANPASSEN *******************************/
 
+  // get options
+  $GLOBALS["shariff3UUoptions"] = get_option( 'shariff3UU' );
+  $installed_version = get_option( 'shariff3UUversion' );
+
+  // Migrate to new version option
+  if (isset($GLOBALS["shariff3UUoptions"]["version"])) {
+    $installed_version = $GLOBALS["shariff3UUoptions"]["version"];
+    unset($GLOBALS["shariff3UUoptions"]["version"]);
+  }
+
   // check version
-  if(empty($GLOBALS["shariff3UUoptions"]["version"]) || version_compare($GLOBALS["shariff3UUoptions"]["version"], $code_version) == '-1') {
+  if(empty($installed_version) || version_compare($installed_version, $code_version) == '-1') {
     /* Start update procedures - Everything that shall be done once after an update goes here */
 
-   // Migration < v 1.7
-    if(empty($GLOBALS["shariff3UUoptions"]["version"]) || $GLOBALS["shariff3UUoptions"]["version"] < "1.7"){
+    // Migration < v 1.7
+    if(empty($installed_version) || $installed_version < "1.7"){
       if(isset($GLOBALS["shariff3UUoptions"]["add_all"])){
        if($GLOBALS["shariff3UUoptions"]["add_all"]=='1'){ 
           $GLOBALS["shariff3UUoptions"]["add_after_all_posts"]='1'; $GLOBALS["shariff3UUoptions"]["add_after_all_pages"]='1';
@@ -67,23 +77,56 @@ $code_version = "2.0"; // Set code version - needs to be adjusted for every new 
     
     // End Migration < v 2.0
 
-    // Delete user meta entry shariff_ignore_notice to display update message again after an update
-    $users = get_users('role=administrator');
-    foreach ($users as $user) { if( !get_user_meta($user, 'shariff3UU_ignore_notice' )) { delete_user_meta($user->ID, 'shariff3UU_ignore_notice'); } }
+    /* Delete user meta entry shariff3UU_ignore_notice to display update message again after an update */
+    // check for multisite
+    if (is_multisite()) {
+      global $wpdb;
+      $blogs = $wpdb->get_results("SELECT blog_id FROM {$wpdb->blogs}", ARRAY_A);
+      if ($blogs) {
+        foreach($blogs as $blog) {
+          // switch to each blog
+          switch_to_blog($blog['blog_id']);
+          // delete user meta entry shariff3UU_ignore_notice
+          $users = get_users('role=administrator');
+          foreach ($users as $user) {
+            if ( !get_user_meta($user, 'shariff3UU_ignore_notice' )) { delete_user_meta($user->ID, 'shariff3UU_ignore_notice'); } 
+            // clear wrong entries from the past
+            if ( !get_user_meta($user, 'shariff_ignore_notice' )) { delete_user_meta($user->ID, 'shariff_ignore_notice'); }
+          }
+        }
+        // switch back to main
+        restore_current_blog();
+      }
+    } 
+    else {
+      $users = get_users('role=administrator');
+      foreach ($users as $user) {
+        if ( !get_user_meta($user, 'shariff3UU_ignore_notice' )) { delete_user_meta($user->ID, 'shariff3UU_ignore_notice'); } 
+        // clear wrong entries from the past
+        if ( !get_user_meta($user, 'shariff_ignore_notice' )) { delete_user_meta($user->ID, 'shariff_ignore_notice'); }
+      }
+    }
 
     /* End update procedures */
 
-    // Update options version
-    $GLOBALS["shariff3UUoptions"]["version"] = $code_version;
-
-    // Remove empty elements
-    $shariff3UUoptions = array_filter($GLOBALS["shariff3UUoptions"]);
-
-    // Save to options table
-    update_option( 'shariff3UU', $shariff3UUoptions );
+    // Remove empty elements and save to options table
+    if ( !empty( $GLOBALS["shariff3UUoptions"] ) ) {
+      $shariff3UUoptions = array_filter($GLOBALS["shariff3UUoptions"]);
+      update_option( 'shariff3UU', $shariff3UUoptions );
+    }
+    update_option( 'shariff3UUversion', $code_version );
   }
- }
+}
 add_action('admin_init', 'shariff3UU_update');
+
+// Add settings link on plugin page
+function shariff3UU_settings_link($links) { 
+  $settings_link = '<a href="options-general.php?page=shariff3uu">' . __( 'Settings', 'shariff3UU' ) . '</a>'; 
+  array_unshift($links, $settings_link); 
+  return $links; 
+}
+$plugin = plugin_basename(__FILE__); 
+add_filter("plugin_action_links_$plugin", 'shariff3UU_settings_link' );
 
 // css for admin e.g. info notice
 function admin_style() {
@@ -334,8 +377,9 @@ function shariff3UU_options_section_callback(){
 }
 
 function shariff3UU_options_page(){ 
+  $installed_version = get_option( 'shariff3UUversion' );
   /* The <div> with the class "wrap" makes sure that messages are displayed below the title and not above */
-  echo '<div class="wrap"><h2>Shariff ' . $GLOBALS["shariff3UUoptions"]["version"] . '</h2><form action="options.php" method="post">';
+  echo '<div class="wrap"><h2>Shariff ' . $installed_version . '</h2><form action="options.php" method="post">';
   settings_fields( 'pluginPage' );
   do_settings_sections( 'pluginPage' );
   submit_button();
@@ -480,31 +524,25 @@ add_action( 'wp_enqueue_scripts', 'shariff3UU_align_styles' );
 
 // Render the shorttag to the HTML shorttag of Shariff
 function RenderShariff( $atts , $content = null) {
+  // get options
   $shariff3UU = get_option( 'shariff3UU' );
-  // avoid errors if no attributes are given
-  // use the old set of services to make it backward compatible
+
+  // avoid errors if no attributes are given - use the old set of services to make it backward compatible
   if(empty($shariff3UU["services"]))$shariff3UU["services"]="twitter|facebook|googleplus|info";
 
-  if (!is_array($atts)) {
-    $atts=array("services"=>$shariff3UU["services"]);
-    if(!empty($shariff3UU["style"]))		$atts["style"]=$shariff3UU["style"];
-    if(!empty($shariff3UU["theme"]))		$atts["theme"]=$shariff3UU["theme"];
-    if(!empty($shariff3UU["language"]))		$atts["language"]=$shariff3UU["language"];
-    if(!empty($shariff3UU["info_url"]))		$atts["info_url"]=$shariff3UU["info_url"];
-    if(!empty($shariff3UU["twitter_via"]))	$atts["twitter_via"]=$shariff3UU["twitter_via"];
-    if(!empty($shariff3UU["flattruser"])) $atts["flattruser"]=$shariff3UU["flattruser"];
-    if(isset($shariff3UU["vertical"]))		if($shariff3UU["vertical"]=='1') 		$atts["orientation"]='vertical';
-    if(isset($shariff3UU["backend"]))		if($shariff3UU["backend"]=='1') 		$atts["backend"]='on';
-  }
+  // use the backend option for every option that is not set in the shorttag
+  $backend_options = $shariff3UU;
+  if(isset($shariff3UU["vertical"]))  if($shariff3UU["vertical"]=='1')    $backend_options["vertical"]='vertical';
+  if(isset($shariff3UU["backend"]))   if($shariff3UU["backend"]=='1')     $backend_options["backend"]='on';
+  if ( empty($atts) ) $atts = $backend_options;
+  else $atts = array_merge($backend_options,$atts);
 
-  // Use the backend option for every option that is not set in the shorttag (only for new installations)
-    $backend_options = $shariff3UU;
-    if(isset($shariff3UU["vertical"]))  if($shariff3UU["vertical"]=='1')    $backend_options["vertical"]='vertical';
-    if(isset($shariff3UU["backend"]))   if($shariff3UU["backend"]=='1')     $backend_options["backend"]='on';
-    $atts = array_merge($backend_options,$atts);
-
+  // remove empty elements (no need to write data-something="" to html)
+  $atts = array_filter($atts);
+ 
   // make sure that use default WP jquery is loaded
   wp_enqueue_script('jquery');
+
   // the JS must be loaded at footer. Make sure that wp_footer() is present in yout theme!
   wp_enqueue_script('shariffjs', plugins_url('/shariff.js',__FILE__),'','',true);
   
@@ -630,10 +668,12 @@ class ShariffWidget extends WP_Widget {
     // print title
     $title = (empty($instance['shariff-title'])) ? '' : apply_filters('shariff-title', $instance['shariff-title']);
     if(!empty($title)) { echo $before_title . $title . $after_title; }
+    
     // print shorttag
     // if is not configured, use the global options from admin menu
     if ($instance['shariff-tag']=='[shariff]') $shorttag=buildShariffShorttag();
     else $shorttag=$instance['shariff-tag'];
+
     // set url to current page to prevent sharing the first or last post on pages with multiple posts e.g. the overview page
     $wpurl = get_bloginfo('wpurl');
     $siteurl = get_bloginfo('url');
@@ -687,9 +727,51 @@ add_action('admin_init', 'shariff3UU_nag_ignore');
 /* Display an info notice if flattr is set as a service, but no username is entered */
 function shariff3UU_flattr_notice() {
   $shariff3UU = get_option( 'shariff3UU' );
-  if((strpos($shariff3UU["services"], 'flattr') != false) && empty($shariff3UU["flattruser"]) && current_user_can( 'manage_options' )) {
+  if(isset($shariff3UU["services"]) &&  (strpos($shariff3UU["services"], 'flattr') != false) && empty($shariff3UU["flattruser"]) && current_user_can( 'manage_options' )) {
     echo "<div class='error'><p>" . __('Please check your ', 'shariff3UU') . "<a href='" . get_bloginfo('wpurl') . "/wp-admin/options-general.php?page=shariff3uu'>" . __('Shariff-Settings</a> - Flattr was selected, but no username was provided! Please enter your <strong>Flattr username</strong> in the shariff options!', 'shariff3UU') . "</span></p></div>";
   }
 }
 add_action('admin_notices', 'shariff3UU_flattr_notice');
+
+/* Delete the shariff3UU_ignore_notice meta entry upon deactivation as well as the cache */
+function shariff3UU_deactivate() {
+// check for multisite
+if (is_multisite()) {
+  global $wpdb;
+  $blogs = $wpdb->get_results("SELECT blog_id FROM {$wpdb->blogs}", ARRAY_A);
+  if ($blogs) {
+    foreach($blogs as $blog) {
+      // switch to each blog
+      switch_to_blog($blog['blog_id']);
+      // delete options from options table
+      delete_option( $option_name );
+      // delete user meta entry shariff3UU_ignore_notice
+      $users = get_users('role=administrator');
+      foreach ($users as $user) { if ( !get_user_meta($user, 'shariff3UU_ignore_notice' )) { delete_user_meta($user->ID, 'shariff3UU_ignore_notice'); } }
+      // delete cache dir
+      __shariff3UU_rrmdir( wp_upload_dir('1970/01') );
+    }
+    // switch back to main
+    restore_current_blog();
+  }
+} else {
+  // delete user meta entry shariff3UU_ignore_notice
+  $users = get_users('role=administrator');
+  foreach ($users as $user) { if ( !get_user_meta($user, 'shariff3UU_ignore_notice' )) { delete_user_meta($user->ID, 'shariff3UU_ignore_notice'); } }
+  // delete cache dir
+  $upload_dir = wp_upload_dir();
+  $cache_dir = $upload_dir['basedir'].'/1970';
+  shariff_removecachedir( $cache_dir );
+  }
+}
+register_deactivation_hook( __FILE__, 'shariff3UU_deactivate' );
+
+/* Helper function to delete cache directory */
+function shariff_removecachedir($directory){
+  foreach(glob("{$directory}/*") as $file) {
+    if(is_dir($file)) shariff_removecachedir($file);
+    else @unlink($file);
+  }
+  @rmdir($directory);
+}
 ?>

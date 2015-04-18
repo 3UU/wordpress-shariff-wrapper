@@ -174,6 +174,7 @@ joke ;-)
 - CSS theme default like Heise default again + "add" theme color
 - backend now up to date 
 - disable WPDebug in backend config
+- remove obsolet constant SHARIFF_ALL_POSTS 
 
 = 1.9 =
 - add Flattr
