@@ -1,4 +1,4 @@
-=== Shariff for WordPress posts, pages, themes and as widget ===
+=== Shariff Wrapper ===
 Contributors: 3UU, starguide
 Tags: Twitter, Facebook, GooglePlus, sharebutton, sharing, privacy, social, whatsapp
 Requires at least: 3.0.1
@@ -114,15 +114,10 @@ the DIV container with the ID "ShariffSC" around the buttons. If you are
 really a CSS guru you will know what does the magic is ;-)
 
 = Q: Can I add [shariff] on all posts? =
-A: Yes, use the admin menu and use the first checkbox to enable it. If do you 
-have access to your wp-config.php file there is also an other way. Add
-`define('SHARIFF_ALL_POSTS','[shariff]');`
-to it. The shortcut will be put at the end of all single posts and processed.
-You can use all options that work with the shortcut.
+A: Yes, use the admin menu and use the first checkbox to enable it. 
 
 = Q: Can I change the design on a single post? =
-A: Yes. If the [shariff... shortcut is found on a post the SHARIFF_ALL_POSTS
-will be disabled (only) on this site. So you can make the special design.
+A: Yes. If the [shariff... shortcut is found on a post it has preference.
 
 = Q: But I want hide it on a single post! =
 A: Do you really know what do you want? ;-) However it is possible. Write 
@@ -173,6 +168,16 @@ functionality. So please change you configuration ibefore 1.4.2015 - not a
 joke ;-)
 
 == Changelog ==
+= 1.9.1 =
+- merge with original Shariff JS/CSS code version 1.9.3
+- CSS theme default like Heise default again + "add" theme color
+- fix the theme "white"
+- backend now up to date
+- disable WPDebug in backend config
+- improve uninstall (options shariff3UU, shariff3UUversion,
+  widget_shariff) and compatible with multisite installations
+- improve deactivation
+
 = 1.9 =
 - add Flattr
 - improve version control
