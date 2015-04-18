@@ -47,6 +47,10 @@ if (is_multisite()) {
 
 /* Helper function to delete cache directory */
 function shariff_removecachedir($directory){
+# ritze: Das is mir zu gefaehrlich. Wenn jemand nen Archiv aufgebaut 
+# hat, loeschen wir ihm damit vielleicht wichtige Files. Erstmal 
+# unschaedlich gemacht, bis mir nen besseres Verzeichnis einfaellt.
+return;
   foreach(glob("{$directory}/*") as $file) {
     if(is_dir($file)) shariff_removecachedir($file);
     else @unlink($file);
