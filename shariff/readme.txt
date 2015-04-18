@@ -176,7 +176,7 @@ joke ;-)
 - disable WPDebug in backend config
 - improve uninstall (options shariff3UU, shariff3UUversion,
   widget_shariff) and compatible with multisite installations
-- improve dectivation
+- improve deactivation
 
 = 1.9 =
 - add Flattr
