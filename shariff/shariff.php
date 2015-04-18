@@ -3,7 +3,7 @@
  * Plugin Name: Shariff Wrapper
  * Plugin URI: http://www.3uu.org/plugins.htm
  * Description: This is a wrapper to Shariff. Enables shares in posts and/or themes with Twitter, Facebook, GooglePlus... with no harm for visitors privacy.
- * Version: 2.0
+ * Version: 1.9.1
  * Author: 3UU
  * Author URI: http://www.DatenVerwurstungsZentrale.com/
  * License: http://opensource.org/licenses/MIT
@@ -38,7 +38,6 @@ $shariff3UUoptions=get_option( 'shariff3UU' );
 
 // Update function to perform tasks _once_ after an update, based on version number to work for automatic as well as manual updates
 function shariff3UU_update() {
- 
 /******************** VERSION ANPASSEN *******************************/
 $code_version = "1.9.1"; // Set code version - needs to be adjusted for every new version!
 /******************** VERSION ANPASSEN *******************************/
@@ -768,6 +767,8 @@ register_deactivation_hook( __FILE__, 'shariff3UU_deactivate' );
 
 /* Helper function to delete cache directory */
 function shariff_removecachedir($directory){
+#rtzrtz ritze: Zu gefaehrlich. Erstmal enstchaerft.
+return;
   foreach(glob("{$directory}/*") as $file) {
     if(is_dir($file)) shariff_removecachedir($file);
     else @unlink($file);
