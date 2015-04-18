@@ -168,13 +168,15 @@ functionality. So please change you configuration ibefore 1.4.2015 - not a
 joke ;-)
 
 == Changelog ==
-= 2.0 =
-- now full compatible with the behavior of Heise Shariff
+= 1.9.1 =
 - merge with original Shariff JS/CSS code version 1.9.3
 - CSS theme default like Heise default again + "add" theme color
-- backend now up to date 
+- fix the theme "white"
+- backend now up to date
 - disable WPDebug in backend config
-- remove obsolet constant SHARIFF_ALL_POSTS 
+- improve uninstall (options shariff3UU, shariff3UUversion,
+  widget_shariff) and compatible with multisite installations
+- improve dectivation
 
 = 1.9 =
 - add Flattr
