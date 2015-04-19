@@ -36,6 +36,8 @@
           // delete user meta entry shariff_ignore_notice
           $users = get_users('role=administrator');                 foreach ($users as $user) { if ( !get_user_meta($user, 'shariff_ignore_notice' )) { delete_user_meta($user->ID, 'shariff_ignore_notice'); } }
         }  
+        // switch back to main
+        restore_current_blog();
       }
     }    
     $GLOBALS["shariff3UU"]["version"] = '1.9.3';
