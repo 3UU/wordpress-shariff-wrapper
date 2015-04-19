@@ -11,7 +11,7 @@
 **/
 
   // Migration < v 1.7
-  if(empty($GLOBALS["shariff3UU"]["version"]) || ( isset($GLOBALS["shariff3UU"]["version"]) && version_compare($GLOBALS["shariff3UU"]["version"], $code_version) == '-1') ) {
+  if(empty($GLOBALS["shariff3UU"]["version"]) || ( isset($GLOBALS["shariff3UU"]["version"]) && version_compare($GLOBALS["shariff3UU"]["version"], '1.7') == '-1') ) {
     if(isset($GLOBALS["shariff3UU"]["add_all"])){
       if($GLOBALS["shariff3UU"]["add_all"]=='1'){ $GLOBALS["shariff3UU"]["add_after_all_posts"]='1'; $GLOBALS["shariff3UU"]["add_after_all_pages"]='1'; unset($GLOBALS["shariff3UU"]["add_all"]); }
     }
@@ -24,7 +24,7 @@
   
   // Migration < v 1.9.5
   if(!isset($wpdb)) { global $wpdb; }
-  if( version_compare($GLOBALS["shariff3UU"]["version"], $code_version) == '-1') {
+  if( version_compare($GLOBALS["shariff3UU"]["version"], '1.9.5') == '-1') {
     // clear wrong entries from the past
     if (!is_multisite()){ $users = get_users('role=administrator'); foreach ($users as $user) { if ( !get_user_meta($user, 'shariff_ignore_notice' )) { delete_user_meta($user->ID, 'shariff_ignore_notice'); } }
     }else{
@@ -43,7 +43,7 @@
   }
 
   // Migration < v 2.0
-  if( version_compare($GLOBALS["shariff3UU"]["version"], $code_version) == '-1') {
+  if( version_compare($GLOBALS["shariff3UU"]["version"], '2.0') == '-1') {
     // switch service mail to mailto if mailto is not set in services too
   
   }
