@@ -3,7 +3,7 @@
  * Plugin Name: Shariff Wrapper
  * Plugin URI: http://www.3uu.org/plugins.htm
  * Description: This is a wrapper to Shariff. Enables shares in posts and/or themes with Twitter, Facebook, GooglePlus... with no harm for visitors privacy.
- * Version: 1.9.6
+ * Version: 1.9.7
  * Author: 3UU
  * Author URI: http://www.DatenVerwurstungsZentrale.com/
  * License: http://opensource.org/licenses/MIT
@@ -40,7 +40,7 @@ $shariff3UU=get_option( 'shariff3UU' );
 function shariff3UU_update() {
 
   /******************** VERSION ANPASSEN *******************************/
-  $code_version = "1.9.6"; // Set code version - needs to be adjusted for every new version!
+  $code_version = "1.9.7"; // Set code version - needs to be adjusted for every new version!
   /******************** VERSION ANPASSEN *******************************/
 
   $do_admin_notice=false;
@@ -50,7 +50,6 @@ function shariff3UU_update() {
   if(!isset($wpdb)) { global $wpdb; }
   // check for multisite
   if (is_multisite() && $do_admin_notice==true) {
-    $current_blog_id=get_current_blog_id();
     $blogs = $wpdb->get_results("SELECT blog_id FROM {$wpdb->blogs}", ARRAY_A);
     if ($blogs) {
       foreach($blogs as $blog) {
@@ -58,14 +57,14 @@ function shariff3UU_update() {
         switch_to_blog($blog['blog_id']);
         // delete user meta entry shariff3UU_ignore_notice
         $users = get_users('role=administrator');
-          foreach ($users as $user) { if ( !get_user_meta($user, 'shariff3UU_ignore_notice' )) { delete_user_meta($user->ID, 'shariff3UU_ignore_notice'); } }
-	}
+        foreach ($users as $user) { if ( !get_user_meta($user, 'shariff3UU_ignore_notice' )) { delete_user_meta($user->ID, 'shariff3UU_ignore_notice'); } }
+        // switch back to main
+        restore_current_blog();
+	    }
     }
-    // switch back to main
-    switch_to_blog($current_blog_id);
   } elseif($do_admin_notice==true) {
     $users = get_users('role=administrator');
-    foreach ($users as $user) {       if ( !get_user_meta($user, 'shariff3UU_ignore_notice' )) { delete_user_meta($user->ID, 'shariff3UU_ignore_notice'); } }
+    foreach ($users as $user) { if ( !get_user_meta($user, 'shariff3UU_ignore_notice' )) { delete_user_meta($user->ID, 'shariff3UU_ignore_notice'); } }
   }
 
   /* End update procedures */
@@ -792,13 +791,13 @@ if (is_multisite()) {
       delete_option( $option_name );
       // delete user meta entry shariff3UU_ignore_notice
       $users = get_users('role=administrator');
-      foreach ($users as $user) { if ( !get_user_meta($user, 'shariff3UU_ignore_notice' )) { delete_user_meta($user->ID, 'shariff3UU_ignore_notice'); } }
-#      // delete cache dir
-#      __shariff3UU_rrmdir( wp_upload_dir('1970/01') );
+      foreach ($users as $user) { if ( !get_user_meta($user, 'shariff3UU_ignore_notice' )) { delete_user_meta($user->ID, 'shariff3UU_ignore_notice'); } };
+      // delete cache dir
+      // __shariff3UU_rrmdir( wp_upload_dir('1970/01') );
+      // switch back to main
+      restore_current_blog();
     }
   }
-  // switch back to main
-  restore_current_blog($current_blog_id);
 } else {
   // delete user meta entry shariff3UU_ignore_notice
   $users = get_users('role=administrator');
