@@ -58,14 +58,14 @@ function shariff3UU_update() {
         switch_to_blog($blog['blog_id']);
         // delete user meta entry shariff3UU_ignore_notice
         $users = get_users('role=administrator');
-          foreach ($users as $user) { if ( !get_user_meta($user, 'shariff3UU_ignore_notice' )) { delete_user_meta($user->ID, 'shariff3UU_ignore_notice'); } }
-	}
+        foreach ($users as $user) { if ( !get_user_meta($user, 'shariff3UU_ignore_notice' )) { delete_user_meta($user->ID, 'shariff3UU_ignore_notice'); } }
+        // switch back to main
+        restore_current_blog();
+	    }
     }
-    // switch back to main
-    switch_to_blog($current_blog_id);
   } elseif($do_admin_notice==true) {
     $users = get_users('role=administrator');
-    foreach ($users as $user) {       if ( !get_user_meta($user, 'shariff3UU_ignore_notice' )) { delete_user_meta($user->ID, 'shariff3UU_ignore_notice'); } }
+    foreach ($users as $user) { if ( !get_user_meta($user, 'shariff3UU_ignore_notice' )) { delete_user_meta($user->ID, 'shariff3UU_ignore_notice'); } }
   }
 
   /* End update procedures */
@@ -792,13 +792,13 @@ if (is_multisite()) {
       delete_option( $option_name );
       // delete user meta entry shariff3UU_ignore_notice
       $users = get_users('role=administrator');
-      foreach ($users as $user) { if ( !get_user_meta($user, 'shariff3UU_ignore_notice' )) { delete_user_meta($user->ID, 'shariff3UU_ignore_notice'); } }
-#      // delete cache dir
-#      __shariff3UU_rrmdir( wp_upload_dir('1970/01') );
+      foreach ($users as $user) { if ( !get_user_meta($user, 'shariff3UU_ignore_notice' )) { delete_user_meta($user->ID, 'shariff3UU_ignore_notice'); } };
+      // delete cache dir
+      // __shariff3UU_rrmdir( wp_upload_dir('1970/01') );
+      // switch back to main
+      restore_current_blog();
     }
   }
-  // switch back to main
-  restore_current_blog($current_blog_id);
 } else {
   // delete user meta entry shariff3UU_ignore_notice
   $users = get_users('role=administrator');
