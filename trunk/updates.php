@@ -39,7 +39,7 @@
       }
     }    
     // switch back to main
-    restore_current_blog($current_blog_id);
+    switch_to_blog($current_blog_id);
     $GLOBALS["shariff3UU"]["version"] = '1.9.5';
   }
 

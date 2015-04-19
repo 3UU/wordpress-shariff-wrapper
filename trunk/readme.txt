@@ -168,6 +168,9 @@ functionality. So please change you configuration ibefore 1.4.2015 - not a
 joke ;-)
 
 == Changelog ==
+= 1.9.6 =
+- now really go back to 1st block in loop at WMPU
+
 = 1.9.5 =
 - nu abba: missing version update 
 
