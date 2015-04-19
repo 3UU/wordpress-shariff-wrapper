@@ -50,7 +50,6 @@ function shariff3UU_update() {
   if(!isset($wpdb)) { global $wpdb; }
   // check for multisite
   if (is_multisite() && $do_admin_notice==true) {
-    $current_blog_id=get_current_blog_id();
     $blogs = $wpdb->get_results("SELECT blog_id FROM {$wpdb->blogs}", ARRAY_A);
     if ($blogs) {
       foreach($blogs as $blog) {
