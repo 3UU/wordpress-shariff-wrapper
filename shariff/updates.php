@@ -23,7 +23,7 @@
   } // End Migration < v 1.7
   
   
-  // Migration < v 1.9.1
+  // Migration < v 1.9.3
   if(!isset($wpdb)) { global $wpdb; }
   if( version_compare($GLOBALS["shariff3UU"]["version"], $code_version) == '-1') {
     // clear wrong entries from the past
@@ -38,8 +38,8 @@
         }  
       }
     }    
-    $GLOBALS["shariff3UU"]["version"] = '1.9.2';
-  }// End Migration < v 1.9.1
+    $GLOBALS["shariff3UU"]["version"] = '1.9.3';
+  }// End Migration < v 1.9.3
 
   // Migration < v 2.0
   if( version_compare($GLOBALS["shariff3UU"]["version"], $code_version) == '-1') {
