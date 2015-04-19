@@ -3,7 +3,7 @@
  * Plugin Name: Shariff Wrapper
  * Plugin URI: http://www.3uu.org/plugins.htm
  * Description: This is a wrapper to Shariff. Enables shares in posts and/or themes with Twitter, Facebook, GooglePlus... with no harm for visitors privacy.
- * Version: 1.9.1
+ * Version: 1.9.2
  * Author: 3UU
  * Author URI: http://www.DatenVerwurstungsZentrale.com/
  * License: http://opensource.org/licenses/MIT
@@ -40,11 +40,11 @@ $shariff3UU=get_option( 'shariff3UU' );
 function shariff3UU_update() {
 
   /******************** VERSION ANPASSEN *******************************/
-  $code_version = "1.9.1"; // Set code version - needs to be adjusted for every new version!
+  $code_version = "1.9.2"; // Set code version - needs to be adjusted for every new version!
   /******************** VERSION ANPASSEN *******************************/
 
   $do_admin_notice=false;
-  if(empty($GLOBALS["shariff3UU"]["version"]) || ( isset($GLOBALS["shariff3UU"]["version"]) && version_compare($GLOBALS["shariff3UU"]["version"], $code_version) == '-1') ) include(plugin_basename(__FILE__).'updates.php'); 
+  if(empty($GLOBALS["shariff3UU"]["version"]) || ( isset($GLOBALS["shariff3UU"]["version"]) && version_compare($GLOBALS["shariff3UU"]["version"], $code_version) == '-1') ) include(plugin_dir_path(__FILE__).'updates.php'); 
 
   /* Delete user meta entry shariff3UU_ignore_notice to display update message again after an update */
   if(!isset($wpdb)) { global $wpdb; }
@@ -470,8 +470,8 @@ function limitRemoteUser(){
 
   //rtzrtz: aumgeschiebene aus dem DOS-Blocker. Nochmal gruebeln, ob wir das ohne memcache mit der Performance schaffen. Daher auch nur Grundfunktionalitaet.
 
-  if(isset($shariff3UU['REMOTEHOSTS'])) $REMOTEHOSTS=$shariff3UU['REMOTEHOSTS']; else $shariff3UU['REMOTEHOSTS']='';
-  $HOSTS=json_decode($REMOTEHOSTS,true);
+  if(!isset($shariff3UU['REMOTEHOSTS'])) $shariff3UU['REMOTEHOSTS']='';
+  $HOSTS=json_decode($shariff3UU['REMOTEHOSTS'],true);
   // Wartezeit in sekunden
   $wait=1;
   if($HOSTS[$_SERVER['REMOTE_ADDR']]-time()+$wait > 0){ if($HOSTS[$_SERVER['REMOTE_ADDR']]-time() < 86400) $wait=($HOSTS[$_SERVER['REMOTE_ADDR']]-time()+$wait)*2; }
