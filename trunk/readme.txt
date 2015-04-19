@@ -168,6 +168,9 @@ functionality. So please change you configuration ibefore 1.4.2015 - not a
 joke ;-)
 
 == Changelog ==
+= 1.9.4 =
+- fix update bug on WPMS
+
 = 1.9.3 =
 - add missing backend files. Last change for this Sunday ;-)
 

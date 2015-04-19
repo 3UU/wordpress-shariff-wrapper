@@ -23,7 +23,7 @@
   } // End Migration < v 1.7
   
   
-  // Migration < v 1.9.3
+  // Migration < v 1.9.4
   if(!isset($wpdb)) { global $wpdb; }
   if( version_compare($GLOBALS["shariff3UU"]["version"], $code_version) == '-1') {
     // clear wrong entries from the past
@@ -36,10 +36,12 @@
           // delete user meta entry shariff_ignore_notice
           $users = get_users('role=administrator');                 foreach ($users as $user) { if ( !get_user_meta($user, 'shariff_ignore_notice' )) { delete_user_meta($user->ID, 'shariff_ignore_notice'); } }
         }  
+        // switch back to main
+        restore_current_blog();
       }
     }    
-    $GLOBALS["shariff3UU"]["version"] = '1.9.3';
-  }// End Migration < v 1.9.3
+    $GLOBALS["shariff3UU"]["version"] = '1.9.4';
+  }// End Migration < v 1.9.4
 
   // Migration < v 2.0
   if( version_compare($GLOBALS["shariff3UU"]["version"], $code_version) == '-1') {
