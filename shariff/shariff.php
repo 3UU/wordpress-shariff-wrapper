@@ -50,6 +50,7 @@ function shariff3UU_update() {
   if(!isset($wpdb)) { global $wpdb; }
   // check for multisite
   if (is_multisite() && $do_admin_notice==true) {
+    $current_blog_id=get_current_blog_id();
     $blogs = $wpdb->get_results("SELECT blog_id FROM {$wpdb->blogs}", ARRAY_A);
     if ($blogs) {
       foreach($blogs as $blog) {
@@ -58,10 +59,11 @@ function shariff3UU_update() {
         // delete user meta entry shariff3UU_ignore_notice
         $users = get_users('role=administrator');
           foreach ($users as $user) { if ( !get_user_meta($user, 'shariff3UU_ignore_notice' )) { delete_user_meta($user->ID, 'shariff3UU_ignore_notice'); } }
-      }
+	}
       // switch back to main
-      restore_current_blog();
     }
+    // switch back to main
+    restore_current_blog($current_blog_id);
   } elseif($do_admin_notice==true) {
     $users = get_users('role=administrator');
     foreach ($users as $user) {       if ( !get_user_meta($user, 'shariff3UU_ignore_notice' )) { delete_user_meta($user->ID, 'shariff3UU_ignore_notice'); } }
@@ -781,6 +783,7 @@ function shariff3UU_deactivate() {
 // check for multisite
 if (is_multisite()) {
   global $wpdb;
+  $current_blog_id=get_current_blog_id();
   $blogs = $wpdb->get_results("SELECT blog_id FROM {$wpdb->blogs}", ARRAY_A);
   if ($blogs) {
     foreach($blogs as $blog) {
@@ -794,9 +797,9 @@ if (is_multisite()) {
 #      // delete cache dir
 #      __shariff3UU_rrmdir( wp_upload_dir('1970/01') );
     }
-    // switch back to main
-    restore_current_blog();
   }
+  // switch back to main
+  restore_current_blog($current_blog_id);
 } else {
   // delete user meta entry shariff3UU_ignore_notice
   $users = get_users('role=administrator');
