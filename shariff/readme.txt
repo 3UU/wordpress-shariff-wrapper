@@ -168,6 +168,10 @@ functionality. So please change you configuration ibefore 1.4.2015 - not a
 joke ;-)
 
 == Changelog ==
+= 1.9.2 =
+- fix stupid bug with the update file :-( Sorry!
+- fix initialisation of REMOTEHOSTS 
+
 = 1.9.1 =
 - merge with original Shariff JS/CSS code version 1.9.3
 - CSS theme default like Heise default again + "add" theme color

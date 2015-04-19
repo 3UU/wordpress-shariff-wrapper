@@ -38,7 +38,7 @@
         }  
       }
     }    
-    $GLOBALS["shariff3UU"]["version"] = '1.9.1';
+    $GLOBALS["shariff3UU"]["version"] = '1.9.2';
   }// End Migration < v 1.9.1
 
   // Migration < v 2.0
