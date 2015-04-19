@@ -28,6 +28,7 @@
     // clear wrong entries from the past
     if (!is_multisite()){ $users = get_users('role=administrator'); foreach ($users as $user) { if ( !get_user_meta($user, 'shariff_ignore_notice' )) { delete_user_meta($user->ID, 'shariff_ignore_notice'); } }
     }else{
+      $current_blog_id=get_current_blog_id();
       if($blogs = $wpdb->get_results("SELECT blog_id FROM {$wpdb->blogs}", ARRAY_A)){
         foreach($blogs as $blog) {
           // switch to each blog
@@ -35,10 +36,10 @@
           // delete user meta entry shariff_ignore_notice
           $users = get_users('role=administrator');                 foreach ($users as $user) { if ( !get_user_meta($user, 'shariff_ignore_notice' )) { delete_user_meta($user->ID, 'shariff_ignore_notice'); } }
         }  
-        // switch back to main
-        restore_current_blog();
       }
     }    
+    // switch back to main
+    restore_current_blog($current_blog_id);
     $GLOBALS["shariff3UU"]["version"] = '1.9.5';
   }
 
