@@ -20,10 +20,9 @@
     }
     $GLOBALS["shariff3UU"]["version"] = '1.7';
     $do_admin_notice=true;
-  } // End Migration < v 1.7
+  }  
   
-  
-  // Migration < v 1.9.4
+  // Migration < v 1.9.5
   if(!isset($wpdb)) { global $wpdb; }
   if( version_compare($GLOBALS["shariff3UU"]["version"], $code_version) == '-1') {
     // clear wrong entries from the past
@@ -40,13 +39,13 @@
         restore_current_blog();
       }
     }    
-    $GLOBALS["shariff3UU"]["version"] = '1.9.4';
-  }// End Migration < v 1.9.4
+    $GLOBALS["shariff3UU"]["version"] = '1.9.5';
+  }
 
   // Migration < v 2.0
   if( version_compare($GLOBALS["shariff3UU"]["version"], $code_version) == '-1') {
     // switch service mail to mailto if mailto is not set in services too
   
-  }// End Migration < v 2.0
+  }
   
 ?>
