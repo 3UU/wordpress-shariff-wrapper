@@ -22,9 +22,9 @@
     $do_admin_notice=true;
   }  
   
-  // Migration < v 1.9.5
+  // Migration < v 1.9.7
   if(!isset($wpdb)) { global $wpdb; }
-  if( version_compare($GLOBALS["shariff3UU"]["version"], '1.9.5') == '-1') {
+  if( version_compare($GLOBALS["shariff3UU"]["version"], '1.9.7') == '-1') {
     // clear wrong entries from the past
     if (!is_multisite()){ $users = get_users('role=administrator'); foreach ($users as $user) { if ( !get_user_meta($user, 'shariff_ignore_notice' )) { delete_user_meta($user->ID, 'shariff_ignore_notice'); } }
     }else{
@@ -34,13 +34,14 @@
           // switch to each blog
           switch_to_blog($blog['blog_id']);
           // delete user meta entry shariff_ignore_notice
-          $users = get_users('role=administrator');                 foreach ($users as $user) { if ( !get_user_meta($user, 'shariff_ignore_notice' )) { delete_user_meta($user->ID, 'shariff_ignore_notice'); } }
+          $users = get_users('role=administrator'); 
+          foreach ($users as $user) { if ( !get_user_meta($user, 'shariff_ignore_notice' )) { delete_user_meta($user->ID, 'shariff_ignore_notice'); } }
+          // switch back to main
+          restore_current_blog();
         }  
       }
     }    
-    // switch back to main
-    switch_to_blog($current_blog_id);
-    $GLOBALS["shariff3UU"]["version"] = '1.9.5';
+    $GLOBALS["shariff3UU"]["version"] = '1.9.7';
   }
 
   // Migration < v 2.0
