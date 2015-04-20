@@ -2,7 +2,7 @@
 Contributors: 3UU, starguide
 Tags: Twitter, Facebook, GooglePlus, sharebutton, sharing, privacy, social, whatsapp
 Requires at least: 3.0.1
-Tested up to: 4.1
+Tested up to: 4.2
 Stable tag: trunk
 License: MIT
 License URI: http://opensource.org/licenses/MIT
