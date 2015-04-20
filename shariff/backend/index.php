@@ -1,5 +1,14 @@
 <?php
 define('WP_DEBUG', false);
+
+// CACHEN untersagen
+// Datum aus Vergangenheit
+header("Expires: Sat, 24 Jan 1970 04:10:00 GMT");		// Datum aus Vergangenheit
+header("Last-Modified: " . gmdate("D, d M Y H:i:s") . " GMT");	// Immer geaendert
+header("Cache-Control: no-store, no-cache, must-revalidate");
+header("Cache-Control: post-check=0, pre-check=0", false);	// Speziell fuer MSIE 5
+header("Pragma: no-cache");
+
 require_once __DIR__.'/vendor/autoload.php';
 
 use Heise\Shariff\Backend;
