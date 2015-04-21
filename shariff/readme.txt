@@ -168,6 +168,13 @@ functionality. So please change you configuration ibefore 1.4.2015 - not a
 joke ;-)
 
 == Changelog ==
+= 1.9.8 =
+- add headers to avoid caching of backend data
+- tested with WP 4.2 beta
+
+= 1.9.7 =
+- roll back to stable
+
 = 1.9.6 =
 - now really go back to 1st block in loop at WMPU
 

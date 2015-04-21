@@ -3,7 +3,7 @@
  * Plugin Name: Shariff Wrapper
  * Plugin URI: http://www.3uu.org/plugins.htm
  * Description: This is a wrapper to Shariff. Enables shares in posts and/or themes with Twitter, Facebook, GooglePlus... with no harm for visitors privacy.
- * Version: 1.9.7
+ * Version: 1.9.8
  * Author: 3UU
  * Author URI: http://www.DatenVerwurstungsZentrale.com/
  * License: http://opensource.org/licenses/MIT
@@ -15,10 +15,9 @@
  *   services: [facebook|twitter|googleplus|whatsapp|mail|mailto|printer|pinterest|linkedin|xing|reddit|stumbleupon|info]
  *   info_url: http://ct.de/-2467514
  *   lang: de|en|fr
- *   theme: default|grey|white|round
+ *   theme: default|color|grey|white|round
  *   orientation: vertical
  *   twitter_via: screenname
- *   (see http://heiseonline.github.io/shariff/)
  *   style: CSS code that will be used in a DIV container arround shariff
  */
 
@@ -40,7 +39,7 @@ $shariff3UU=get_option( 'shariff3UU' );
 function shariff3UU_update() {
 
   /******************** VERSION ANPASSEN *******************************/
-  $code_version = "1.9.7"; // Set code version - needs to be adjusted for every new version!
+  $code_version = "1.9.8"; // Set code version - needs to be adjusted for every new version!
   /******************** VERSION ANPASSEN *******************************/
 
   $do_admin_notice=false;
@@ -430,8 +429,8 @@ function sharif3UUprocSentMail(){
   // optional robinson einbauen
   // optional auf eingeloggte User beschraenken, dann aber auch nicht allgemein anzeigen
 
-   $wait=limitRemoteUser();
-   if($wait > '5'){ echo 'Please wait '. $wait .' sec until your next mail. '; die('Ooops!!!'); }       
+   $wait=limitRemoteUser('10');
+   if($wait > '10'){ echo 'Please wait '. $wait .' sec until your next mail. '; die('Ooops!!!'); }       
 
   // build the array with recipients
   $arr=explode(',',$_REQUEST["mailto"]);
@@ -443,29 +442,31 @@ function sharif3UUprocSentMail(){
   }
   
   $subject='Shariff share '.get_permalink();
-  $message='Jemand moechte Dir die Seite \r\n';
+  $message="Jemand moechte Dir die Seite \r\n";
   $message.=get_permalink();
-  $message.='empfehlen.\r\n';
-  $message.='Du erhaelst diese Email, weil der Betreiber der Seite das Plugin ';
-  $message.='Shariff Wrapper auf seinem Blog aktiviert hat, dass entwickelt wurde, ';
-  $message.='die Seite moeglichst anonym zu nutzen. Der Seitenbetreiber hat daher ';
-  $message.='auch keine Moeglichkeit, naehere Informationen ueber den Absender ';
-  $message.='zu geben. Du kannst Dich aber selbst auf eine Robinson-Liste setzen ';
-  $message.='und wirst dann nie wieder Emails von diesem Plugin auf dem Blog erhalten.';
+  $message.="\r\nempfehlen.\r\n\r\n";
+  $message.=$_REQUEST['mail_comment'];
+  $message.="\r\n-- \r\nDu erhaelst diese Email, weil der Betreiber der Seite das \r\n";
+  $message.="Plugin Shariff Wrapper auf seinem Blog aktiviert hat. Es wurde \r\n";
+  $message.="entwickelt, um eine weitgehendst anonyme Nutzung der Seite zu erlauben. \r\n";
+  $message.="Der Seitenbetreiber hat daher auch keine Moeglichkeit, naehere \r\n";
+  $message.="Informationen zum tatsaechlen Absender dieser Email zu geben. ";
+#  $message.="Du kannst Dich aber selbst auf eine Robinson-Liste setzen \r\n";
+#  $message.="und wirst dann nie wieder Emails von diesem Plugin auf dem Blog erhalten.";
 
   // falls mail uebergeben, setze als return-path
-  if(isset($_REQUEST["from"])) $headers='Return-Path: <'.sanitize_email($_REQUEST["from"]).'>\r\n';
+  if(isset($_REQUEST["from"])) $headers="Reply-To: <".sanitize_email($_REQUEST["from"]).">\r\n";
 
-  echo $subject.'<br>';
-  echo $message.'<br>';
-#  echo $headers.'<br>';
+  echo '<b>'.$subject.'</b><br>';
+  echo nl2br("$message").'<br>';
+  #echo $headers.'<br>';
 
   if(empty($mailto['0'])) echo ('Ooops, no usuable email address found.');
   else wp_mail( $mailto, $subject, $message, $headers); // The function is available after the hook 'plugins_loaded'.
 }
 
 // set a timeout until new mails are possible                                  
-function limitRemoteUser(){
+function limitRemoteUser($wait='1'){
   global $shariff3UU;
 
   //rtzrtz: aumgeschiebene aus dem DOS-Blocker. Nochmal gruebeln, ob wir das ohne memcache mit der Performance schaffen. Daher auch nur Grundfunktionalitaet.
@@ -473,7 +474,7 @@ function limitRemoteUser(){
   if(!isset($shariff3UU['REMOTEHOSTS'])) $shariff3UU['REMOTEHOSTS']='';
   $HOSTS=json_decode($shariff3UU['REMOTEHOSTS'],true);
   // Wartezeit in sekunden
-  $wait=1;
+  //  $wait=1;
   if($HOSTS[$_SERVER['REMOTE_ADDR']]-time()+$wait > 0){ if($HOSTS[$_SERVER['REMOTE_ADDR']]-time() < 86400) $wait=($HOSTS[$_SERVER['REMOTE_ADDR']]-time()+$wait)*2; }
   $HOSTS[$_SERVER['REMOTE_ADDR']]=time()+$wait;
   // Etwas Muellentsorgung

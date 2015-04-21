@@ -16,6 +16,7 @@ module.exports = function(shariff) {
     return {
         popup: false,
         mobileonly: false,
+        noblank: true,
         shareText: 'mail',
         name: 'mail',
         faName: 's3uu-envelope',
@@ -30,6 +31,6 @@ module.exports = function(shariff) {
         },
         // shareUrl: shariff.getOption('mailUrl')
         // for future changes - currently the same as the mailto.js
-        shareUrl: 'mailto:?body=' + url + shariff.getReferrerTrack() + '&subject=' + encodeURIComponent(title)
+        shareUrl: shariff.getReferrerTrack() + '?view=mail'
     };
 };

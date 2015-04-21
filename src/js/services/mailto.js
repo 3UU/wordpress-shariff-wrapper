@@ -16,7 +16,8 @@ module.exports = function(shariff) {
     return {
         popup: false,
         mobileonly: false,
-        shareText: 'mail',
+        noblank: true,
+        shareText: 'mailto',
         name: 'mailto',
         faName: 's3uu-envelope',
         title: {
