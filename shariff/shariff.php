@@ -43,35 +43,61 @@ function shariff3UU_update() {
   /******************** VERSION ANPASSEN *******************************/
 
   $do_admin_notice=false;
-  if(empty($GLOBALS["shariff3UU"]["version"]) || ( isset($GLOBALS["shariff3UU"]["version"]) && version_compare($GLOBALS["shariff3UU"]["version"], $code_version) == '-1') ) include(plugin_dir_path(__FILE__).'updates.php'); 
 
-  /* Delete user meta entry shariff3UU_ignore_notice to display update message again after an update */
-  if(!isset($wpdb)) { global $wpdb; }
-  // check for multisite
-  if (is_multisite() && $do_admin_notice==true) {
-    $blogs = $wpdb->get_results("SELECT blog_id FROM {$wpdb->blogs}", ARRAY_A);
-    if ($blogs) {
-      foreach($blogs as $blog) {
-        // switch to each blog
-        switch_to_blog($blog['blog_id']);
-        // delete user meta entry shariff3UU_ignore_notice
-        $users = get_users('role=administrator');
-        foreach ($users as $user) { if ( !get_user_meta($user, 'shariff3UU_ignore_notice' )) { delete_user_meta($user->ID, 'shariff3UU_ignore_notice'); } }
-        // switch back to main
-        restore_current_blog();
-	    }
+  if(empty($GLOBALS["shariff3UU"]["version"]) || ( isset($GLOBALS["shariff3UU"]["version"]) && version_compare($GLOBALS["shariff3UU"]["version"], $code_version) == '-1') ) {
+
+    include(plugin_dir_path(__FILE__).'updates.php'); 
+
+    if(!isset($wpdb)) { global $wpdb; }
+
+    /* Delete user meta entry shariff3UU_ignore_notice to display update message again after an update */
+    // check for multisite
+    if (is_multisite() && $do_admin_notice==true) {
+      $blogs = $wpdb->get_results("SELECT blog_id FROM {$wpdb->blogs}", ARRAY_A);
+      if ($blogs) {
+        foreach($blogs as $blog) {
+          // switch to each blog
+          switch_to_blog($blog['blog_id']);
+          // delete user meta entry shariff3UU_ignore_notice
+          $users = get_users('role=administrator');
+          foreach ($users as $user) { if ( !get_user_meta($user, 'shariff3UU_ignore_notice' )) { delete_user_meta($user->ID, 'shariff3UU_ignore_notice'); } }
+          // switch back to main
+          restore_current_blog();
+        }
+      }
+    } elseif($do_admin_notice==true) {
+      $users = get_users('role=administrator');
+      foreach ($users as $user) { if ( !get_user_meta($user, 'shariff3UU_ignore_notice' )) { delete_user_meta($user->ID, 'shariff3UU_ignore_notice'); } }
     }
-  } elseif($do_admin_notice==true) {
-    $users = get_users('role=administrator');
-    foreach ($users as $user) { if ( !get_user_meta($user, 'shariff3UU_ignore_notice' )) { delete_user_meta($user->ID, 'shariff3UU_ignore_notice'); } }
+
+    /* Clear cache direcotry */
+    // check for multisite
+    if (is_multisite()) {
+      global $wpdb;
+      $current_blog_id=get_current_blog_id();
+      $blogs = $wpdb->get_results("SELECT blog_id FROM {$wpdb->blogs}", ARRAY_A);
+      if ($blogs) {
+        foreach($blogs as $blog) {
+          // switch to each blog
+          switch_to_blog($blog['blog_id']);
+          // delete cache dir
+          shariff_removecachedir();
+          // switch back to main
+          restore_current_blog();
+        }
+      }
+    } else {
+      // delete cache dir
+      shariff_removecachedir();
+    }
+
+    // set new version
+    $GLOBALS["shariff3UU"]["version"]=$code_version;
+
+    // Remove empty elements and save to options table
+    $shariff3UU = array_filter($GLOBALS["shariff3UU"]);
+    update_option( 'shariff3UU', $shariff3UU );
   }
-
-  /* End update procedures */
-  $GLOBALS["shariff3UU"]["version"]=$code_version;
-
-  // Remove empty elements and save to options table
-  $shariff3UU = array_filter($GLOBALS["shariff3UU"]);
-  update_option( 'shariff3UU', $shariff3UU );
 }
 add_action('admin_init', 'shariff3UU_update');
 
@@ -777,7 +803,7 @@ function shariff3UU_flattr_notice() {
 }
 add_action('admin_notices', 'shariff3UU_flattr_notice');
 
-/* Delete the shariff3UU_ignore_notice meta entry upon deactivation as well as the cache */
+/* Clear cache upon deactivation */
 function shariff3UU_deactivate() {
 // check for multisite
 if (is_multisite()) {
@@ -788,36 +814,35 @@ if (is_multisite()) {
     foreach($blogs as $blog) {
       // switch to each blog
       switch_to_blog($blog['blog_id']);
-      // delete options from options table
-      delete_option( $option_name );
-      // delete user meta entry shariff3UU_ignore_notice
-      $users = get_users('role=administrator');
-      foreach ($users as $user) { if ( !get_user_meta($user, 'shariff3UU_ignore_notice' )) { delete_user_meta($user->ID, 'shariff3UU_ignore_notice'); } };
       // delete cache dir
-      // __shariff3UU_rrmdir( wp_upload_dir('1970/01') );
+      shariff_removecachedir();
       // switch back to main
       restore_current_blog();
     }
   }
 } else {
-  // delete user meta entry shariff3UU_ignore_notice
-  $users = get_users('role=administrator');
-  foreach ($users as $user) { if ( !get_user_meta($user, 'shariff3UU_ignore_notice' )) { delete_user_meta($user->ID, 'shariff3UU_ignore_notice'); } }
-#  // delete cache dir
-#  $upload_dir = wp_upload_dir();
-#  $cache_dir = $upload_dir['basedir'].'/1970';
-#  shariff_removecachedir( $cache_dir );
+  // delete cache dir
+  shariff_removecachedir();
   }
 }
 register_deactivation_hook( __FILE__, 'shariff3UU_deactivate' );
 
-/* Helper function to delete cache directory */
-function shariff_removecachedir($directory){
-#rtzrtz ritze: Zu gefaehrlich. Erstmal enstchaerft.
-return;
-  foreach(glob("{$directory}/*") as $file) {
-    if(is_dir($file)) shariff_removecachedir($file);
-    else @unlink($file);
+/* Delete cache directory */
+function shariff_removecachedir(){
+  $upload_dir = wp_upload_dir();
+  $cache_dir = $upload_dir['basedir'].'/1970/01';
+  $cache_dir2 = $upload_dir['basedir'].'/1970';
+  shariff_removefiles( $cache_dir );
+  // Remove /1970/01 and /1970 if they are empty
+  @rmdir($cache_dir);
+  @rmdir($cache_dir2);
+}
+
+/* Helper function to delete .dat files that begin with "Shariff" and empty folders that also start with "Shariff" */
+function shariff_removefiles($directory){
+  foreach(glob("{$directory}/Shariff*") as $file) {
+    if(is_dir($file)) shariff_removefiles($file);
+    else if(substr($file, -4) == '.dat') @unlink($file);
   }
   @rmdir($directory);
 }
