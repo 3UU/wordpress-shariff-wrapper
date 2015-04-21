@@ -38,22 +38,22 @@ class Application{
                                                         "6"=>"StumbleUpon",
                                                         "7"=>"Pinterest",
                                                         "8"=>"Xing");
+    // force a short init because we only need WP core
+    define( 'SHORTINIT', true );
+    // build the wp-load/-config.php path
+    $wp_root_path = dirname( dirname( dirname( dirname( dirname( __FILE__ ) ) ) ) );
+    // include the config
+    include ( $wp_root_path . '/wp-config.php' );         
+    // include wp-load.php file (that loads wp-config.php and bootstraps WP)
+    require( $wp_root_path . '/wp-load.php' );
+    // include for needed untrailingslashit()
+    require( $wp_root_path . '/wp-includes/formatting.php');
     // if we have a constant for the ttl (default is 60 s)
     if(defined('SHARIFF_BACKEND_TTL'))$tmp["cache"]["ttl"]=SHARIFF_BACKEND_TTL;
     // if we have a constant for the tmp-dir
     if(defined('SHARIFF_BACKEND_TMPDIR'))$tmp["cache"]["cacheDir"]=SHARIFF_BACKEND_TMPDIR;
     // if we do not have a tmp-dir, we use the content dir of WP
     if( empty($tmp["cache"]["cacheDir"]) ){
-      // force a short init because we only need WP core
-      define( 'SHORTINIT', true );
-      // build the wp-load/-config.php path
-      $wp_root_path = dirname( dirname( dirname( dirname( dirname( __FILE__ ) ) ) ) );
-      // include the config
-      include ( $wp_root_path . '/wp-config.php' );         
-      // include wp-load.php file (that loads wp-config.php and bootstraps WP)
-      require( $wp_root_path . '/wp-load.php' );
-      // include for needed untrailingslashit()
-      require( $wp_root_path . '/wp-includes/formatting.php');
       // to avoid conficts with other plugins and actual uploads we use a fixed date in the past
       // month of my birthday would be great ;-) The wp_upload_dir() create the dir if not exists.
       $upload_dir = @wp_upload_dir('1970/01');
