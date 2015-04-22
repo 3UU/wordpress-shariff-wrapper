@@ -145,6 +145,10 @@ function shariff3UU_options_init(){
     'shariff3UU_checkbox_add_after_all_overview_render', 'pluginPage', 'shariff3UU_pluginPage_section'
   );
 
+  add_settings_field( 'shariff3UU_checkbox_add_after_all_products', __( 'Check to put Shariff at the end off all product pages (WooCommerce).', 'shariff3UU' ),
+    'shariff3UU_checkbox_add_after_all_products_render', 'pluginPage', 'shariff3UU_pluginPage_section'
+  );
+
   add_settings_field( 'shariff3UU_checkbox_add_before_all_posts', __( 'Check to put Shariff at the beginning off all posts.', 'shariff3UU' ),
     'shariff3UU_checkbox_add_before_all_posts_render', 'pluginPage', 'shariff3UU_pluginPage_section'
   );
@@ -170,7 +174,7 @@ function shariff3UU_options_init(){
   );
 
   add_settings_field( 'shariff3UU_text_services', 
-    __( 'Put in the service do you want enable (<code>facebook|twitter|googleplus|whatsapp|mail|mailto|printer| pinterest|linkedin|xing|reddit|stumbleupon|flattr|info</code>). Use the pipe sign | between two or more services.', 'shariff3UU' ), 
+    __( 'Put in the service do you want enable (<code>facebook|twitter|googleplus|whatsapp|mail|mailto|printer|pinterest|linkedin| xing|reddit|stumbleupon|flattr|info</code>). Use the pipe sign | between two or more services.', 'shariff3UU' ), 
     'shariff3UU_text_services_render', 'pluginPage', 'shariff3UU_pluginPage_section' 
   );
 
@@ -220,6 +224,7 @@ function shariff3UU_options_sanitize( $input ){
   if(isset($input["add_before_all_overview"])) 	$valid["add_before_all_overview"] 	= absint( $input["add_before_all_overview"] );
   if(isset($input["add_after_all_pages"])) 	$valid["add_after_all_pages"] 		= absint( $input["add_after_all_pages"] );
   if(isset($input["add_before_all_pages"])) 	$valid["add_before_all_pages"] 		= absint( $input["add_before_all_pages"] );
+  if(isset($input["add_after_all_products"]))   $valid["add_after_all_products"]    = absint( $input["add_after_all_products"] );
   if(isset($input["language"])) 		$valid["language"] 			= sanitize_text_field( $input["language"] );
   if(isset($input["theme"])) 			$valid["theme"] 			= sanitize_text_field( $input["theme"] );
   if(isset($input["vertical"])) 		$valid["vertical"] 			= absint( $input["vertical"] );
@@ -242,9 +247,9 @@ function shariff3UU_checkbox_add_after_all_posts_render(){
   echo " value='1'>";
 }
 
-function shariff3UU_checkbox_add_before_all_posts_render(){
-  echo "<input type='checkbox' name='shariff3UU[add_before_all_posts]' ";
-  if(isset($GLOBALS["shariff3UU"]["add_before_all_posts"])) echo checked( $GLOBALS["shariff3UU"]["add_before_all_posts"], 1, 0 );
+function shariff3UU_checkbox_add_after_all_pages_render(){
+  echo "<input type='checkbox' name='shariff3UU[add_after_all_pages]' ";
+  if(isset($GLOBALS["shariff3UU"]["add_after_all_pages"])) echo checked( $GLOBALS["shariff3UU"]["add_after_all_pages"], 1, 0 );
   echo " value='1'>";
 }
 
@@ -254,21 +259,27 @@ function shariff3UU_checkbox_add_after_all_overview_render(){
   echo " value='1'>";
 }
 
-function shariff3UU_checkbox_add_before_all_overview_render(){
-  echo "<input type='checkbox' name='shariff3UU[add_before_all_overview]' ";
-  if(isset($GLOBALS["shariff3UU"]["add_before_all_overview"])) echo checked( $GLOBALS["shariff3UU"]["add_before_all_overview"], 1, 0 );
+function shariff3UU_checkbox_add_after_all_products_render(){
+  echo "<input type='checkbox' name='shariff3UU[add_after_all_products]' ";
+  if(isset($GLOBALS["shariff3UU"]["add_after_all_products"])) echo checked( $GLOBALS["shariff3UU"]["add_after_all_products"], 1, 0 );
   echo " value='1'>";
 }
 
-function shariff3UU_checkbox_add_after_all_pages_render(){
-  echo "<input type='checkbox' name='shariff3UU[add_after_all_pages]' ";
-  if(isset($GLOBALS["shariff3UU"]["add_after_all_pages"])) echo checked( $GLOBALS["shariff3UU"]["add_after_all_pages"], 1, 0 );
+function shariff3UU_checkbox_add_before_all_posts_render(){
+  echo "<input type='checkbox' name='shariff3UU[add_before_all_posts]' ";
+  if(isset($GLOBALS["shariff3UU"]["add_before_all_posts"])) echo checked( $GLOBALS["shariff3UU"]["add_before_all_posts"], 1, 0 );
   echo " value='1'>";
 }
 
 function shariff3UU_checkbox_add_before_all_pages_render(){
   echo "<input type='checkbox' name='shariff3UU[add_before_all_pages]' ";
   if(isset($GLOBALS["shariff3UU"]["add_before_all_pages"])) echo checked( $GLOBALS["shariff3UU"]["add_before_all_pages"], 1, 0 );
+  echo " value='1'>";
+}
+
+function shariff3UU_checkbox_add_before_all_overview_render(){
+  echo "<input type='checkbox' name='shariff3UU[add_before_all_overview]' ";
+  if(isset($GLOBALS["shariff3UU"]["add_before_all_overview"])) echo checked( $GLOBALS["shariff3UU"]["add_before_all_overview"], 1, 0 );
   echo " value='1'>";
 }
 
@@ -550,6 +561,8 @@ function shariffPosts($content) {
   } elseif ( is_singular( 'page' ) ) {
     if(isset($shariff3UU["add_before_all_pages"]) && $shariff3UU["add_before_all_pages"]=='1' )	$content=buildShariffShorttag().$content;
     if(isset($shariff3UU["add_after_all_pages"]) && $shariff3UU["add_after_all_pages"]=='1' )	$content.=buildShariffShorttag();
+  } elseif ( is_product() ) {
+    if(isset($shariff3UU["add_after_all_products"]) && $shariff3UU["add_after_all_products"]=='1' ) $content.=buildShariffShorttag();
   }
 
   // altes verhalten
