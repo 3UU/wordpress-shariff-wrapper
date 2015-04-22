@@ -228,6 +228,10 @@
             background-color: #fb613c !important;
             color: #fff !important;
         }
+        li.flattr .share_count:hover {
+            background-color: #F67C1A !important;
+            color: #fff !important;
+        }
 
     }
 
@@ -241,6 +245,49 @@
         }
     }
 	.orientation-vertical.theme-round { width: 50px !important; }
+
+    // ------------------------- small buttons
+    .buttonsize-small {
+        li {
+            min-width: 90px !important;
+            max-width: 90px !important;
+            height: 25px;
+            a {
+                height: 35px;
+            }
+            .share_text,
+            .share_count {
+                font-size: 11px;
+                line-height: 25px;
+            }
+            .s3uu {
+                width: 25px;
+                line-height: 25px;
+                font-size: 16px;
+            }
+            .share_text {
+                padding-left: 1px !important;
+            }
+            .share_count {
+                padding: 0 5px;
+                height: 23px;
+            }
+            .orientation-vertical {
+                width: 90px !important;
+            }
+        }
+    }
+    .theme-round.buttonsize-small {
+        .shariff-button {
+            width: 25px !important;
+            min-width: 25px !important;
+            height: 25px !important;
+        }
+        .share_count {
+            padding: 0 !important;
+            height: 25px !important;
+        }
+    }
 }
 
 // ---------------  Adjustments Wordpress-Widget
@@ -267,6 +314,10 @@
         li {
             min-width: 35px;
             max-width: 35px;
+        }
+        .buttonsize-small {
+            min-width: 25px;
+            max-width: 25px;
         }
     }
 }
@@ -321,6 +372,18 @@
                 width: 35px;
                 line-height: 35px;
             }
+        }
+        .buttonsize-small {
+            li {
+            height: 25px;
+            a {
+                height: 25px;
+            }
+            .s3uu {
+                width: 25px;
+                line-height: 25px;
+            }
+        }
         }
     }
 }

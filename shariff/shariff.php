@@ -165,6 +165,10 @@ function shariff3UU_options_init(){
     'shariff3UU_radio_theme_render', 'pluginPage', 'shariff3UU_pluginPage_section'
   );
 
+  add_settings_field( 'shariff3UU_checkbox_buttonsize', __( 'Check this to make the buttons 30% smaller (all designs).', 'shariff3UU' ), 
+    'shariff3UU_checkbox_buttonsize_render', 'pluginPage', 'shariff3UU_pluginPage_section' 
+  );
+
   add_settings_field( 'shariff3UU_checkbox_vertical', __( 'Check this to make orientation of buttons <b>vertical</b>.', 'shariff3UU' ), 
     'shariff3UU_checkbox_vertical_render', 'pluginPage', 'shariff3UU_pluginPage_section' 
   );
@@ -222,6 +226,7 @@ function shariff3UU_options_sanitize( $input ){
   if(isset($input["add_before_all_pages"])) 	$valid["add_before_all_pages"] 		= absint( $input["add_before_all_pages"] );
   if(isset($input["language"])) 		$valid["language"] 			= sanitize_text_field( $input["language"] );
   if(isset($input["theme"])) 			$valid["theme"] 			= sanitize_text_field( $input["theme"] );
+  if(isset($input["buttonsize"]))     $valid["buttonsize"]      = absint( $input["buttonsize"] );
   if(isset($input["vertical"])) 		$valid["vertical"] 			= absint( $input["vertical"] );
   if(isset($input["services"])) 		$valid["services"] 			= str_replace(' ', '',sanitize_text_field( $input["services"] ));
   if(isset($input["backend"])) 			$valid["backend"] 			= absint( $input["backend"] );
@@ -292,6 +297,12 @@ function shariff3UU_radio_theme_render(){
   <tr><td><input type='radio' name='shariff3UU[theme]' value='white' ". checked( $options['theme'], 'white',0 ) .">white</td><td><img src='".WP_CONTENT_URL."/plugins/shariff/pictos/whiteBtns.png'><br></td></tr>
   <tr><td><input type='radio' name='shariff3UU[theme]' value='round' ". checked( $options['theme'], 'round',0 ) .">round</td><td><img src='".WP_CONTENT_URL."/plugins/shariff/pictos/roundBtns.png'><br></td></tr>
   </table>";
+}
+
+function shariff3UU_checkbox_buttonsize_render(){
+  echo "<input type='checkbox' name='shariff3UU[buttonsize]' ";
+  if(isset($GLOBALS['shariff3UU']['buttonsize'])) echo checked( $GLOBALS['shariff3UU']['buttonsize'], 1,0 );
+  echo " value='1'><img src='". WP_CONTENT_URL ."/plugins/shariff/pictos/smallBtns.png' align='middle'>";
 }
 
 function shariff3UU_checkbox_vertical_render(){
@@ -407,6 +418,8 @@ function buildShariffShorttag(){
   if(isset($shariff3UU["vertical"])) 	if($shariff3UU["vertical"]=='1') $shorttag.=' orientation="vertical"';
   // *** theme ***
   if(!empty($shariff3UU["theme"])) 	$shorttag.=' theme="'.$shariff3UU["theme"].'"';
+  // *** buttonsize ***
+  if(isset($shariff3UU["buttonsize"]))  if($shariff3UU["buttonsize"]=='1') $shorttag.=' buttonsize="small"';
   // *** lang ***
   if(!empty($shariff3UU["language"])) 	$shorttag.=' lang="'.$shariff3UU["language"].'"';
   //*** services ***
@@ -605,6 +618,7 @@ function RenderShariff( $atts , $content = null) {
   $backend_options = $shariff3UU;
   if(isset($shariff3UU["vertical"]))  if($shariff3UU["vertical"]=='1')    $backend_options["vertical"]='vertical';
   if(isset($shariff3UU["backend"]))   if($shariff3UU["backend"]=='1')     $backend_options["backend"]='on';
+  if(isset($shariff3UU["buttonsize"]))   if($shariff3UU["buttonsize"]=='1')     $backend_options["buttonsize"]='small';
   if ( empty($atts) ) $atts = $backend_options;
   else $atts = array_merge($backend_options,$atts);
 
@@ -642,6 +656,8 @@ function RenderShariff( $atts , $content = null) {
   if(array_key_exists('media', $atts))       $output.=" data-media='".		esc_html($atts['media'])."'";
   if(array_key_exists('twitter_via', $atts)) $output.=" data-twitter-via='".	esc_html($atts['twitter_via'])."'";
   if(array_key_exists('flattruser', $atts)) $output.=" data-flattruser='".  esc_html($atts['flattruser'])."'";
+  if(array_key_exists('buttonsize', $atts)) $output.=" data-buttonsize='".  esc_html($atts['buttonsize'])."'";
+
   
   // if services are set do only use this
   if(array_key_exists('services', $atts)){
