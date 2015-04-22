@@ -616,7 +616,7 @@ function RenderShariff( $atts , $content = null) {
 
   // use the backend option for every option that is not set in the shorttag
   $backend_options = $shariff3UU;
-  if(isset($shariff3UU["vertical"]))  if($shariff3UU["vertical"]=='1')    $backend_options["vertical"]='vertical';
+  if(isset($shariff3UU["vertical"]))  if($shariff3UU["vertical"]=='1')    $backend_options["orientation"]='vertical';
   if(isset($shariff3UU["backend"]))   if($shariff3UU["backend"]=='1')     $backend_options["backend"]='on';
   if(isset($shariff3UU["buttonsize"]))   if($shariff3UU["buttonsize"]=='1')     $backend_options["buttonsize"]='small';
   if ( empty($atts) ) $atts = $backend_options;
