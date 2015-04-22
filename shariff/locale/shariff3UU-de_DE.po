@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: Shariff for WP posts, pages, themes and as widget v1.2.4\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: \n"
-"PO-Revision-Date: 2015-04-17 00:53+0100\n"
+"PO-Revision-Date: 2015-04-23 00:35+0100\n"
 "Last-Translator: sands <sands@sm-circus.com>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -172,3 +172,23 @@ msgstr "Shariff-Einstellungen</a> - Flattr wurde ausgewählt, aber kein Benutzer
 #: shariff.php:117
 msgid "Settings"
 msgstr "Einstellungen"
+
+# @ shariff3UU
+#: shariff.php:373
+msgid "Choose image"
+msgstr "Bild wählen"
+
+# @ shariff3UU
+#: shariff.php:216
+msgid "Select the default image for Pinterest in case no other usable image is found."
+msgstr "Setze das Standardbild für Pinterest für den Fall, dass kein anderes gefunden werden kann."
+
+# @ shariff3UU
+#: shariff.php:168
+msgid "Check this to make the buttons 30% smaller (all designs)."
+msgstr "Auswählen, um alle Buttons - unabhängig vom Design - 30% kleiner zu machen."
+
+# @ shariff3UU
+#: shariff.php:148
+msgid "Check to put Shariff at the end off all product pages (WooCommerce)."
+msgstr "Shariff am Ende von jeder Produktseite einfügen (WooCommerce)."
