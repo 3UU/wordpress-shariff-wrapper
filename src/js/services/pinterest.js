@@ -27,6 +27,6 @@ module.exports = function(shariff) {
             'da': 'Del på Pinterest',
             'nl': 'Delen op Pinterest'
         },
-        shareUrl: 'https://www.pinterest.com/pin/create/button/?url=' + url + shariff.getReferrerTrack() + '&media=' + shariff.getImageUrl() + '&description=' + encodeURIComponent(title)
+        shareUrl: 'https://www.pinterest.com/pin/create/button/?url=' + url + shariff.getReferrerTrack() + '&media=' + shariff.getMedia() + '&description=' + encodeURIComponent(title)
     };
 };

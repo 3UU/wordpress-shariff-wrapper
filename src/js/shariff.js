@@ -150,15 +150,8 @@ Shariff.prototype = {
     },
 
     // set a default image for pinterest by using media=""
-    getImageUrl: function() {
-            // look if media is set
-            if (this.options.media === undefined ) {
-            // look if image is also not set
-            if (this.options.image === undefined ) {
-            // return the URL for Pinterest
-            return encodeURIComponent(this.getURL());
-            } else { return this.options.image; }
-          } else { return this.options.media; }
+    getMedia: function() {
+		return this.getOption('media');
     },
 
     // returns shareCounts of document

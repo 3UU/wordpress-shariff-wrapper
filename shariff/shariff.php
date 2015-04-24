@@ -110,9 +110,13 @@ function shariff3UU_settings_link($links) {
 $plugin = plugin_basename(__FILE__); 
 add_filter("plugin_action_links_$plugin", 'shariff3UU_settings_link' );
 
-// css for admin e.g. info notice
+// scyrpts and styles for admin pages e.g. info notice
 function admin_style() {
-    wp_enqueue_style('admin_css', plugins_url('admin.css', __FILE__));
+	// styles for admin info notice
+	wp_enqueue_style('admin_css', plugins_url('admin.css', __FILE__));
+	// scripts for pinterest default image media uploader
+	wp_enqueue_script('jquery');
+	wp_enqueue_media();
 }
 add_action('admin_enqueue_scripts', 'admin_style');
     
@@ -207,7 +211,12 @@ function shariff3UU_options_init(){
   add_settings_field( 'shariff3UU_radio_align_widget', __( 'Select the alignment of the Shariff buttons in the widget', 'shariff3UU' ),
     'shariff3UU_radio_align_widget_render', 'pluginPage', 'shariff3UU_pluginPage_section'
   );
- 
+  
+  // default image for pinterest
+  add_settings_field( 'shariff3UU_text_default_pinterest', __( 'Select the default image for Pinterest in case no other usable image is found.', 'shariff3UU' ),
+    'shariff3UU_text_default_pinterest_render', 'pluginPage', 'shariff3UU_pluginPage_section'
+  );
+
 }
 
 // sanitize input from the settings page
@@ -232,6 +241,9 @@ function shariff3UU_options_sanitize( $input ){
   if(isset($input["style"])) 			$valid["style"] 			= sanitize_text_field( $input["style"] );
   if(isset($input["align"])) 			$valid["align"] 			= sanitize_text_field( $input["align"] );
   if(isset($input["align_widget"])) 		$valid["align_widget"] 			= sanitize_text_field( $input["align_widget"] );
+  if(isset($input["default_pinterest"]))     $valid["default_pinterest"]      = sanitize_text_field( $input["default_pinterest"] );
+  // remove empty elements
+  $valid = array_filter($valid);
   return $valid;
 }
 
@@ -354,7 +366,35 @@ function shariff3UU_radio_align_widget_render(){
   <td><input type='radio' name='shariff3UU[align_widget]' value='flex-end' ". 	checked( $options['align_widget'], 'flex-end',0 )   .">".__( 'right', 'shariff3UU' )."</td>
   </tr></table>";
 }
-                        
+
+function shariff3UU_text_default_pinterest_render(){
+  $options = $GLOBALS["shariff3UU"]; 
+  if(!isset($options["default_pinterest"]))$options["default_pinterest"]='';
+  echo '<div><input type="text" name="shariff3UU[default_pinterest]" value="'. $options["default_pinterest"] .'" id="image_url" class="regular-text"> <input type="button" name="upload-btn" id="upload-btn" class="button-secondary" value="' . __( 'Choose image', 'shariff3UU' ) . '"></div>';
+  echo '<script type="text/javascript">
+	jQuery(document).ready(function($){
+		$("#upload-btn").click(function(e) {
+			e.preventDefault();
+			var image = wp.media({ 
+				title: "Choose image",
+				// mutiple: true if you want to upload multiple files at once
+				multiple: false
+			}).open()
+			.on("select", function(e){
+				// This will return the selected image from the Media Uploader, the result is an object
+				var uploaded_image = image.state().get("selection").first();
+				// We convert uploaded_image to a JSON object to make accessing it easier
+				// Output to the console uploaded_image
+				console.log(uploaded_image);
+				var image_url = uploaded_image.toJSON().url;
+				// Let"s assign the url value to the input field
+				$("#image_url").val(image_url);
+			});
+		});
+	});
+  </script>';
+}
+ 
 function shariff3UU_options_section_callback(){
   echo __( 'This configures the default behavior of Shariff for your blog. You can overwrite this in single posts or pages with the options within the <code>[shariff]</code> shorttag.', 'shariff3UU' );
 }
@@ -638,8 +678,6 @@ function RenderShariff( $atts , $content = null) {
   if(array_key_exists('theme', $atts))       $output.=" data-theme='".		esc_html($atts['theme'])."'";
   // rtzTodo: use geoip if possible
   if(array_key_exists('lang', $atts))        $output.=" data-lang='".		esc_html($atts['lang'])."'";
-  if(array_key_exists('image', $atts))       $output.=" data-image='".		esc_html($atts['image'])."'";
-  if(array_key_exists('media', $atts))       $output.=" data-media='".		esc_html($atts['media'])."'";
   if(array_key_exists('twitter_via', $atts)) $output.=" data-twitter-via='".	esc_html($atts['twitter_via'])."'";
   if(array_key_exists('flattruser', $atts)) $output.=" data-flattruser='".  esc_html($atts['flattruser'])."'";
   
@@ -663,8 +701,23 @@ function RenderShariff( $atts , $content = null) {
     $output.=']\'';
   }
 
-  // if we dont have an image for pinterest, make sure that an image with hints will be used
-  if(array_key_exists('services', $atts)) if( strstr($atts["services"], 'pinterest') && !array_key_exists('media', $atts)&&!array_key_exists('image', $atts))$output.=" data-media='".plugins_url('/pictos/defaultHint.jpg',__FILE__)."'";
+  // get image for pinterest (attribut -> featured image -> first image -> default image -> shariff hint)
+  // Die Verschachtelung ist Absicht, um möglichst wenige Aufrufe zu verursachen.
+  if (array_key_exists('services', $atts)) if (strstr($atts["services"], 'pinterest')) {
+    if (array_key_exists('media', $atts)) $output .= " data-media='" . esc_html($atts['media']) . "'";
+    else {
+      $feat_image = wp_get_attachment_url( get_post_thumbnail_id() );
+      if (!empty($feat_image)) $output .= " data-media='" . esc_html($feat_image) . "'";
+      else {
+        $first_image = catch_image();
+        if (!empty($first_image)) $output .= " data-media='" . esc_html($first_image) . "'";
+        else {
+          if(isset($shariff3UU["default_pinterest"])) $output .= " data-media='" . $shariff3UU["default_pinterest"] . "'";
+          else $output .= " data-media='" . plugins_url('/pictos/defaultHint.jpg',__FILE__) . "'";
+        }
+      }
+    }
+  }
 
   // enable share statistic request
   // Make sure u have set the domain of the blog in shariff/backend/shariff.json
@@ -680,6 +733,17 @@ function RenderShariff( $atts , $content = null) {
   if(array_key_exists('style', $atts))$output.='</div>';
   
   return $output;
+}
+
+/* helper function to get the first image */ 
+function catch_image() {
+  $files = get_children('post_parent='.get_the_ID().'&post_type=attachment&post_mime_type=image');
+  if($files) {
+    $keys = array_reverse(array_keys($files));
+    $num = $keys[0];
+    $imageurl = wp_get_attachment_url($num);
+    return $imageurl;
+  }
 }
 
 // Widget
@@ -734,6 +798,8 @@ class ShariffWidget extends WP_Widget {
   // draw widget
   public function widget($args, $instance) {
     extract($args);
+	// get options
+	$shariff3UU = $GLOBALS["shariff3UU"];
     // Container
     echo $before_widget;
     // print title
@@ -760,7 +826,25 @@ class ShariffWidget extends WP_Widget {
     $wp_title = wp_title( '', false);
     if(!empty($wp_title)) $page_title = ltrim($wp_title); // wp_title for all pages that have it
     else $page_title = get_bloginfo('name'); // the site name for static start pages where wp_title is not set
-    $shorttag=substr($shorttag,0,-1)." title='".$page_title."' url='".$page_url."']"; // add url and title to the shorttag
+    	
+	// same for media
+	if ( strpos($shorttag,'media=') === false ) {
+		$feat_image = wp_get_attachment_url( get_post_thumbnail_id() );
+		if (!empty($feat_image)) $media = esc_html($feat_image);
+		else {
+			$first_image = catch_image();
+			if (!empty($first_image)) $media = esc_html($first_image);
+			 else {
+				if(isset($shariff3UU["default_pinterest"])) $media = $shariff3UU["default_pinterest"];
+				else $media = plugins_url('/pictos/defaultHint.jpg',__FILE__);
+			}
+		}
+		$media = 'media="' . $media . '"';
+	}
+	else $media = '';
+	
+	// build shorttag
+	$shorttag=substr($shorttag,0,-1) . " title='" . $page_title . "' url='" . $page_url . $media . "']"; // add url, title and media to the shorttag
 
     // process the shortcode
     echo do_shortcode($shorttag);
