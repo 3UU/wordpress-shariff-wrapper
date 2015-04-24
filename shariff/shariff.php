@@ -149,8 +149,8 @@ function shariff3UU_options_init(){
     'shariff3UU_checkbox_add_after_all_overview_render', 'pluginPage', 'shariff3UU_pluginPage_section'
   );
 
-  add_settings_field( 'shariff3UU_checkbox_add_after_all_products', __( 'Check to put Shariff at the end off all product pages (WooCommerce).', 'shariff3UU' ),
-    'shariff3UU_checkbox_add_after_all_products_render', 'pluginPage', 'shariff3UU_pluginPage_section'
+  add_settings_field( 'shariff3UU_checkbox_add_after_all_custom_type', __( 'Check to put Shariff at the end off all extension pages (e.g. product sites).', 'shariff3UU' ),
+    'shariff3UU_checkbox_add_after_all_custom_type_render', 'pluginPage', 'shariff3UU_pluginPage_section'
   );
 
   add_settings_field( 'shariff3UU_checkbox_add_before_all_posts', __( 'Check to put Shariff at the beginning off all posts.', 'shariff3UU' ),
@@ -237,10 +237,10 @@ function shariff3UU_options_sanitize( $input ){
   if(isset($input["add_before_all_overview"])) 	$valid["add_before_all_overview"] 	= absint( $input["add_before_all_overview"] );
   if(isset($input["add_after_all_pages"])) 	$valid["add_after_all_pages"] 		= absint( $input["add_after_all_pages"] );
   if(isset($input["add_before_all_pages"])) 	$valid["add_before_all_pages"] 		= absint( $input["add_before_all_pages"] );
-  if(isset($input["add_after_all_products"]))   $valid["add_after_all_products"]    = absint( $input["add_after_all_products"] );
+  if(isset($input["add_after_all_custom_type"]))$valid["add_after_all_custom_type"]     = absint( $input["add_after_all_custom_type"] );
   if(isset($input["language"])) 		$valid["language"] 			= sanitize_text_field( $input["language"] );
   if(isset($input["theme"])) 			$valid["theme"] 			= sanitize_text_field( $input["theme"] );
-  if(isset($input["buttonsize"]))     $valid["buttonsize"]      = absint( $input["buttonsize"] );
+  if(isset($input["buttonsize"]))		$valid["buttonsize"]			= absint( $input["buttonsize"] );
   if(isset($input["vertical"])) 		$valid["vertical"] 			= absint( $input["vertical"] );
   if(isset($input["services"])) 		$valid["services"] 			= str_replace(' ', '',sanitize_text_field( $input["services"] ));
   if(isset($input["backend"])) 			$valid["backend"] 			= absint( $input["backend"] );
@@ -251,7 +251,7 @@ function shariff3UU_options_sanitize( $input ){
   if(isset($input["style"])) 			$valid["style"] 			= sanitize_text_field( $input["style"] );
   if(isset($input["align"])) 			$valid["align"] 			= sanitize_text_field( $input["align"] );
   if(isset($input["align_widget"])) 		$valid["align_widget"] 			= sanitize_text_field( $input["align_widget"] );
-  if(isset($input["default_pinterest"]))     $valid["default_pinterest"]      = sanitize_text_field( $input["default_pinterest"] );
+  if(isset($input["default_pinterest"]))     	$valid["default_pinterest"]      	= sanitize_text_field( $input["default_pinterest"] );
   // remove empty elements
   $valid = array_filter($valid);
   return $valid;
@@ -276,9 +276,9 @@ function shariff3UU_checkbox_add_after_all_overview_render(){
   echo " value='1'>";
 }
 
-function shariff3UU_checkbox_add_after_all_products_render(){
-  echo "<input type='checkbox' name='shariff3UU[add_after_all_products]' ";
-  if(isset($GLOBALS["shariff3UU"]["add_after_all_products"])) echo checked( $GLOBALS["shariff3UU"]["add_after_all_products"], 1, 0 );
+function shariff3UU_checkbox_add_after_all_custom_type_render(){
+  echo "<input type='checkbox' name='shariff3UU[add_after_all_custom_type]' ";
+  if(isset($GLOBALS["shariff3UU"]["add_after_all_custom_type"])) echo checked( $GLOBALS["shariff3UU"]["add_after_all_custom_type"], 1, 0 );
   echo " value='1'>";
 }
 
@@ -614,8 +614,16 @@ function shariffPosts($content) {
   } elseif ( is_singular( 'page' ) ) {
     if(isset($shariff3UU["add_before_all_pages"]) && $shariff3UU["add_before_all_pages"]=='1' )	$content=buildShariffShorttag().$content;
     if(isset($shariff3UU["add_after_all_pages"]) && $shariff3UU["add_after_all_pages"]=='1' )	$content.=buildShariffShorttag();
-  } elseif ( is_product() ) {
-    if(isset($shariff3UU["add_after_all_products"]) && $shariff3UU["add_after_all_products"]=='1' ) $content.=buildShariffShorttag();
+  } else {
+    // alle custom_post_types holen
+    $all_custom_post_types = get_post_types( array ( '_builtin' => FALSE ) );
+    if ( is_array($all_custom_post_types) ){
+      $custom_types = array_keys( $all_custom_post_types );
+    // type der aktuellen seite
+      $current_post_type = get_post_type();
+    // falls custom types auch gesharifft werden sollen
+      if(in_array( $current_post_type, $custom_types ) && isset($shariff3UU["add_after_all_custom_type"]) && $shariff3UU["add_after_all_custom_type"]=='1' ) $content.=buildShariffShorttag(); 
+    }
   }
 
   // altes verhalten

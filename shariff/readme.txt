@@ -171,6 +171,11 @@ joke ;-)
 = 1.9.8 =
 - add headers to avoid caching of backend data
 - tested with WP 4.2 beta
+- add option to use on product pages (e.g. WooCommerce)
+- better handling of pinterest media attribute
+- bugfix: SHARIFF_BACKEND_TMPDIR in backend
+- improve uninstal of cache dir (todo: change to a better named dir)
+- add option to use smaller size buttons
 
 = 1.9.7 =
 - roll back to stable
