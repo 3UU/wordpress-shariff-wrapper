@@ -81,6 +81,9 @@ Shariff.prototype = {
         // horizontal/vertical
         orientation: 'horizontal',
 
+        // big/small
+        buttonsize: 'big',
+
         // a string to suffix current URL
         referrerTrack: null,
 
@@ -182,8 +185,9 @@ Shariff.prototype = {
         var themeClass = 'theme-' + this.options.theme;
         var orientationClass = 'orientation-' + this.options.orientation;
         var serviceCountClass = 'col-' + this.options.services.length;
+        var buttonsizeClass = 'buttonsize-' + this.options.buttonsize;
 
-        var $buttonList = $('<ul>').addClass(themeClass).addClass(orientationClass).addClass(serviceCountClass);
+        var $buttonList = $('<ul>').addClass(themeClass).addClass(orientationClass).addClass(serviceCountClass).addClass(buttonsizeClass);
 
         // add html for service-links
         this.services.forEach(function(service) {
