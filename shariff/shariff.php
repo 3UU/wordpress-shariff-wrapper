@@ -496,21 +496,37 @@ function buildShariffShorttag(){
 
 // add mail from if view=mail
 function sharif3UUaddMailForm($content){
+  if(WP_DEBUG==TRUE)echo 'WP_DEBUG-rtz: aktueller Warte-Count ist: '.limitRemoteUser().' sec. >5 wirft Fehler.'; 
+  // Sprache setzen. Default DE
+  $lang='DE';
+  // falls wir eine im Backend gesetzte Sprache haben
+  if(isset($GLOBALS["shariff3UU"]["language"]) && $GLOBALS["shariff3UU"]["language"]=='en')$lang='EN';
+  // sonst per GeoIP reinziehen
+  else switch(@geoip_country_code_by_name($_SERVER[REMOTE_ADDR])){case 'DE': $lang='DE'; break; case 'AT': $lang='DE'; break; case 'CH': $lang='DE'; break; default: $lang='EN';}
 
-if(WP_DEBUG==TRUE)echo limitRemoteUser(); 
-
- $mailform='<form action="'.get_permalink().'" method="GET">';
- $mailform.='<input type="hidden" name="act" value="sendMail">';
- $mailform.='<div id="mail_formular" style="background: none repeat scroll 0% 0% #EEE; font-size: 90%; padding: 0.2em 1em;">';
- $mailform.='<p><strong>Diesen Beitrag per E-Mail versenden:</strong></p>';
- $mailform.='<p><em>E-Mail-Adresse(n) Empf&auml;nger (maximal 5)</em><br /><input type="email" name="mailto" value="" placeholder="to@example.com"></p>';
- $mailform.='<p><em>E-Mail-Adresse des Absenders</em><br /><input type="email" name="from" value="" placeholder="from@example.com"></p>';
- $mailform.='<p><em>Name des Absenders (optional)</em><br /><input type="text" name="sender" value=""></p>';
- $mailform.='<p><em>Zusatztext</em><br /><textarea name="mail_comment" rows="2" cols="45"></textarea></p>';
- $mailform.='<p><input type="submit" value="E-Mail abschicken" /></p>';
- $mailform.='<p>Die hier eingegebenen Daten werden nur dazu verwendet, die E-Mail in Ihrem Namen zu versenden. Es erfolgt keine Weitergabe an Dritte oder eine Analyse zu Marketing-Zwecken.</p>';
- $mailform.='</form></div>';
- return $mailform.$content;
+  $mf_headline['DE']	='Diesen Beitrag per E-Mail versenden:';
+  $mf_headline['EN']	='Send this page by email';
+  $mf_rcpt['DE']	='E-Mail-Adresse(n) Empf&auml;nger (maximal 5)';
+  $mf_rcpt['EN']	='Email address of the recipient (max 5) ';
+  $mf_from['DE']	='E-Mail-Adresse des Absenders';
+  $mf_from['EN']	='Email of the sender';
+  $mf_name['DE']	='Name des Absenders (optional)';
+  $mf_name['EN']	='Name of the sender (optional)';
+  $mf_comment['DE']	='Zusatztext';
+  $mf_comment['EN']     ='additional text';
+  
+  $mailform='<form action="'.get_permalink().'" method="GET">';
+  $mailform.='<input type="hidden" name="act" value="sendMail">';
+  $mailform.='<div id="mail_formular" style="background: none repeat scroll 0% 0% #EEE; font-size: 90%; padding: 0.2em 1em;">';
+  $mailform.='<p><strong>'.$mf_headline[$lang].'</strong></p>';
+  $mailform.='<p><em>'.$mf_rcpt[$lang].'</em><br /><input type="email" name="mailto" value="" placeholder="to@example.com"></p>';
+  $mailform.='<p><em>'.$mf_from[$lang].'</em><br /><input type="email" name="from" value="" placeholder="from@example.com"></p>';
+  $mailform.='<p><em>'.$mf_name[$lang].'</em><br /><input type="text" name="sender" value="" placeholder="Your Name"></p>';
+  $mailform.='<p><em>'.$mf_comment[$lang].'</em><br /><textarea name="mail_comment" rows="2" cols="45"></textarea></p>';
+  $mailform.='<p><input type="submit" value="E-Mail abschicken" /></p>';
+  if($lang=='DE')  $mailform.='<p>Die hier eingegebenen Daten werden nur dazu verwendet, die E-Mail in Ihrem Namen zu versenden. Es erfolgt keine Weitergabe an Dritte oder eine Analyse zu Marketing-Zwecken.</p>';
+  $mailform.='</form></div>';
+  return $mailform.$content;
 }
 
 // send mail
@@ -519,8 +535,8 @@ function sharif3UUprocSentMail(){
   // optional robinson einbauen
   // optional auf eingeloggte User beschraenken, dann aber auch nicht allgemein anzeigen
 
-   $wait=limitRemoteUser('10');
-   if($wait > '10'){ echo 'Please wait '. $wait .' sec until your next mail. '; die('Ooops!!!'); }       
+   $wait=limitRemoteUser('5');
+   if($wait > '5'){ echo 'Please wait '. $wait .' sec until your next mail. '; die('Ooops!!!'); }       
 
   // build the array with recipients
   $arr=explode(',',$_REQUEST["mailto"]);
@@ -595,12 +611,6 @@ function shariffPosts($content) {
     return $content;
   }
   
-  // add it to single posts view only
-  // expact the new values for adds on overview are set
-  if( !is_singular() && isset($shariff3UU["add_after_all_overview"]) && isset($shariff3UU["add_before_all_overview"])){
-    if($shariff3UU["add_after_all_overview"]!='1' && $shariff3UU["add_before_all_overview"]!='1' ) return $content;
-  }
-
   // now add Shariff
   if( !is_singular() ) {
     // auf der Uebersichtsseite

@@ -176,6 +176,7 @@ joke ;-)
 - bugfix: SHARIFF_BACKEND_TMPDIR in backend
 - improve uninstal of cache dir (todo: change to a better named dir)
 - add option to use smaller size buttons
+- cleanup code
 
 = 1.9.7 =
 - roll back to stable

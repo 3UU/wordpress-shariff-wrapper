@@ -1,22 +1,13 @@
 'use strict';
 
 module.exports = function(shariff) {
-    var url = encodeURIComponent(shariff.getURL());
-    
-    var title = shariff.getMeta('DC.title');
-    var creator = shariff.getMeta('DC.creator');
-    
-    if (title.length > 0 && creator.length > 0) {
-        title += ' - ' + creator;
-    } 
-    else {
-        title = shariff.getTitle();
-    }
+    // var url = shariff.getOption('mailUrl');
     
     return {
         popup: false,
         mobileonly: false,
-        noblank: true,
+        // blank: url.indexOf('http') === 0,
+        blank: false,
         shareText: 'mail',
         name: 'mail',
         faName: 's3uu-envelope',
@@ -29,8 +20,7 @@ module.exports = function(shariff) {
             'da': 'Sende via e-mail',
             'nl': 'Sturen via e-mail '
         },
-        // shareUrl: shariff.getOption('mailUrl')
-        // for future changes - currently the same as the mailto.js
+        // shareUrl: shariff.getOption('mailUrl');
         shareUrl: shariff.getReferrerTrack() + '?view=mail'
     };
 };

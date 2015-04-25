@@ -3,6 +3,7 @@
 module.exports = function(shariff) {
     return {
         popup: false,
+        blank: true,
         mobileonly: false,
         shareText: 'Info',
         name: 'info',
