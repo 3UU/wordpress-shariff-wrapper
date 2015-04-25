@@ -22,9 +22,7 @@ if (is_multisite()) {
           $users = get_users('role=administrator');
           foreach ($users as $user) { if ( !get_user_meta($user, 'shariff3UU_ignore_notice' )) { delete_user_meta($user->ID, 'shariff3UU_ignore_notice'); } };
           // delete cache dir
-          // $upload_dir = wp_upload_dir();
-          // $cache_dir = $upload_dir['basedir'].'/1970';
-          // shariff_removecachedir( $cache_dir );
+          shariff_removecachedir();
           // switch back to main
           restore_current_blog();
         }
@@ -38,20 +36,25 @@ if (is_multisite()) {
     $users = get_users('role=administrator');
     foreach ($users as $user) { if ( !get_user_meta($user, 'shariff3UU_ignore_notice' )) { delete_user_meta($user->ID, 'shariff3UU_ignore_notice'); } };
     // delete cache dir
-    // $upload_dir = wp_upload_dir();
-    // $cache_dir = $upload_dir['basedir'].'/1970';
-    // shariff_removecachedir( $cache_dir );
+    shariff_removecachedir();
 }
 
-/* Helper function to delete cache directory */
-function shariff_removecachedir($directory){
-# ritze: Das is mir zu gefaehrlich. Wenn jemand nen Archiv aufgebaut 
-# hat, loeschen wir ihm damit vielleicht wichtige Files. Erstmal 
-# unschaedlich gemacht, bis mir nen besseres Verzeichnis einfaellt.
-return;
-  foreach(glob("{$directory}/*") as $file) {
-    if(is_dir($file)) shariff_removecachedir($file);
-    else @unlink($file);
+/* Delete cache directory */
+function shariff_removecachedir(){
+  $upload_dir = wp_upload_dir();
+  $cache_dir = $upload_dir['basedir'].'/1970/01';
+  $cache_dir2 = $upload_dir['basedir'].'/1970';
+  shariff_removefiles( $cache_dir );
+  // Remove /1970/01 and /1970 if they are empty
+  @rmdir($cache_dir);
+  @rmdir($cache_dir2);
+}
+
+/* Helper function to delete .dat files that begin with "Shariff" and empty folders that also start with "Shariff" */
+function shariff_removefiles($directory){
+  foreach(glob("{$directory}/Shariff*") as $file) {
+    if(is_dir($file)) shariff_removefiles($file);
+    else if(substr($file, -4) == '.dat') @unlink($file);
   }
   @rmdir($directory);
 }

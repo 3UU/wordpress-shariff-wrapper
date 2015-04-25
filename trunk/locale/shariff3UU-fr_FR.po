@@ -118,6 +118,11 @@ msgstr "Vérifiez mettre Shariff à la fin de tous les messages sur la page d'ap
 msgid "Check to put Shariff at the beginning off all posts on the overview page."
 msgstr "Vérifiez mettre Shariff au début de tous les messages sur la page de présentation."
 
+#: shariff.php:152
+#@ shariff3UU
+msgid "Check to put Shariff at the end off all extension pages (e.g. product sites)."
+msgstr "Check to put Shariff at the end off all extension pages (e.g. product sites)."
+
 # @ shariff3UU
 #: shariff.php:64
 msgid "Check to put Shariff at the end off all pages."
@@ -167,3 +172,24 @@ msgstr "droit"
 #: shariff.php:667
 msgid "Shariff-Settings</a> - Flattr was selected, but no username was provided! Please enter your <strong>Flattr username</strong> in the shariff options!"
 msgstr "Shariff-Paramètres</a> - Flattr est sélectionné mais aucun nom d'utilisateur spécifié! Se il vous plaît entrez votre propre <strong>nom d'utilisateur</strong> dans les paramètres Flattr Shariff!"
+
+#: shariff.php:117
+#@ shariff3UU
+msgid "Settings"
+msgstr "Settings"
+
+#: shariff.php:373
+#@ shariff3UU
+msgid "Choose image"
+msgstr "Choose image"
+
+#: shariff.php:216
+#@ shariff3UU
+msgid "Select the default image for Pinterest in case no other usable image is found."
+msgstr "Select the default image for Pinterest in case no other usable image is found."
+
+# @ shariff3UU
+#: shariff.php:168
+msgid "Check this to make the buttons 30% smaller (all designs)."
+msgstr "Check this to make the buttons 30% smaller (all designs)."
+

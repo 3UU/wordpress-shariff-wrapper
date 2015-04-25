@@ -3,7 +3,7 @@
  * Plugin Name: Shariff Wrapper
  * Plugin URI: http://www.3uu.org/plugins.htm
  * Description: This is a wrapper to Shariff. Enables shares in posts and/or themes with Twitter, Facebook, GooglePlus... with no harm for visitors privacy.
- * Version: 1.9.7
+ * Version: 1.9.8
  * Author: 3UU
  * Author URI: http://www.DatenVerwurstungsZentrale.com/
  * License: http://opensource.org/licenses/MIT
@@ -15,10 +15,9 @@
  *   services: [facebook|twitter|googleplus|whatsapp|mail|mailto|printer|pinterest|linkedin|xing|reddit|stumbleupon|info]
  *   info_url: http://ct.de/-2467514
  *   lang: de|en|fr
- *   theme: default|grey|white|round
+ *   theme: default|color|grey|white|round
  *   orientation: vertical
  *   twitter_via: screenname
- *   (see http://heiseonline.github.io/shariff/)
  *   style: CSS code that will be used in a DIV container arround shariff
  */
 
@@ -40,39 +39,65 @@ $shariff3UU=get_option( 'shariff3UU' );
 function shariff3UU_update() {
 
   /******************** VERSION ANPASSEN *******************************/
-  $code_version = "1.9.7"; // Set code version - needs to be adjusted for every new version!
+  $code_version = "1.9.8"; // Set code version - needs to be adjusted for every new version!
   /******************** VERSION ANPASSEN *******************************/
 
   $do_admin_notice=false;
-  if(empty($GLOBALS["shariff3UU"]["version"]) || ( isset($GLOBALS["shariff3UU"]["version"]) && version_compare($GLOBALS["shariff3UU"]["version"], $code_version) == '-1') ) include(plugin_dir_path(__FILE__).'updates.php'); 
 
-  /* Delete user meta entry shariff3UU_ignore_notice to display update message again after an update */
-  if(!isset($wpdb)) { global $wpdb; }
-  // check for multisite
-  if (is_multisite() && $do_admin_notice==true) {
-    $blogs = $wpdb->get_results("SELECT blog_id FROM {$wpdb->blogs}", ARRAY_A);
-    if ($blogs) {
-      foreach($blogs as $blog) {
-        // switch to each blog
-        switch_to_blog($blog['blog_id']);
-        // delete user meta entry shariff3UU_ignore_notice
-        $users = get_users('role=administrator');
-        foreach ($users as $user) { if ( !get_user_meta($user, 'shariff3UU_ignore_notice' )) { delete_user_meta($user->ID, 'shariff3UU_ignore_notice'); } }
-        // switch back to main
-        restore_current_blog();
-	    }
+  if(empty($GLOBALS["shariff3UU"]["version"]) || ( isset($GLOBALS["shariff3UU"]["version"]) && version_compare($GLOBALS["shariff3UU"]["version"], $code_version) == '-1') ) {
+
+    include(plugin_dir_path(__FILE__).'updates.php'); 
+
+    if(!isset($wpdb)) { global $wpdb; }
+
+    /* Delete user meta entry shariff3UU_ignore_notice to display update message again after an update */
+    // check for multisite
+    if (is_multisite() && $do_admin_notice==true) {
+      $blogs = $wpdb->get_results("SELECT blog_id FROM {$wpdb->blogs}", ARRAY_A);
+      if ($blogs) {
+        foreach($blogs as $blog) {
+          // switch to each blog
+          switch_to_blog($blog['blog_id']);
+          // delete user meta entry shariff3UU_ignore_notice
+          $users = get_users('role=administrator');
+          foreach ($users as $user) { if ( !get_user_meta($user, 'shariff3UU_ignore_notice' )) { delete_user_meta($user->ID, 'shariff3UU_ignore_notice'); } }
+          // switch back to main
+          restore_current_blog();
+        }
+      }
+    } elseif($do_admin_notice==true) {
+      $users = get_users('role=administrator');
+      foreach ($users as $user) { if ( !get_user_meta($user, 'shariff3UU_ignore_notice' )) { delete_user_meta($user->ID, 'shariff3UU_ignore_notice'); } }
     }
-  } elseif($do_admin_notice==true) {
-    $users = get_users('role=administrator');
-    foreach ($users as $user) { if ( !get_user_meta($user, 'shariff3UU_ignore_notice' )) { delete_user_meta($user->ID, 'shariff3UU_ignore_notice'); } }
+
+    /* Clear cache direcotry */
+    // check for multisite
+    if (is_multisite()) {
+      global $wpdb;
+      $current_blog_id=get_current_blog_id();
+      $blogs = $wpdb->get_results("SELECT blog_id FROM {$wpdb->blogs}", ARRAY_A);
+      if ($blogs) {
+        foreach($blogs as $blog) {
+          // switch to each blog
+          switch_to_blog($blog['blog_id']);
+          // delete cache dir
+          shariff_removecachedir();
+          // switch back to main
+          restore_current_blog();
+        }
+      }
+    } else {
+      // delete cache dir
+      shariff_removecachedir();
+    }
+
+    // set new version
+    $GLOBALS["shariff3UU"]["version"]=$code_version;
+
+    // Remove empty elements and save to options table
+    $shariff3UU = array_filter($GLOBALS["shariff3UU"]);
+    update_option( 'shariff3UU', $shariff3UU );
   }
-
-  /* End update procedures */
-  $GLOBALS["shariff3UU"]["version"]=$code_version;
-
-  // Remove empty elements and save to options table
-  $shariff3UU = array_filter($GLOBALS["shariff3UU"]);
-  update_option( 'shariff3UU', $shariff3UU );
 }
 add_action('admin_init', 'shariff3UU_update');
 
@@ -85,9 +110,13 @@ function shariff3UU_settings_link($links) {
 $plugin = plugin_basename(__FILE__); 
 add_filter("plugin_action_links_$plugin", 'shariff3UU_settings_link' );
 
-// css for admin e.g. info notice
+// scyrpts and styles for admin pages e.g. info notice
 function admin_style() {
-    wp_enqueue_style('admin_css', plugins_url('admin.css', __FILE__));
+	// styles for admin info notice
+	wp_enqueue_style('admin_css', plugins_url('admin.css', __FILE__));
+	// scripts for pinterest default image media uploader
+	wp_enqueue_script('jquery');
+	wp_enqueue_media();
 }
 add_action('admin_enqueue_scripts', 'admin_style');
     
@@ -120,6 +149,10 @@ function shariff3UU_options_init(){
     'shariff3UU_checkbox_add_after_all_overview_render', 'pluginPage', 'shariff3UU_pluginPage_section'
   );
 
+  add_settings_field( 'shariff3UU_checkbox_add_after_all_custom_type', __( 'Check to put Shariff at the end off all extension pages (e.g. product sites).', 'shariff3UU' ),
+    'shariff3UU_checkbox_add_after_all_custom_type_render', 'pluginPage', 'shariff3UU_pluginPage_section'
+  );
+
   add_settings_field( 'shariff3UU_checkbox_add_before_all_posts', __( 'Check to put Shariff at the beginning off all posts.', 'shariff3UU' ),
     'shariff3UU_checkbox_add_before_all_posts_render', 'pluginPage', 'shariff3UU_pluginPage_section'
   );
@@ -140,12 +173,16 @@ function shariff3UU_options_init(){
     'shariff3UU_radio_theme_render', 'pluginPage', 'shariff3UU_pluginPage_section'
   );
 
+  add_settings_field( 'shariff3UU_checkbox_buttonsize', __( 'Check this to make the buttons 30% smaller (all designs).', 'shariff3UU' ), 
+    'shariff3UU_checkbox_buttonsize_render', 'pluginPage', 'shariff3UU_pluginPage_section' 
+  );
+
   add_settings_field( 'shariff3UU_checkbox_vertical', __( 'Check this to make orientation of buttons <b>vertical</b>.', 'shariff3UU' ), 
     'shariff3UU_checkbox_vertical_render', 'pluginPage', 'shariff3UU_pluginPage_section' 
   );
 
   add_settings_field( 'shariff3UU_text_services', 
-    __( 'Put in the service do you want enable (<code>facebook|twitter|googleplus|whatsapp|mail|mailto|printer| pinterest|linkedin|xing|reddit|stumbleupon|flattr|info</code>). Use the pipe sign | between two or more services.', 'shariff3UU' ), 
+    __( 'Put in the service do you want enable (<code>facebook|twitter|googleplus|whatsapp|mail|mailto|printer|pinterest|linkedin| xing|reddit|stumbleupon|flattr|info</code>). Use the pipe sign | between two or more services.', 'shariff3UU' ), 
     'shariff3UU_text_services_render', 'pluginPage', 'shariff3UU_pluginPage_section' 
   );
 
@@ -182,7 +219,12 @@ function shariff3UU_options_init(){
   add_settings_field( 'shariff3UU_radio_align_widget', __( 'Select the alignment of the Shariff buttons in the widget', 'shariff3UU' ),
     'shariff3UU_radio_align_widget_render', 'pluginPage', 'shariff3UU_pluginPage_section'
   );
- 
+  
+  // default image for pinterest
+  add_settings_field( 'shariff3UU_text_default_pinterest', __( 'Select the default image for Pinterest in case no other usable image is found.', 'shariff3UU' ),
+    'shariff3UU_text_default_pinterest_render', 'pluginPage', 'shariff3UU_pluginPage_section'
+  );
+
 }
 
 // sanitize input from the settings page
@@ -195,8 +237,10 @@ function shariff3UU_options_sanitize( $input ){
   if(isset($input["add_before_all_overview"])) 	$valid["add_before_all_overview"] 	= absint( $input["add_before_all_overview"] );
   if(isset($input["add_after_all_pages"])) 	$valid["add_after_all_pages"] 		= absint( $input["add_after_all_pages"] );
   if(isset($input["add_before_all_pages"])) 	$valid["add_before_all_pages"] 		= absint( $input["add_before_all_pages"] );
+  if(isset($input["add_after_all_custom_type"]))$valid["add_after_all_custom_type"]     = absint( $input["add_after_all_custom_type"] );
   if(isset($input["language"])) 		$valid["language"] 			= sanitize_text_field( $input["language"] );
   if(isset($input["theme"])) 			$valid["theme"] 			= sanitize_text_field( $input["theme"] );
+  if(isset($input["buttonsize"]))		$valid["buttonsize"]			= absint( $input["buttonsize"] );
   if(isset($input["vertical"])) 		$valid["vertical"] 			= absint( $input["vertical"] );
   if(isset($input["services"])) 		$valid["services"] 			= str_replace(' ', '',sanitize_text_field( $input["services"] ));
   if(isset($input["backend"])) 			$valid["backend"] 			= absint( $input["backend"] );
@@ -207,6 +251,9 @@ function shariff3UU_options_sanitize( $input ){
   if(isset($input["style"])) 			$valid["style"] 			= sanitize_text_field( $input["style"] );
   if(isset($input["align"])) 			$valid["align"] 			= sanitize_text_field( $input["align"] );
   if(isset($input["align_widget"])) 		$valid["align_widget"] 			= sanitize_text_field( $input["align_widget"] );
+  if(isset($input["default_pinterest"]))     	$valid["default_pinterest"]      	= sanitize_text_field( $input["default_pinterest"] );
+  // remove empty elements
+  $valid = array_filter($valid);
   return $valid;
 }
 
@@ -217,9 +264,9 @@ function shariff3UU_checkbox_add_after_all_posts_render(){
   echo " value='1'>";
 }
 
-function shariff3UU_checkbox_add_before_all_posts_render(){
-  echo "<input type='checkbox' name='shariff3UU[add_before_all_posts]' ";
-  if(isset($GLOBALS["shariff3UU"]["add_before_all_posts"])) echo checked( $GLOBALS["shariff3UU"]["add_before_all_posts"], 1, 0 );
+function shariff3UU_checkbox_add_after_all_pages_render(){
+  echo "<input type='checkbox' name='shariff3UU[add_after_all_pages]' ";
+  if(isset($GLOBALS["shariff3UU"]["add_after_all_pages"])) echo checked( $GLOBALS["shariff3UU"]["add_after_all_pages"], 1, 0 );
   echo " value='1'>";
 }
 
@@ -229,21 +276,27 @@ function shariff3UU_checkbox_add_after_all_overview_render(){
   echo " value='1'>";
 }
 
-function shariff3UU_checkbox_add_before_all_overview_render(){
-  echo "<input type='checkbox' name='shariff3UU[add_before_all_overview]' ";
-  if(isset($GLOBALS["shariff3UU"]["add_before_all_overview"])) echo checked( $GLOBALS["shariff3UU"]["add_before_all_overview"], 1, 0 );
+function shariff3UU_checkbox_add_after_all_custom_type_render(){
+  echo "<input type='checkbox' name='shariff3UU[add_after_all_custom_type]' ";
+  if(isset($GLOBALS["shariff3UU"]["add_after_all_custom_type"])) echo checked( $GLOBALS["shariff3UU"]["add_after_all_custom_type"], 1, 0 );
   echo " value='1'>";
 }
 
-function shariff3UU_checkbox_add_after_all_pages_render(){
-  echo "<input type='checkbox' name='shariff3UU[add_after_all_pages]' ";
-  if(isset($GLOBALS["shariff3UU"]["add_after_all_pages"])) echo checked( $GLOBALS["shariff3UU"]["add_after_all_pages"], 1, 0 );
+function shariff3UU_checkbox_add_before_all_posts_render(){
+  echo "<input type='checkbox' name='shariff3UU[add_before_all_posts]' ";
+  if(isset($GLOBALS["shariff3UU"]["add_before_all_posts"])) echo checked( $GLOBALS["shariff3UU"]["add_before_all_posts"], 1, 0 );
   echo " value='1'>";
 }
 
 function shariff3UU_checkbox_add_before_all_pages_render(){
   echo "<input type='checkbox' name='shariff3UU[add_before_all_pages]' ";
   if(isset($GLOBALS["shariff3UU"]["add_before_all_pages"])) echo checked( $GLOBALS["shariff3UU"]["add_before_all_pages"], 1, 0 );
+  echo " value='1'>";
+}
+
+function shariff3UU_checkbox_add_before_all_overview_render(){
+  echo "<input type='checkbox' name='shariff3UU[add_before_all_overview]' ";
+  if(isset($GLOBALS["shariff3UU"]["add_before_all_overview"])) echo checked( $GLOBALS["shariff3UU"]["add_before_all_overview"], 1, 0 );
   echo " value='1'>";
 }
 
@@ -267,6 +320,12 @@ function shariff3UU_radio_theme_render(){
   <tr><td><input type='radio' name='shariff3UU[theme]' value='white' ". checked( $options['theme'], 'white',0 ) .">white</td><td><img src='".WP_CONTENT_URL."/plugins/shariff/pictos/whiteBtns.png'><br></td></tr>
   <tr><td><input type='radio' name='shariff3UU[theme]' value='round' ". checked( $options['theme'], 'round',0 ) .">round</td><td><img src='".WP_CONTENT_URL."/plugins/shariff/pictos/roundBtns.png'><br></td></tr>
   </table>";
+}
+
+function shariff3UU_checkbox_buttonsize_render(){
+  echo "<input type='checkbox' name='shariff3UU[buttonsize]' ";
+  if(isset($GLOBALS['shariff3UU']['buttonsize'])) echo checked( $GLOBALS['shariff3UU']['buttonsize'], 1,0 );
+  echo " value='1'><img src='". WP_CONTENT_URL ."/plugins/shariff/pictos/smallBtns.png' align='middle'>";
 }
 
 function shariff3UU_checkbox_vertical_render(){
@@ -329,7 +388,35 @@ function shariff3UU_radio_align_widget_render(){
   <td><input type='radio' name='shariff3UU[align_widget]' value='flex-end' ". 	checked( $options['align_widget'], 'flex-end',0 )   .">".__( 'right', 'shariff3UU' )."</td>
   </tr></table>";
 }
-                        
+
+function shariff3UU_text_default_pinterest_render(){
+  $options = $GLOBALS["shariff3UU"]; 
+  if(!isset($options["default_pinterest"]))$options["default_pinterest"]='';
+  echo '<div><input type="text" name="shariff3UU[default_pinterest]" value="'. $options["default_pinterest"] .'" id="image_url" class="regular-text"> <input type="button" name="upload-btn" id="upload-btn" class="button-secondary" value="' . __( 'Choose image', 'shariff3UU' ) . '"></div>';
+  echo '<script type="text/javascript">
+	jQuery(document).ready(function($){
+		$("#upload-btn").click(function(e) {
+			e.preventDefault();
+			var image = wp.media({ 
+				title: "Choose image",
+				// mutiple: true if you want to upload multiple files at once
+				multiple: false
+			}).open()
+			.on("select", function(e){
+				// This will return the selected image from the Media Uploader, the result is an object
+				var uploaded_image = image.state().get("selection").first();
+				// We convert uploaded_image to a JSON object to make accessing it easier
+				// Output to the console uploaded_image
+				console.log(uploaded_image);
+				var image_url = uploaded_image.toJSON().url;
+				// Let"s assign the url value to the input field
+				$("#image_url").val(image_url);
+			});
+		});
+	});
+  </script>';
+}
+ 
 function shariff3UU_options_section_callback(){
   echo __( 'This configures the default behavior of Shariff for your blog. You can overwrite this in single posts or pages with the options within the <code>[shariff]</code> shorttag.', 'shariff3UU' );
 }
@@ -382,6 +469,8 @@ function buildShariffShorttag(){
   if(isset($shariff3UU["vertical"])) 	if($shariff3UU["vertical"]=='1') $shorttag.=' orientation="vertical"';
   // *** theme ***
   if(!empty($shariff3UU["theme"])) 	$shorttag.=' theme="'.$shariff3UU["theme"].'"';
+  // *** buttonsize ***
+  if(isset($shariff3UU["buttonsize"]))  if($shariff3UU["buttonsize"]=='1') $shorttag.=' buttonsize="small"';
   // *** lang ***
   if(!empty($shariff3UU["language"])) 	$shorttag.=' lang="'.$shariff3UU["language"].'"';
   //*** services ***
@@ -407,21 +496,37 @@ function buildShariffShorttag(){
 
 // add mail from if view=mail
 function sharif3UUaddMailForm($content){
+  if(WP_DEBUG==TRUE)echo 'WP_DEBUG-rtz: aktueller Warte-Count ist: '.limitRemoteUser().' sec. >5 wirft Fehler.'; 
+  // Sprache setzen. Default DE
+  $lang='DE';
+  // falls wir eine im Backend gesetzte Sprache haben
+  if(isset($GLOBALS["shariff3UU"]["language"]) && $GLOBALS["shariff3UU"]["language"]=='en')$lang='EN';
+  // sonst per GeoIP reinziehen
+  else switch(@geoip_country_code_by_name($_SERVER[REMOTE_ADDR])){case 'DE': $lang='DE'; break; case 'AT': $lang='DE'; break; case 'CH': $lang='DE'; break; default: $lang='EN';}
 
-if(WP_DEBUG==TRUE)echo limitRemoteUser(); 
-
- $mailform='<form action="'.get_permalink().'" method="GET">';
- $mailform.='<input type="hidden" name="act" value="sendMail">';
- $mailform.='<div id="mail_formular" style="background: none repeat scroll 0% 0% #EEE; font-size: 90%; padding: 0.2em 1em;">';
- $mailform.='<p><strong>Diesen Beitrag per E-Mail versenden:</strong></p>';
- $mailform.='<p><em>E-Mail-Adresse(n) Empf&auml;nger (maximal 5)</em><br /><input type="email" name="mailto" value="" placeholder="to@example.com"></p>';
- $mailform.='<p><em>E-Mail-Adresse des Absenders</em><br /><input type="email" name="from" value="" placeholder="from@example.com"></p>';
- $mailform.='<p><em>Name des Absenders (optional)</em><br /><input type="text" name="sender" value=""></p>';
- $mailform.='<p><em>Zusatztext</em><br /><textarea name="mail_comment" rows="2" cols="45"></textarea></p>';
- $mailform.='<p><input type="submit" value="E-Mail abschicken" /></p>';
- $mailform.='<p>Die hier eingegebenen Daten werden nur dazu verwendet, die E-Mail in Ihrem Namen zu versenden. Es erfolgt keine Weitergabe an Dritte oder eine Analyse zu Marketing-Zwecken.</p>';
- $mailform.='</form></div>';
- return $mailform.$content;
+  $mf_headline['DE']	='Diesen Beitrag per E-Mail versenden:';
+  $mf_headline['EN']	='Send this page by email';
+  $mf_rcpt['DE']	='E-Mail-Adresse(n) Empf&auml;nger (maximal 5)';
+  $mf_rcpt['EN']	='Email address of the recipient (max 5) ';
+  $mf_from['DE']	='E-Mail-Adresse des Absenders';
+  $mf_from['EN']	='Email of the sender';
+  $mf_name['DE']	='Name des Absenders (optional)';
+  $mf_name['EN']	='Name of the sender (optional)';
+  $mf_comment['DE']	='Zusatztext';
+  $mf_comment['EN']     ='additional text';
+  
+  $mailform='<form action="'.get_permalink().'" method="GET">';
+  $mailform.='<input type="hidden" name="act" value="sendMail">';
+  $mailform.='<div id="mail_formular" style="background: none repeat scroll 0% 0% #EEE; font-size: 90%; padding: 0.2em 1em;">';
+  $mailform.='<p><strong>'.$mf_headline[$lang].'</strong></p>';
+  $mailform.='<p><em>'.$mf_rcpt[$lang].'</em><br /><input type="email" name="mailto" value="" placeholder="to@example.com"></p>';
+  $mailform.='<p><em>'.$mf_from[$lang].'</em><br /><input type="email" name="from" value="" placeholder="from@example.com"></p>';
+  $mailform.='<p><em>'.$mf_name[$lang].'</em><br /><input type="text" name="sender" value="" placeholder="Your Name"></p>';
+  $mailform.='<p><em>'.$mf_comment[$lang].'</em><br /><textarea name="mail_comment" rows="2" cols="45"></textarea></p>';
+  $mailform.='<p><input type="submit" value="E-Mail abschicken" /></p>';
+  if($lang=='DE')  $mailform.='<p>Die hier eingegebenen Daten werden nur dazu verwendet, die E-Mail in Ihrem Namen zu versenden. Es erfolgt keine Weitergabe an Dritte oder eine Analyse zu Marketing-Zwecken.</p>';
+  $mailform.='</form></div>';
+  return $mailform.$content;
 }
 
 // send mail
@@ -430,7 +535,7 @@ function sharif3UUprocSentMail(){
   // optional robinson einbauen
   // optional auf eingeloggte User beschraenken, dann aber auch nicht allgemein anzeigen
 
-   $wait=limitRemoteUser();
+   $wait=limitRemoteUser('5');
    if($wait > '5'){ echo 'Please wait '. $wait .' sec until your next mail. '; die('Ooops!!!'); }       
 
   // build the array with recipients
@@ -443,29 +548,31 @@ function sharif3UUprocSentMail(){
   }
   
   $subject='Shariff share '.get_permalink();
-  $message='Jemand moechte Dir die Seite \r\n';
+  $message="Jemand moechte Dir die Seite \r\n";
   $message.=get_permalink();
-  $message.='empfehlen.\r\n';
-  $message.='Du erhaelst diese Email, weil der Betreiber der Seite das Plugin ';
-  $message.='Shariff Wrapper auf seinem Blog aktiviert hat, dass entwickelt wurde, ';
-  $message.='die Seite moeglichst anonym zu nutzen. Der Seitenbetreiber hat daher ';
-  $message.='auch keine Moeglichkeit, naehere Informationen ueber den Absender ';
-  $message.='zu geben. Du kannst Dich aber selbst auf eine Robinson-Liste setzen ';
-  $message.='und wirst dann nie wieder Emails von diesem Plugin auf dem Blog erhalten.';
+  $message.="\r\nempfehlen.\r\n\r\n";
+  $message.=$_REQUEST['mail_comment'];
+  $message.="\r\n-- \r\nDu erhaelst diese Email, weil der Betreiber der Seite das \r\n";
+  $message.="Plugin Shariff Wrapper auf seinem Blog aktiviert hat. Es wurde \r\n";
+  $message.="entwickelt, um eine weitgehendst anonyme Nutzung der Seite zu erlauben. \r\n";
+  $message.="Der Seitenbetreiber hat daher auch keine Moeglichkeit, naehere \r\n";
+  $message.="Informationen zum tatsaechlen Absender dieser Email zu geben. ";
+#  $message.="Du kannst Dich aber selbst auf eine Robinson-Liste setzen \r\n";
+#  $message.="und wirst dann nie wieder Emails von diesem Plugin auf dem Blog erhalten.";
 
   // falls mail uebergeben, setze als return-path
-  if(isset($_REQUEST["from"])) $headers='Return-Path: <'.sanitize_email($_REQUEST["from"]).'>\r\n';
+  if(isset($_REQUEST["from"])) $headers="Reply-To: <".sanitize_email($_REQUEST["from"]).">\r\n";
 
-  echo $subject.'<br>';
-  echo $message.'<br>';
-#  echo $headers.'<br>';
+  echo '<b>'.$subject.'</b><br>';
+  echo nl2br("$message").'<br>';
+  #echo $headers.'<br>';
 
   if(empty($mailto['0'])) echo ('Ooops, no usuable email address found.');
   else wp_mail( $mailto, $subject, $message, $headers); // The function is available after the hook 'plugins_loaded'.
 }
 
 // set a timeout until new mails are possible                                  
-function limitRemoteUser(){
+function limitRemoteUser($wait='1'){
   global $shariff3UU;
 
   //rtzrtz: aumgeschiebene aus dem DOS-Blocker. Nochmal gruebeln, ob wir das ohne memcache mit der Performance schaffen. Daher auch nur Grundfunktionalitaet.
@@ -473,7 +580,7 @@ function limitRemoteUser(){
   if(!isset($shariff3UU['REMOTEHOSTS'])) $shariff3UU['REMOTEHOSTS']='';
   $HOSTS=json_decode($shariff3UU['REMOTEHOSTS'],true);
   // Wartezeit in sekunden
-  $wait=1;
+  //  $wait=1;
   if($HOSTS[$_SERVER['REMOTE_ADDR']]-time()+$wait > 0){ if($HOSTS[$_SERVER['REMOTE_ADDR']]-time() < 86400) $wait=($HOSTS[$_SERVER['REMOTE_ADDR']]-time()+$wait)*2; }
   $HOSTS[$_SERVER['REMOTE_ADDR']]=time()+$wait;
   // Etwas Muellentsorgung
@@ -504,12 +611,6 @@ function shariffPosts($content) {
     return $content;
   }
   
-  // add it to single posts view only
-  // expact the new values for adds on overview are set
-  if( !is_singular() && isset($shariff3UU["add_after_all_overview"]) && isset($shariff3UU["add_before_all_overview"])){
-    if($shariff3UU["add_after_all_overview"]!='1' && $shariff3UU["add_before_all_overview"]!='1' ) return $content;
-  }
-
   // now add Shariff
   if( !is_singular() ) {
     // auf der Uebersichtsseite
@@ -523,6 +624,16 @@ function shariffPosts($content) {
   } elseif ( is_singular( 'page' ) ) {
     if(isset($shariff3UU["add_before_all_pages"]) && $shariff3UU["add_before_all_pages"]=='1' )	$content=buildShariffShorttag().$content;
     if(isset($shariff3UU["add_after_all_pages"]) && $shariff3UU["add_after_all_pages"]=='1' )	$content.=buildShariffShorttag();
+  } else {
+    // alle custom_post_types holen
+    $all_custom_post_types = get_post_types( array ( '_builtin' => FALSE ) );
+    if ( is_array($all_custom_post_types) ){
+      $custom_types = array_keys( $all_custom_post_types );
+    // type der aktuellen seite
+      $current_post_type = get_post_type();
+    // falls custom types auch gesharifft werden sollen
+      if(in_array( $current_post_type, $custom_types ) && isset($shariff3UU["add_after_all_custom_type"]) && $shariff3UU["add_after_all_custom_type"]=='1' ) $content.=buildShariffShorttag(); 
+    }
   }
 
   // altes verhalten
@@ -576,8 +687,9 @@ function RenderShariff( $atts , $content = null) {
 
   // use the backend option for every option that is not set in the shorttag
   $backend_options = $shariff3UU;
-  if(isset($shariff3UU["vertical"]))  if($shariff3UU["vertical"]=='1')    $backend_options["vertical"]='vertical';
+  if(isset($shariff3UU["vertical"]))  if($shariff3UU["vertical"]=='1')    $backend_options["orientation"]='vertical';
   if(isset($shariff3UU["backend"]))   if($shariff3UU["backend"]=='1')     $backend_options["backend"]='on';
+  if(isset($shariff3UU["buttonsize"]))   if($shariff3UU["buttonsize"]=='1')     $backend_options["buttonsize"]='small';
   if ( empty($atts) ) $atts = $backend_options;
   else $atts = array_merge($backend_options,$atts);
 
@@ -611,10 +723,10 @@ function RenderShariff( $atts , $content = null) {
   if(array_key_exists('theme', $atts))       $output.=" data-theme='".		esc_html($atts['theme'])."'";
   // rtzTodo: use geoip if possible
   if(array_key_exists('lang', $atts))        $output.=" data-lang='".		esc_html($atts['lang'])."'";
-  if(array_key_exists('image', $atts))       $output.=" data-image='".		esc_html($atts['image'])."'";
-  if(array_key_exists('media', $atts))       $output.=" data-media='".		esc_html($atts['media'])."'";
   if(array_key_exists('twitter_via', $atts)) $output.=" data-twitter-via='".	esc_html($atts['twitter_via'])."'";
   if(array_key_exists('flattruser', $atts)) $output.=" data-flattruser='".  esc_html($atts['flattruser'])."'";
+  if(array_key_exists('buttonsize', $atts)) $output.=" data-buttonsize='".  esc_html($atts['buttonsize'])."'";
+
   
   // if services are set do only use this
   if(array_key_exists('services', $atts)){
@@ -636,8 +748,23 @@ function RenderShariff( $atts , $content = null) {
     $output.=']\'';
   }
 
-  // if we dont have an image for pinterest, make sure that an image with hints will be used
-  if(array_key_exists('services', $atts)) if( strstr($atts["services"], 'pinterest') && !array_key_exists('media', $atts)&&!array_key_exists('image', $atts))$output.=" data-media='".plugins_url('/pictos/defaultHint.jpg',__FILE__)."'";
+  // get image for pinterest (attribut -> featured image -> first image -> default image -> shariff hint)
+  // Die Verschachtelung ist Absicht, um möglichst wenige Aufrufe zu verursachen.
+  if (array_key_exists('services', $atts)) if (strstr($atts["services"], 'pinterest')) {
+    if (array_key_exists('media', $atts)) $output .= " data-media='" . esc_html($atts['media']) . "'";
+    else {
+      $feat_image = wp_get_attachment_url( get_post_thumbnail_id() );
+      if (!empty($feat_image)) $output .= " data-media='" . esc_html($feat_image) . "'";
+      else {
+        $first_image = catch_image();
+        if (!empty($first_image)) $output .= " data-media='" . esc_html($first_image) . "'";
+        else {
+          if(isset($shariff3UU["default_pinterest"])) $output .= " data-media='" . $shariff3UU["default_pinterest"] . "'";
+          else $output .= " data-media='" . plugins_url('/pictos/defaultHint.jpg',__FILE__) . "'";
+        }
+      }
+    }
+  }
 
   // enable share statistic request
   // Make sure u have set the domain of the blog in shariff/backend/shariff.json
@@ -653,6 +780,17 @@ function RenderShariff( $atts , $content = null) {
   if(array_key_exists('style', $atts))$output.='</div>';
   
   return $output;
+}
+
+/* helper function to get the first image */ 
+function catch_image() {
+  $files = get_children('post_parent='.get_the_ID().'&post_type=attachment&post_mime_type=image');
+  if($files) {
+    $keys = array_reverse(array_keys($files));
+    $num = $keys[0];
+    $imageurl = wp_get_attachment_url($num);
+    return $imageurl;
+  }
 }
 
 // Widget
@@ -707,6 +845,8 @@ class ShariffWidget extends WP_Widget {
   // draw widget
   public function widget($args, $instance) {
     extract($args);
+	// get options
+	$shariff3UU = $GLOBALS["shariff3UU"];
     // Container
     echo $before_widget;
     // print title
@@ -733,7 +873,25 @@ class ShariffWidget extends WP_Widget {
     $wp_title = wp_title( '', false);
     if(!empty($wp_title)) $page_title = ltrim($wp_title); // wp_title for all pages that have it
     else $page_title = get_bloginfo('name'); // the site name for static start pages where wp_title is not set
-    $shorttag=substr($shorttag,0,-1)." title='".$page_title."' url='".$page_url."']"; // add url and title to the shorttag
+    	
+	// same for media
+	if ( strpos($shorttag,'media=') === false ) {
+		$feat_image = wp_get_attachment_url( get_post_thumbnail_id() );
+		if (!empty($feat_image)) $media = esc_html($feat_image);
+		else {
+			$first_image = catch_image();
+			if (!empty($first_image)) $media = esc_html($first_image);
+			 else {
+				if(isset($shariff3UU["default_pinterest"])) $media = $shariff3UU["default_pinterest"];
+				else $media = plugins_url('/pictos/defaultHint.jpg',__FILE__);
+			}
+		}
+		$media = 'media="' . $media . '"';
+	}
+	else $media = '';
+	
+	// build shorttag
+	$shorttag=substr($shorttag,0,-1) . " title='" . $page_title . "' url='" . $page_url . $media . "']"; // add url, title and media to the shorttag
 
     // process the shortcode
     echo do_shortcode($shorttag);
@@ -776,7 +934,7 @@ function shariff3UU_flattr_notice() {
 }
 add_action('admin_notices', 'shariff3UU_flattr_notice');
 
-/* Delete the shariff3UU_ignore_notice meta entry upon deactivation as well as the cache */
+/* Clear cache upon deactivation */
 function shariff3UU_deactivate() {
 // check for multisite
 if (is_multisite()) {
@@ -787,36 +945,35 @@ if (is_multisite()) {
     foreach($blogs as $blog) {
       // switch to each blog
       switch_to_blog($blog['blog_id']);
-      // delete options from options table
-      delete_option( $option_name );
-      // delete user meta entry shariff3UU_ignore_notice
-      $users = get_users('role=administrator');
-      foreach ($users as $user) { if ( !get_user_meta($user, 'shariff3UU_ignore_notice' )) { delete_user_meta($user->ID, 'shariff3UU_ignore_notice'); } };
       // delete cache dir
-      // __shariff3UU_rrmdir( wp_upload_dir('1970/01') );
+      shariff_removecachedir();
       // switch back to main
       restore_current_blog();
     }
   }
 } else {
-  // delete user meta entry shariff3UU_ignore_notice
-  $users = get_users('role=administrator');
-  foreach ($users as $user) { if ( !get_user_meta($user, 'shariff3UU_ignore_notice' )) { delete_user_meta($user->ID, 'shariff3UU_ignore_notice'); } }
-#  // delete cache dir
-#  $upload_dir = wp_upload_dir();
-#  $cache_dir = $upload_dir['basedir'].'/1970';
-#  shariff_removecachedir( $cache_dir );
+  // delete cache dir
+  shariff_removecachedir();
   }
 }
 register_deactivation_hook( __FILE__, 'shariff3UU_deactivate' );
 
-/* Helper function to delete cache directory */
-function shariff_removecachedir($directory){
-#rtzrtz ritze: Zu gefaehrlich. Erstmal enstchaerft.
-return;
-  foreach(glob("{$directory}/*") as $file) {
-    if(is_dir($file)) shariff_removecachedir($file);
-    else @unlink($file);
+/* Delete cache directory */
+function shariff_removecachedir(){
+  $upload_dir = wp_upload_dir();
+  $cache_dir = $upload_dir['basedir'].'/1970/01';
+  $cache_dir2 = $upload_dir['basedir'].'/1970';
+  shariff_removefiles( $cache_dir );
+  // Remove /1970/01 and /1970 if they are empty
+  @rmdir($cache_dir);
+  @rmdir($cache_dir2);
+}
+
+/* Helper function to delete .dat files that begin with "Shariff" and empty folders that also start with "Shariff" */
+function shariff_removefiles($directory){
+  foreach(glob("{$directory}/Shariff*") as $file) {
+    if(is_dir($file)) shariff_removefiles($file);
+    else if(substr($file, -4) == '.dat') @unlink($file);
   }
   @rmdir($directory);
 }
