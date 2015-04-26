@@ -11,9 +11,6 @@
         }
         .s3uu-info {
             width: 35px;
-            .buttonsize-small {
-                width: 25px;
-            }
         }
         .share_text {
             display: block !important;
@@ -32,52 +29,40 @@
         .info {
             width: 35px;
             float: left;
-            .buttonsize-small {
-                width: 25px;
-            }
         }
     }
-    .theme-round {
-        .s3uu-info {
-            width: 33px;
-            .buttonsize-small {
-                width: 23px;
-            }
+    .orientation-vertical.buttonsize-small {
+        .info {
+            width: 25px;
+            float: left;
         }
     }
 }
 
 @media only screen and (min-width: 360px) {
-    .shariff .orientation-horizontal .info {
-        flex: none !important;
-        width: 35px;
-        min-width: 35px;
-        .buttonsize-small {
-            width: 25px;
-            min-width: 25px;
-        }
-    }
-}
-
-@media only screen and (min-width: 1024px) {
     .shariff {
         .orientation-horizontal .info {
+            lex: none !important;
             width: 35px;
             min-width: 35px;
-        }
-        .buttonsize-small .info {
-            width: 25px !important;
-            min-width: 25px !important;
-            .s3uu {
-                line-height: 24px !important;
-                width: 24px !important;
-            }
         }
         .orientation-vertical .info {
             width: 35px;
         }
-        .buttonsize-small .info {
-            width: 25px !important;
+        .orientation-vertical.buttonsize-small .info {
+            width: 25px;
+            .s3uu {
+                line-height: 24px;
+                width: 24px;
+            }
+        }
+        .orientation-horizontal.buttonsize-small .info {
+            width: 25px;
+            min-width: 25px;
+            .s3uu {
+                line-height: 24px;
+                width: 24px;
+            }
         }
     }
 }
