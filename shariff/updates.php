@@ -47,7 +47,8 @@
   // Migration < v 2.0
   if( version_compare($GLOBALS["shariff3UU"]["version"], '2.0') == '-1') {
     // switch service mail to mailto if mailto is not set in services too
-    if(strpos($GLOBALS["shariff3UU"]["services"],'mail')!=FALSE && strpos($GLOBALS["shariff3UU"]["services"],'mailto')==FALSE){
+    // services ist bei Erstinstallation leer -> isset() und strpos kann 0 zurückliefern (gefunden an nullter Stelle), was als false verstanden werden würde, daher === notwendig
+    if(isset($GLOBALS["shariff3UU"]["services"]) && strpos($GLOBALS["shariff3UU"]["services"],'mail')!== FALSE && strpos($GLOBALS["shariff3UU"]["services"],'mailto') === FALSE){
       $GLOBALS["shariff3UU"]["services"]=str_replace('mail', 'mailto', $GLOBALS["shariff3UU"]["services"]);
       update_option( 'shariff3UU', $GLOBALS["shariff3UU"] );  
     }
