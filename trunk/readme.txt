@@ -8,53 +8,46 @@ License: MIT
 License URI: http://opensource.org/licenses/MIT
 Donate link: http://folge.link/?bitcoin=1Ritz1iUaLaxuYcXhUCoFhkVRH6GWiMTP
 
-This is a wrapper to Shariff. Enables shares with Twitter, Facebook... on posts, pages and/or themes with no harm for visitors privacy.
+This is a wrapper to Shariff. It enables shares with Twitter, Facebook ... on posts, pages and themes with no harm for visitors privacy.
 
 == Description ==
 
 The "original" share buttons send data of your visitors to the social
-network site also if they do not really click on the share button. The
+network sites, even if they do not click on a share button. The
 german computer magazin CT has developed "Shariff" `(/ˈʃɛɹɪf/)` that 
-fullfill the strict data protection law in Germany. This plugin is a 
+fullfills the strict data protection laws in Germany. This plugin is a 
 wrapper to this software. It allows you to use it within your posts 
-with the shorttag `[shariff]` and provide all design options of the 
+with the shorttag `[shariff]` and provides all design options of the 
 original code.
 
 For more informations about the Shariff software check out the 
 [GitHub project](https://github.com/heiseonline/shariff) and
-about the project read [c’t information page](http://ct.de/shariff).
+read about the project itself [c’t information page](http://ct.de/shariff) (in German).
 
-You can use this plugin as widget, for single or all posts and as well on
-pages. It also support the hideshariff sign that used by Yanniks plugin.
+You can use this plugin on posts, pages, the main page, product sites and 
+as a widget.
 
 == Installation ==
 
-1. Upload `plugin-name.php` to the `/wp-content/plugins/` directory
-2. Activate the plugin through the 'Plugins' menu in WordPress
-3. Use <code>[shariff]</code> anywhere in your post or/and use the admin menu. 
+1. Upload everything to the `/wp-content/plugins/` directory
+2. Activate the plugin using the plugins menu in WordPress
+3. Use <code>[shariff]</code> anywhere in your post and/or use the admin menu. 
 
-To enable it for all posts plz check the option in the admin menu.
+To enable it for all posts please check the options in the admin menu.
 
 == Screenshots ==
 
-1. Insert as shorttag with options in a post
-2. Share-Buttons on the site in vertical order
-3. Options menu
-4. Widget menu. Shorttag work like in posts
-5. also any widget can have own shorttag design
+1. Insert as shorttag with options in a post.
+2. Share-Buttons on the site in vertical order.
+3. Options menu.
+4. Widget menu. Shorttag works like in posts.
+5. Also any widget can have its own design.
 
 == Frequently Asked Questions ==
 
 = Q: How can I change the position of all buttons =
-A: Within the shorttag you can user the `style` attribute with common CSS.
-The value will be used for a container around the Shariff button.
-`[shariff style="text-align: center;"]`
-The same way work the "style option" within the admin menu.
-Please notice that because of the nature of CascadingSS you can not change
-the look of the buttons! If do you want this please read about the 
-design options later on. Also the code example is really only an example.
-The you have to use your own style information depending on the theme/design
-do you use.
+A: Have a look at the alignment options in the admin menu or checkout the 
+style option.
 
 = Q: Can I use it in my theme? =
 A: Yes. 
@@ -63,111 +56,113 @@ Backend is an example. You can use all options of the shorttag. But first
 you should have a look at the widget. 
 
 = Q: How can I configure the widget? =
-A: It use the same options that have been configured in the admin menu.
-However you can put in a shorttag that overwrites the default options. It
-has the same format as do you use in post.
+A: It uses the same options that have been configured in the admin menu.
+However, you can put in a shorttag that overwrites the default options. It
+has the same format as you use in posts.
 
-= Q: Why are shares/likes not listed? =
-A: Shariff try to protect your visitors. Therefor the statistic must
-requested by your server. So social networks see only a request of your blog
-server. However I am not sure if do you want this. So it is not enabled by
-default. 
+= Q: Why are shares not listed? =
+A: Shariff tries to protect your visitors. In order to do this, the statistics have to
+be requested by your server, so social networks only see a request of your blog
+server and not from your visitor. However, I am not sure if you want this. Therefore it 
+is not enabled by default. 
 
 = Q: How can I show the share counts? =
-A: Add the option `backend="on"` to the shariff shorttag in your post.
+A: Enable it in admin menu in general or add `backend="on"` to the shariff shorttag in your post.
 
 = Q: I do not see counts =
-A: First make sure the do you have enabled the backend. If so please have a
-look at the end of the admin page. There would you get a hint which
-directory shariff try to use for temp files. 
+A: First make sure the you have it enabled. If so, please have a
+look at the bottom of the admin menu. There is a hint, which
+directory shariff tries to use for the cache. 
 
-= Q: Who can I change the options of the backend? =
+= Q: How can I change the options of the backend? =
 A: The backend should work well with all common configurations. If the
 backend does not work and you do not have very special needs for your
-configuration perhaps you should think about an other hoster ;-) However
+configuration perhaps you should think about another hoster ;-) However,
 there are some very special servers e.g. some load balancer that need
-adjustment. You can set the directory to use for temporary files of the
+adjustments. You can set the directory to use for temporary files of the
 backend with the PHP constant
 `define("SHARIFF_BACKEND_TMPDIR","/example/path/to/tmp");`
-There is also the option to change the default TTL from 60 s with
+There is also the option to change the default TTL from 60s with
 `define("SHARIFF_BACKEND_TTL","88");`
 
 = Q: I need some more options. How could I get them? =
 A: This plugin is a wrapper to the original project files of Shariff. As
-long as the original will not get more options we will not add more to this 
+long as the original will not get more options, we will not add more to this 
 plugin.
 
 = Q: How can I change the design? =
-A: Have a look at the parameters "theme" and "orientation". They work
-like the original code parameters that are explained at 
+A: Have a look at the parameters "theme" and "orientation" and "buttonsize". They work
+mostly like the original code parameters that are explained at 
 http://heiseonline.github.io/shariff/ Or you can have a look at my test page
 at http://shariff.3uu.net/shariff-sample-page-with-all-options to get an
-overview. But plz be warned: This is my test page! It is possible that do
-you find features that are only provided in the development version. Use it
+overview. But please be warned: This is my test page! It is possible that you 
+find features that are only provided in the development version. Use it
 only to get an impression of the design options.
 
 = Q: How can I change the design of a single button? =
-A: If you are a CSS guru please feel free to modify the css file. Bad 
-idea because this will be destroyed with the next update! Have a look 
-at the style attribute of the shorttag. Put in any value will create 
-the DIV container with the ID "ShariffSC" around the buttons. If you are
-really a CSS guru you will know what does the magic is ;-)
+A: If you are a CSS guru please feel free to modify the css file. But of course this 
+is a bad idea, because all changes will be destroyed with the next update! Have a look 
+at the style attribute of the shorttag. If you put in any value it will create 
+a DIV container with the ID "ShariffSC" around the buttons. If you are
+really a CSS guru you will know what does the magic from here on out. ;-)
 
 = Q: Can I add [shariff] on all posts? =
-A: Yes, use the admin menu and use the first checkbox to enable it. 
+A: Yes, use the first checkbox in the admin menu to enable it. 
 
 = Q: Can I change the design on a single post? =
-A: Yes. If the [shariff... shortcut is found on a post it has preference.
+A: Yes. If the [shariff...] shortcut is found in a post, it has priority over all settings 
+from the admin menu.
 
-= Q: But I want hide it on a single post! =
-A: Do you really know what do you want? ;-) However it is possible. Write 
+= Q: But I want to hide it on a single post! =
+A: Do you really know what you want? ;-) However it is possible. Write 
 anywhere in your post "hideshariff". It will be removed and Shariff will 
 not be added. This will make it compatible with the other plugin "Shariff for
 Wordpress" that has been published at the same day. You can also use
-"/hideshariff" to write "hideshariff" in your post. 
+"/hideshariff" to write "hideshariff" in your post.
 
-= Q: What are the differences between this 2 plugins? =
-A: One is developed by me, one by an other ;-) The main difference is, that 
-this plugin can be used as a shortcode anywhere in your posts. Also if do 
-you use the configuration option to add it on all posts - it will only 
-shown on single post pages. And this plugin also provide a widget.
+= Q: What are the differences between these two plugins? =
+A: One is developed by us, one by someone else. ;-) The main difference is that 
+this plugin has a few more options.
 
 = Q: The fonts load slowly, can I use a CDN? =
 A: The best way would be to use a CDN for your blog host. The original 
 shariff project has references to CDN hosted fonts. But it is possible that 
-the hoster send headers that force the browser to reload the fonts on any
-page. This would enable tracking again depending on how honest the font
+the hoster sends headers that force the browser to reload the fonts on any
+page. This would enable tracking again, depending on how honest the font
 hoster is. So I strongly suggest to use the copy that is within the plugin 
-directory at your server. 
+directory on your server. 
 
 = Q: I do not get the numbers / Got error "tmp dir must be writable" =
 A: Your webserver must be able to connect to other webservers. Please check
-your PHP configuration and firewall settings. If do you get the error "tmp dir
+your PHP configuration and firewall settings. If you get the error "tmp dir
 must be writable" your webserver does not have a directory to write
 temporary data. Also please have in mind that the plugin has a timeout of 60
-seconds because most services do not accept more request.
+seconds, because most services do not accept more request.
 
-= Q: Pinterest does not show an icon =
-A: You can add 
-media="http://wwww.example.com/yourImage.png"
-within the [shariff...] short tag. Of course with the link to your image ;-)
+= Q: Pinterest does not show an image =
+A: You can add media="http://wwww.example.com/yourImage.png"
+within the [shariff...] shorttag or add it in the admin menu. Of course with 
+the link to your image. ;-)
 
 = Q: Can I set a fixed URL to share? =
 A: You can use the "url" parameter within the shortcode
 `[shariff url="http://www.example.com/"]`
-This is also available within widgets. However I think it is not a good idea 
-to manipulate the URI because it is possible a kind of misleading visitors. 
-So you should only use it if this is really needed and you do really know
-what do you do. Therefor it is not available within the admin menu. 
+This is also available within widgets. However, I think it is not a good idea 
+to manipulate the URI, because it could mislead your visitors. 
+So you should only use it, if this is really needed and you do really know
+what you are doing. Therefore it is not available within the admin menu. 
 
 = Migration needed =
-Version 1.7: We plan to change the behavior of the service "mail" back to
-the original that provide a email from at the side and not a mailto-link.
-Therfor a new service "mailto" has been defined that provide the mailto
-functionality. So please change you configuration ibefore 1.4.2015 - not a
-joke ;-)
+Version 2.0: We plan to change the behavior of the service "mail" back to
+the original one that provides an e-mail form on the side and not a mailto-link.
+Therfore a new service "mailto" has been defined that provides the current mailto
+functionality. So please change you configuration asap.
 
 == Changelog ==
+
+= 1.9.9 =
+- fix widget bug (wrong share links)
+
 = 1.9.8 =
 - add headers to avoid caching of backend data
 - tested with WP 4.2 beta

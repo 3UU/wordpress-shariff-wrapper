@@ -39,7 +39,7 @@ $shariff3UU=get_option( 'shariff3UU' );
 function shariff3UU_update() {
 
   /******************** VERSION ANPASSEN *******************************/
-  $code_version = "1.9.8"; // Set code version - needs to be adjusted for every new version!
+  $code_version = "1.9.9"; // Set code version - needs to be adjusted for every new version!
   /******************** VERSION ANPASSEN *******************************/
 
   $do_admin_notice=false;
@@ -874,24 +874,23 @@ class ShariffWidget extends WP_Widget {
     if(!empty($wp_title)) $page_title = ltrim($wp_title); // wp_title for all pages that have it
     else $page_title = get_bloginfo('name'); // the site name for static start pages where wp_title is not set
     	
-	// same for media
-	if ( strpos($shorttag,'media=') === false ) {
-		$feat_image = wp_get_attachment_url( get_post_thumbnail_id() );
-		if (!empty($feat_image)) $media = esc_html($feat_image);
-		else {
-			$first_image = catch_image();
-			if (!empty($first_image)) $media = esc_html($first_image);
-			 else {
-				if(isset($shariff3UU["default_pinterest"])) $media = $shariff3UU["default_pinterest"];
-				else $media = plugins_url('/pictos/defaultHint.jpg',__FILE__);
-			}
-		}
-		$media = 'media="' . $media . '"';
-	}
-	else $media = '';
+    // same for media
+    $media = '';
+    if (array_key_exists('services', $shariff3UU) && strstr($shariff3UU["services"], 'pinterest') && (strpos($shorttag,'media=') === false )) {
+      $feat_image = wp_get_attachment_url( get_post_thumbnail_id() );
+      if (!empty($feat_image)) $media = ' media="' . esc_html($feat_image) . '"';
+      else {
+        $first_image = catch_image();
+        if (!empty($first_image)) $media = ' media="' . esc_html($first_image) . '"';
+        else {
+          if(isset($shariff3UU["default_pinterest"])) $media = ' media="' . $shariff3UU["default_pinterest"] . '"';
+          else $media = ' media="' . plugins_url('/pictos/defaultHint.jpg',__FILE__) . '"';
+        }
+      }
+    }
 	
-	// build shorttag
-	$shorttag=substr($shorttag,0,-1) . " title='" . $page_title . "' url='" . $page_url . $media . "']"; // add url, title and media to the shorttag
+    // build shorttag
+    $shorttag=substr($shorttag,0,-1) . ' title="' . $page_title . '" url="' . $page_url . '"' . $media . ']'; // add url, title and media to the shorttag
 
     // process the shortcode
     echo do_shortcode($shorttag);
