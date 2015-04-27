@@ -9,6 +9,17 @@
     }
 }
 
+.display-share-text-buttonsize-small() {
+    li {
+        min-width: 90px;
+        max-width: 90px;
+        .share_text {
+            text-indent: 0;
+            display: inline;
+        }
+    }
+}
+
 .shariff {
     &::after,
     &::before {
@@ -58,7 +69,7 @@
             width: 35px;
             line-height: 35px;
             text-align: center;
-            vertical-align: middle;
+            vertical-align: top;
             font-size: 20px;
         }
         .share_count {
@@ -249,11 +260,9 @@
     // ------------------------- small buttons
     .buttonsize-small {
         li {
-            min-width: 90px !important;
-            max-width: 90px !important;
             height: 25px;
             a {
-                height: 35px;
+                height: 25px;
             }
             .share_text,
             .share_count {
@@ -272,12 +281,17 @@
                 padding: 0 5px;
                 height: 23px;
             }
-            .orientation-vertical {
-                width: 90px !important;
-            }
         }
     }
+
+    .orientation-vertical.buttonsize-small { width: 90px; }
+
     .theme-round.buttonsize-small {
+        li {
+            .s3uu {
+                margin-top: 0px;
+            }
+        }
         .shariff-button {
             width: 25px !important;
             min-width: 25px !important;
@@ -315,7 +329,9 @@
             min-width: 35px;
             max-width: 35px;
         }
-        .buttonsize-small {
+    }
+    .shariff .orientation-horizontal.buttonsize-small {
+        li {
             min-width: 25px;
             max-width: 25px;
         }
@@ -346,11 +362,22 @@
     .shariff .orientation-horizontal.col-3 {
         .display-share-text;
     }
+    .shariff .orientation-horizontal.col-3.buttonsize-small {
+        .display-share-text-buttonsize-small;
+    }
 }
 
 @media only screen and (min-width: 768px) {
     .shariff .orientation-horizontal {
         .display-share-text;
+        &.col-5, &.col-6 {
+            li {
+                flex: 1;
+            }
+        }
+    }
+    .shariff .orientation-horizontal.buttonsize-small {
+        .display-share-text-buttonsize-small;
         &.col-5, &.col-6 {
             li {
                 flex: 1;
