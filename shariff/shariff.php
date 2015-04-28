@@ -2,8 +2,8 @@
 /**
  * Plugin Name: Shariff Wrapper
  * Plugin URI: http://www.3uu.org/plugins.htm
- * Description: This is a wrapper to Shariff. Enables shares in posts and/or themes with Twitter, Facebook, GooglePlus... with no harm for visitors privacy.
- * Version: 1.9.8
+ * Description: This is a wrapper to Shariff. It enables shares with Twitter, Facebook ... on posts, pages and themes with no harm for visitors privacy.
+ * Version: 1.9.9
  * Author: 3UU
  * Author URI: http://www.DatenVerwurstungsZentrale.com/
  * License: http://opensource.org/licenses/MIT
@@ -182,11 +182,11 @@ function shariff3UU_options_init(){
   );
 
   add_settings_field( 'shariff3UU_text_services', 
-    __( 'Put in the service do you want enable (<code>facebook|twitter|googleplus|whatsapp|mail|mailto|printer|pinterest|linkedin| xing|reddit|stumbleupon|flattr|info</code>). Use the pipe sign | between two or more services.', 'shariff3UU' ), 
+    __( 'Put in the services you want to enable (<code>facebook|twitter|googleplus|whatsapp|mail|mailto|printer|pinterest|linkedin| xing|reddit|stumbleupon|flattr|info</code>). Use the pipe sign | (Alt Gr + < or ⌥ + 7) between two or more services.', 'shariff3UU' ), 
     'shariff3UU_text_services_render', 'pluginPage', 'shariff3UU_pluginPage_section' 
   );
 
-  add_settings_field( 'shariff3UU_checkbox_backend', __( 'Check this to show share statistic.', 'shariff3UU' ),
+  add_settings_field( 'shariff3UU_checkbox_backend', __( 'Check this to show share statistics.', 'shariff3UU' ),
     'shariff3UU_checkbox_backend_render', 'pluginPage', 'shariff3UU_pluginPage_section'
   );
        
@@ -418,7 +418,7 @@ function shariff3UU_text_default_pinterest_render(){
 }
  
 function shariff3UU_options_section_callback(){
-  echo __( 'This configures the default behavior of Shariff for your blog. You can overwrite this in single posts or pages with the options within the <code>[shariff]</code> shorttag.', 'shariff3UU' );
+  echo __( 'This configures the default behavior of Shariff for your blog. You can overwrite this in single posts or pages with the options within the <code>[shariff]</code> shorttag. For more information please have a look at the <a href="https://wordpress.org/plugins/shariff/faq/" target="_blank">FAQ</a> and the <a href="https://wordpress.org/support/plugin/shariff/" target="_blank">Support Forum</a>.', 'shariff3UU' );
 }
 
 function shariff3UU_options_page(){ 
@@ -801,7 +801,7 @@ class ShariffWidget extends WP_Widget {
 
     $widget_options = array(
       'classname' => 'Shariff',
-      'description' => __('Add Shariff as configured in the admin menue.', 'shariff3UU')
+      'description' => __('Add Shariff as configured in the admin menu.', 'shariff3UU')
       );
 
     $control_options = array();
