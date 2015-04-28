@@ -40,8 +40,8 @@ msgstr "Buttons vertikal anordnen."
 
 # @ shariff3UU
 #: shariff.php:69
-msgid "Put in the services you want to enable (<code>facebook|twitter|googleplus|whatsapp|mail|mailto|printer|pinterest|linkedin| xing|reddit|stumbleupon|flattr|info</code>). Use the pipe sign | (Alt Gr + < or ⌥ + 7) between two or more services."
-msgstr "Setze die Namen der Dienste ein, die eingebunden werden sollen (<code>facebook|twitter|googleplus|whatsapp|mail|mailto|printer|pinterest|linkedin| xing|reddit|stumbleupon|flattr|info</code>). Verwende das Pipe-Zeichen | (Alt Gr + < oder ⌥ + 7) bei zwei oder mehr Diensten als Trenner."
+msgid "Put in the services you want to enable (<code>facebook|twitter|googleplus|whatsapp|mail|mailto|printer|pinterest|linkedin| xing|reddit|stumbleupon|flattr|info</code>). Use the pipe sign | (Alt Gr + &lt; or &#8997; + 7) between two or more services."
+msgstr "Setze die Namen der Dienste ein, die eingebunden werden sollen (<code>facebook|twitter|googleplus|whatsapp|mail|mailto|printer|pinterest|linkedin| xing|reddit|stumbleupon|flattr|info</code>). Verwende das Pipe-Zeichen | (Alt Gr + &lt; oder &#8997; + 7) bei zwei oder mehr Diensten als Trenner."
 
 # @ shariff3UU
 #: shariff.php:73

@@ -3,7 +3,8 @@
 module.exports = function(shariff) {
     return {
         popup: false,
-		mobileonly: false,
+	mobileonly: false,
+	blank: false,
         shareText: {
             'de': 'drucken',
             'en': 'print',
