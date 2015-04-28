@@ -164,6 +164,9 @@ Therfore a new service "mailto" has been defined that provides the current mailt
 functionality. So please change you configuration asap.
 
 == Changelog ==
+= 2.0.1 =
+- fix email form method POST
+
 = 2.0.0 =
 - full functional compatible to Heise implementation
 - remove obsolet SHARIFF_ALL_POSTS

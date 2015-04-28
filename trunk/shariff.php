@@ -3,7 +3,7 @@
  * Plugin Name: Shariff Wrapper
  * Plugin URI: http://www.3uu.org/plugins.htm
  * Description: This is a wrapper to Shariff. It enables shares with Twitter, Facebook ... on posts, pages and themes with no harm for visitors privacy.
- * Version: 2.0.0
+ * Version: 2.0.1
  * Author: 3UU
  * Author URI: http://www.DatenVerwurstungsZentrale.com/
  * License: http://opensource.org/licenses/MIT
@@ -522,7 +522,7 @@ function sharif3UUaddMailForm($content){
   $mf_comment['DE']	='Zusatztext';
   $mf_comment['EN']     ='additional text';
   
-  $mailform='<form action="'.get_permalink().'" method="GET">';
+  $mailform='<form action="'.get_permalink().'" method="POST">';
   $mailform.='<input type="hidden" name="act" value="sendMail">';
   $mailform.='<div id="mail_formular" style="background: none repeat scroll 0% 0% #EEE; font-size: 90%; padding: 0.2em 1em;">';
   $mailform.='<p><strong>'.$mf_headline[$lang].'</strong></p>';
