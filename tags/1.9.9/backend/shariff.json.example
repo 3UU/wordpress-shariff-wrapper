@@ -1,0 +1,18 @@
+{
+	"cache": {
+		"ttl": 60,
+		"cacheDir": "/tmp"
+	},
+	"domain": "www.example.com",
+	"services": [
+		"GooglePlus",
+		"Twitter",
+		"Facebook",
+		"LinkedIn",
+		"Reddit",
+		"StumbleUpon",
+		"Flattr",
+		"Pinterest",
+		"Xing"
+	]
+}
