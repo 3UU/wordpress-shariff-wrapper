@@ -152,6 +152,11 @@ to manipulate the URI, because it could mislead your visitors.
 So you should only use it, if this is really needed and you do really know
 what you are doing. Therefore it is not available within the admin menu. 
 
+= Q: What is the differenz between the services `mail` and `mailto´? =
+`mail` will provide a email form on top of the post/page 
+`mailto` will draw a linkt with the mailto-protocol to open the default
+email application of the client
+
 = Migration needed =
 Version 2.0: We plan to change the behavior of the service "mail" back to
 the original one that provides an e-mail form on the side and not a mailto-link.
@@ -159,6 +164,11 @@ Therfore a new service "mailto" has been defined that provides the current mailt
 functionality. So please change you configuration asap.
 
 == Changelog ==
+= 2.0.0 =
+- full functional compatible to Heise implementation
+- remove obsolet SHARIFF_ALL_POSTS
+- fix some small css attributes (size)
+- code clean up
 
 = 1.9.9 =
 - fix widget bug (wrong share links)

@@ -2,8 +2,8 @@
 /**
  * Plugin Name: Shariff Wrapper
  * Plugin URI: http://www.3uu.org/plugins.htm
- * Description: This is a wrapper to Shariff. Enables shares in posts and/or themes with Twitter, Facebook, GooglePlus... with no harm for visitors privacy.
- * Version: 1.9.9
+ * Description: This is a wrapper to Shariff. It enables shares with Twitter, Facebook ... on posts, pages and themes with no harm for visitors privacy.
+ * Version: 2.0.0
  * Author: 3UU
  * Author URI: http://www.DatenVerwurstungsZentrale.com/
  * License: http://opensource.org/licenses/MIT
@@ -39,7 +39,7 @@ $shariff3UU=get_option( 'shariff3UU' );
 function shariff3UU_update() {
 
   /******************** VERSION ANPASSEN *******************************/
-  $code_version = "1.9.9"; // Set code version - needs to be adjusted for every new version!
+  $code_version = "2.0.0"; // Set code version - needs to be adjusted for every new version!
   /******************** VERSION ANPASSEN *******************************/
 
   $do_admin_notice=false;
@@ -181,12 +181,11 @@ function shariff3UU_options_init(){
     'shariff3UU_checkbox_vertical_render', 'pluginPage', 'shariff3UU_pluginPage_section' 
   );
 
-  add_settings_field( 'shariff3UU_text_services', 
-    __( 'Put in the service do you want enable (<code>facebook|twitter|googleplus|whatsapp|mail|mailto|printer|pinterest|linkedin| xing|reddit|stumbleupon|flattr|info</code>). Use the pipe sign | between two or more services.', 'shariff3UU' ), 
-    'shariff3UU_text_services_render', 'pluginPage', 'shariff3UU_pluginPage_section' 
+  add_settings_field( 'shariff3UU_text_services', __( 'Put in the services you want to enable (<code>facebook|twitter|googleplus|whatsapp|mail|mailto|printer|pinterest|linkedin| xing|reddit|stumbleupon|flattr|info</code>). Use the pipe sign | (Alt Gr + &lt; or &#8997; + 7) between two or more services.', 'shariff3UU' ),
+    'shariff3UU_text_services_render', 'pluginPage', 'shariff3UU_pluginPage_section'
   );
 
-  add_settings_field( 'shariff3UU_checkbox_backend', __( 'Check this to show share statistic.', 'shariff3UU' ),
+  add_settings_field( 'shariff3UU_checkbox_backend', __( 'Check this to show share statistics.', 'shariff3UU' ),
     'shariff3UU_checkbox_backend_render', 'pluginPage', 'shariff3UU_pluginPage_section'
   );
        
@@ -312,7 +311,6 @@ function shariff3UU_select_language_render(){
 
 function shariff3UU_radio_theme_render(){
   $options = $GLOBALS["shariff3UU"]; if(!isset($options["theme"]))$options["theme"]='';
-#  $wpurl=site_url();
   echo "<table border='0'>
   <tr><td><input type='radio' name='shariff3UU[theme]' value='' ".      checked( $options['theme'], '',0 )      .">default</td><td><img src='".WP_CONTENT_URL."/plugins/shariff/pictos/defaultBtns.png'></td></tr>
   <tr><td><input type='radio' name='shariff3UU[theme]' value='color' ". checked( $options['theme'], 'color',0 ) .">color</td><td><img src='".WP_CONTENT_URL."/plugins/shariff/pictos/colorBtns.png'><br></td></tr>
@@ -418,7 +416,7 @@ function shariff3UU_text_default_pinterest_render(){
 }
  
 function shariff3UU_options_section_callback(){
-  echo __( 'This configures the default behavior of Shariff for your blog. You can overwrite this in single posts or pages with the options within the <code>[shariff]</code> shorttag.', 'shariff3UU' );
+  echo __( 'This configures the default behavior of Shariff for your blog. You can overwrite this in single posts or pages with the options within the <code>[shariff]</code> shorttag. For more information please have a look at the <a href="https://wordpress.org/plugins/shariff/faq/" target="_blank">FAQ</a> and the <a href="https://wordpress.org/support/plugin/shariff/" target="_blank">Support Forum</a>.', 'shariff3UU' );
 }
 
 function shariff3UU_options_page(){ 
@@ -454,14 +452,6 @@ function buildShariffShorttag(){
   // get options
   $shariff3UU = $GLOBALS["shariff3UU"];
   
-  // menu configured option over old constant
-  // however backward compatible to:
-  // Define it in wp-config.php with the shortcode that should added to all posts. Example:
-  // define('SHARIFF_ALL_POSTS','[shariff services="facebook|twitter|googleplus" backend="on"]');
-  // This is a workaround as long as we did not have more options with an own admin page.
-  // Therefor it is not documented and will be removed with next major release.
-  if( defined('SHARIFF_ALL_POSTS') ) { return SHARIFF_ALL_POSTS; }
-
   // build the shorttag
   $shorttag='[shariff';
 
@@ -496,20 +486,37 @@ function buildShariffShorttag(){
 
 // add mail from if view=mail
 function sharif3UUaddMailForm($content){
-  if(WP_DEBUG==TRUE)echo 'WP_DEBUG-rtz: aktueller Warte-Count ist: '.limitRemoteUser().' sec. >5 wirft Fehler.'; 
-  // Sprache setzen. Default DE
+  if(WP_DEBUG==TRUE)echo '<br>WP_DEBUG-rtz: aktueller Warte-Count ist: '.limitRemoteUser().' sec. >5 wirft Fehler.'; 
+  // Sprache setzen. Default DE. Belegen wir vor, damit fehlende Variable im Debug kein Fehler wirft UND damitd er else-Zweig nicht ins Leere rennt.
   $lang='DE';
   // falls wir eine im Backend gesetzte Sprache haben
   if(isset($GLOBALS["shariff3UU"]["language"]) && $GLOBALS["shariff3UU"]["language"]=='en')$lang='EN';
-  // sonst per GeoIP reinziehen
-  else switch(@geoip_country_code_by_name($_SERVER[REMOTE_ADDR])){case 'DE': $lang='DE'; break; case 'AT': $lang='DE'; break; case 'CH': $lang='DE'; break; default: $lang='EN';}
+  // sonst per GeoIP reinziehen. Erstmal die serverseitige Moeglickiet checken
+  // siehe http://datenverwurstungszentrale.com/stadt-und-land-mittels-geoip-ermitteln-268.htm
+  elseif(function_exists("geoip_country_code_by_name")){
+    if(WP_DEBUG==TRUE)echo '<br>nutze gerade geoip_country_code_by_name<br>';
+    switch(@geoip_country_code_by_name($_SERVER[REMOTE_ADDR])){case 'DE': $lang='DE'; break; case 'AT': $lang='DE'; break; case 'CH': $lang='DE'; break; default: $lang='EN';}
+  }
+  // sonst per "WP-Plugin GeoIP Detection"
+  // siehe https://wordpress.org/plugins/geoip-detect/
+  // rtzrtz: erstmal raus, weil nicht mit WPMU https://wordpress.org/support/topic/will-this-work-with-multisite-2?replies=6
+#  elseif(function_exists("geoip_detect2_get_info_from_ip")){
+#    if(WP_DEBUG==TRUE)echo '<br>nutze gerade geoip_detect2_get_info_from_ip<br>';
+#        $record = geoip_detect2_get_info_from_ip($_SERVER["REMOTE_ADDR"]);
+#    switch($record->country->isoCode){case 'DE': $lang='DE'; break; case 'AT': $lang='DE'; break; case 'CH': $lang='DE'; break; default: $lang='EN';}
+#  }
+  else{ 
+     if(WP_DEBUG==TRUE)echo '<br>nutze gerade nix<br>';
+    // brauchen wir nicht, da mit DE vorbelegt
+    //rtzrtz: hier waere ne Admin-Notiz vielleicht nicht schlecht
+  }
 
   $mf_headline['DE']	='Diesen Beitrag per E-Mail versenden:';
   $mf_headline['EN']	='Send this page by email';
   $mf_rcpt['DE']	='E-Mail-Adresse(n) Empf&auml;nger (maximal 5)';
   $mf_rcpt['EN']	='Email address of the recipient (max 5) ';
-  $mf_from['DE']	='E-Mail-Adresse des Absenders';
-  $mf_from['EN']	='Email of the sender';
+  $mf_from['DE']	='E-Mail-Adresse des Absenders (optional)';
+  $mf_from['EN']	='Email of the sender (optional)';
   $mf_name['DE']	='Name des Absenders (optional)';
   $mf_name['EN']	='Name of the sender (optional)';
   $mf_comment['DE']	='Zusatztext';
@@ -538,6 +545,13 @@ function sharif3UUprocSentMail(){
    $wait=limitRemoteUser('5');
    if($wait > '5'){ echo 'Please wait '. $wait .' sec until your next mail. '; die('Ooops!!!'); }       
 
+   // Kommentare entschaerfen
+   $mail_comment=$_REQUEST['mail_comment'];
+   // Falls die zauberhaft alte Serverkonfiguration, erstmal die Slashes entfernen...
+   if(get_magic_quotes_gpc()==1) $mail_comment=stripslashes($mail_comment);
+   // ...denn sonst kan wp_kses den content nicht entschaerfen
+   $mail_comment=wp_kses($mail_comment,'','');
+
   // build the array with recipients
   $arr=explode(',',$_REQUEST["mailto"]);
   if($arr==FALSE)$arr=array($_REQUEST["mailto"]);
@@ -551,7 +565,7 @@ function sharif3UUprocSentMail(){
   $message="Jemand moechte Dir die Seite \r\n";
   $message.=get_permalink();
   $message.="\r\nempfehlen.\r\n\r\n";
-  $message.=$_REQUEST['mail_comment'];
+  if(!empty($mail_comment))$message.=$mail_comment;
   $message.="\r\n-- \r\nDu erhaelst diese Email, weil der Betreiber der Seite das \r\n";
   $message.="Plugin Shariff Wrapper auf seinem Blog aktiviert hat. Es wurde \r\n";
   $message.="entwickelt, um eine weitgehendst anonyme Nutzung der Seite zu erlauben. \r\n";
@@ -563,8 +577,8 @@ function sharif3UUprocSentMail(){
   // falls mail uebergeben, setze als return-path
   if(isset($_REQUEST["from"])) $headers="Reply-To: <".sanitize_email($_REQUEST["from"]).">\r\n";
 
-  echo '<b>'.$subject.'</b><br>';
-  echo nl2br("$message").'<br>';
+  echo '<div id="mail_formular" style="background: none repeat scroll 0% 0% #EEE; font-size: 90%; padding: 0.2em 1em;"><p><b>'.$subject.'</b><br>';
+  echo nl2br("$message").'</p></div>';
   #echo $headers.'<br>';
 
   if(empty($mailto['0'])) echo ('Ooops, no usuable email address found.');
@@ -635,9 +649,6 @@ function shariffPosts($content) {
       if(in_array( $current_post_type, $custom_types ) && isset($shariff3UU["add_after_all_custom_type"]) && $shariff3UU["add_after_all_custom_type"]=='1' ) $content.=buildShariffShorttag(); 
     }
   }
-
-  // altes verhalten
-  if (defined('SHARIFF_ALL_POSTS')) $content.=SHARIFF_ALL_POSTS;
 
   return $content;
 }
@@ -801,7 +812,7 @@ class ShariffWidget extends WP_Widget {
 
     $widget_options = array(
       'classname' => 'Shariff',
-      'description' => __('Add Shariff as configured in the admin menue.', 'shariff3UU')
+      'description' => __('Add Shariff as configured in the admin menu.', 'shariff3UU')
       );
 
     $control_options = array();

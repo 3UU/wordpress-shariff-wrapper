@@ -3,190 +3,183 @@ msgstr ""
 "Project-Id-Version: Shariff for WP posts, pages, themes and as widget v1.2.4\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: \n"
-"PO-Revision-Date: 2015-04-24 19:14:51+0000\n"
+"PO-Revision-Date: 2015-04-27 23:13+0100\n"
 "Last-Translator: sands <sands@sm-circus.com>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Poedit 1.7.6\n"
-"X-Poedit-Language: \n"
-"X-Poedit-Country: \n"
+"X-Generator: Poedit 1.7.5\n"
 "X-Poedit-SourceCharset: utf-8\n"
-"X-Poedit-KeywordsList: __;_e;__ngettext:1,2;_n:1,2;__ngettext_noop:1,2;_n_noop:1,2;_c,_nc:4c,1,2;_x:1,2c;_ex:1,2c;_nx:4c,1,2;_nx_noop:4c,1,2;\n"
+"X-Poedit-KeywordsList: __;_e;__ngettext:1,2;_n:1,2;__ngettext_noop:1,2;_n_noop:1,2;_c,_nc:4c,1,2;_x:1,2c;_ex:1,2c;_nx:4c,1,2;_nx_noop:4c,1,2\n"
 "X-Poedit-Basepath: ../\n"
-"X-Poedit-Bookmarks: \n"
+"X-Textdomain-Support: yes\n"
+"Language: de_DE\n"
 "X-Poedit-SearchPath-0: .\n"
-"X-Textdomain-Support: yes"
 
+# @ shariff3UU
 #: shariff.php:44
-#@ shariff3UU
 msgid "Enable Shariff for all post and configure the options with these settings."
 msgstr "Aktiviere Shariff für alle Posts und stelle die Parameter ein."
 
-#: shariff.php:52
-#@ shariff3UU
-msgid "Check to put Shariff at the begin off all posts."
-msgstr "Shariff vor jedem Post einfügen."
-
+# @ shariff3UU
 #: shariff.php:56
-#@ shariff3UU
 msgid "Select button language."
-msgstr "Sprache für die Button vorbelegen."
+msgstr "Sprache für die Buttons vorbelegen."
 
+# @ shariff3UU
 #: shariff.php:60
-#@ shariff3UU
 msgid "Select theme (Shariff button design)."
 msgstr "Wähle ein Design"
 
+# @ shariff3UU
 #: shariff.php:64
-#@ shariff3UU
 msgid "Check this to make orientation of buttons <b>vertical</b>."
 msgstr "Buttons vertikal anordnen."
 
+# @ shariff3UU
 #: shariff.php:69
-#@ shariff3UU
-msgid "Put in the service do you want enable (<code>facebook|twitter|googleplus|whatsapp|mail|mailto|printer| pinterest|linkedin|xing|reddit|stumbleupon|flattr|info</code>). Use the pipe sign | between two or more services."
-msgstr "Schreibe den Namen des Service, der eingebunden werden soll (<code>facebook|twitter|googleplus|whatsapp|mail|mailto|printer| pinterest|linkedin|xing|reddit|stumbleupon|flattr|info</code>). Verwende das Pipe-Zeichen | bei zwei oder mehr Services als Trenner."
+msgid "Put in the services you want to enable (<code>facebook|twitter|googleplus|whatsapp|mail|mailto|printer|pinterest|linkedin| xing|reddit|stumbleupon|flattr|info</code>). Use the pipe sign | (Alt Gr + &lt; or &#8997; + 7) between two or more services."
+msgstr "Setze die Namen der Dienste ein, die eingebunden werden sollen (<code>facebook|twitter|googleplus|whatsapp|mail|mailto|printer|pinterest|linkedin| xing|reddit|stumbleupon|flattr|info</code>). Verwende das Pipe-Zeichen | (Alt Gr + &lt; oder &#8997; + 7) bei zwei oder mehr Diensten als Trenner."
 
+# @ shariff3UU
 #: shariff.php:73
-#@ shariff3UU
-msgid "Check this to show share statistic."
+msgid "Check this to show share statistics."
 msgstr "Zeige Statistik in den Buttons."
 
+# @ shariff3UU
 #: shariff.php:78
-#@ shariff3UU
 msgid "Change the default link of the \"info\" button to:"
 msgstr "Ändere den Standard-Link von \"info\" zu"
 
+# @ shariff3UU
 #: shariff.php:143
-#@ shariff3UU
-msgid "This configures the default behavior of Shariff for your blog. You can overwrite this in single posts or pages with the options within the <code>[shariff]</code> shorttag."
-msgstr "Hier konfigurierst Du das Standard-Verhalten von Shariff für alle Posts im Blog. Es läßt sich in einzelnen Posts oder Seiten mit dem Shorttag <code>[shariff]</code> anpassen."
+msgid "This configures the default behavior of Shariff for your blog. You can overwrite this in single posts or pages with the options within the <code>[shariff]</code> shorttag. For more information please have a look at the <a href=\"https://wordpress.org/plugins/shariff/faq/\" target=\"_blank\">FAQ</a> and the <a href=\"https://wordpress.org/support/plugin/shariff/\" target=\"_blank\">Support Forum</a>."
+msgstr "Hier konfigurierst Du das Standard-Verhalten von Shariff für alle Posts im Blog. Es läßt sich in einzelnen Posts oder Seiten mit dem Shorttag <code>[shariff]</code> anpassen. Für mehr Informationen schau in die <a href=\"https://wordpress.org/plugins/shariff/faq/\" target=\"_blank\">FAQ</a> und das <a href=\"https://wordpress.org/support/plugin/shariff/\" target=\"_blank\">Support Forum</a>."
 
+# @ shariff3UU
 #: shariff.php:97
-#@ shariff3UU
 msgid "browser selected"
 msgstr "vom Browser bestimmt"
 
+# @ shariff3UU
 #: shariff.php:281
-#@ shariff3UU
-msgid "Add Shariff as configured in the admin menue."
+msgid "Add Shariff as configured in the admin menu."
 msgstr "Fügt Shariff wie im Admin-Menü konfiguriert an."
 
+# @ shariff3UU
 #: shariff.php:296
-#@ shariff3UU
 msgid "Title"
 msgstr "Titel"
 
+# @ shariff3UU
 #: shariff.php:83
-#@ shariff3UU
 msgid "CSS style attributes for the CSS container _around_ Shariff"
 msgstr "CSS Stil-Attribute f&uuml;r den Rahmen-Container _um_ Shariff"
 
+# @ shariff3UU
 #: shariff.php:149
-#@ shariff3UU
 msgid "please read about it in the FAQ"
 msgstr "bitte lies Details dazu in der FAQ"
 
+# @ shariff3UU
 #: shariff.php:455
-#@ shariff3UU
 msgid "Please check your "
 msgstr "Bitte &uuml;berpr&uuml;fe die "
 
+# @ shariff3UU
 #: shariff.php:455
-#@ shariff3UU
 msgid "Shariff-Settings</a> - We have new detailed options where shariff buttons can be displayed! Also please read the FAQ about planed changes of the mail/mailto service functionality."
 msgstr "Shariff-Einstellungen</a> - Wir haben neue und detailliertere Optionen, wo die Shariff-Buttons erscheinen sollen! Ausserdem &auml;ndert sich bald die Funktionalit&auml;t des mail/mailto-Service. Mehr dazu in der FAQ."
 
+# @ shariff3UU
 #: shariff.php:48
-#@ shariff3UU
 msgid "Check to put Shariff at the end off all posts."
 msgstr "Shariff am Ende von jedem Post einf&uuml;gen (Einzelansicht)."
 
+# @ shariff3UU
 #: shariff.php:52
-#@ shariff3UU
 msgid "Check to put Shariff at the beginning off all posts."
 msgstr "Shariff am Anfang von jedem Post einf&uuml;gen (Einzelansicht)."
 
+# @ shariff3UU
 #: shariff.php:56
-#@ shariff3UU
 msgid "Check to put Shariff at the end off all posts on the overview page."
 msgstr "Shariff am Ende von jedem Post einf&uuml;gen (&Uuml;bersichts-Seite)."
 
+# @ shariff3UU
 #: shariff.php:60
-#@ shariff3UU
 msgid "Check to put Shariff at the beginning off all posts on the overview page."
 msgstr "Shariff am Anfang von jedem Post einf&uuml;gen (&Uuml;bersichts-Seite)."
 
+# @ shariff3UU
 #: shariff.php:152
-#@ shariff3UU
 msgid "Check to put Shariff at the end off all extension pages (e.g. product sites)."
 msgstr "Shariff am Ende aller Erweiterungen einf&uuml;gen (z.B. Artikelseiten in Shops)."
 
+# @ shariff3UU
 #: shariff.php:64
-#@ shariff3UU
 msgid "Check to put Shariff at the end off all pages."
 msgstr "Shariff am Ende von jeder Seite einf&uuml;gen."
 
+# @ shariff3UU
 #: shariff.php:68
-#@ shariff3UU
 msgid "Check to put Shariff at the beginning off all pages."
 msgstr "Shariff am Anfang von jeder Seite einf&uuml;gen."
 
+# @ shariff3UU
 #: shariff.php:129
-#@ shariff3UU
 msgid "Set the screen name for Twitter (via) to"
 msgstr "Setze f&uuml;r Twitter folgenden Screen-Namen (via)"
 
+# @ shariff3UU
 #: shariff.php:149
-#@ shariff3UU
 msgid "Select the alignment of the Shariff buttons"
 msgstr "Positioniere die Shariff-Buttons"
 
+# @ shariff3UU
 #: shariff.php:154
-#@ shariff3UU
 msgid "Select the alignment of the Shariff buttons in the widget"
 msgstr "Positioniere die Shariff-Buttons im Widget"
 
+# @ shariff3UU
 #: shariff.php:144
-#@ shariff3UU
 msgid "Set the username for Flattr to"
 msgstr "Nutze für Flattr folgenden Benutzernamen"
 
+# @ shariff3UU
 #: shariff.php:293
-#@ shariff3UU
 msgid "left"
 msgstr "links"
 
+# @ shariff3UU
 #: shariff.php:294
-#@ shariff3UU
 msgid "center"
 msgstr "mittig"
 
+# @ shariff3UU
 #: shariff.php:294
-#@ shariff3UU
 msgid "right"
 msgstr "rechts"
 
+# @ shariff3UU
 #: shariff.php:667
-#@ shariff3UU
 msgid "Shariff-Settings</a> - Flattr was selected, but no username was provided! Please enter your <strong>Flattr username</strong> in the shariff options!"
 msgstr "Shariff-Einstellungen</a> - Flattr wurde ausgewählt, aber kein Benutzername angegeben! Bitte den eigenen <strong>Flattr-Benutzernamen</strong> in den Shariff-Einstellungen eintragen!"
 
+# @ shariff3UU
 #: shariff.php:117
-#@ shariff3UU
 msgid "Settings"
 msgstr "Einstellungen"
 
+# @ shariff3UU
 #: shariff.php:373
-#@ shariff3UU
 msgid "Choose image"
 msgstr "Bild w&auml;hlen"
 
+# @ shariff3UU
 #: shariff.php:216
-#@ shariff3UU
 msgid "Select the default image for Pinterest in case no other usable image is found."
 msgstr "Setze ein Standardbild f&uuml;r Pinterest, falls kein anderes gefunden werden kann."
 
@@ -194,4 +187,3 @@ msgstr "Setze ein Standardbild f&uuml;r Pinterest, falls kein anderes gefunden w
 #: shariff.php:168
 msgid "Check this to make the buttons 30% smaller (all designs)."
 msgstr "Ausw&auml;hlen, um alle Buttons - unabh&auml;ngig vom Design - 30% kleiner zu machen."
-

@@ -1,6 +1,6 @@
 
 /*!
- * shariff - v1.9.3 - 25.04.2015
+ * shariff - v1.9.3 - 28.04.2015
  * https://github.com/heiseonline/shariff
  * Copyright (c) 2015 Ines Pauer, Philipp Busse, Sebastian Hilbig, Erich Kramer, Deniz Sesli
  * Licensed under the MIT <http://www.opensource.org/licenses/mit-license.php> license
@@ -54,7 +54,7 @@ function Url(){this.protocol=null,this.slashes=null,this.auth=null,this.host=nul
 
 
 },{}],12:[function(require,module,exports){
-"use strict";module.exports=function(e){var a=encodeURIComponent(e.getURL()),t=e.getMeta("DC.title"),n=e.getMeta("DC.creator");return t.length>0&&n.length>0?t+=" - "+n:t=e.getTitle(),{popup:!1,mobileonly:!1,blank:!1,shareText:"mail",name:"mail",faName:"s3uu-envelope",title:{de:"Per E-Mail versenden",en:"Send by email",es:"Enviar por email",fr:"Envoyer par courriel",it:"Inviare via email",da:"Sende via e-mail",nl:"Sturen via e-mail "},shareUrl:"mailto:?body="+a+e.getReferrerTrack()+"&subject="+encodeURIComponent(t)}};
+"use strict";module.exports=function(e){return{popup:!1,mobileonly:!1,blank:!1,shareText:"mail",name:"mail",faName:"s3uu-envelope",title:{de:"Per E-Mail versenden",en:"Send by email",es:"Enviar por email",fr:"Envoyer par courriel",it:"Inviare via email",da:"Sende via e-mail",nl:"Sturen via e-mail "},shareUrl:e.getReferrerTrack()+"?view=mail"}};
 
 
 },{}],13:[function(require,module,exports){
@@ -66,7 +66,7 @@ function Url(){this.protocol=null,this.slashes=null,this.auth=null,this.host=nul
 
 
 },{}],15:[function(require,module,exports){
-"use strict";module.exports=function(r){return{popup:!1,mobileonly:!1,shareText:{de:"drucken",en:"print",fr:"imprimer",es:"imprimir"},name:"printer",faName:"s3uu-print",title:{de:"drucken",en:"print",fr:"imprimer",es:"imprimir",it:"imprimere",da:"dat trykke",nl:"drukken"},shareUrl:"javascript:window.print()"}};
+"use strict";module.exports=function(r){return{popup:!1,mobileonly:!1,blank:!1,shareText:{de:"drucken",en:"print",fr:"imprimer",es:"imprimir"},name:"printer",faName:"s3uu-print",title:{de:"drucken",en:"print",fr:"imprimer",es:"imprimir",it:"imprimere",da:"dat trykke",nl:"drukken"},shareUrl:"javascript:window.print()"}};
 
 
 },{}],16:[function(require,module,exports){
