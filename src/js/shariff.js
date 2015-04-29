@@ -165,7 +165,7 @@ Shariff.prototype = {
             if(value >= 1000) {
                 value = Math.round(value / 1000) + 'k';
             }
-            $(self.element).find('.' + key + ' a').append('<span class="share_count">' + value);
+            $(self.element).find('.shariff-' + key + ' a').append('<span class="share_count">' + value);
         });
     },
 
@@ -186,7 +186,7 @@ Shariff.prototype = {
         this.services.forEach(function(service) {
         // adding mobile-only option for whatsapp and fix mobile Mozilla problem by checking for window.document.ontouchstart as object
         if (!service.mobileonly || (typeof window.orientation !== 'undefined') || (typeof(window.document.ontouchstart) === 'object')) {
-            var $li = $('<li class="shariff-button">').addClass(service.name);
+            var $li = $('<li class="shariff-button">').addClass('shariff-' + service.name);
             var $shareText = '<span class="share_text">' + self.getLocalized(service, 'shareText');
 
             var $shareLink = $('<a>')
