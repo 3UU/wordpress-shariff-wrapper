@@ -71,13 +71,6 @@ Shariff.prototype = {
         // localisation: "de" or "en"
         lang: 'de',
 
-        mailUrl: function() {
-            var shareUrl = url.parse(this.getURL(), true);
-            shareUrl.query.view = 'mail';
-            delete shareUrl.search;
-            return url.format(shareUrl);
-        },
-
         // horizontal/vertical
         orientation: 'horizontal',
 
