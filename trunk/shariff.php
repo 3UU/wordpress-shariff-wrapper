@@ -3,7 +3,7 @@
  * Plugin Name: Shariff Wrapper
  * Plugin URI: http://www.3uu.org/plugins.htm
  * Description: This is a wrapper to Shariff. It enables shares with Twitter, Facebook ... on posts, pages and themes with no harm for visitors privacy.
- * Version: 2.0.1
+ * Version: 2.0.2
  * Author: 3UU
  * Author URI: http://www.DatenVerwurstungsZentrale.com/
  * License: http://opensource.org/licenses/MIT
@@ -588,9 +588,7 @@ function sharif3UUprocSentMail(){
 // set a timeout until new mails are possible                                  
 function limitRemoteUser($wait='1'){
   global $shariff3UU;
-
-  //rtzrtz: aumgeschiebene aus dem DOS-Blocker. Nochmal gruebeln, ob wir das ohne memcache mit der Performance schaffen. Daher auch nur Grundfunktionalitaet.
-
+  //rtzrtz: umgeschieben aus dem DOS-Blocker. Nochmal gruebeln, ob wir das ohne memcache mit der Performance schaffen. Daher auch nur Grundfunktionalitaet.
   if(!isset($shariff3UU['REMOTEHOSTS'])) $shariff3UU['REMOTEHOSTS']='';
   $HOSTS=json_decode($shariff3UU['REMOTEHOSTS'],true);
   // Wartezeit in sekunden
@@ -611,7 +609,11 @@ function shariffPosts($content) {
   $shariff3UU = $GLOBALS["shariff3UU"];
 
   // prepend the mail form
-  if(isset($_REQUEST['view']) && $_REQUEST['view']=='mail')$content=sharif3UUaddMailForm($content);
+  if(isset($_REQUEST['view']) && $_REQUEST['view']=='mail'){
+    // nur auf einzelnen Seiten/Posts das Mailformular ausgeben. Vielleicht noch ne Fehlermeldung einbauen
+    if(is_singular()) $content=sharif3UUaddMailForm($content);
+  }
+  // send the email
   if(isset($_REQUEST['act'])  && $_REQUEST['act']=='sendMail') sharif3UUprocSentMail();
 
   // conditional to make it functional compatible to the hack in yanniks plugin
@@ -899,7 +901,7 @@ class ShariffWidget extends WP_Widget {
         }
       }
     }
-	
+    
     // build shorttag
     $shorttag=substr($shorttag,0,-1) . ' title="' . $page_title . '" url="' . $page_url . '"' . $media . ']'; // add url, title and media to the shorttag
 

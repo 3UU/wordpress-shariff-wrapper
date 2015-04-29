@@ -164,6 +164,12 @@ Therfore a new service "mailto" has been defined that provides the current mailt
 functionality. So please change you configuration asap.
 
 == Changelog ==
+= 2.0.2 =
+- fix: mail URLs must be a real link and not url-encoded
+- hotfix: mail form disabled if not is single post. Avoid the 
+  self destruction by the DOS-checker ;-)
+- cleanup Shariff JS code (mailURL no longer needed)
+
 = 2.0.1 =
 - fix email form method POST
 
