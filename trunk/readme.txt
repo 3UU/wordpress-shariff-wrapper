@@ -164,6 +164,13 @@ Therfore a new service "mailto" has been defined that provides the current mailt
 functionality. So please change you configuration asap.
 
 == Changelog ==
+= 2.1.0 =
+- replace sender name if an name is provided with the mail form or set in admin menu
+- add option to append the post content to the email
+- add mail header "Precedence: bulk" to avoid answers of autoresponder
+- fix: rename a function to avoid problems with other plugins
+- improve css
+
 = 2.0.2 =
 - fix: mail URLs must be a real link and not url-encoded
 - hotfix: mail form disabled if not is single post. Avoid the 

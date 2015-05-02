@@ -3,7 +3,7 @@
  * Plugin Name: Shariff Wrapper
  * Plugin URI: http://www.3uu.org/plugins.htm
  * Description: This is a wrapper to Shariff. It enables shares with Twitter, Facebook ... on posts, pages and themes with no harm for visitors privacy.
- * Version: 2.0.2
+ * Version: 2.1.0
  * Author: 3UU
  * Author URI: http://www.DatenVerwurstungsZentrale.com/
  * License: http://opensource.org/licenses/MIT
@@ -39,7 +39,7 @@ $shariff3UU=get_option( 'shariff3UU' );
 function shariff3UU_update() {
 
   /******************** VERSION ANPASSEN *******************************/
-  $code_version = "2.0.0"; // Set code version - needs to be adjusted for every new version!
+  $code_version = "2.1.0"; // Set code version - needs to be adjusted for every new version!
   /******************** VERSION ANPASSEN *******************************/
 
   $do_admin_notice=false;
@@ -111,14 +111,14 @@ $plugin = plugin_basename(__FILE__);
 add_filter("plugin_action_links_$plugin", 'shariff3UU_settings_link' );
 
 // scyrpts and styles for admin pages e.g. info notice
-function admin_style() {
+function shariff3UU_admin_style() {
 	// styles for admin info notice
 	wp_enqueue_style('admin_css', plugins_url('admin.css', __FILE__));
 	// scripts for pinterest default image media uploader
 	wp_enqueue_script('jquery');
 	wp_enqueue_media();
 }
-add_action('admin_enqueue_scripts', 'admin_style');
+add_action('admin_enqueue_scripts', 'shariff3UU_admin_style');
     
 // translations
 function shariff3UU_init_locale() { if(function_exists('load_plugin_textdomain')) { load_plugin_textdomain('shariff3UU', false, dirname(plugin_basename(__FILE__)).'/locale' ); } }
@@ -224,6 +224,21 @@ function shariff3UU_options_init(){
     'shariff3UU_text_default_pinterest_render', 'pluginPage', 'shariff3UU_pluginPage_section'
   );
 
+  // add content of the post to emails
+  add_settings_field( 
+    'shariff3UU_checkbox_mail_add_post_content', __( 'Check this to add the content of a post to emails.', 'shariff3UU' ),
+    'shariff3UU_checkbox_mail_add_post_content_render', 'pluginPage', 'shariff3UU_pluginPage_section'
+  );
+  // mail sender name
+  add_settings_field( 
+    'shariff3UU_text_mail_sender_name', __( 'Default name for email sender if no name is provided with ther form.', 'shariff3UU' ),
+    'shariff3UU_text_mail_sender_name_render', 'pluginPage', 'shariff3UU_pluginPage_section'
+  );
+  // mail sender name
+  add_settings_field( 
+    'shariff3UU_text_mail_sender_from', __( 'Default sender email address.', 'shariff3UU' ),
+    'shariff3UU_text_mail_sender_from_render', 'pluginPage', 'shariff3UU_pluginPage_section'
+  );
 }
 
 // sanitize input from the settings page
@@ -251,6 +266,10 @@ function shariff3UU_options_sanitize( $input ){
   if(isset($input["align"])) 			$valid["align"] 			= sanitize_text_field( $input["align"] );
   if(isset($input["align_widget"])) 		$valid["align_widget"] 			= sanitize_text_field( $input["align_widget"] );
   if(isset($input["default_pinterest"]))     	$valid["default_pinterest"]      	= sanitize_text_field( $input["default_pinterest"] );
+  if(isset($input["mail_add_post_content"]))	$valid["mail_add_post_content"]		= absint( $input["mail_add_post_content"] );
+  if(isset($input["mail_sender_name"]))		$valid["mail_sender_name"]		= sanitize_text_field( $input["mail_sender_name"] );
+  if(isset($input["mail_sender_from"]))		$valid["mail_sender_from"]              = sanitize_email( $input["mail_sender_from"] );
+
   // remove empty elements
   $valid = array_filter($valid);
   return $valid;
@@ -414,7 +433,23 @@ function shariff3UU_text_default_pinterest_render(){
 	});
   </script>';
 }
- 
+
+function shariff3UU_checkbox_mail_add_post_content_render(){
+  echo "<input type='checkbox' name='shariff3UU[mail_add_post_content]' ";
+  if(isset($GLOBALS['shariff3UU']['mail_add_post_content'])) echo checked( $GLOBALS['shariff3UU']['mail_add_post_content'], 1,0 );
+  echo " value='1'>";
+}
+      
+function shariff3UU_text_mail_sender_name_render(){
+  (isset($GLOBALS['shariff3UU']['mail_sender_name'])) ? $mail_sender_name = $GLOBALS['shariff3UU']['mail_sender_name'] : $mail_sender_name = '';
+    echo "<input type='text' name='shariff3UU[mail_sender_name]' value='". esc_html($mail_sender_name) ."' size='50' placeholder='Name'>";
+}
+
+function shariff3UU_text_mail_sender_from_render(){
+  (isset($GLOBALS['shariff3UU']['mail_sender_from'])) ? $mail_sender_from = $GLOBALS['shariff3UU']['mail_sender_from'] : $mail_sender_from = '';
+    echo "<input type='email' name='shariff3UU[mail_sender_from]' value='". esc_html($mail_sender_from) ."' size='50' placeholder='foo@example.com'>";
+}
+
 function shariff3UU_options_section_callback(){
   echo __( 'This configures the default behavior of Shariff for your blog. You can overwrite this in single posts or pages with the options within the <code>[shariff]</code> shorttag. For more information please have a look at the <a href="https://wordpress.org/plugins/shariff/faq/" target="_blank">FAQ</a> and the <a href="https://wordpress.org/support/plugin/shariff/" target="_blank">Support Forum</a>.', 'shariff3UU' );
 }
@@ -524,9 +559,10 @@ function sharif3UUaddMailForm($content){
   
   $mailform='<form action="'.get_permalink().'" method="POST">';
   $mailform.='<input type="hidden" name="act" value="sendMail">';
+  $mailform.='<input type="hidden" name="lang" value="'.$lang.'">';
   $mailform.='<div id="mail_formular" style="background: none repeat scroll 0% 0% #EEE; font-size: 90%; padding: 0.2em 1em;">';
   $mailform.='<p><strong>'.$mf_headline[$lang].'</strong></p>';
-  $mailform.='<p><em>'.$mf_rcpt[$lang].'</em><br /><input type="email" name="mailto" value="" placeholder="to@example.com"></p>';
+  $mailform.='<p><em>'.$mf_rcpt[$lang].'</em><br /><input type="text" name="mailto" value="" placeholder="to@example.com"></p>';
   $mailform.='<p><em>'.$mf_from[$lang].'</em><br /><input type="email" name="from" value="" placeholder="from@example.com"></p>';
   $mailform.='<p><em>'.$mf_name[$lang].'</em><br /><input type="text" name="sender" value="" placeholder="Your Name"></p>';
   $mailform.='<p><em>'.$mf_comment[$lang].'</em><br /><textarea name="mail_comment" rows="2" cols="45"></textarea></p>';
@@ -552,6 +588,15 @@ function sharif3UUprocSentMail(){
    // ...denn sonst kan wp_kses den content nicht entschaerfen
    $mail_comment=wp_kses($mail_comment,'','');
 
+   // Absender huebschen
+   // Achtung: NICHT als naechstes noch womoeglich die Absenderadresse selber umschreiben! Das 
+   // fuehrt bei allen sauber aufgesetzten Absender-MTAs zu Problemen mit SPF und/oder DKIM. 
+   if(!empty($_REQUEST['sender'])) add_filter( 'wp_mail_from_name', function( $name ) { return sanitize_text_field($_REQUEST['sender']); });
+   elseif(!empty($GLOBALS["shariff3UU"]["mail_sender_name"])) add_filter( 'wp_mail_from_name', function( $name ) { return $GLOBALS["shariff3UU"]["mail_sender_name"]; });
+
+   // Absende-Adresse huebschen
+   if(!empty($GLOBALS["shariff3UU"]["mail_sender_from"])) add_filter( 'wp_mail_from', function( $email ) { return $GLOBALS["shariff3UU"]["mail_sender_from"]; });
+
   // build the array with recipients
   $arr=explode(',',$_REQUEST["mailto"]);
   if($arr==FALSE)$arr=array($_REQUEST["mailto"]);
@@ -561,28 +606,55 @@ function sharif3UUprocSentMail(){
     $mailto[]=sanitize_email($arr[$i]); 
   }
   
+  // Sprache wie uebergeben
+  if(!empty($_REQUEST['lang']))$lang=$_REQUEST['lang'];else$lang='en';
+  if($lang!='de')$lang='en';
+  
   $subject='Shariff share '.get_permalink();
-  $message="Jemand moechte Dir die Seite \r\n";
-  $message.=get_permalink();
-  $message.="\r\nempfehlen.\r\n\r\n";
-  if(!empty($mail_comment))$message.=$mail_comment;
-  $message.="\r\n-- \r\nDu erhaelst diese Email, weil der Betreiber der Seite das \r\n";
-  $message.="Plugin Shariff Wrapper auf seinem Blog aktiviert hat. Es wurde \r\n";
-  $message.="entwickelt, um eine weitgehendst anonyme Nutzung der Seite zu erlauben. \r\n";
-  $message.="Der Seitenbetreiber hat daher auch keine Moeglichkeit, naehere \r\n";
-  $message.="Informationen zum tatsaechlen Absender dieser Email zu geben. ";
+  $message['de']="Jemand moechte Dir die Seite \r\n";
+  $message['de'].=get_permalink();
+  $message['de'].="\r\nempfehlen.\r\n\r\n";
+  
+  $message['en']="Somebody want suggest \r\n";
+  $message['en'].=get_permalink();
+  $message['en'].="\r\nto you.\r\n\r\n";
+  
+  // persoenliche Nachricht hinzu
+  if(!empty($mail_comment))$message["$lang"].=$mail_comment."\r\n\r\n";
+  
+  // der Inhalt des Posts
+  if(isset($GLOBALS["shariff3UU"]["mail_add_post_content"])&&$GLOBALS["shariff3UU"]["mail_add_post_content"]=='1') $message["$lang"].=wordwrap(stripslashes(get_the_content()),72,"\r\n");
+
+  $message['de'].="\r\n-- \r\nDu erhaelst diese Email, weil der Betreiber der Seite das Shariff";
+  $message['de'].="Wrapper auf seinem Blog aktiviert hat. Es wurde entwickelt, um eine \r\n";
+  $message['de'].="weitgehendst anonyme Nutzung der Seite zu erlauben. \r\n";
+  $message['de'].="Der Seitenbetreiber hat daher auch keine Moeglichkeit, naehere \r\n";
+  $message['de'].="Informationen zum tatsaechlen Absender dieser Email zu geben. \r\n";
+
+  $message['en'].="\r\n-- \r\nYou get this email because the owner of the blog use the \r\n";
+  $message['en'].="plugin Shariff Wrapper. It was developed to provide most possible \r\n";
+  $message['en'].="privacy for visitors. Therefor the owner of the site would not be able \r\n";
+  $message['en'].="to provide more informations about the sender of this email.\r\n";
+
 #  $message.="Du kannst Dich aber selbst auf eine Robinson-Liste setzen \r\n";
 #  $message.="und wirst dann nie wieder Emails von diesem Plugin auf dem Blog erhalten.";
 
-  // falls mail uebergeben, setze als return-path
-  if(isset($_REQUEST["from"])) $headers="Reply-To: <".sanitize_email($_REQUEST["from"]).">\r\n";
-
-  echo '<div id="mail_formular" style="background: none repeat scroll 0% 0% #EEE; font-size: 90%; padding: 0.2em 1em;"><p><b>'.$subject.'</b><br>';
-  echo nl2br("$message").'</p></div>';
-  #echo $headers.'<br>';
+  // Autoresponder vermeiden
+  $headers="Precedence: bulk\r\n";
+  
+  // falls Absender uebergeben, setze als return-path
+  if(!empty($_REQUEST["from"])) $headers.="Reply-To: <".sanitize_email($_REQUEST["from"]).">\r\n";
 
   if(empty($mailto['0'])) echo ('Ooops, no usuable email address found.');
-  else wp_mail( $mailto, $subject, $message, $headers); // The function is available after the hook 'plugins_loaded'.
+  else wp_mail( $mailto, $subject, $message["$lang"], $headers); // The function is available after the hook 'plugins_loaded'.
+
+  echo '<div id="mail_formular" style="background: none repeat scroll 0% 0% #EEE; font-size: 90%; padding: 0.2em 1em;"><p><b>'.$subject.'</b><br>';
+#  echo nl2br("$message").'<br>was send to:<br>';
+  echo "Was send to / Wurde gesendet an: <br>";
+  if(is_array($mailto)){
+    foreach($mailto as $rcpt) echo $rcpt.'<br>';
+  }else echo $mailto;  
+  echo '</p></div>';
 }
 
 // set a timeout until new mails are possible                                  
