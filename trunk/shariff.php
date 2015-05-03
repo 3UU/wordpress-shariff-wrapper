@@ -3,7 +3,7 @@
  * Plugin Name: Shariff Wrapper
  * Plugin URI: http://www.3uu.org/plugins.htm
  * Description: This is a wrapper to Shariff. It enables shares with Twitter, Facebook ... on posts, pages and themes with no harm for visitors privacy.
- * Version: 2.1.1
+ * Version: 2.1.2
  * Author: 3UU
  * Author URI: http://www.DatenVerwurstungsZentrale.com/
  * License: http://opensource.org/licenses/MIT
@@ -39,7 +39,7 @@ $shariff3UU=get_option( 'shariff3UU' );
 function shariff3UU_update() {
 
   /******************** VERSION ANPASSEN *******************************/
-  $code_version = "2.1.1"; // Set code version - needs to be adjusted for every new version!
+  $code_version = "2.1.2"; // Set code version - needs to be adjusted for every new version!
   /******************** VERSION ANPASSEN *******************************/
 
   $do_admin_notice=false;
@@ -574,6 +574,12 @@ function sharif3UUaddMailForm($content){
   return $mailform.$content;
 }
 
+// helper functions to make it work with PHP < 5.3
+// better would be 
+// add_filter( 'wp_mail_from_name', function( $name ) { return sanitize_text_field($_REQUEST['sender']); });
+function set_wp_mail_from_name($name){ return sanitize_text_field($_REQUEST['sender']); }
+function set2_wp_mail_from_name($name){ return $GLOBALS["shariff3UU"]["mail_sender_name"]; }
+
 // send mail
 function sharif3UUprocSentMail(){
   // Der Zusatztext darf keine Links enthalten, sonst zu verlockend fuer Spamer
@@ -594,9 +600,9 @@ function sharif3UUprocSentMail(){
    // Achtung: NICHT als naechstes noch womoeglich die Absenderadresse selber umschreiben! Das 
    // fuehrt bei allen sauber aufgesetzten Absender-MTAs zu Problemen mit SPF und/oder DKIM. 
    if(!empty($_REQUEST['sender'])) {
-     add_filter( 'wp_mail_from_name', function( $name ) { return sanitize_text_field($_REQUEST['sender']); });
+     add_filter('wp_mail_from_name', 'set_wp_mail_from_name');
    } elseif(!empty($GLOBALS["shariff3UU"]["mail_sender_name"])) {
-     add_filter( 'wp_mail_from_name', function( $name ) { return $GLOBALS["shariff3UU"]["mail_sender_name"]; });
+     add_filter('wp_mail_from_name', 'set2_wp_mail_from_name');
    }
 
    // Absende-Adresse huebschen

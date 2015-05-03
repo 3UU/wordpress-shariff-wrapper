@@ -164,6 +164,9 @@ Therfore a new service "mailto" has been defined that provides the current mailt
 functionality. So please change you configuration asap.
 
 == Changelog ==
+= 2.1.2 =
+- fix to make it work with PHP < 5.3 (aua, aua, aua...)
+
 = 2.1.1 =
 - change code because of a error with some PHP version
 
