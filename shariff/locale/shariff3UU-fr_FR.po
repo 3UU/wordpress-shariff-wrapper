@@ -187,3 +187,18 @@ msgstr "Select the default image for Pinterest in case no other usable image is 
 #: shariff.php:168
 msgid "Check this to make the buttons 30% smaller (all designs)."
 msgstr "Check this to make the buttons 30% smaller (all designs)."
+
+# @ shariff3UU
+#: shariff.php:229
+msgid "Check this to add the content of a post to emails."
+msgstr "Check this to add the content of a post to emails."
+
+# @ shariff3UU
+#: shariff.php:234
+msgid "Default name for email sender if no name is provided with ther form."
+msgstr "Default name for email sender if no name is provided with ther form."
+
+# @ shariff3UU
+#: shariff.php:349
+msgid "Default sender email address."
+msgstr "Default sender email address."
