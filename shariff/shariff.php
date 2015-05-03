@@ -3,7 +3,7 @@
  * Plugin Name: Shariff Wrapper
  * Plugin URI: http://www.3uu.org/plugins.htm
  * Description: This is a wrapper to Shariff. It enables shares with Twitter, Facebook ... on posts, pages and themes with no harm for visitors privacy.
- * Version: 2.1.0
+ * Version: 2.1.1
  * Author: 3UU
  * Author URI: http://www.DatenVerwurstungsZentrale.com/
  * License: http://opensource.org/licenses/MIT
@@ -593,8 +593,11 @@ function sharif3UUprocSentMail(){
    // Absender huebschen
    // Achtung: NICHT als naechstes noch womoeglich die Absenderadresse selber umschreiben! Das 
    // fuehrt bei allen sauber aufgesetzten Absender-MTAs zu Problemen mit SPF und/oder DKIM. 
-   if(!empty($_REQUEST['sender'])) add_filter( 'wp_mail_from_name', function( $name ) { return sanitize_text_field($_REQUEST['sender']); });
-   elseif(!empty($GLOBALS["shariff3UU"]["mail_sender_name"])) add_filter( 'wp_mail_from_name', function( $name ) { return $GLOBALS["shariff3UU"]["mail_sender_name"]; });
+   if(!empty($_REQUEST['sender'])) {
+     add_filter( 'wp_mail_from_name', function( $name ) { return sanitize_text_field($_REQUEST['sender']); });
+   } elseif(!empty($GLOBALS["shariff3UU"]["mail_sender_name"])) {
+     add_filter( 'wp_mail_from_name', function( $name ) { return $GLOBALS["shariff3UU"]["mail_sender_name"]; });
+   }
 
    // Absende-Adresse huebschen
    if(!empty($GLOBALS["shariff3UU"]["mail_sender_from"])) add_filter( 'wp_mail_from', function( $email ) { return $GLOBALS["shariff3UU"]["mail_sender_from"]; });
