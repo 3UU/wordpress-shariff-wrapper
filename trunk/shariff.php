@@ -579,6 +579,7 @@ function sharif3UUaddMailForm($content){
 // add_filter( 'wp_mail_from_name', function( $name ) { return sanitize_text_field($_REQUEST['sender']); });
 function set_wp_mail_from_name($name){ return sanitize_text_field($_REQUEST['sender']); }
 function set2_wp_mail_from_name($name){ return $GLOBALS["shariff3UU"]["mail_sender_name"]; }
+function set_wp_mail_from($email){ return $GLOBALS["shariff3UU"]["mail_sender_from"]; }
 
 // send mail
 function sharif3UUprocSentMail(){
@@ -606,8 +607,9 @@ function sharif3UUprocSentMail(){
    }
 
    // Absende-Adresse huebschen
-   if(!empty($GLOBALS["shariff3UU"]["mail_sender_from"])) add_filter( 'wp_mail_from', function( $email ) { return $GLOBALS["shariff3UU"]["mail_sender_from"]; });
-
+   if(!empty($GLOBALS["shariff3UU"]["mail_sender_from"])) {
+     add_filter( 'wp_mail_from', 'set_wp_mail_from');
+   }
   // build the array with recipients
   $arr=explode(',',$_REQUEST["mailto"]);
   if($arr==FALSE)$arr=array($_REQUEST["mailto"]);
