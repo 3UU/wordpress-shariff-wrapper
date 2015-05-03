@@ -3,7 +3,7 @@
  * Plugin Name: Shariff Wrapper
  * Plugin URI: http://www.3uu.org/plugins.htm
  * Description: This is a wrapper to Shariff. It enables shares with Twitter, Facebook ... on posts, pages and themes with no harm for visitors privacy.
- * Version: 2.1.0
+ * Version: 2.1.1
  * Author: 3UU
  * Author URI: http://www.DatenVerwurstungsZentrale.com/
  * License: http://opensource.org/licenses/MIT
@@ -556,6 +556,8 @@ function sharif3UUaddMailForm($content){
   $mf_name['EN']	='Name of the sender (optional)';
   $mf_comment['DE']	='Zusatztext';
   $mf_comment['EN']     ='additional text';
+  $mf_send['DE']	='E-Mail senden';
+  $mf_send['EN']	='send email';
   
   $mailform='<form action="'.get_permalink().'" method="POST">';
   $mailform.='<input type="hidden" name="act" value="sendMail">';
@@ -566,7 +568,7 @@ function sharif3UUaddMailForm($content){
   $mailform.='<p><em>'.$mf_from[$lang].'</em><br /><input type="email" name="from" value="" placeholder="from@example.com"></p>';
   $mailform.='<p><em>'.$mf_name[$lang].'</em><br /><input type="text" name="sender" value="" placeholder="Your Name"></p>';
   $mailform.='<p><em>'.$mf_comment[$lang].'</em><br /><textarea name="mail_comment" rows="2" cols="45"></textarea></p>';
-  $mailform.='<p><input type="submit" value="E-Mail abschicken" /></p>';
+  $mailform.='<p><input type="submit" value="'.$mf_send[$lang].'" /></p>';
   if($lang=='DE')  $mailform.='<p>Die hier eingegebenen Daten werden nur dazu verwendet, die E-Mail in Ihrem Namen zu versenden. Es erfolgt keine Weitergabe an Dritte oder eine Analyse zu Marketing-Zwecken.</p>';
   $mailform.='</form></div>';
   return $mailform.$content;
@@ -591,8 +593,11 @@ function sharif3UUprocSentMail(){
    // Absender huebschen
    // Achtung: NICHT als naechstes noch womoeglich die Absenderadresse selber umschreiben! Das 
    // fuehrt bei allen sauber aufgesetzten Absender-MTAs zu Problemen mit SPF und/oder DKIM. 
-   if(!empty($_REQUEST['sender'])) add_filter( 'wp_mail_from_name', function( $name ) { return sanitize_text_field($_REQUEST['sender']); });
-   elseif(!empty($GLOBALS["shariff3UU"]["mail_sender_name"])) add_filter( 'wp_mail_from_name', function( $name ) { return $GLOBALS["shariff3UU"]["mail_sender_name"]; });
+   if(!empty($_REQUEST['sender'])) {
+     add_filter( 'wp_mail_from_name', function( $name ) { return sanitize_text_field($_REQUEST['sender']); });
+   } elseif(!empty($GLOBALS["shariff3UU"]["mail_sender_name"])) {
+     add_filter( 'wp_mail_from_name', function( $name ) { return $GLOBALS["shariff3UU"]["mail_sender_name"]; });
+   }
 
    // Absende-Adresse huebschen
    if(!empty($GLOBALS["shariff3UU"]["mail_sender_from"])) add_filter( 'wp_mail_from', function( $email ) { return $GLOBALS["shariff3UU"]["mail_sender_from"]; });

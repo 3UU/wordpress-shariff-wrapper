@@ -164,6 +164,9 @@ Therfore a new service "mailto" has been defined that provides the current mailt
 functionality. So please change you configuration asap.
 
 == Changelog ==
+= 2.1.1 =
+- change code because of a error with some PHP version
+
 = 2.1.0 =
 - replace sender name if an name is provided with the mail form or set in admin menu
 - add option to append the post content to the email
