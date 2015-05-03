@@ -39,7 +39,7 @@ $shariff3UU=get_option( 'shariff3UU' );
 function shariff3UU_update() {
 
   /******************** VERSION ANPASSEN *******************************/
-  $code_version = "2.1.0"; // Set code version - needs to be adjusted for every new version!
+  $code_version = "2.1.1"; // Set code version - needs to be adjusted for every new version!
   /******************** VERSION ANPASSEN *******************************/
 
   $do_admin_notice=false;
