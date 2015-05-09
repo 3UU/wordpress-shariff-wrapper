@@ -164,6 +164,14 @@ Therfore a new service "mailto" has been defined that provides the current mailt
 functionality. So please change you configuration asap.
 
 == Changelog ==
+= 2.2.0 =
+- add option to hide Shariff on password protected posts
+- tested up to WP 4.2.2
+- "fix" fallback to old twitter api i an other twitter script is found to
+  avoid open window twice
+- share text of the mailto link now is "email"
+- fix typo; cleanup code
+
 = 2.1.2 =
 - fix to make it work with PHP < 5.3 (aua, aua, aua...)
 
