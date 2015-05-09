@@ -3,7 +3,7 @@
  * Plugin Name: Shariff Wrapper
  * Plugin URI: http://www.3uu.org/plugins.htm
  * Description: This is a wrapper to Shariff. It enables shares with Twitter, Facebook ... on posts, pages and themes with no harm for visitors privacy.
- * Version: 2.1.2
+ * Version: 2.2.0
  * Author: 3UU
  * Author URI: http://www.DatenVerwurstungsZentrale.com/
  * License: http://opensource.org/licenses/MIT
@@ -39,7 +39,7 @@ $shariff3UU=get_option( 'shariff3UU' );
 function shariff3UU_update() {
 
   /******************** VERSION ANPASSEN *******************************/
-  $code_version = "2.1.2"; // Set code version - needs to be adjusted for every new version!
+  $code_version = "2.2.0"; // Set code version - needs to be adjusted for every new version!
   /******************** VERSION ANPASSEN *******************************/
 
   $do_admin_notice=false;
@@ -124,7 +124,7 @@ add_action('admin_enqueue_scripts', 'shariff3UU_admin_style');
 function shariff3UU_init_locale() { if(function_exists('load_plugin_textdomain')) { load_plugin_textdomain('shariff3UU', false, dirname(plugin_basename(__FILE__)).'/locale' ); } }
 
 // register shortcode
-add_shortcode('shariff', 'RenderShariff' );
+add_shortcode('shariff', 'Render3UUShariff' );
 
 // add admin menu
 function shariff3UU_add_admin_menu(){ add_options_page( 'Shariff', 'Shariff', 'manage_options', 'shariff3uu', 'shariff3uu_options_page' ); }
@@ -163,6 +163,10 @@ function shariff3UU_options_init(){
         
   add_settings_field( 'shariff3UU_checkbox_add_before_all_overview', __( 'Check to put Shariff at the beginning off all posts on the overview page.', 'shariff3UU' ),
     'shariff3UU_checkbox_add_before_all_overview_render', 'pluginPage', 'shariff3UU_pluginPage_section'
+  );
+
+  add_settings_field( 'shariff3UU_checkbox_disable_on_protected', __( 'Check to disable it on password protected posts.', 'shariff3UU' ),
+    'shariff3UU_checkbox_disable_on_protected_render', 'pluginPage', 'shariff3UU_pluginPage_section'
   );
         
   add_settings_field( 'shariff3UU_select_language', __( 'Select button language.', 'shariff3UU' ), 
@@ -252,6 +256,7 @@ function shariff3UU_options_sanitize( $input ){
   if(isset($input["add_after_all_pages"])) 	$valid["add_after_all_pages"] 		= absint( $input["add_after_all_pages"] );
   if(isset($input["add_before_all_pages"])) 	$valid["add_before_all_pages"] 		= absint( $input["add_before_all_pages"] );
   if(isset($input["add_after_all_custom_type"]))$valid["add_after_all_custom_type"]     = absint( $input["add_after_all_custom_type"] );
+  if(isset($input["disable_on_protected"]))	$valid["disable_on_protected"]		= absint( $input["disable_on_protected"] );
   if(isset($input["language"])) 		$valid["language"] 			= sanitize_text_field( $input["language"] );
   if(isset($input["theme"])) 			$valid["theme"] 			= sanitize_text_field( $input["theme"] );
   if(isset($input["buttonsize"]))		$valid["buttonsize"]			= absint( $input["buttonsize"] );
@@ -315,6 +320,12 @@ function shariff3UU_checkbox_add_before_all_pages_render(){
 function shariff3UU_checkbox_add_before_all_overview_render(){
   echo "<input type='checkbox' name='shariff3UU[add_before_all_overview]' ";
   if(isset($GLOBALS["shariff3UU"]["add_before_all_overview"])) echo checked( $GLOBALS["shariff3UU"]["add_before_all_overview"], 1, 0 );
+  echo " value='1'>";
+}
+// Disable on password protected posts
+function shariff3UU_checkbox_disable_on_protected_render(){
+  echo "<input type='checkbox' name='shariff3UU[disable_on_protected]' ";
+  if(isset($GLOBALS["shariff3UU"]["disable_on_protected"])) echo checked( $GLOBALS["shariff3UU"]["disable_on_protected"], 1, 0 );
   echo " value='1'>";
 }
 
@@ -463,10 +474,6 @@ function shariff3UU_options_page(){
   submit_button();
   echo '</form>';
     
-  // give a hint if the backend will not work
-  // if we have a constant for the tmp-dir
-  if(defined('SHARIFF_BACKEND_TMPDIR'))$tmp["cache"]["cacheDir"]=SHARIFF_BACKEND_TMPDIR;
-
   // if we do not have a tmp-dir, we use the content dir of WP
   if( empty($tmp["cache"]["cacheDir"]) ){
     // to avoid conficts with other plugins and actual uploads we use a fixed date in the past
@@ -486,7 +493,7 @@ function shariff3UU_options_page(){
 function buildShariffShorttag(){
   // get options
   $shariff3UU = $GLOBALS["shariff3UU"];
-  
+
   // build the shorttag
   $shorttag='[shariff';
 
@@ -520,7 +527,7 @@ function buildShariffShorttag(){
 }
 
 // add mail from if view=mail
-function sharif3UUaddMailForm($content){
+function shariff3UUaddMailForm($content){
   if(WP_DEBUG==TRUE)echo '<br>WP_DEBUG-rtz: aktueller Warte-Count ist: '.limitRemoteUser().' sec. >5 wirft Fehler.'; 
   // Sprache setzen. Default DE. Belegen wir vor, damit fehlende Variable im Debug kein Fehler wirft UND damitd er else-Zweig nicht ins Leere rennt.
   $lang='DE';
@@ -688,15 +695,22 @@ function limitRemoteUser($wait='1'){
   if($HOSTS[$_SERVER['REMOTE_ADDR']]-time() < '60') update_option( 'shariff3UU', $shariff3UU );
   return $HOSTS[$_SERVER['REMOTE_ADDR']]-time();
 }
-
+   
 // add shorttag to posts
 function shariffPosts($content) {
   $shariff3UU = $GLOBALS["shariff3UU"];
 
+  if(post_password_required(get_the_ID())=='1' && isset($shariff3UU["disable_on_protected"]) && $shariff3UU["disable_on_protected"]=='1'){
+    $shariff3UU["add_before_all_overview"]='0';	$shariff3UU["add_after_all_overview"]='0';
+    $shariff3UU["add_before_all_posts"]='0';	$shariff3UU["add_after_all_posts"]='0';
+    $shariff3UU["add_before_all_pages"]='0';	$shariff3UU["add_after_all_pages"]='0';
+    $shariff3UU["add_after_all_custom_type"]='0';
+  }
+
   // prepend the mail form
   if(isset($_REQUEST['view']) && $_REQUEST['view']=='mail'){
     // nur auf einzelnen Seiten/Posts das Mailformular ausgeben. Vielleicht noch ne Fehlermeldung einbauen
-    if(is_singular()) $content=sharif3UUaddMailForm($content);
+    if(is_singular()) $content=shariff3UUaddMailForm($content);
   }
   // send the email
   if(isset($_REQUEST['act'])  && $_REQUEST['act']=='sendMail') sharif3UUprocSentMail();
@@ -711,7 +725,7 @@ function shariffPosts($content) {
     // and return without adding Shariff
     return $content;
   }
-  
+
   // now add Shariff
   if( !is_singular() ) {
     // auf der Uebersichtsseite
@@ -776,7 +790,7 @@ function shariff3UU_align_styles() {
 add_action( 'wp_enqueue_scripts', 'shariff3UU_align_styles' );
 
 // Render the shorttag to the HTML shorttag of Shariff
-function RenderShariff( $atts , $content = null) {
+function Render3UUShariff( $atts , $content = null) {
   // get options
   $shariff3UU = $GLOBALS["shariff3UU"];
 
@@ -991,7 +1005,9 @@ class ShariffWidget extends WP_Widget {
     $shorttag=substr($shorttag,0,-1) . ' title="' . $page_title . '" url="' . $page_url . '"' . $media . ']'; // add url, title and media to the shorttag
 
     // process the shortcode
-    echo do_shortcode($shorttag);
+    // but only if it is not password protected |or| disable on password protected is not requested
+    $shariff3UU = $GLOBALS["shariff3UU"];
+    if(post_password_required(get_the_ID())!='1' || (isset($shariff3UU["disable_on_protected"]) && $shariff3UU["disable_on_protected"]!='1') ) echo do_shortcode($shorttag);
     // close Container
     echo $after_widget;
   } // END widget($args, $instance)

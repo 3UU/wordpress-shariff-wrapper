@@ -1,6 +1,6 @@
 
 /*!
- * shariff - v1.9.3 - 02.05.2015
+ * shariff - v1.9.3 - 09.05.2015
  * https://github.com/heiseonline/shariff
  * Copyright (c) 2015 Ines Pauer, Philipp Busse, Sebastian Hilbig, Erich Kramer, Deniz Sesli
  * Licensed under the MIT <http://www.opensource.org/licenses/mit-license.php> license
@@ -58,7 +58,7 @@ function Url(){this.protocol=null,this.slashes=null,this.auth=null,this.host=nul
 
 
 },{}],13:[function(require,module,exports){
-"use strict";module.exports=function(e){var t=encodeURIComponent(e.getURL()),a=e.getMeta("DC.title"),n=e.getMeta("DC.creator");return a.length>0&&n.length>0?a+=" - "+n:a=e.getTitle(),{popup:!1,mobileonly:!1,blank:!1,shareText:"mail to",name:"mailto",faName:"s3uu-envelope",title:{de:"Per E-Mail versenden",en:"Send by email",es:"Enviar por email",fr:"Envoyer par courriel",it:"Inviare via email",da:"Sende via e-mail",nl:"Sturen via e-mail "},shareUrl:"mailto:?body="+t+e.getReferrerTrack()+"&subject="+encodeURIComponent(a)}};
+"use strict";module.exports=function(e){var t=encodeURIComponent(e.getURL()),a=e.getMeta("DC.title"),n=e.getMeta("DC.creator");return a.length>0&&n.length>0?a+=" - "+n:a=e.getTitle(),{popup:!1,mobileonly:!1,blank:!1,shareText:"email",name:"mailto",faName:"s3uu-envelope",title:{de:"Per E-Mail versenden",en:"Send by email",es:"Enviar por email",fr:"Envoyer par courriel",it:"Inviare via email",da:"Sende via e-mail",nl:"Sturen via e-mail "},shareUrl:"mailto:?body="+t+e.getReferrerTrack()+"&subject="+encodeURIComponent(a)}};
 
 
 },{}],14:[function(require,module,exports){

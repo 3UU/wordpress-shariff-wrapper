@@ -202,3 +202,9 @@ msgstr "Default name for email sender if no name is provided with ther form."
 #: shariff.php:349
 msgid "Default sender email address."
 msgstr "Default sender email address."
+
+# @ shariff3UU
+#: shariff.php:144
+msgid "Check to disable it on password protected posts."
+msgstr "Bei passwortgesch&uuml;tzten Beitr&auml;gen verbergen."
+
