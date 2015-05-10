@@ -3,7 +3,7 @@
  * Plugin Name: Shariff Wrapper
  * Plugin URI: http://www.3uu.org/plugins.htm
  * Description: This is a wrapper to Shariff. It enables shares with Twitter, Facebook ... on posts, pages and themes with no harm for visitors privacy.
- * Version: 2.2.1
+ * Version: 2.2.2
  * Author: 3UU
  * Author URI: http://www.DatenVerwurstungsZentrale.com/
  * License: http://opensource.org/licenses/MIT
@@ -528,6 +528,11 @@ function buildShariffShorttag(){
 
 // add mail from if view=mail
 function shariff3UUaddMailForm($content){
+
+  // make sure that service mail is set
+  $checkServerice=explode('|',$GLOBALS["shariff3UU"]["services"]);
+  if(!array_search('mail',$checkServerice)) return 'Sorry, email functionality is not configured or not configured as a service in the admin menue.'.$content;
+
   if(WP_DEBUG==TRUE)echo '<br>WP_DEBUG-rtz: aktueller Warte-Count ist: '.limitRemoteUser().' sec. >5 wirft Fehler.'; 
   // Sprache setzen. Default DE. Belegen wir vor, damit fehlende Variable im Debug kein Fehler wirft UND damitd er else-Zweig nicht ins Leere rennt.
   $lang='DE';
