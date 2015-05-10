@@ -164,6 +164,13 @@ Therfore a new service "mailto" has been defined that provides the current mailt
 functionality. So please change you configuration asap.
 
 == Changelog ==
+= 2.2.2 =
+- allow email functionality only if service email is configured within the
+  admin menu as common service for all posts
+
+= 2.2.1 =
+- "fix" fallback to old twitter api again
+
 = 2.2.0 =
 - add option to hide Shariff on password protected posts
 - tested up to WP 4.2.2
