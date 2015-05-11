@@ -3,7 +3,7 @@
  * Plugin Name: Shariff Wrapper
  * Plugin URI: http://www.3uu.org/plugins.htm
  * Description: This is a wrapper to Shariff. It enables shares with Twitter, Facebook ... on posts, pages and themes with no harm for visitors privacy.
- * Version: 2.2.2
+ * Version: 2.2.3
  * Author: 3UU
  * Author URI: http://www.DatenVerwurstungsZentrale.com/
  * License: http://opensource.org/licenses/MIT
@@ -39,7 +39,7 @@ $shariff3UU=get_option( 'shariff3UU' );
 function shariff3UU_update() {
 
   /******************** VERSION ANPASSEN *******************************/
-  $code_version = "2.2.2"; // Set code version - needs to be adjusted for every new version!
+  $code_version = "2.2.3"; // Set code version - needs to be adjusted for every new version!
   /******************** VERSION ANPASSEN *******************************/
 
   $do_admin_notice=false;
@@ -705,7 +705,8 @@ function limitRemoteUser($wait='1'){
 function shariffPosts($content) {
   $shariff3UU = $GLOBALS["shariff3UU"];
 
-  if(post_password_required(get_the_ID())=='1' && isset($shariff3UU["disable_on_protected"]) && $shariff3UU["disable_on_protected"]=='1'){
+  // disable share buttons on password protected posts if configured on admin menu
+  if((post_password_required(get_the_ID())=='1' || !empty($GLOBALS["post"]->post_password)) && isset($shariff3UU["disable_on_protected"]) && $shariff3UU["disable_on_protected"]=='1'){
     $shariff3UU["add_before_all_overview"]='0';	$shariff3UU["add_after_all_overview"]='0';
     $shariff3UU["add_before_all_posts"]='0';	$shariff3UU["add_after_all_posts"]='0';
     $shariff3UU["add_before_all_pages"]='0';	$shariff3UU["add_after_all_pages"]='0';
