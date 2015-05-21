@@ -3,7 +3,7 @@
  * Plugin Name: Shariff Wrapper
  * Plugin URI: http://www.3uu.org/plugins.htm
  * Description: This is a wrapper to Shariff. It enables shares with Twitter, Facebook ... on posts, pages and themes with no harm for visitors privacy.
- * Version: 2.2.3
+ * Version: 2.2.4
  * Author: 3UU
  * Author URI: http://www.DatenVerwurstungsZentrale.com/
  * License: http://opensource.org/licenses/MIT
@@ -39,7 +39,7 @@ $shariff3UU=get_option( 'shariff3UU' );
 function shariff3UU_update() {
 
   /******************** VERSION ANPASSEN *******************************/
-  $code_version = "2.2.3"; // Set code version - needs to be adjusted for every new version!
+  $code_version = "2.2.4"; // Set code version - needs to be adjusted for every new version!
   /******************** VERSION ANPASSEN *******************************/
 
   $do_admin_notice=false;
@@ -570,8 +570,8 @@ function shariff3UUaddMailForm($content){
   $mf_comment['EN']     ='additional text';
   $mf_send['DE']	='E-Mail senden';
   $mf_send['EN']	='send email';
-  
-  $mailform='<form action="'.get_permalink().'" method="POST">';
+  $submit_link = wp_nonce_url(get_permalink(), 'shariff3uu_send_mail', 'my_nonce');
+  $mailform='<form action="' . $submit_link . '" method="POST">';
   $mailform.='<input type="hidden" name="act" value="sendMail">';
   $mailform.='<input type="hidden" name="lang" value="'.$lang.'">';
   $mailform.='<div id="mail_formular" style="background: none repeat scroll 0% 0% #EEE; font-size: 90%; padding: 0.2em 1em;">';
@@ -598,7 +598,7 @@ function sharif3UUprocSentMail(){
   // Der Zusatztext darf keine Links enthalten, sonst zu verlockend fuer Spamer
   // optional robinson einbauen
   // optional auf eingeloggte User beschraenken, dann aber auch nicht allgemein anzeigen
-
+ if (isset($_GET['my_nonce']) && wp_verify_nonce($_GET['my_nonce'], 'shariff3uu_send_mail')) {
    $wait=limitRemoteUser('5');
    if($wait > '5'){ echo 'Please wait '. $wait .' sec until your next mail. '; die('Ooops!!!'); }       
 
@@ -680,6 +680,7 @@ function sharif3UUprocSentMail(){
     foreach($mailto as $rcpt) echo $rcpt.'<br>';
   }else echo $mailto;  
   echo '</p></div>';
+ }
 }
 
 // set a timeout until new mails are possible                                  
@@ -719,7 +720,7 @@ function shariffPosts($content) {
     if(is_singular()) $content=shariff3UUaddMailForm($content);
   }
   // send the email
-  if(isset($_REQUEST['act'])  && $_REQUEST['act']=='sendMail') sharif3UUprocSentMail();
+  if(isset($_REQUEST['act']) && $_REQUEST['act']=='sendMail') sharif3UUprocSentMail();
 
   // conditional to make it functional compatible to the hack in yanniks plugin
   // if we want see it as text - replace the slash
