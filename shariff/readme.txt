@@ -164,6 +164,9 @@ Therfore a new service "mailto" has been defined that provides the current mailt
 functionality. So please change you configuration asap.
 
 == Changelog ==
+= 2.2.4 =
+- security fix
+
 = 2.2.3 =
 - extend blocking of shariff buttons within password protected posts
 
