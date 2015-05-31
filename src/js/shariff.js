@@ -22,7 +22,7 @@ var Shariff = function(element, options) {
         require('./services/googleplus'),
         require('./services/twitter'),
         require('./services/whatsapp'),
-        require('./services/mail'),
+        require('./services/mailform'),
         require('./services/info'),
         require('./services/mailto'),
         require('./services/linkedin'),
@@ -71,6 +71,26 @@ Shariff.prototype = {
         // localisation: "de" or "en"
         lang: 'de',
 
+        // fallback language for not fully localized services
+        langFallback: 'en',
+
+        mailUrl: function() {
+            var shareUrl = url.parse(this.getURL(), true);
+            shareUrl.query.view = 'mail';
+            delete shareUrl.search;
+            return url.format(shareUrl);
+        },
+
+        // if
+        mailSubject: function() {
+            return this.getMeta('DC.title') || this.getTitle();
+        },
+
+        mailBody: function() { return '<' + this.getURL() + '>'; },
+
+        // Media (e.g. image) URL to be shared
+        mediaUrl: null,
+
         // horizontal/vertical
         orientation: 'horizontal',
 
@@ -111,10 +131,14 @@ Shariff.prototype = {
 
     getLocalized: function(data, key) {
         if (typeof data[key] === 'object') {
-            return data[key][this.options.lang];
+            if (typeof data[key][this.options.lang] === 'undefined') {
+                return data[key][this.options.langFallback];
+            } else {
+                return data[key][this.options.lang];
+            }
         } else if (typeof data[key] === 'string') {
             return data[key];
-        }
+        } 
         return undefined;
     },
 
@@ -147,7 +171,7 @@ Shariff.prototype = {
 
     // set a default image for pinterest by using media=""
     getMedia: function() {
-		return this.getOption('media');
+        return this.getOption('media');
     },
 
     // returns shareCounts of document
@@ -165,7 +189,7 @@ Shariff.prototype = {
             if(value >= 1000) {
                 value = Math.round(value / 1000) + 'k';
             }
-            $(self.element).find('.shariff-' + key + ' a').append('<span class="share_count">' + value);
+            $(self.element).find('.' + key + ' a').append('<span class="share_count">' + value);
         });
     },
 
@@ -186,7 +210,7 @@ Shariff.prototype = {
         this.services.forEach(function(service) {
         // adding mobile-only option for whatsapp and fix mobile Mozilla problem by checking for window.document.ontouchstart as object
         if (!service.mobileonly || (typeof window.orientation !== 'undefined') || (typeof(window.document.ontouchstart) === 'object')) {
-            var $li = $('<li class="shariff-button">').addClass('shariff-' + service.name);
+            var $li = $('<li class="shariff-button">').addClass(service.name);
             var $shareText = '<span class="share_text">' + self.getLocalized(service, 'shareText');
 
             var $shareLink = $('<a>')
@@ -202,7 +226,6 @@ Shariff.prototype = {
             } else if (service.blank) {
                 $shareLink.attr('target', '_blank');
             }
-            
             $shareLink.attr('title', self.getLocalized(service, 'title'));
 
             $li.append($shareLink);
@@ -217,8 +240,8 @@ Shariff.prototype = {
 
             var url = $(this).attr('href');
             var windowName = '_blank';
-            var windowSizeX = '1000'; // was too small for some services
-            var windowSizeY = '500';  // was too small for some services
+            var windowSizeX = '1000';
+            var windowSizeY = '500';
             var windowSize = 'width=' + windowSizeX + ',height=' + windowSizeY;
 
             global.window.open(url, windowName, windowSize);

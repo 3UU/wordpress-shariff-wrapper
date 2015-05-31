@@ -9,7 +9,10 @@ module.exports = function(shariff) {
             'de': 'drucken',
             'en': 'print',
             'fr': 'imprimer',
-            'es': 'imprimir'
+            'es': 'imprimir',
+            'it': 'imprimere',
+            'da': 'dat trykke',
+            'nl': 'drukken'
         },
         name: 'printer',
         faName: 's3uu-print',
