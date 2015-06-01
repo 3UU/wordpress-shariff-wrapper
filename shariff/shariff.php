@@ -233,6 +233,10 @@ function shariff3UU_options_init(){
 	add_settings_field( 'shariff3UU_checkbox_buttonsize', __( 'Reduce button size by 30%.', 'shariff3UU' ), 
 		'shariff3UU_checkbox_buttonsize_render', 'design', 'shariff3UU_design_section' );
 
+	// button stretch
+	add_settings_field( 'shariff3UU_checkbox_buttonsstretch', __( 'Stretch buttons horizontally.', 'shariff3UU' ), 
+		'shariff3UU_checkbox_buttonstretch_render', 'design', 'shariff3UU_design_section' );
+
 	// vertical
 	add_settings_field( 'shariff3UU_checkbox_vertical', __( 'Shariff button orientation <b>vertical</b>.', 'shariff3UU' ), 
 		'shariff3UU_checkbox_vertical_render', 'design', 'shariff3UU_design_section' );
@@ -363,6 +367,7 @@ function shariff3UU_design_sanitize( $input ) {
 	if ( isset( $input["language"] ) ) 				$valid["language"] 				= sanitize_text_field( $input["language"] );
 	if ( isset( $input["theme"] ) ) 				$valid["theme"] 				= sanitize_text_field( $input["theme"] );
 	if ( isset( $input["buttonsize"] ) )			$valid["buttonsize"]			= absint( $input["buttonsize"] );
+	if ( isset( $input["buttonstretch"] ) )			$valid["buttonstretch"]			= absint( $input["buttonstretch"] );
 	if ( isset( $input["vertical"] ) ) 				$valid["vertical"] 				= absint( $input["vertical"] );
 	if ( isset( $input["align"] ) ) 				$valid["align"] 				= sanitize_text_field( $input["align"] );
 	if ( isset( $input["align_widget"] ) ) 			$valid["align_widget"] 			= sanitize_text_field( $input["align_widget"] );
@@ -582,6 +587,14 @@ function shariff3UU_checkbox_buttonsize_render() {
 	echo '<input type="checkbox" name="shariff3UU_design[buttonsize]" ';
 	if ( isset( $GLOBALS["shariff3UU_design"]["buttonsize"] ) ) echo checked( $GLOBALS["shariff3UU_design"]["buttonsize"], 1, 0 );
 	echo ' value="1"><img src="'. $plugins_url .'/shariff/pictos/smallBtns.png" align="middle">';
+}
+
+// button stretch
+function shariff3UU_checkbox_buttonstretch_render() {
+	$plugins_url = plugins_url();
+	echo '<input type="checkbox" name="shariff3UU_design[buttonstretch]" ';
+	if ( isset( $GLOBALS["shariff3UU_design"]["buttonstretch"] ) ) echo checked( $GLOBALS["shariff3UU_design"]["buttonstretch"], 1, 0 );
+	echo ' value="1">';
 }
 
 // vertical
@@ -1635,15 +1648,15 @@ function shariffPosts( $content ) {
 }
 add_filter( 'the_content', 'shariffPosts' );
 
-// add the align-style options to the css file
+// add the align-style options to the css file and the button stretch
 function shariff3UU_align_styles() {
-	$shariff3UU = $GLOBALS["shariff3UU"];
+	$shariff3UU_design = $GLOBALS["shariff3UU_design"];
 	$custom_css = '';
 	wp_enqueue_style('shariffcss', plugins_url('/css/shariff.min.local.css',__FILE__));
 
 	// align option
-	if ( isset( $shariff3UU["align"] ) && $shariff3UU["align"] != 'none' ) {
-		 $align = $shariff3UU["align"];
+	if ( isset( $shariff3UU_design["align"] ) && $shariff3UU_design["align"] != 'none' ) {
+		 $align = $shariff3UU_design["align"];
 		 $custom_css .= "
 			 .shariff { justify-content: {$align} }
 			 .shariff { -webkit-justify-content: {$align} }
@@ -1655,8 +1668,8 @@ function shariff3UU_align_styles() {
 	}
 
 	// align option for widget
-	if ( isset( $shariff3UU["align_widget"] ) && $shariff3UU["align_widget"] != 'none' ) {
-		 $align_widget = $shariff3UU["align_widget"];
+	if ( isset( $shariff3UU_design["align_widget"] ) && $shariff3UU_design["align_widget"] != 'none' ) {
+		 $align_widget = $shariff3UU_design["align_widget"];
 		 $custom_css .= "
 			 .widget .shariff { justify-content: {$align_widget} } 
 			 .widget .shariff { -webkit-justify-content: {$align_widget} }
@@ -1664,6 +1677,16 @@ function shariff3UU_align_styles() {
 			 .widget .shariff ul { justify-content: {$align_widget} }
 			 .widget .shariff ul { -webkit-justify-content: {$align_widget} }
 			 .widget .shariff ul { -ms-flex-pack: {$align_widget} }
+			 ";
+	}
+
+	// button stretch
+	if ( isset( $shariff3UU_design["buttonstretch"] ) && $shariff3UU_design["buttonstretch"] == '1' ) {
+		 $buttonstretch = $shariff3UU_design["buttonstretch"];
+		 $custom_css .= "
+			 .shariff ul { flex: {$buttonstretch} !important }
+			 .shariff .orientation-horizontal li { flex: {$buttonstretch} !important }
+			 .shariff .orientation-vertical { flex: {$buttonstretch} !important }
 			 ";
 	}
 

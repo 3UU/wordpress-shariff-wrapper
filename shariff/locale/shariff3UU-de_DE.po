@@ -59,12 +59,12 @@ msgstr "Erweiterte Einstellungen"
 #. Text in function
 #: shariff.php:1
 msgid "Alignment of the Shariff buttons in the widget:"
-msgstr "Ausrichtung der Sharif-Buttons im Widget:"
+msgstr "Ausrichtung der Shariff-Buttons im Widget:"
 
 #. Text in function
 #: shariff.php:1
 msgid "Alignment of the Shariff buttons:"
-msgstr "Ausrichtung der Sharif-Buttons:"
+msgstr "Ausrichtung der Shariff-Buttons:"
 
 #. Text in function
 #: shariff.php:1
@@ -349,7 +349,7 @@ msgstr "Beiträgen (Blogseite)"
 #. Text in function
 #: shariff.php:1
 msgid "Reduce button size by 30%."
-msgstr "Reduziere Buttongröße um 30%."
+msgstr "Reduziere die Buttongröße um 30%."
 
 #. Text in function
 #: shariff.php:1
@@ -430,6 +430,11 @@ msgstr "Statistik:"
 #: shariff.php:1
 msgid "Status"
 msgstr "Status"
+
+#. Text in function
+#: shariff.php:1
+msgid "Stretch buttons horizontally."
+msgstr "Strecke die Shariff-Buttons horizontal."
 
 #. Text in function
 #: shariff.php:1

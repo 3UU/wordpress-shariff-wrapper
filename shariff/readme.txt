@@ -137,6 +137,7 @@ A: Yes, take a look at the Mail Form tab on the plugin options page.
 - split mail into mailform and mailto (check your manual shorttags!)
 - new backend status section
 - new option to use Facebook Graph API ID in case of rate limit problems
+- new option to stretch the buttons horizontally
 - many new button languages
 - new default cache directory
 - fix creation of default cache directory in case it is not month / year based
