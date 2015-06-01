@@ -1263,7 +1263,7 @@ function shariff3UUaddMailForm( $content, $error ) {
 
 		// German
 		$mf_headline['DE']	= 'Diesen Beitrag per E-Mail versenden';
-		$mf_headinfo['DE']	= 'Sie können maximal fünf Empf&auml;nger angeben. Diese müssen durch Kommas getrennt werden.';
+		$mf_headinfo['DE']	= 'Sie können maximal fünf Empf&auml;nger angeben. Diese bitte durch Kommas trennen.';
 		$mf_rcpt['DE']		= 'Empf&auml;nger E-Mail-Adresse(n)';
 		$mf_rcpt_ph['DE']	= 'empf&auml;nger@domain.de';
 		$mf_from['DE']		= 'Absender E-Mail-Adresse';
