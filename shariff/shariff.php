@@ -1343,13 +1343,13 @@ function shariff3UUaddMailForm( $content, $error ) {
 							<input type="hidden" name="act" value="sendMail">
 							<input type="hidden" name="lang" value="' . $lang . '">
 							<p><label for="mailto">' . $mf_rcpt[$lang] . '</label><br>
-							<input type="text" name="mailto" id="mailto" value="' . $mf_content_mailto . '" size="30" placeholder="' . $mf_rcpt_ph[$lang] . '" required>' . $mf_to_error_html . '</p>
+							<input type="text" name="mailto" id="mailto" value="' . $mf_content_mailto . '" size="27" placeholder="' . $mf_rcpt_ph[$lang] . '" required>' . $mf_to_error_html . '</p>
 							<p><label for="from">' . $mf_from[$lang] . $mf_optional_text . '</label><br>
-							<input type="email" name="from" if="from" value="' . $mf_content_from . '" size="30" placeholder="' . $mf_from_ph[$lang] . '" ' . $mf_sender_required .'>' . $mf_from_error_html . '</p>
+							<input type="email" name="from" if="from" value="' . $mf_content_from . '" size="27" placeholder="' . $mf_from_ph[$lang] . '" ' . $mf_sender_required .'>' . $mf_from_error_html . '</p>
 							<p><label for="name">' . $mf_name[$lang] . '</label><br>
-							<input type="text" name="sender" id="sender" value="' . $mf_content_sender . '" size="30" placeholder="' . $mf_name_ph[$lang] . '"></p>
+							<input type="text" name="sender" id="sender" value="' . $mf_content_sender . '" size="27" placeholder="' . $mf_name_ph[$lang] . '"></p>
 							<p><label for="mail_comment">' . $mf_comment[$lang] . '</label><br>
-							<textarea name="mail_comment" rows="4" cols="45">' . $mf_content_mail_comment . '</textarea></p>
+							<textarea name="mail_comment" rows="4">' . $mf_content_mail_comment . '</textarea></p>
 						</fieldset>
 						<p><input type="submit" value="' . $mf_send[$lang].'" /></p>
 						<p>' . $mf_info[$lang] . '</p>
