@@ -61,10 +61,8 @@ class Application {
 	$shariff3UU_advanced = (array) get_option( 'shariff3UU_advanced' );
 
 	// set fb api and secret
-	if ( isset( $shariff3UU_advanced['fb_id'] ) ) {
+	if ( isset( $shariff3UU_advanced['fb_id'] ) && isset( $shariff3UU_advanced['secret'] ) ) {
 			$tmp["Facebook"]["app_id"] = absint( $shariff3UU_advanced['fb_id'] );
-		}
-	if ( isset( $shariff3UU_advanced['fb_id'] ) ) {
 			$tmp["Facebook"]["secret"] = sanitize_text_field( $shariff3UU_advanced['fb_secret'] );
 		}
 	

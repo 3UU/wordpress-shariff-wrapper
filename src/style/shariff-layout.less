@@ -3,7 +3,7 @@
 		min-width: 130px;
 		.share_text {
 			text-indent: 0;
-			display: inline;
+			display: inline !important;
 		}
 	}
 }
@@ -13,7 +13,7 @@
 		min-width: 105px;
 		.share_text {
 			text-indent: 0;
-			display: inline;
+			display: inline !important;
 		}
 	}
 }
@@ -76,15 +76,21 @@
 	&::after {
 		clear: both;
 	}
-	display: flex;
-	flex-flow: row wrap;
-	justify-content: flex-start;
 	span { color: inherit; }
 	ul {
-		display: flex;
-		display: -webkit-inline;
+		display: -webkit-flex;
+  		display: -moz-flex;
+  		display: -ms-flex;
+  		display: -o-flex;
+  		display: flex;
+		-webkit-flex-direction: row;
+		-moz-flex-direction: row;
+		-ms-flex-direction: row;
+		flex-direction: row;
+		-webkit-flex-flow: row wrap;
+		-moz-flex-flow: row wrap;
+		-ms-flex-flow: row wrap;
 		flex-flow: row wrap;
-		justify-content: flex-start;
 		padding: 0 !important;
 		margin: 0;
 		li { list-style-type: none; }
@@ -297,13 +303,13 @@
 	// ------------------------- vertical alignment
 
 	.orientation-vertical {
-		width: 135px;
+		-webkit-flex-direction: column;
+   		flex-direction: column;
 		li { 
-			width: 100%; 
+			width: 135px;; 
 			a { color: #fff; }
 		}
 	}
-	.orientation-vertical.theme-round { width: 50px !important; }
 
 	// ------------------------- small buttons
 	.buttonsize-small {
@@ -320,7 +326,7 @@
 				height: 23px;
 			}
 			.s3uu {
-				width: 26px;
+				width: 25px;
 				line-height: 25px;
 				font-size: 16px;
 			}
@@ -330,7 +336,7 @@
 		}
 	}
 
-	.orientation-vertical.buttonsize-small { width: 115px; }
+	.orientation-vertical.buttonsize-small li { width: 115px; }
 
 	.theme-round.buttonsize-small {
 		li {
@@ -433,7 +439,7 @@
 				height: 35px;
 			}
 			.s3uu {
-				width: 36px;
+				width: 35px;
 				line-height: 35px;
 			}
 		}
@@ -444,7 +450,7 @@
 				height: 25px;
 			}
 			.s3uu {
-				width: 26px;
+				width: 25px;
 				line-height: 25px;
 			}
 		}

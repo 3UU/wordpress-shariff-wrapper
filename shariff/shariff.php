@@ -1664,6 +1664,8 @@ function shariff3UU_align_styles() {
 			 .shariff ul { justify-content: {$align} }
 			 .shariff ul { -webkit-justify-content: {$align} }
 			 .shariff ul { -ms-flex-pack: {$align} }
+			 .shariff ul { -webkit-align-items: {$align} }
+			 .shariff ul { align-items: {$align} }
 			 ";
 	}
 
@@ -1677,6 +1679,8 @@ function shariff3UU_align_styles() {
 			 .widget .shariff ul { justify-content: {$align_widget} }
 			 .widget .shariff ul { -webkit-justify-content: {$align_widget} }
 			 .widget .shariff ul { -ms-flex-pack: {$align_widget} }
+			 .widget .shariff ul { -webkit-align-items: {$align} }
+			 .widget .shariff ul { align-items: {$align} }
 			 ";
 	}
 
@@ -1684,9 +1688,15 @@ function shariff3UU_align_styles() {
 	if ( isset( $shariff3UU_design["buttonstretch"] ) && $shariff3UU_design["buttonstretch"] == '1' ) {
 		 $buttonstretch = $shariff3UU_design["buttonstretch"];
 		 $custom_css .= "
-			 .shariff ul { flex: {$buttonstretch} !important }
-			 .shariff .orientation-horizontal li { flex: {$buttonstretch} !important }
-			 .shariff .orientation-vertical { flex: {$buttonstretch} !important }
+			 .shariff ul { flex: {$buttonstretch} 0 auto !important }
+			 .shariff ul { -webkit-flex: {$buttonstretch} 0 auto !important }
+			 .shariff .orientation-horizontal li { flex: {$buttonstretch} 0 auto !important }
+			 .shariff .orientation-horizontal li { -webkit-flex: {$buttonstretch} 0 auto !important }
+			 .shariff .orientation-vertical { flex: {$buttonstretch} 0 auto !important }
+			 .shariff .orientation-vertical { -webkit-flex: {$buttonstretch} 0 auto !important }
+			 .shariff .orientation-vertical li { flex: {$buttonstretch} 0 auto !important }
+			 .shariff .orientation-vertical li { -webkit-flex: {$buttonstretch} 0 auto !important }
+			 .shariff .orientation-vertical li { width: 100% !important }
 			 ";
 	}
 
