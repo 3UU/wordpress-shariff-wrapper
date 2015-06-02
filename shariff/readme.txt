@@ -89,6 +89,11 @@ overview. But please be warned: This is a test page! It is possible that you fin
 = Q: How can I change the design of a single button? =
 A: If you are a CSS guru please feel free to modify the css file. But of course this is a bad idea, because all changes will be destroyed with the next update! Instead take a look at the style attribute of the shorttag. If you put in any value it will create a DIV container with the ID "ShariffSC" around the buttons. If you are really a CSS guru you will know what does the magic from here on out. ;-)
 
+= Q: I want the buttons to stay fixed while scrolling! =
+A: No problem. Just use the style attribute to add some CSS to the shorttag. For example in a widget (adjust the width as needed):
+`[shariff style="position:fixed;width:250px"]`
+Of course you can use all other options in that shorttag as well. It also works with the CSS style option on the plugins design options page, if you really want this applied to all buttons on your page.
+
 = Q: Can I add [shariff] on all posts? =
 A: Yes, check out the plugin options page. 
 
