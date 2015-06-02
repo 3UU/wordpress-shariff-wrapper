@@ -1630,8 +1630,8 @@ function shariffPosts( $content ) {
 		if ( isset( $shariff3UU["add_after"]["posts"] ) && $shariff3UU["add_after"]["posts"] == '1' )	$content .= buildShariffShorttag();
 	} elseif ( is_singular( 'page' ) ) {
 		// on pages
-		if ( isset( $shariff3UU["add_before"]["posts"] ) && $shariff3UU["add_before"]["posts"] == '1' )	$content = buildShariffShorttag() . $content;
-		if ( isset( $shariff3UU["add_after"]["posts"] ) && $shariff3UU["add_after"]["posts"] == '1' )	$content .= buildShariffShorttag();
+		if ( isset( $shariff3UU["add_before"]["pages"] ) && $shariff3UU["add_before"]["pages"] == '1' )	$content = buildShariffShorttag() . $content;
+		if ( isset( $shariff3UU["add_after"]["pages"] ) && $shariff3UU["add_after"]["pages"] == '1' )	$content .= buildShariffShorttag();
 	} else {
 		// on custom_post_types
 		$all_custom_post_types = get_post_types( array ( '_builtin' => FALSE ) );
