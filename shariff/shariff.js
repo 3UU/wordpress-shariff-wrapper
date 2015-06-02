@@ -1,6 +1,6 @@
 
 /*!
- * shariff - v1.13.0 - 02.06.2015
+ * shariff - v1.14.0 - 02.06.2015
  * https://github.com/heiseonline/shariff
  * Copyright (c) 2015 Ines Pauer, Philipp Busse, Sebastian Hilbig, Erich Kramer, Deniz Sesli
  * Licensed under the MIT <http://www.opensource.org/licenses/mit-license.php> license

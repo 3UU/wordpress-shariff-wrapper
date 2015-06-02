@@ -234,7 +234,7 @@ function shariff3UU_options_init(){
 		'shariff3UU_checkbox_buttonsize_render', 'design', 'shariff3UU_design_section' );
 
 	// button stretch
-	add_settings_field( 'shariff3UU_checkbox_buttonsstretch', __( 'Stretch buttons horizontally.', 'shariff3UU' ), 
+	add_settings_field( 'shariff3UU_checkbox_buttonsstretch', __( 'Stretch buttons horizontally to full width.', 'shariff3UU' ), 
 		'shariff3UU_checkbox_buttonstretch_render', 'design', 'shariff3UU_design_section' );
 
 	// vertical
@@ -1788,7 +1788,7 @@ function Render3UUShariff( $atts, $content = null ) {
 				if ( ! empty( $first_image ) ) $output .= " data-media='" . esc_html( $first_image ) . "'";
 				else {
 					if ( isset( $shariff3UU["default_pinterest"] ) ) $output .= " data-media='" . $shariff3UU["default_pinterest"] . "'";
-					else $output .= " data-media='" . plugins_url( '/pictos/defaultHint.jpg', __FILE__ ) . "'";
+					else $output .= " data-media='" . plugins_url( '/pictos/defaultHint.png', __FILE__ ) . "'";
 				}
 			}
 		}

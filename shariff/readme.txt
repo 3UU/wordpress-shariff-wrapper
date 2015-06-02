@@ -37,11 +37,14 @@ To enable it for all posts please check the options in the admin menu.
 
 == Screenshots ==
 
-1. Insert as shorttag with options in a post.
-2. Share-Buttons on the site in vertical order.
-3. Options menu.
-4. Widget menu. Shorttag works like in posts.
-5. Also any widget can have its own design.
+1. Differently styled share buttons (all small).
+2. Basic options.
+3. Design options.
+4. Advanced options.
+5. Mail form options.
+6. Help section.
+7. Manual shorttag with options in a post.
+8. Widget menu. Shorttag works like in posts.
 
 == Frequently Asked Questions ==
 
@@ -147,7 +150,7 @@ A: Yes, take a look at the Mail Form tab on the plugin options page.
 - fix responsive flow of buttons in IE
 - fix Twitter: prevent double encoding with text longer than 120 chars
 - update shariff backend to 1.5.0 (Heise)
-- update shariff JS to 1.13.0 (Heise)
+- update shariff JS to 1.14.0 (Heise)
 - many more minor improvements
 - code cleanup
 

@@ -433,8 +433,8 @@ msgstr "Status"
 
 #. Text in function
 #: shariff.php:1
-msgid "Stretch buttons horizontally."
-msgstr "Strecke die Shariff-Buttons horizontal."
+msgid "Stretch buttons horizontally to full width."
+msgstr "Strecke die Buttons horizontal auf volle Breite."
 
 #. Text in function
 #: shariff.php:1
