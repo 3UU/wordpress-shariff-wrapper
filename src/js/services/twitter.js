@@ -13,7 +13,7 @@ var abbreviateText = function(text, length) {
     }
 
     var lastWhitespaceIndex = abbreviated.substring(0, length - 1).lastIndexOf(' ');
-    abbreviated = encodeURIComponent(abbreviated.substring(0, lastWhitespaceIndex)) + '\u2026';
+    abbreviated = abbreviated.substring(0, lastWhitespaceIndex) + '\u2026';
 
     return abbreviated;
 };
@@ -48,17 +48,37 @@ module.exports = function(shariff) {
     return {
         popup: true,
         mobileonly: false,
-        shareText: 'tweet',
+        shareText: {
+            'de': 'twittern',
+            'en': 'tweet'
+        },
         name: 'twitter',
         faName: 's3uu-twitter',
         title: {
+            'bg': 'Сподели в Twitter',
+            'da': 'Del på Twitter',
             'de': 'Bei Twitter teilen',
             'en': 'Share on Twitter',
             'es': 'Compartir en Twitter',
+            'fi': 'Jaa Twitterissä',
             'fr': 'Partager sur Twitter',
+            'hr': 'Podijelite na Twitteru',
+            'hu': 'Megosztás Twitteren',
             'it': 'Condividi su Twitter',
-            'da': 'Del på Twitter',
-            'nl': 'Delen op Twitter'
+            'ja': 'ツイッター上で共有',
+            'ko': '트위터에서 공유하기',
+            'nl': 'Delen op Twitter',
+            'no': 'Del på Twitter',
+            'pl': 'Udostępnij na Twitterze',
+            'pt': 'Compartilhar no Twitter',
+            'ro': 'Partajează pe Twitter',
+            'ru': 'Поделиться на Twitter',
+            'sk': 'Zdieľať na Twitteri',
+            'sl': 'Deli na Twitterju',
+            'sr': 'Podeli na Twitter-u',
+            'sv': 'Dela på Twitter',
+            'tr': 'Twitter\'da paylaş',
+            'zh': '在Twitter上分享'
         },
         // shareUrl: 'https://twitter.com/intent/tweet?text='+ shariff.getShareText() + '&url=' + url
         shareUrl: url.format(shareUrl) + shariff.getReferrerTrack()

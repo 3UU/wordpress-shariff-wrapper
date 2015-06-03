@@ -15,7 +15,10 @@ module.exports = function(shariff) {
     return {
         popup: true,
         mobileonly: false,
-        shareText: 'Pin it',
+        shareText: {
+            'de': 'pinnen',
+            'en': 'pin it',
+        },
         name: 'pinterest',
         faName: 's3uu-pinterest',
         title: {

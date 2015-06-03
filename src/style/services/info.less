@@ -1,5 +1,5 @@
 .shariff {
-    .shariff-info {
+    .info {
         border: 1px solid #ccc;
         a {
             color: #666 !important;
@@ -11,6 +11,7 @@
         }
         .s3uu-info {
             width: 35px;
+            max-width: 35px;
         }
         .share_text {
             display: block !important;
@@ -18,7 +19,7 @@
         }
     }
     .theme-grey {
-        .shariff-info a {
+        .info a {
             background-color: #fff;
             &:hover {
                 background-color: #efefef;
@@ -26,13 +27,13 @@
         }
     }
     .orientation-vertical {
-        .shariff-info {
+        .info {
             width: 35px;
             float: left;
         }
     }
     .orientation-vertical.buttonsize-small {
-        .shariff-info {
+        .info {
             width: 25px;
             float: left;
         }
@@ -41,27 +42,29 @@
 
 @media only screen and (min-width: 360px) {
     .shariff {
-        .orientation-horizontal .shariff-info {
-            lex: none !important;
+        .orientation-horizontal .info {
+            flex: none !important;
             width: 35px;
             min-width: 35px;
+            max-width: 35px;
         }
-        .orientation-vertical .shariff-info {
+        .orientation-vertical .info {
             width: 35px;
         }
-        .orientation-vertical.buttonsize-small .shariff-info {
+        .orientation-vertical.buttonsize-small .info {
             width: 25px;
             .s3uu {
                 line-height: 24px;
-                width: 24px;
+                width: 23px;
             }
         }
-        .orientation-horizontal.buttonsize-small .shariff-info {
+        .orientation-horizontal.buttonsize-small .info {
             width: 25px;
             min-width: 25px;
+            max-width: 25px;
             .s3uu {
                 line-height: 24px;
-                width: 24px;
+                width: 23px;
             }
         }
     }
