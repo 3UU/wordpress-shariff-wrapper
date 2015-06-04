@@ -39,6 +39,8 @@ var Shariff = function(element, options) {
         var service;
         availableServices.forEach(function(availableService) {
             availableService = availableService(self);
+            // migrate 2.3.0 mail to mailform
+            if (serviceName === 'mail') { serviceName = 'mailform'; }
             if (availableService.name === serviceName) {
                 service = availableService;
                 return null;
