@@ -50,6 +50,47 @@ else {
 	$shariff3UU = array_merge( $shariff3UU_basic, $shariff3UU_design, $shariff3UU_advanced, $shariff3UU_mailform );
 }
 
+// allowed tags for headline
+	$allowed_tags = array(
+		// direct formatting e.g. <strong>
+		'strong' => array(),
+		'em'     => array(),
+		'b'      => array(),
+		'i'      => array(),
+		'br'     => array(),
+		// elements that can be formatted via CSS
+		'span' => array 
+			(
+				'class' => array(),
+				'style' => array(),
+				'id' => array()
+			),
+		'p' => array
+			(
+				'class' => array(),
+				'style' => array(),
+				'id' => array()
+			),
+		'h1' => array
+			(
+				'class' => array(),
+				'style' => array(),
+				'id' => array()
+			),
+		'h2' => array
+			(
+				'class' => array(),
+				'style' => array(),
+				'id' => array()
+			),
+		'hr' => array
+			(
+				'class' => array(),
+				'style' => array(),
+				'id' => array()
+			)
+	);
+
 // update function to perform tasks _once_ after an update, based on version number to work for automatic as well as manual updates
 function shariff3UU_update() {
 
@@ -249,9 +290,12 @@ function shariff3UU_options_init(){
 	add_settings_field( 'shariff3UU_radio_align_widget', __( 'Alignment of the Shariff buttons in the widget:', 'shariff3UU' ),
 		'shariff3UU_radio_align_widget_render', 'design', 'shariff3UU_design_section' );
 
+	// headline
+	add_settings_field( 'shariff3UU_text_headline', __( 'Headline above the Shariff buttons:', 'shariff3UU' ),
+		'shariff3UU_text_headline_render', 'design', 'shariff3UU_design_section' );
+
 	// custom css
-	add_settings_field(
-		'shariff3UU_text_style', __( 'CSS attributes for the container <span style="text-decoration: underline;">around</span> Shariff:', 'shariff3UU' ),
+	add_settings_field( 'shariff3UU_text_style', __( 'CSS attributes for the container <span style="text-decoration: underline;">around</span> Shariff:', 'shariff3UU' ),
 		'shariff3UU_text_style_render', 'design', 'shariff3UU_design_section' );
 
 	// third tab - advanced
@@ -293,7 +337,6 @@ function shariff3UU_options_init(){
 	// ttl
 	add_settings_field( 'shariff3UU_number_ttl', __( 'Cache TTL in seconds (60 - 7200):', 'shariff3UU' ),
 		'shariff3UU_number_ttl_render', 'advanced', 'shariff3UU_advanced_section' );
-
 
 	// fourth tab - mailform
 
@@ -372,6 +415,7 @@ function shariff3UU_design_sanitize( $input ) {
 	if ( isset( $input["align"] ) ) 				$valid["align"] 				= sanitize_text_field( $input["align"] );
 	if ( isset( $input["align_widget"] ) ) 			$valid["align_widget"] 			= sanitize_text_field( $input["align_widget"] );
 	if ( isset( $input["style"] ) ) 				$valid["style"] 				= sanitize_text_field( $input["style"] );
+	if ( isset( $input["headline"] ) ) 				$valid["headline"] 				= wp_kses( $input["headline"], $GLOBALS["allowed_tags"] );
 
 	// remove empty elements
 	$valid = array_filter($valid);
@@ -455,7 +499,7 @@ function shariff3UU_text_services_render(){
 	}
 	echo '<input type="text" name="shariff3UU_basic[services]" value="' . esc_html($services) . '" size="50" placeholder="twitter|facebook|googleplus|info">';
 	echo '<p><code>facebook|twitter|googleplus|whatsapp|pinterest|xing|linkedin|reddit|stumbleupon|flattr|mailform|mailto|printer|info</code></p>'; 
-	echo '<p>' . __( 'Use the pipe sign | (Alt Gr + &lt; or &#8997; + 7) between two or more services.', 'shariff3UU' ) . '</p></div>';
+	echo '<p>' . __( 'Use the pipe sign | (Alt Gr + &lt; or &#8997; + 7) between two or more services.', 'shariff3UU' ) . '</p>';
 }
 
 // add after
@@ -625,6 +669,18 @@ function shariff3UU_radio_align_widget_render() {
 	<div class="shariff_options-cell"><input type="radio" name="shariff3UU_design[align_widget]" value="center" ' .     checked( $options["align_widget"], "center", 0 )     . '>' . __( "center", "shariff3UU" ) . '</div>
 	<div class="shariff_options-cell"><input type="radio" name="shariff3UU_design[align_widget]" value="flex-end" ' .   checked( $options["align_widget"], "flex-end", 0 )   . '>' . __( "right", "shariff3UU" ) . '</div>
 	</div></div>';
+}
+
+// headline
+function shariff3UU_text_headline_render() {
+	if ( isset( $GLOBALS["shariff3UU_design"]["headline"] ) ) {
+		$headline = $GLOBALS["shariff3UU_design"]["headline"];
+	}
+	else {
+		$headline = '';
+	}
+	echo '<input type="text" name="shariff3UU_design[headline]" value="' . esc_html( $headline ) . '" size="50" placeholder="' . __( "Share this post", "shariff3UU" ) . '">';
+	echo __( '<p>Basic HTML as well as style and class attributes are allowed - e.g. <code>&lt;h1 class="shariff_headline"&gt;Share this post&lt;/h1&gt;</code></p>', "shariff3UU" );
 }
 
 // custom css
@@ -884,6 +940,14 @@ function shariff3UU_help_section_callback() {
 			echo '<div class="shariff_shortcode_cell">automatically selected by the browser</div>';
 			echo '<div class="shariff_shortcode_cell">[shariff lang="de"]</div>';
 			echo '<div class="shariff_shortcode_cell">' . __( 'Changes the language of the share buttons.', 'shariff3UU' ) . '</div>';
+		echo '</div>';
+		// headline
+		echo '<div class="shariff_shortcode_row">';
+			echo '<div class="shariff_shortcode_cell">headline</div>';
+			echo '<div class="shariff_shortcode_cell"></div>';
+			echo '<div class="shariff_shortcode_cell"></div>';
+			echo '<div class="shariff_shortcode_cell">[shariff headline="&lt;hr style=\'margin:20px 0\'&gt;&lt;p&gt;' . __( 'Please share this post:', 'shariff3UU' ) . '&lt;/p&gt;"]</div>';
+			echo '<div class="shariff_shortcode_cell">' . __( 'Adds a headline above the Shariff buttons. Basic HTML as well as style and class attributes can be used. To remove a headline set on the plugins options page use headline="".', 'shariff3UU' ) . '</div>';
 		echo '</div>';
 		// twitter_via
 		echo '<div class="shariff_shortcode_row">';
@@ -1729,12 +1793,31 @@ function Render3UUShariff( $atts, $content = null ) {
 
 	// the JS must be loaded at footer. Make sure that wp_footer() is present in your theme!
 	wp_enqueue_script( 'shariffjs', plugins_url( '/shariff.js', __FILE__ ), '', '', true );
+
+	// clean up headline in case it was used in a shorttag
+	if ( array_key_exists( 'headline', $atts ) ) {
+		$atts['headline'] = wp_kses( $atts['headline'], $GLOBALS["allowed_tags"] );
+	}
 	
 	// prevent an error notice while debug mode is on, because of "undefined variable" when using .=
 	$output = '';
 	
-	// if we have a style attribute, add it
-	if ( array_key_exists( 'style', $atts ) ) $output .= '<div class="ShariffSC" style="' . esc_html($atts['style']) . '">';
+	// if we have a style attribute and / or a headline, add it
+	if ( array_key_exists( 'style', $atts ) || array_key_exists( 'headline', $atts ) ) {
+		// container
+		$output .= '<div class="ShariffSC"';
+		// style attributes
+		if ( array_key_exists( 'style', $atts ) ) {
+			$output .= ' style="' . esc_html( $atts['style'] ) . '">';
+		}
+		else {
+			$output .= '>';
+		}
+		// headline
+		if ( array_key_exists( 'headline', $atts ) ) {
+			$output .= '<div class="ShariffHeadline">' . $atts['headline'] . '</div>';
+		}
+	}
 
 	// start output of actual shorttag
 	$output .= '<div class="shariff"';
@@ -1805,8 +1888,8 @@ function Render3UUShariff( $atts, $content = null ) {
 		$output .= '<div class="flattr_warning">' . __('Username for Flattr is missing!', 'shariff3UU') . '</div>';
 	}
 
-	// if we had a style attribute, close that too
-	if ( array_key_exists( 'style', $atts ) ) $output .= '</div>';
+	// if we had a style attribute or a headline, close that too
+	if ( array_key_exists( 'style', $atts ) || array_key_exists( 'headline', $atts ) ) $output .= '</div>';
 	
 	return $output;
 }
@@ -1861,11 +1944,13 @@ class ShariffWidget extends WP_Widget {
 	// save widget configuration
 	public function update($new_instance, $old_instance) {
 		$instance = $old_instance;
+
 		// widget conf defaults
-		$new_instance = wp_parse_args((array) $new_instance, array( 'shariff-title' => '', 'shariff-tag' => '[shariff]') );
+		$new_instance = wp_parse_args( (array) $new_instance, array( 'shariff-title' => '', 'shariff-tag' => '[shariff]') );
+
 		// check input values
-		$instance['shariff-title'] = (string) strip_tags($new_instance['shariff-title']);
-		$instance['shariff-tag'] = (string) strip_tags($new_instance['shariff-tag']);
+		$instance['shariff-title'] = (string) strip_tags( $new_instance['shariff-title'] );
+		$instance['shariff-tag'] = (string) wp_kses( $new_instance['shariff-tag'], $GLOBALS["allowed_tags"] );
 
 		// save config
 		return $instance;
@@ -1888,6 +1973,7 @@ class ShariffWidget extends WP_Widget {
 		}
 		else {
 			apply_filters( 'shariff-title', $instance['shariff-title'] );
+			$title = $instance['shariff-title'];
 		}
 		if ( ! empty( $title ) ) { 
 			echo $before_title . $title . $after_title;

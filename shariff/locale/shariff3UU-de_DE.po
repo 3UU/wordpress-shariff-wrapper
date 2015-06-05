@@ -48,6 +48,11 @@ msgstr "Füge den Inhalt der Beiträge in die E-Mail ein."
 
 #. Text in function
 #: shariff.php:1
+msgid "Adds a headline above the Shariff buttons. Basic HTML as well as style and class attributes can be used. To remove a headline set on the plugins options page use headline=\"\"."
+msgstr "Fügt eine Überschrift zu den Shariff-Buttons hinzu. Basis-HTML sowie style- und class-Attribute dürfen verwendet werden. Um eine Überschrift, die in den Plugin-Einstellungen gesetzt wurde, bei einzelnen Widgets zu entfernen, kann headline=\"\" verwendet werden"
+
+#. Text in function
+#: shariff.php:1
 msgid "Advanced"
 msgstr "Erweitert"
 
@@ -70,6 +75,11 @@ msgstr "Ausrichtung der Shariff-Buttons:"
 #: shariff.php:1
 msgid "Backend error."
 msgstr "Fehler im Backend."
+
+#. Text in function
+#: shariff.php:1
+msgid "<p>Basic HTML as well as style and class attributes are allowed - e.g. <code>&lt;h1 class=\"shariff_headline\"&gt;Share this post&lt;/h1&gt;</code></p>"
+msgstr "<p>Basis-HTML sowie style- und class-Attribute sind erlaubt - z.B. <code>&lt;h1 class=\"shariff_headline\"&gt;Teile diesen Beitrag&lt;/h1&gt;</code></p>"
 
 #. Text in function
 #: shariff.php:1
@@ -263,6 +273,11 @@ msgstr "Flattr-Benutzername:"
 
 #. Text in function
 #: shariff.php:1
+msgid "Headline above all Shariff buttons:"
+msgstr "Überschrift über allen Shariff-Buttons:"
+
+#. Text in function
+#: shariff.php:1
 msgid "Help"
 msgstr "Hilfe"
 
@@ -338,6 +353,11 @@ msgstr "Bitte überprüfe die "
 
 #. Text in function
 #: shariff.php:1
+msgid "Please share this post:"
+msgstr "Bitte teile diesen Beitrag:"
+
+#. Text in function
+#: shariff.php:1
 msgid "Posts"
 msgstr "Beiträgen"
 
@@ -380,6 +400,11 @@ msgstr "Bestimmt den Twitter-via-Tag."
 #: shariff.php:1
 msgid "Settings"
 msgstr "Einstellungen"
+
+#. Text in function
+#: shariff.php:1
+msgid "Share this post"
+msgstr "Teile diesen Beitrag"
 
 #. Text in function
 #: shariff.php:1
