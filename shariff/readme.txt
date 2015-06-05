@@ -94,6 +94,15 @@ A: No problem. Just use the style attribute to add some CSS to the shorttag. For
 `[shariff style="position:fixed;width:250px"]`
 Of course you can use all other options in that shorttag as well. It also works with the CSS style option on the plugins design options page, if you really want this applied to all buttons on your page.
 
+= Q: I want a horizontal line above my Shariff buttons! =
+A: You can use the headline option on the design tab. For example, enter the following code to create a horizontal line and a headline:
+`<hr style='margin:20px 0'><p>Please share this post:</p>`
+
+= Q: I want a different or no headline in a single widget, post or page! =
+A: Use the headline attribute to add or remove it. For example, you can use the following shorttag to remove a headline set on the plugins options page in a single widget:
+`[shariff headline=""]`
+Of course you can use all other options in that shorttag as well.
+
 = Q: Can I add [shariff] on all posts? =
 A: Yes, check out the plugin options page. 
 
@@ -146,6 +155,7 @@ A: Yes, take a look at the Mail Form tab on the plugin options page.
 - new backend status section
 - new option to use Facebook Graph API ID in case of rate limit problems
 - new option to stretch the buttons horizontally
+- new option to add a headline above the Shariff buttons
 - many new button languages
 - new default cache directory
 - fix creation of default cache directory in case it is not month / year based
