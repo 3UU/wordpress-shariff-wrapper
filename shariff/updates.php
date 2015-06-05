@@ -126,10 +126,7 @@ if ( version_compare( $GLOBALS["shariff3UU"]["version"], '2.2.5' ) == '-1' ) {
 	// update global
 	$GLOBALS["shariff3UU"] = array_merge( $GLOBALS["shariff3UU_basic"], $GLOBALS["shariff3UU_design"], $GLOBALS["shariff3UU_advanced"], $GLOBALS["shariff3UU_mailform"] );
 
-	// delete old db entry
-	delete_option( 'shariff3UU' );
-
-	// delete old cache directory
+	// delete old cache directory and db entry
 	
 	// check for multisite
 	if ( is_multisite() ) {
@@ -142,6 +139,8 @@ if ( version_compare( $GLOBALS["shariff3UU"]["version"], '2.2.5' ) == '-1' ) {
 				switch_to_blog( $blog['blog_id'] );
 				// delete cache dir
 				shariff_removeoldcachedir();
+				// delete old db entry
+				delete_option( 'shariff3UU' );
 				// switch back to main
 				restore_current_blog();
 			}
@@ -149,6 +148,8 @@ if ( version_compare( $GLOBALS["shariff3UU"]["version"], '2.2.5' ) == '-1' ) {
 	} else {
 		// delete cache dir
 		shariff_removeoldcachedir();
+		// delete old db entry
+		delete_option( 'shariff3UU' );
 	}
 
 	// update version
