@@ -881,6 +881,14 @@ function shariff3UU_help_section_callback() {
 	echo __( '<p>If you contact us about a problem with the share counts, please <u>always</u> include the information provided in the', 'shariff3UU' );
 	echo ' <a href="options-general.php?page=shariff3uu&tab=basic">';
 	echo __( 'status section</a>! This will help to speed up the process.</p>', 'shariff3UU' );
+	echo '<p>' . __( 'If you enjoy our plugin, please consider writing a review about it on ', 'shariff3UU' );
+	echo '<a href="https://wordpress.org/support/view/plugin-reviews/shariff" target="_blank">wordpress.org</a>';
+	echo __( '. If you want to support us financially, you can donate via ', 'shariff3UU' );
+	echo '<a href="http://folge.link/?bitcoin=1Ritz1iUaLaxuYcXhUCoFhkVRH6GWiMTP" target="_blank">Bitcoin</a> ';
+	echo __( 'and', 'shariff3UU' );
+	echo ' <a href="https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=5BASYVM96PZ3L" target="_blanK">PayPal</a>';
+	echo __( '. Thank you!', 'shariff3UU' );
+	echo '</p>';
 
 	echo __( '<p>This is a list of all available options for the <code>[shariff]</code> shortcode:</p>', 'shariff3UU' );
 	// shortcode table
