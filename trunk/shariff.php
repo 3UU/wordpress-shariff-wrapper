@@ -291,7 +291,7 @@ function shariff3UU_options_init(){
 		'shariff3UU_radio_align_widget_render', 'design', 'shariff3UU_design_section' );
 
 	// headline
-	add_settings_field( 'shariff3UU_text_headline', __( 'Headline above the Shariff buttons:', 'shariff3UU' ),
+	add_settings_field( 'shariff3UU_text_headline', __( 'Headline above all Shariff buttons:', 'shariff3UU' ),
 		'shariff3UU_text_headline_render', 'design', 'shariff3UU_design_section' );
 
 	// custom css
