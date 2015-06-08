@@ -1321,7 +1321,7 @@ function shariff3UUaddMailForm( $content, $error ) {
 		// if language is set to automatic try geoip
 		// http://datenverwurstungszentrale.com/stadt-und-land-mittels-geoip-ermitteln-268.htm
 		elseif ( function_exists('geoip_country_code_by_name') ) {
-			if ( WP_DEBUG == TRUE ) echo '<div>Currently using the following country code: ' . geoip_country_code_by_name( $_SERVER[REMOTE_ADDR] ) . '</div>';
+			if ( WP_DEBUG == TRUE ) echo '<div>Currently using the following country code: ' . geoip_country_code_by_name( $_SERVER["REMOTE_ADDR"] ) . '</div>';
 			switch ( @geoip_country_code_by_name( $_SERVER[REMOTE_ADDR] ) ) { 
 				case 'DE': $lang = 'DE'; 
 				break; 

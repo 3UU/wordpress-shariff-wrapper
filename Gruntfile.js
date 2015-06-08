@@ -159,7 +159,7 @@ module.exports = function(grunt) {
                     compress: true,
                 },
                 src: 'src/style/shariff.WP.less',
-                dest: 'build/shariff.min.local.css'
+                dest: 'build/css/shariff.min.local.css'
             },
             wpcss2: {
                 options: {
