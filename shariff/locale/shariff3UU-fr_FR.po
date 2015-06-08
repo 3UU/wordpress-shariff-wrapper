@@ -560,3 +560,23 @@ msgstr "Status-Bereich</a>! Dies hilft die Fehlersuche zu beschleunigen.</p>"
 #: shariff.php:1
 msgid "username"
 msgstr "Benutzername"
+
+#. Text in function
+#: shariff.php:1
+msgid "If you enjoy our plugin, please consider writing a review about it on "
+msgstr "Wenn dir unser Plugin gefällt, würden wir uns über eine Bewertung auf "
+
+#. Text in function
+#: shariff.php:1
+msgid ". If you want to support us financially, you can donate via "
+msgstr " freuen. Für finanzielle Unterstützung mittels einer Spende stehen "
+
+#. Text in function
+#: shariff.php:1
+msgid "and"
+msgstr "und"
+
+#. Text in function
+#: shariff.php:1
+msgid ". Thank you!"
+msgstr " zur Verfügung. Vielen Dank!"
