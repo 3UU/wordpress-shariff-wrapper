@@ -3,7 +3,7 @@
  * Plugin Name: Shariff Wrapper
  * Plugin URI: http://www.3uu.org/plugins.htm
  * Description: This is a wrapper to Shariff. It enables shares with Twitter, Facebook ... on posts, pages and themes with no harm for visitors privacy.
- * Version: 2.3.0
+ * Version: 2.3.1
  * Author: 3UU, JP
  * Author URI: http://www.DatenVerwurstungsZentrale.com/
  * License: http://opensource.org/licenses/MIT
@@ -95,7 +95,7 @@ else {
 function shariff3UU_update() {
 
 	/******************** ADJUST VERSION ********************/
-	$code_version = "2.3.0"; // set code version - needs to be adjusted for every new version!
+	$code_version = "2.3.1"; // set code version - needs to be adjusted for every new version!
 	/******************** ADJUST VERSION ********************/
 
 	// do we want to display an admin notice after the update?
@@ -881,6 +881,14 @@ function shariff3UU_help_section_callback() {
 	echo __( '<p>If you contact us about a problem with the share counts, please <u>always</u> include the information provided in the', 'shariff3UU' );
 	echo ' <a href="options-general.php?page=shariff3uu&tab=basic">';
 	echo __( 'status section</a>! This will help to speed up the process.</p>', 'shariff3UU' );
+	echo '<p>' . __( 'If you enjoy our plugin, please consider writing a review about it on ', 'shariff3UU' );
+	echo '<a href="https://wordpress.org/support/view/plugin-reviews/shariff" target="_blank">wordpress.org</a>';
+	echo __( '. If you want to support us financially, you can donate via ', 'shariff3UU' );
+	echo '<a href="http://folge.link/?bitcoin=1Ritz1iUaLaxuYcXhUCoFhkVRH6GWiMTP" target="_blank">Bitcoin</a> ';
+	echo __( 'and', 'shariff3UU' );
+	echo ' <a href="https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=5BASYVM96PZ3L" target="_blanK">PayPal</a>';
+	echo __( '. Thank you!', 'shariff3UU' );
+	echo '</p>';
 
 	echo __( '<p>This is a list of all available options for the <code>[shariff]</code> shortcode:</p>', 'shariff3UU' );
 	// shortcode table
@@ -1313,7 +1321,7 @@ function shariff3UUaddMailForm( $content, $error ) {
 		// if language is set to automatic try geoip
 		// http://datenverwurstungszentrale.com/stadt-und-land-mittels-geoip-ermitteln-268.htm
 		elseif ( function_exists('geoip_country_code_by_name') ) {
-			if ( WP_DEBUG == TRUE ) echo '<div>Currently using the following country code: ' . geoip_country_code_by_name( $_SERVER[REMOTE_ADDR] ) . '</div>';
+			if ( WP_DEBUG == TRUE ) echo '<div>Currently using the following country code: ' . geoip_country_code_by_name( $_SERVER["REMOTE_ADDR"] ) . '</div>';
 			switch ( @geoip_country_code_by_name( $_SERVER[REMOTE_ADDR] ) ) { 
 				case 'DE': $lang = 'DE'; 
 				break; 
