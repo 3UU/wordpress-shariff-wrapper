@@ -148,6 +148,10 @@ A: Yes, take a look at the Mail Form tab on the plugin options page.
 
 == Changelog ==
 
+= 2.3.1 =
+- fix facebook api (app id & secret)
+- fix CSS mailform label
+
 = 2.3.0 =
 - redesing of the plugins options page
 - mail form improved (a lot)
