@@ -1436,7 +1436,6 @@ function sharif3UUprocSentMail( $content ) {
 	$mf_content_mailto	= sanitize_text_field( $_REQUEST['mailto'] );
 	$mf_content_from	= sanitize_text_field( $_REQUEST['from'] );
 	$mf_content_sender	= sanitize_text_field( $_REQUEST['sender'] );
-	$mf_content_mail_comment= sanitize_text_field( $_REQUEST['mail_comment'] );
 	$mf_lang		= sanitize_text_field( $_REQUEST['lang'] );
 
 	// clean up comments
@@ -1452,7 +1451,7 @@ function sharif3UUprocSentMail( $content ) {
 		$error['mf_content_mailto']       = $mf_content_mailto;
 		$error['mf_content_from']         = $mf_content_from;
 		$error['mf_content_sender']       = $mf_content_sender;
-		$error['mf_content_mail_comment'] = $mf_content_mail_comment;
+		$error['mf_content_mail_comment'] = $mf_comment_content;
 
 		// rate limiter
 		$wait = limitRemoteUser();
