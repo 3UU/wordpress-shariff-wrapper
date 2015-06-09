@@ -2,35 +2,36 @@
 // strings for the e-mail form in French
 
 // mail form
-$mf_headline['FR'] 	 = 'Diesen Beitrag per E-Mail versenden';
-$mf_headinfo['FR'] 	 = 'Sie können maximal fünf Empf&auml;nger angeben. Diese bitte durch Kommas trennen.';
-$mf_rcpt['FR']		 = 'Empf&auml;nger E-Mail-Adresse(n)';
-$mf_rcpt_ph['FR']	 = 'empf&auml;nger@domain.de';
-$mf_from['FR']		 = 'Absender E-Mail-Adresse';
-$mf_from_ph['FR']	 = 'absender@domain.de';
-$mf_name['FR']		 = 'Name des Absenders (optional)';
-$mf_name_ph['FR']	 = 'Ihr Name';
-$mf_comment['FR']	 = 'Zusatztext (optional)';
-$mf_send['FR']		 = 'E-Mail senden';
-$mf_info['FR']		 = 'Die hier eingegebenen Daten werden nur dazu verwendet, die E-Mail in Ihrem Namen zu versenden. Sie werden nicht gespeichert und es erfolgt keine Weitergabe an Dritte oder eine Analyse zu Marketing-Zwecken.';
-$mf_optional['FR']	 = ' (optional)';
-$mf_wait1['FR']		 = 'Spam-Schutz: Bitte in ';
-$mf_wait2['FR']		 = ' Sekunden noch einmal versuchen!';
-$mf_to_error['FR']	 = 'Ungültige Empf&auml;nger-Adresse(n)!';
-$mf_from_error['FR'] = 'Ungültige Absender-Adresse!';
+$mf_headline['FR']	= 'Envoyer cet article par e-mail';
+$mf_headinfo['FR']	= 'Vous pouvez partager cet article avec 5 destinataires au maximum. Veuillez séparer chaque adresse par une virgule.';
+$mf_rcpt['FR']		= 'E-mail des destinataires';
+$mf_rcpt_ph['FR']	= 'destinataire@example.com';
+$mf_from['FR']		= "E-mail de l'expéditeur";
+$mf_from_ph['FR']	= 'expéditeur@example.com';
+$mf_name['FR']		= "Nom de l'expéditeur (optionel)";
+$mf_name_ph['FR']	= 'Votre nom';
+$mf_comment['FR']	= 'Message (optionel)';
+$mf_send['FR']		= 'envoyer e-mail';
+$mf_info['FR']		= 'Les données fournies ne seront pas utilisées pour envoyer des email en votre nom. Elles ne seront pas conservées, divulguées ou utilisées pour une analyse marketing.';
+$mf_optional['FR']	= ' (optionel)';
+$mf_wait['FR']		= 'Protecion contre les spam : Veuillez réessayer dans %d secondes!';
+$mf_to_error['FR']	= 'Erreur dans la(les) adresse(s) de destination !';
+$mf_from_error['FR']	= "Erreur dans l'adresse de l'expediteur!";
 
 // send confirmation
-$mf_mail_send['FR']  = 'Die E-Mail wurde erfolgreich gesendet an:';
+$mf_mail_send['FR']	= "L'e-mail a été envoyé avec succès à : ";
 
 // e-mail content
-$mf_mailbody1['FR']  = 'Der folgende Beitrag wurde Ihnen von ';
-$mf_mailbody2['FR']  = 'jemanden'; // will be replaced with a name, if provided
-$mf_mailbody3['FR']  = ' empfohlen:';
+$mf_mailbody1['FR']	= "L'article suivant vous a été envoyé par ";
+$mf_mailbody2['FR']	= "quelqu'un"; // will be replaced with a name, if provided
+$mf_mailbody3['FR']	= " : ";
 
 // e-mail footer
-$mf_footer['FR']     = 'Diese E-Mail wurde ueber das WordPress Plugin \"Shariff Wrapper\" versendet.\r\n';
-$mf_footer['FR']    .= 'Es wurde entwickelt, um die Privatsphaere der Webseitenbesucher zu schuetzen.\r\n';
-$mf_footer['FR']    .= 'Der Seitenbetreiber hat daher keine Moeglichkeit, naehere Angaben zum\r\n';
-$mf_footer['FR']    .= 'tatsaechlichen Absender dieser E-Mail zu geben.\r\n';
+//72                        123456789012345678901234567890123456789012345678901234567890123456789012
+$mf_footer['FR']	 = "Cet e-mail vous a été envoyé depuis le plugin Wordpress \"Shariff\r\n";
+$mf_footer['FR']	.= "Wrapper\". Il a été développé pour protéger les données privées de \r\n";
+$mf_footer['FR']	.= "l'internaute qui visite notre site.Le propriétaire n'a pas la \r\n";
+$mf_footer['FR']	.= "possibilité de donner des informations plus détaillées sur le \r\n";
+$mf_footer['FR']	.= "véritable expediteur de cet e-mail.\r\n";
 
 ?>

@@ -18,7 +18,7 @@ var Shariff = function(element, options) {
 
     // available services. /!\ Browserify can't require dynamically by now.
     var availableServices = [
-        include('./services/facebook.js'),
+        require('./services/facebook.js'),
         require('./services/googleplus.js'),
         require('./services/twitter.js'),
         require('./services/whatsapp.js'),
