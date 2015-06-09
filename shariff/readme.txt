@@ -147,8 +147,10 @@ A: mail was replaced with mailform to provide an easier way of distinguishing be
 A: Yes, take a look at the Mail Form tab on the plugin options page.
 
 == Changelog ==
+
 = 2.3.2 =
-- add frensh (thanks Charlotte) and italian (thanks Pier) translations to admin menue
+- add French (thanks Charlotte) and Italian (thanks Pier) translations
+- improve screen reader compatibility
 - fix: prefill mail_comment in case of an error
 - fix: do not send more than 1 email as CC. Use a new mail for all recipients.
 - fix: fallback to English at the email form only if language is not supported by this plugin
