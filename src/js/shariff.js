@@ -18,20 +18,20 @@ var Shariff = function(element, options) {
 
     // available services. /!\ Browserify can't require dynamically by now.
     var availableServices = [
-        require('./services/facebook'),
-        require('./services/googleplus'),
-        require('./services/twitter'),
-        require('./services/whatsapp'),
-        require('./services/mailform'),
-        require('./services/info'),
-        require('./services/mailto'),
-        require('./services/linkedin'),
-        require('./services/xing'),
-        require('./services/pinterest'),
-        require('./services/reddit'),
-        require('./services/stumbleupon'),
-        require('./services/printer'),
-        require('./services/flattr'),
+        include('./services/facebook.js'),
+        require('./services/googleplus.js'),
+        require('./services/twitter.js'),
+        require('./services/whatsapp.js'),
+        require('./services/mailform.js'),
+        require('./services/info.js'),
+        require('./services/mailto.js'),
+        require('./services/linkedin.js'),
+        require('./services/xing.js'),
+        require('./services/pinterest.js'),
+        require('./services/reddit.js'),
+        require('./services/stumbleupon.js'),
+        require('./services/printer.js'),
+        require('./services/flattr.js'),
     ];
 
     // filter available services to those that are enabled and initialize them
