@@ -152,6 +152,9 @@ if ( version_compare( $GLOBALS["shariff3UU"]["version"], '2.2.5' ) == '-1' ) {
 		delete_option( 'shariff3UU' );
 	}
 
+	// display update notice
+	$do_admin_notice = true;
+
 	// update version
 	$GLOBALS["shariff3UU"]["version"] = '2.3.0';
 }
