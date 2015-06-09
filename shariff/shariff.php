@@ -1464,6 +1464,7 @@ function sharif3UUprocSentMail( $content ) {
 			 } elseif ( ! empty( $mf_content_from ) ) 					{ add_filter( 'wp_mail_from_name', 'set2_wp_mail_from_name' );
 			 } elseif ( ! empty( $GLOBALS["shariff3UU_mailform"]["mail_sender_name"] ) ) 	{ add_filter( 'wp_mail_from_name', 'set3_wp_mail_from_name' );
 			 } else 									{ add_filter( 'wp_mail_from_name', 'set4_wp_mail_from_name' ); }
+			 // also hier drüber haste jetzt zwar 7 Zeilen eingespart, aber du kannst mir nicht erzählen, dass das jetzt besser zu lesen ist ;-)
 
 			 // Achtung: NICHT die Absenderadresse selber umschreiben! 
 			 // Das fuehrt bei allen sauber aufgesetzten Absender-MTAs zu Problemen mit SPF und/oder DKIM.
