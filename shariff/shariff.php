@@ -95,11 +95,11 @@ else {
 function shariff3UU_update() {
 
 	/******************** ADJUST VERSION ********************/
-	$code_version = "2.3.1"; // set code version - needs to be adjusted for every new version!
+	$code_version = "2.3.2"; // set code version - needs to be adjusted for every new version!
 	/******************** ADJUST VERSION ********************/
 
 	// do we want to display an admin notice after the update?
-	$do_admin_notice = true;
+	$do_admin_notice = false;
 
 	// check if the installed version is older than the code version
 	if( empty( $GLOBALS["shariff3UU"]["version"] ) || ( isset( $GLOBALS["shariff3UU"]["version"] ) && version_compare( $GLOBALS["shariff3UU"]["version"], $code_version ) == '-1' ) ) {
@@ -1432,12 +1432,11 @@ function sharif3UUprocSentMail( $content ) {
 	// optional auf eingeloggte User beschraenken, dann aber auch nicht allgemein anzeigen
 
 	// get vars from form
-	$mf_nonce		= sanitize_text_field( $_REQUEST['shariff_mf_nonce'] );
-	$mf_content_mailto	= sanitize_text_field( $_REQUEST['mailto'] );
-	$mf_content_from	= sanitize_text_field( $_REQUEST['from'] );
-	$mf_content_sender	= sanitize_text_field( $_REQUEST['sender'] );
-	$mf_content_mail_comment= sanitize_text_field( $_REQUEST['mail_comment'] );
-	$mf_lang		= sanitize_text_field( $_REQUEST['lang'] );
+	$mf_nonce           = sanitize_text_field( $_REQUEST['shariff_mf_nonce'] );
+	$mf_content_mailto  = sanitize_text_field( $_REQUEST['mailto'] );
+	$mf_content_from    = sanitize_text_field( $_REQUEST['from'] );
+	$mf_content_sender  = sanitize_text_field( $_REQUEST['sender'] );
+	$mf_lang            = sanitize_text_field( $_REQUEST['lang'] );
 
 	// clean up comments
 	$mf_comment_content = $_REQUEST['mail_comment'] ;
@@ -1452,7 +1451,7 @@ function sharif3UUprocSentMail( $content ) {
 		$error['mf_content_mailto']       = $mf_content_mailto;
 		$error['mf_content_from']         = $mf_content_from;
 		$error['mf_content_sender']       = $mf_content_sender;
-		$error['mf_content_mail_comment'] = $mf_content_mail_comment;
+		$error['mf_content_mail_comment'] = $mf_comment_content;
 
 		// rate limiter
 		$wait = limitRemoteUser();
@@ -1465,6 +1464,7 @@ function sharif3UUprocSentMail( $content ) {
 			 } elseif ( ! empty( $mf_content_from ) ) 					{ add_filter( 'wp_mail_from_name', 'set2_wp_mail_from_name' );
 			 } elseif ( ! empty( $GLOBALS["shariff3UU_mailform"]["mail_sender_name"] ) ) 	{ add_filter( 'wp_mail_from_name', 'set3_wp_mail_from_name' );
 			 } else 									{ add_filter( 'wp_mail_from_name', 'set4_wp_mail_from_name' ); }
+			 // also hier drüber haste jetzt zwar 7 Zeilen eingespart, aber du kannst mir nicht erzählen, dass das jetzt besser zu lesen ist ;-)
 
 			 // Achtung: NICHT die Absenderadresse selber umschreiben! 
 			 // Das fuehrt bei allen sauber aufgesetzten Absender-MTAs zu Problemen mit SPF und/oder DKIM.
