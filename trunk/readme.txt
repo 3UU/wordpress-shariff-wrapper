@@ -148,6 +148,14 @@ A: Yes, take a look at the Mail Form tab on the plugin options page.
 
 == Changelog ==
 
+= 2.3.2 =
+- add French (thanks Charlotte) and Italian (thanks Pier) translations
+- improve screen reader compatibility
+- fix: prefill mail_comment in case of an error
+- fix: do not send more than 1 email as CC. Use a new mail for all recipients.
+- fix: fallback to English at the email form only if language is not supported by this plugin
+- cleanup mf_wait + extend time to wait of robots blocker to 2 sec 
+
 = 2.3.1 =
 - fix facebook api (app id & secret)
 - fix CSS mailform label
