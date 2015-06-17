@@ -1,6 +1,6 @@
 
 /*!
- * shariff - v1.14.0 - 10.06.2015
+ * shariff - v1.14.0 - 16.06.2015
  * https://github.com/heiseonline/shariff
  * Copyright (c) 2015 Ines Pauer, Philipp Busse, Sebastian Hilbig, Erich Kramer, Deniz Sesli
  * Licensed under the MIT <http://www.opensource.org/licenses/mit-license.php> license
@@ -62,7 +62,7 @@ function Url(){this.protocol=null,this.slashes=null,this.auth=null,this.host=nul
 
 
 },{}],14:[function(require,module,exports){
-"use strict";module.exports=function(e){var t=encodeURIComponent(e.getURL()),n=e.getMeta("DC.title"),i=e.getMeta("DC.creator");return n.length>0&&i.length>0?n+=" - "+i:n=e.getTitle(),{popup:!0,mobileonly:!1,shareText:{de:"pinnen",en:"pin it"},name:"pinterest",faName:"s3uu-pinterest",title:{de:"Bei Pinterest pinnen",en:"Pin it on Pinterest",es:"Compartir en Pinterest",fr:"Partager sur Pinterest",it:"Condividi su Pinterest",da:"Del på Pinterest",nl:"Delen op Pinterest"},shareUrl:"https://www.pinterest.com/pin/create/button/?url="+t+e.getReferrerTrack()+"&media="+e.getMedia()+"&description="+encodeURIComponent(n)}};
+"use strict";module.exports=function(e){var t=encodeURIComponent(e.getURL()),n=e.getMeta("DC.title"),i=e.getMeta("DC.creator");return n.length>0&&i.length>0?n+=" - "+i:n=e.getTitle(),{popup:!0,mobileonly:!1,shareText:{de:"pinnen",en:"pin it"},name:"pinterest",faName:"s3uu-pinterest",title:{de:"Bei Pinterest pinnen",en:"Pin it on Pinterest",es:"Compartir en Pinterest",fr:"Partager sur Pinterest",it:"Condividi su Pinterest",da:"Del på Pinterest",nl:"Delen op Pinterest"},shareUrl:"https://www.pinterest.com/pin/create/link/?url="+t+e.getReferrerTrack()+"&media="+e.getMedia()+"&description="+encodeURIComponent(n)}};
 
 
 },{}],15:[function(require,module,exports){
