@@ -148,6 +148,10 @@ A: Yes, take a look at the Mail Form tab on the plugin options page.
 
 == Changelog ==
 
+= 2.3.3 =
+- fix Pinterest button, if pinit.js is present
+- small css fixes
+
 = 2.3.2 =
 - add French (thanks Charlotte) and Italian (thanks Pier) translations
 - improve screen reader compatibility
