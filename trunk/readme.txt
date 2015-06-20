@@ -147,6 +147,8 @@ A: mail was replaced with mailform to provide an easier way of distinguishing be
 A: Yes, take a look at the Mail Form tab on the plugin options page.
 
 == Changelog ==
+= 2.3.4 =
+- add Italian language to the mailform
 
 = 2.3.3 =
 - fix Pinterest button, if pinit.js is present

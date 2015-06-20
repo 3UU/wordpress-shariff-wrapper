@@ -3,7 +3,7 @@
  * Plugin Name: Shariff Wrapper
  * Plugin URI: http://www.3uu.org/plugins.htm
  * Description: This is a wrapper to Shariff. It enables shares with Twitter, Facebook ... on posts, pages and themes with no harm for visitors privacy.
- * Version: 2.3.3
+ * Version: 2.3.4
  * Author: 3UU, JP
  * Author URI: http://www.DatenVerwurstungsZentrale.com/
  * License: http://opensource.org/licenses/MIT
@@ -35,11 +35,7 @@ if ( is_admin() ){
 // get options (needed for front- and backend)
 if ( ! get_option( 'shariff3UU_basic' ) ) {
 	// version < 2.3
-	$shariff3UU = get_option( 'shariff3UU' );
-	$shariff3UU_basic = array();
-	$shariff3UU_design = array();
-	$shariff3UU_advanced = array();
-	$shariff3UU_mailform = array();
+	$shariff3UU = get_option( 'shariff3UU' ); $shariff3UU_basic = array(); $shariff3UU_design = array(); $shariff3UU_advanced = array(); $shariff3UU_mailform = array();
 }
 else {
 	// version >= 2.3
@@ -95,7 +91,7 @@ else {
 function shariff3UU_update() {
 
 	/******************** ADJUST VERSION ********************/
-	$code_version = "2.3.3"; // set code version - needs to be adjusted for every new version!
+	$code_version = "2.3.4"; // set code version - needs to be adjusted for every new version!
 	/******************** ADJUST VERSION ********************/
 
 	// do we want to display an admin notice after the update?
