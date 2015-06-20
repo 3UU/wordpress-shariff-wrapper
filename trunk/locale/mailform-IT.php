@@ -4,7 +4,7 @@
 // mail form
 $mf_headline['IT']	= 'Condividi questo articolo via email';
 $mf_headinfo['IT']	= 'Puoi inserire fino a cinque destinatari. Seperali con una virgola.';
-$mf_rcpt['IT']		= 'E-mail address of the recipient(s)';
+$mf_rcpt['IT']		= 'Indirizzo e-mail del(i) destinatario(i)';
 $mf_rcpt_ph['IT']	= 'destinatario@example.com';
 $mf_from['IT']		= 'Indirizzo e-mail del mittente';
 $mf_from_ph['IT']	= 'mittente@example.com';
