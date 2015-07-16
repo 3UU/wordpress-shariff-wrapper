@@ -1796,11 +1796,21 @@ function Render3UUShariff( $atts, $content = null ) {
 	else $output .= ' data-title="' . get_the_title() . '"';
 			
 	// set the options
+
 	if ( array_key_exists( 'info_url', $atts ) )    $output .= ' data-info-url="' .		esc_html( $atts['info_url'] ) . '"';
 	if ( array_key_exists( 'orientation', $atts ) ) $output .= ' data-orientation="' .	esc_html( $atts['orientation'] ) . '"';
 	if ( array_key_exists( 'theme', $atts ) )       $output .= ' data-theme="' .		esc_html( $atts['theme'] ) . '"';
-	// rtzTodo: use geoip if possible
-	if ( array_key_exists( 'language', $atts ) )    $output .= ' data-lang="' .			esc_html( $atts['language']) . '"';
+
+	// if no language is set, try http_negotiate_language otherwise fallback language in JS is used
+	if ( array_key_exists( 'language', $atts ) ) { 
+		$output .= ' data-lang="' . esc_html( $atts['language']) . '"';
+	}
+	elseif ( function_exists('http_negotiate_language') ) {
+		$available_lang = array( 'en', 'de', 'fr', 'es', 'zh', 'hr', 'da', 'nl', 'fi', 'it', 'ja', 'ko', 'no', 'pl', 'pt', 'ro', 'ru', 'sk', 'sl', 'sr', 'sv', 'tr', );
+		$lang = http_negotiate_language( $available_lang );
+		$output .= ' data-lang="' . esc_html( $lang ) . '"';
+	}
+
 	if ( array_key_exists( 'twitter_via', $atts ) ) $output .= ' data-twitter-via="' .	esc_html( $atts['twitter_via']) . '"';
 	if ( array_key_exists( 'flattruser', $atts ) )  $output .= ' data-flattruser="' .	esc_html( $atts['flattruser']) . '"';
 	if ( array_key_exists( 'buttonsize', $atts ) )  $output .= ' data-buttonsize="' .	esc_html( $atts['buttonsize']) . '"';
