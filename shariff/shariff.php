@@ -1793,7 +1793,7 @@ function Render3UUShariff( $atts, $content = null ) {
 			
 	// same for the title attribute
 	if ( array_key_exists( 'title', $atts ) ) $output .= ' data-title="' . esc_html($atts['title']) . '"';
-	else $output .= ' data-title="' . get_the_title() . '"';
+	else $output .= ' data-title="' . strip_tags( get_the_title() ) . '"';
 			
 	// set the options
 
