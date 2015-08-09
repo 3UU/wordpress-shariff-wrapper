@@ -32,6 +32,10 @@ var Shariff = function(element, options) {
         require('./services/stumbleupon.js'),
         require('./services/printer.js'),
         require('./services/flattr.js'),
+        require('./services/paypal.js'),
+        require('./services/bitcoin.js'),
+        require('./services/tumblr.js'),
+        require('./services/patreon.js'),
     ];
 
     // filter available services to those that are enabled and initialize them
@@ -248,7 +252,7 @@ Shariff.prototype = {
             var windowName = '_blank';
             var windowSizeX = '1000';
             var windowSizeY = '500';
-            var windowSize = 'width=' + windowSizeX + ',height=' + windowSizeY;
+            var windowSize = 'width=' + windowSizeX + ',height=' + windowSizeY + ',scrollbars=yes';
 
             global.window.open(url, windowName, windowSize);
 

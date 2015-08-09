@@ -1,15 +1,14 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Shariff Wrapper for Wordpress\n"
-"PO-Revision-Date: 2015-04-27 23:13+0100\n"
-"Last-Translator: sands <sands@sm-circus.com>\n"
+"PO-Revision-Date: 2015-08-09 21:48+0100\n"
+"Last-Translator: JP\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "X-Poedit-SourceCharset: utf-8\n"
 "X-Poedit-KeywordsList: __;_e;__ngettext:1,2;_n:1,2;__ngettext_noop:1,2;_n_noop:1,2;_c,_nc:4c,1,2;_x:1,2c;_ex:1,2c;_nx:4c,1,2;_nx_noop:4c,1,2\n"
 "X-Textdomain-Support: yes\n"
-"X-Poedit-SearchPath-0: .\n"
 "Project-Id-Version: \n"
 "POT-Creation-Date: \n"
 "PO-Revision-Date: \n"
@@ -18,7 +17,9 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "X-Generator: Poedit 1.8.1\n"
 "Language: de_DE\n"
+"X-Poedit-SearchPath-0: .\n"
 
+# @ shariff3UU
 #. Text in function
 #: shariff.php:1
 msgid "<p>If you contact us about a problem with the share counts, please <u>always</u> include the information provided in the"
@@ -700,3 +701,75 @@ msgstr "und"
 #: shariff.php:1
 msgid ". Thank you!"
 msgstr " zur Verfügung. Vielen Dank!"
+
+# @ shariff3UU
+#. Text in function
+#: shariff.php:1
+msgid "PayPal hosted button ID:"
+msgstr "PayPal Hosted-Button-ID:"
+
+# @ shariff3UU
+#. Text in function
+#: shariff.php:1
+msgid "Patreon username:"
+msgstr "Patreon-Benutzername:"
+
+# @ shariff3UU
+#. Text in function
+#: shariff.php:1
+msgid "Bitcoin address:"
+msgstr "Bitcoin-Adresse:"
+
+# @ shariff3UU
+#. Text in function
+#: shariff.php:1
+msgid "Shariff-Settings</a> - Patreon was selected, but no username was provided! Please enter your <strong>Patreon username</strong> in the shariff options!"
+msgstr "Shariff-Einstellungen</a> - Patreon wurde als Dienst ausgewählt, aber kein Benutzername eingetragen! Bitte in den Shariff-Einstellungen einen <b>Patreon-Benutzernamen</b> festlegen!"
+
+# @ shariff3UU
+#. Text in function
+#: shariff.php:1
+msgid "Shariff-Settings</a> - PayPal was selected, but no button ID was provided! Please enter your <strong>Hosted Button ID</strong> in the shariff options!"
+msgstr "Shariff-Einstellungen</a> - PayPal wurde als Dienst ausgewählt, aber keine Button-ID eingetragen! Bitte in den Shariff-Einstellungen eine <b>Hosted-Button-ID</b> festlegen!"
+
+# @ shariff3UU
+#. Text in function
+#: shariff.php:1
+msgid "Shariff-Settings</a> - Bitcoin was selected, but no address was provided! Please enter your <strong>Bitcoin Address</strong> in the shariff options!"
+msgstr "Shariff-Einstellungen</a> - Bitcoin wurde als Dienst ausgewählt, aber keine Adresse eingetragen! Bitte in den Shariff-Einstellungen eine <b>Bitcoin-Adresse</b> festlegen!"
+
+# @ shariff3UU
+#. Text in function
+#: shariff.php:1
+msgid "Username for patreon is missing!"
+msgstr "Benutzername für Patreon fehlt!"
+
+# @ shariff3UU
+#. Text in function
+#: shariff.php:1
+msgid "Button ID for PayPal is missing!"
+msgstr "Button-ID für PayPal fehlt!"
+
+# @ shariff3UU
+#. Text in function
+#: shariff.php:1
+msgid "Address for Bitcoin is missing!"
+msgstr "Adresse für Bitcoin fehlt!"
+
+# @ shariff3UU
+#. Text in function
+#: shariff.php:1
+msgid "Sets the Patreon username."
+msgstr "Legt den Patreon-Benutzernamen fest."
+
+# @ shariff3UU
+#. Text in function
+#: shariff.php:1
+msgid "Sets the PayPal hosted button ID."
+msgstr "Legt die PayPal Hosted-Button-ID fest."
+
+# @ shariff3UU
+#. Text in function
+#: shariff.php:1
+msgid "Sets the bitcoin address."
+msgstr "Legt die Bitcoin-Adresse fest."

@@ -40,7 +40,8 @@ class Application {
 														"5"=>"Flattr",
 														"6"=>"StumbleUpon",
 														"7"=>"Pinterest",
-														"8"=>"Xing");
+														"8"=>"Xing",
+														"9"=>"Tumblr");
 	
 	// force a short init because we only need WP core
 	define( 'SHORTINIT', true );
@@ -49,7 +50,7 @@ class Application {
 	$wp_root_path = dirname( dirname( dirname( dirname( dirname( __FILE__ ) ) ) ) );
 	
 	// include the config
-	include ( $wp_root_path . '/wp-config.php' );         
+	include ( $wp_root_path . '/wp-config.php' );  
 	
 	// include wp-load.php file (that loads wp-config.php and bootstraps WP)
 	require ( $wp_root_path . '/wp-load.php' );
