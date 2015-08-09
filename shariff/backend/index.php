@@ -99,6 +99,12 @@ class Application {
 	// final check that temp dir is usuable
 	if ( ! is_writable( $tmp["cache"]["cacheDir"] ) ) die( "No usable tmp dir found. Please check " . $tmp["cache"]["cacheDir"] );
 
+	// use proxy if set in wp_config.php
+	if ( defined( 'WP_PROXY_HOST' ) && defined( 'WP_PROXY_PORT' ) ) {
+		$tmp["client"]["curl"]["CURLOPT_PROXY"] = WP_PROXY_HOST;
+		$tmp["client"]["curl"]["CURLOPT_PROXYPORT"] = WP_PROXY_PORT;
+	}
+
 	// start backend
 	$shariff = new Backend( $tmp );
 
