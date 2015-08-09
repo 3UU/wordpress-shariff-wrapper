@@ -148,7 +148,7 @@ A: Yes, take a look at the Mail Form tab on the plugin options page.
 
 == Changelog ==
 = 2.4.0 =
-- ensure compatibility to WordPress 4.3 - please update asap!
+- ensure compatibility to WordPress 4.3
 - new service Tumblr
 - new service Patreon
 - new service PayPal
