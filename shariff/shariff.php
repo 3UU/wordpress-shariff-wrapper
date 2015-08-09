@@ -513,7 +513,8 @@ function shariff3UU_text_services_render(){
 		$services = '';
 	}
 	echo '<input type="text" name="shariff3UU_basic[services]" value="' . esc_html($services) . '" size="50" placeholder="twitter|facebook|googleplus|info">';
-	echo '<p><code>facebook|twitter|googleplus|whatsapp|pinterest|xing|linkedin|reddit|stumbleupon|flattr|mailform|mailto|printer|info</code></p>'; 
+	echo '<p><code>facebook|twitter|googleplus|whatsapp|pinterest|xing|linkedin|reddit</code></p>';
+	echo '<p><code>stumbleupon|tumblr|flattr|patreon|paypal|bitcoin|mailform|mailto|printer|info</code></p>'; 
 	echo '<p>' . __( 'Use the pipe sign | (Alt Gr + &lt; or &#8997; + 7) between two or more services.', 'shariff3UU' ) . '</p>';
 }
 
@@ -954,7 +955,7 @@ function shariff3UU_help_section_callback() {
 		// services
 		echo '<div class="shariff_shortcode_row">';
 			echo '<div class="shariff_shortcode_cell">services</div>';
-			echo '<div class="shariff_shortcode_cell">facebook<br>twitter<br>googleplus<br>whatsapp<br>pinterest<br>xing<br>linkedin<br>reddit<br>stumbleupon<br>flattr<br>mailform<br>mailto<br>printer<br>info</div>';
+			echo '<div class="shariff_shortcode_cell">facebook<br>twitter<br>googleplus<br>whatsapp<br>pinterest<br>xing<br>linkedin<br>reddit<br>stumbleupon<br>tumblr<br>flattr<br>patreon<br>paypal<br>bitcoin<br>mailform<br>mailto<br>printer<br>info</div>';
 			echo '<div class="shariff_shortcode_cell">twitter|facebook|googleplus|info</div>';
 			echo '<div class="shariff_shortcode_cell">[shariff theme="facebook|twitter|mailform"]</div>';
 			echo '<div class="shariff_shortcode_cell">' . __( 'Determines which buttons to show and in which order.', 'shariff3UU' ) . '</div>';
