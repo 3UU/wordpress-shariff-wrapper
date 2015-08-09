@@ -51,6 +51,9 @@ class Application {
 	
 	// include the config
 	include ( $wp_root_path . '/wp-config.php' );  
+
+	// include for ms-functions.php for MS
+	require ( $wp_root_path . '/wp-includes/ms-functions.php' );
 	
 	// include wp-load.php file (that loads wp-config.php and bootstraps WP)
 	require ( $wp_root_path . '/wp-load.php' );
