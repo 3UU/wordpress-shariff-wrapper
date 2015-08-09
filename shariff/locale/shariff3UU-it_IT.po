@@ -662,3 +662,9 @@ msgstr "Imposta il PayPal hosted button ID."
 #: shariff.php:1
 msgid "Sets the bitcoin address."
 msgstr "Imposta il Bitcoin indirizzo."
+
+# @ shariff3UU
+#. Text in function
+#: shariff.php:1
+msgid "bbPress replies"
+msgstr "bbPress risposte"
