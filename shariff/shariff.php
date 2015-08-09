@@ -539,6 +539,11 @@ function shariff3UU_multiplecheckbox_add_after_render() {
 	echo '<p><input type="checkbox" name="shariff3UU_basic[add_after][custom_type]" ';
 	if ( isset( $GLOBALS["shariff3UU_basic"]["add_after"]["custom_type"] ) ) echo checked( $GLOBALS["shariff3UU_basic"]["add_after"]["custom_type"], 1, 0 );
 	echo ' value="1">' . __('Extension pages (e.g. product sites)', 'shariff3UU') . '</p>';
+
+	// add after all bbpress replies
+	echo '<p><input type="checkbox" name="shariff3UU_basic[add_after][bbp_reply]" ';
+	if ( isset( $GLOBALS["shariff3UU_basic"]["add_after"]["bbp_reply"] ) ) echo checked( $GLOBALS["shariff3UU_basic"]["add_after"]["bbp_reply"], 1, 0 );
+	echo ' value="1">' . __('bbPress replies', 'shariff3UU') . '</p>';
 }
 
 // add before
@@ -1753,6 +1758,27 @@ function shariffPosts( $content ) {
 	return $content;
 }
 add_filter( 'the_content', 'shariffPosts' );
+
+// add mailform to bbpress_replies
+function bbp_add_mailform_to_bbpress_replies() {
+	$content = '';
+	// prepend the mail form
+	if ( isset( $_REQUEST['view'] ) && $_REQUEST['view'] == 'mail' ) {
+		// only add to single posts view
+		$content = shariff3UUaddMailForm( $content, '0' );
+	}
+	// send the email
+	if ( isset( $_REQUEST['act'] ) && $_REQUEST['act'] == 'sendMail' ) $content = sharif3UUprocSentMail( $content );
+	echo $content;
+}
+add_action('bbp_theme_after_reply_content', 'bbp_add_mailform_to_bbpress_replies');
+
+// add shariff buttons after bbpress replies
+function bbp_add_shariff_after_replies() {
+	$shariff3UU = $GLOBALS["shariff3UU"];
+	if( isset( $shariff3UU["add_after"]["bbp_reply"] ) && $shariff3UU["add_after"]["bbp_reply"] == '1') echo Render3UUShariff( '' );
+}
+add_action('bbp_theme_after_reply_content', 'bbp_add_shariff_after_replies');
 
 // add the align-style options to the css file and the button stretch
 function shariff3UU_align_styles() {
