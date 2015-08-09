@@ -2000,7 +2000,7 @@ class ShariffWidget extends WP_Widget {
 			);
 
 		$control_options = array();
-		$this->WP_Widget('Shariff', 'Shariff', $widget_options, $control_options);
+		parent::__construct('Shariff', 'Shariff', $widget_options, $control_options);
 	} // END __construct()
 
 	// widget form - see WP_Widget::form()
