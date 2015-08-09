@@ -19,16 +19,12 @@ msgstr "<p>Se ci contattate per un problema sul contatore di condivisione (share
 #. Text in function
 #: shariff.php:1
 msgid ""
-"<p>The WordPress plugin \"Shariff Wrapper\" has been developed by <a href=\"http://www.datenverwurstungszentrale.com\" target=\"_blank\">3UU</a> and <a href=\"https://twitter.com/"
-"jplambeck\" target=_blank\">JP</a> in order to help protect the privacy of your visitors. It is based on the original Shariff buttons developed by the German computer magazin <a href="
-"\"http://ct.de/shariff\" target=\"_blank\">c't</a> that fullfill the strict data protection laws in Germany. If you need any help with the plugin, take a look at the <a href="
-"\"https://wordpress.org/plugins/shariff/faq/\" target=\"_blank\">Frequently Asked Questions (FAQ)</a> and the <a href=\"https://wordpress.org/support/plugin/shariff\" target=\"_blank"
+"<p>The WordPress plugin \"Shariff Wrapper\" has been developed by <a href=\"http://www.datenverwurstungszentrale.com\" target=\"_blank\">3UU</a> and <a href=\"https://www.jplambeck.de\" target=_blank\">JP</a> in order to help protect the privacy of your visitors. It is based on the original Shariff buttons developed by the German computer magazin <a href="
+"\"http://ct.de/shariff\" target=\"_blank\">c't</a> that fullfill the strict data protection laws in Germany. If you need any help with the plugin, take a look at the <a href=\"https://wordpress.org/plugins/shariff/faq/\" target=\"_blank\">Frequently Asked Questions (FAQ)</a> and the <a href=\"https://wordpress.org/support/plugin/shariff\" target=\"_blank"
 "\">Support Forum</a>. For up to date news about the plugin you can also follow <a href=\"https://twitter.com/jplambeck\" target=_blank\">@jplambeck</a> on Twitter.</p>"
 msgstr ""
-"<p>Il plugin Wordpress \"Shariff Wrapper\" è stato sviluppato da <a href=\"http://www.datenverwurstungszentrale.com\" target=\"_blank\">3UU</a> e <a href=\"https://twitter.com/"
-"jplambeck\" target=_blank\">JP</a> al fine di proteggere la privacy dei visitatori. E' basato sull'originale Shariff-Buttons sviluppato dalla Computer Magazin tedesca <a href="
-"\"http://ct.de/shariff\" target=\"_blank\">c't</a>, che rispetta le severe leggi sulla protezione dei dati in Germania. Per qualunque problema con il plugin, date un'occhiata alle <a "
-"href=\"https://wordpress.org/plugins/shariff/faq/\" target=\"_blank\">Frequently Asked Questions (FAQ)</a> ed al <a href=\"https://wordpress.org/support/plugin/shariff\" target="
+"<p>Il plugin Wordpress \"Shariff Wrapper\" è stato sviluppato da <a href=\"http://www.datenverwurstungszentrale.com\" target=\"_blank\">3UU</a> e <a href=\"https://www.jplambeck.de\" target=_blank\">JP</a> al fine di proteggere la privacy dei visitatori. E' basato sull'originale Shariff-Buttons sviluppato dalla Computer Magazin tedesca <a href=\"http://"
+"ct.de/shariff\" target=\"_blank\">c't</a>, che rispetta le severe leggi sulla protezione dei dati in Germania. Per qualunque problema con il plugin, date un'occhiata alle <a href=\"https://wordpress.org/plugins/shariff/faq/\" target=\"_blank\">Frequently Asked Questions (FAQ)</a> ed al <a href=\"https://wordpress.org/support/plugin/shariff\" target="
 "\"_blank\">Support Forum</a>. Per informazioni aggiornate sul plugin potete seguire <a href=\"https://twitter.com/jplambeck\" target=_blank\">@jplambeck</a> su Twitter.</p>"
 
 #. Text in function
@@ -59,9 +55,7 @@ msgstr "Aggiungi il contenuto dell'articolo nel corpo dell'e-mail."
 #. Text in function
 #: shariff.php:1
 msgid "Adds a headline above the Shariff buttons. Basic HTML as well as style and class attributes can be used. To remove a headline set on the plugins options page use headline=\"\"."
-msgstr ""
-"Aggiunge un titolo sopra i pulsanti Shariff. E' possibile utilizzare HTML base, come pure attributi di stile e classe. Per rimuovere un titolo impostato nelle opzioni del plugin "
-"utilizzare il titolo=\"\"."
+msgstr "Aggiunge un titolo sopra i pulsanti Shariff. E' possibile utilizzare HTML base, come pure attributi di stile e classe. Per rimuovere un titolo impostato nelle opzioni del plugin utilizzare il titolo=\"\"."
 
 #. Text in function
 #: shariff.php:1
@@ -391,9 +385,7 @@ msgstr "Richiesto indirizzo e-mail del mittente."
 #. Text in function
 #: shariff.php:1
 msgid "Select the desired services in the order you want them to be displayed, where the Shariff buttons should be included automatically and if you want the share counts to be shown."
-msgstr ""
-"Selezionare i servizi desiderati nell'ordine in cui si preferisce che siano visualizzati, dove i pulsanti Shariff devono essere inclusi automaticamente e se si desidera che siano "
-"visualizzate le statistiche di condivisione (share counts)."
+msgstr "Selezionare i servizi desiderati nell'ordine in cui si preferisce che siano visualizzati, dove i pulsanti Shariff devono essere inclusi automaticamente e se si desidera che siano visualizzate le statistiche di condivisione (share counts)."
 
 #. Text in function
 #: shariff.php:1
@@ -482,12 +474,8 @@ msgstr "Forum di supporto</a>."
 
 #. Text in function
 #: shariff.php:1
-msgid ""
-"The mail form can be completely disabled, if not needed. Otherwise, it is recommended to configure a default sender e-mail address from <u>your domain</u> that actually exists, to "
-"prevent spam filters from blocking the e-mails."
-msgstr ""
-"Il modulo mail può essere totalmente disabilitato, se non utilizzato. Viceversa si consiglia di impostare un indirizzo e-mail predefinito per il mittente con il <u>tuo dominio</u> "
-"che esista realmente, al fine di prevenire il blocco delle email da parte dei filtri anti-spam."
+msgid "The mail form can be completely disabled, if not needed. Otherwise, it is recommended to configure a default sender e-mail address from <u>your domain</u> that actually exists, to prevent spam filters from blocking the e-mails."
+msgstr "Il modulo mail può essere totalmente disabilitato, se non utilizzato. Viceversa si consiglia di impostare un indirizzo e-mail predefinito per il mittente con il <u>tuo dominio</u> che esista realmente, al fine di prevenire il blocco delle email da parte dei filtri anti-spam."
 
 #. Text in function
 #: shariff.php:1
@@ -511,12 +499,8 @@ msgstr "Definisce le opzioni avanzate di Shariff in relazione a specifici serviz
 
 #. Text in function
 #: shariff.php:1
-msgid ""
-"This configures the default design of the Shariff buttons. Most options can be overwritten for single posts or pages with the options within the <code>[shariff]</code> shorttag. For "
-"more information have a look at the "
-msgstr ""
-"Definisce l'aspetto generale dei pulsanti Shariff. Per i singoli articoli o pagine la maggior parte delle opzioni possono essere sovrascritte tramite lo shortcode <code>[Shariff]</"
-"code> ed i relativi attributi. Per maggiori informazioni consultare la "
+msgid "This configures the default design of the Shariff buttons. Most options can be overwritten for single posts or pages with the options within the <code>[shariff]</code> shorttag. For more information have a look at the "
+msgstr "Definisce l'aspetto generale dei pulsanti Shariff. Per i singoli articoli o pagine la maggior parte delle opzioni possono essere sovrascritte tramite lo shortcode <code>[Shariff]</code> ed i relativi attributi. Per maggiori informazioni consultare la "
 
 #. Text in function
 #: shariff.php:1
