@@ -1,5 +1,8 @@
 <?php
-define( 'WP_DEBUG', false );
+// set WP_DEBUG to false to avoid errors, if it hasn't been already set
+if ( ! defined( 'WP_DEBUG' ) ) {
+	define( 'WP_DEBUG', false );
+}
 
 // prevent caching
 header( "Expires: Sat, 24 Jan 1970 04:10:00 GMT" ); // date from the past
