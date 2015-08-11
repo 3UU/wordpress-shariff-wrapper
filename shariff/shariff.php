@@ -999,10 +999,10 @@ function shariff3UU_help_section_callback() {
 		echo '</div>';
 		// language
 		echo '<div class="shariff_shortcode_row">';
-			echo '<div class="shariff_shortcode_cell">lang</div>';
+			echo '<div class="shariff_shortcode_cell">language</div>';
 			echo '<div class="shariff_shortcode_cell">da, de, en, es, fi, fr, hr, hu, it, ja, ko, nl, no, pl, pt, ro, ru, sk, sl, sr, sv, tr, zh</div>';
 			echo '<div class="shariff_shortcode_cell">automatically selected by the browser</div>';
-			echo '<div class="shariff_shortcode_cell">[shariff lang="de"]</div>';
+			echo '<div class="shariff_shortcode_cell">[shariff language="de"]</div>';
 			echo '<div class="shariff_shortcode_cell">' . __( 'Changes the language of the share buttons.', 'shariff3UU' ) . '</div>';
 		echo '</div>';
 		// headline
