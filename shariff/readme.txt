@@ -156,8 +156,11 @@ A: Yes, take a look at the Mail Form tab on the plugin options page.
 - new supporting bbpress
 - new using proxy settings from wp_config (thanks to Shogathu)
 - fix automatic button language
+- fix button language for Facebook
 - fix problems with plugin "Hide Title"
 - fix backend (statistic) for multisite environments
+- fix backend (statistic) if WP_DEBUG is set to true
+- fix language info in help section
 - update to Heise version 1.16.0
 - remove unnesseray guzzle docs
 
