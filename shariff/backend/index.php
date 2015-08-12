@@ -56,12 +56,6 @@ class Application {
 	// include wp-load.php file (that loads wp-config.php and bootstraps WP)
 	require ( $wp_root_path . '/wp-load.php' );
 	
-	// include link-template.php for site_url()
-	require ( $wp_root_path . '/wp-includes/link-template.php' );
-	
-	// set WP_CONTENT_URL
-	if ( ! defined( 'WP_CONTENT_URL' ) ) define( 'WP_CONTENT_URL', site_url( 'wp-content') );
-	
 	// get fb app id and secret and ttl
 	$shariff3UU_advanced = (array) get_option( 'shariff3UU_advanced' );
 
