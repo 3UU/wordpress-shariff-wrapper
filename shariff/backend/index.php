@@ -1,9 +1,4 @@
 <?php
-// set WP_DEBUG to false to avoid errors, if it hasn't been already set
-if ( ! defined( 'WP_DEBUG' ) ) {
-	define( 'WP_DEBUG', false );
-}
-
 // prevent caching
 header( "Expires: Sat, 24 Jan 1970 04:10:00 GMT" ); // date from the past
 header( "Last-Modified: " . gmdate("D, d M Y H:i:s" ) . " GMT" ); // always changed
@@ -49,21 +44,24 @@ class Application {
 	// force a short init because we only need WP core
 	define( 'SHORTINIT', true );
 	
-	// build the wp-load/-config.php path
+	// build the wp-load.php path
 	$wp_root_path = dirname( dirname( dirname( dirname( dirname( __FILE__ ) ) ) ) );
 	
-	// include the config
-	include ( $wp_root_path . '/wp-config.php' );  
-
-	// include for ms-functions.php for MS
+	// include ms-functions.php for MS
 	require ( $wp_root_path . '/wp-includes/ms-functions.php' );
+	
+	// include formatting.php for untrailingslashit()
+	require ( $wp_root_path . '/wp-includes/formatting.php' );
 	
 	// include wp-load.php file (that loads wp-config.php and bootstraps WP)
 	require ( $wp_root_path . '/wp-load.php' );
 	
-	// include for needed untrailingslashit()
-	require ( $wp_root_path . '/wp-includes/formatting.php' );
-
+	// include link-template.php for site_url()
+	require ( $wp_root_path . '/wp-includes/link-template.php' );
+	
+	// set WP_CONTENT_URL
+	if ( ! defined( 'WP_CONTENT_URL' ) ) define( 'WP_CONTENT_URL', site_url( 'wp-content') );
+	
 	// get fb app id and secret and ttl
 	$shariff3UU_advanced = (array) get_option( 'shariff3UU_advanced' );
 
