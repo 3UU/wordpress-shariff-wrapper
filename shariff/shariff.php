@@ -1101,7 +1101,9 @@ function shariff3UU_status_section_callback() {
 	// check if statistic is enabled
 	if( ! isset( $GLOBALS['shariff3UU_basic']['backend'] ) ) {
 		// statistic disabled message
-		echo '<div class="shariff_status-cell"><span class="shariff_status-disabled">' . __( 'Disabled', 'shariff3UU' ) . '</span></div>';
+		echo '<div class="shariff_status-table">';
+		echo '<div class="shariff_status-row"><div class="shariff_status-cell"><span class="shariff_status-disabled">' . __( 'Disabled', 'shariff3UU' ) . '</span></div></div>';
+		echo '</div>';
 		// end statistic row, if statistic is disabled
 		echo '</div>';
 	}
@@ -1263,20 +1265,29 @@ function shariff3UU_status_section_callback() {
 		}
 	}
 
-        // GD needed for QR codes of the Bitcoin links
-        echo '<div class="shariff_status-row">';
-	        echo '<div class="shariff_status-cell">' . __( 'GD lib:', 'shariff3UU' ) . '</div>';
-	        echo '<div class="shariff_status-cell">';
-	        if(function_exists('gd_info')){
-	        	$tmpGDinfo=gd_info();
-			echo '<div class="shariff_status-row"><div class="shariff_status-cell"><span class="shariff_status-ok">' . __( 'OK', 'shariff3UU' ) . '</span> '.$tmpGDinfo["GD Version"].'</div></div>';
-		}else{
-        	        echo '<div class="shariff_status-row"><div class="shariff_status-cell">GD missing! This is needed by the Bitcon QR-code only.</div></div>';
-	        }
-	        echo '</div>';
-        echo '</div>';
-        # END GD needed for QR codes of the Bitcoin links
-                                                                                                                                                                                                                
+	// GD needed for QR codes of the Bitcoin links
+	echo '<div class="shariff_status-row">';
+	echo '<div class="shariff_status-cell">' . __( 'GD Library:', 'shariff3UU' ) . '</div>';
+	// working message
+	if ( function_exists( 'gd_info' ) ) {
+		$tmpGDinfo = gd_info();
+		echo '<div class="shariff_status-cell">';
+			echo '<div style="display: table">';
+				echo '<div class="shariff_status-row"><div class="shariff_status-cell"><span class="shariff_status-ok">' . __( 'OK', 'shariff3UU' ) . '</span></div></div>';
+				echo '<div class="shariff_status-row"><div class="shariff_status-cell">Version: ' . $tmpGDinfo["GD Version"] . '</div></div>';
+			echo '</div>';
+		echo '</div>';
+	}
+	else {
+		echo '<div class="shariff_status-cell">';
+			echo '<div style="display: table">';
+				echo '<div class="shariff_status-row"><div class="shariff_status-cell"><span class="shariff_status-error">' . __( 'Error', 'shariff3UU' ) . '</span></div></div>';
+				echo '<div class="shariff_status-row"><div class="shariff_status-cell">' . __( 'The GD Library is not installed on this server. This is only needed for the QR codes, if your are using the bitcoin button.', 'shariff3UU' ) . '</div></div>';
+			echo '</div>';
+		echo '</div>';
+	}
+	echo '</div>';
+                                                                                                                                                                                                
 	// end status table
 	echo '</div>';
 }

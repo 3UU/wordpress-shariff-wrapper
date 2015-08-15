@@ -668,3 +668,9 @@ msgstr "Imposta il Bitcoin indirizzo."
 #: shariff.php:1
 msgid "bbPress replies"
 msgstr "bbPress risposte"
+
+# @ shariff3UU
+#. Text in function
+#: shariff.php:1
+msgid "The GD Library is not installed on this server. This is only needed for the QR codes, if your are using the bitcoin button."
+msgstr "La Biblioteca GD non è installato su questo server. Questo è necessario solo per i codici QR, se si sta usando il tasto bitcoin."
