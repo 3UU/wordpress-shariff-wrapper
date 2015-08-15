@@ -1137,6 +1137,7 @@ function shariff3UU_status_section_callback() {
 			echo '</div>';
 			// end statistic row, if working correctly
 			echo '</div>';
+		
 			// Facebook row
 			echo '<div class="shariff_status-row">';
 			echo '<div class="shariff_status-cell">' . __( 'Facebook:', 'shariff3UU' ) . '</div>';
@@ -1261,6 +1262,21 @@ function shariff3UU_status_section_callback() {
 			echo '</div>';
 		}
 	}
+
+        // GD needed for QR codes of the Bitcoin links
+        echo '<div class="shariff_status-row">';
+	        echo '<div class="shariff_status-cell">' . __( 'GD lib:', 'shariff3UU' ) . '</div>';
+	        echo '<div class="shariff_status-cell">';
+	        if(function_exists('gd_info')){
+	        	$tmpGDinfo=gd_info();
+			echo '<div class="shariff_status-row"><div class="shariff_status-cell"><span class="shariff_status-ok">' . __( 'OK', 'shariff3UU' ) . '</span> '.$tmpGDinfo["GD Version"].'</div></div>';
+		}else{
+        	        echo '<div class="shariff_status-row"><div class="shariff_status-cell">GD missing! This is needed by the Bitcon QR-code only.</div></div>';
+	        }
+	        echo '</div>';
+        echo '</div>';
+        # END GD needed for QR codes of the Bitcoin links
+                                                                                                                                                                                                                
 	// end status table
 	echo '</div>';
 }
@@ -1401,7 +1417,7 @@ function shariff3UUaddMailForm( $content, $error ) {
 		// if language is set to automatic try geoip
 		// http://datenverwurstungszentrale.com/stadt-und-land-mittels-geoip-ermitteln-268.htm
 		elseif ( function_exists('geoip_country_code_by_name') ) {
-			if ( WP_DEBUG == TRUE ) echo '<div>Currently using the following country code: ' . geoip_country_code_by_name( $_SERVER["REMOTE_ADDR"] ) . '</div>';
+#			if ( WP_DEBUG == TRUE ) echo '<div>Currently using the following country code: ' . geoip_country_code_by_name( $_SERVER["REMOTE_ADDR"] ) . '</div>';
 			switch ( @geoip_country_code_by_name( $_SERVER[REMOTE_ADDR] ) ) { 
 				case 'DE': $lang = 'DE'; 
 				break; 
