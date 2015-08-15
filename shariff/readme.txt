@@ -2,7 +2,7 @@
 Contributors: 3UU, starguide
 Tags: Twitter, Facebook, GooglePlus, sharebutton, sharing, privacy, social, whatsapp
 Requires at least: 3.0.1
-Tested up to: 4.2
+Tested up to: 4.3
 Stable tag: trunk
 License: MIT
 License URI: http://opensource.org/licenses/MIT
@@ -147,6 +147,23 @@ A: mail was replaced with mailform to provide an easier way of distinguishing be
 A: Yes, take a look at the Mail Form tab on the plugin options page.
 
 == Changelog ==
+= 2.4.0 =
+- ensure compatibility to WordPress 4.3
+- new service Tumblr
+- new service Patreon
+- new service PayPal
+- new service Bitcoin
+- new supporting bbpress
+- new using proxy settings from wp_config (thanks to Shogathu)
+- fix automatic button language
+- fix button language for Facebook
+- fix problems with plugin "Hide Title"
+- fix backend (statistic) for multisite environments
+- fix backend (statistic) if WP_DEBUG is set to true
+- fix language info in help section
+- update to Heise version 1.16.0
+- remove unnesseray guzzle docs
+
 = 2.3.4 =
 - add Italian language to the mailform
 

@@ -1,6 +1,4 @@
 <?php
-define( 'WP_DEBUG', false );
-
 // prevent caching
 header( "Expires: Sat, 24 Jan 1970 04:10:00 GMT" ); // date from the past
 header( "Last-Modified: " . gmdate("D, d M Y H:i:s" ) . " GMT" ); // always changed
@@ -40,23 +38,30 @@ class Application {
 														"5"=>"Flattr",
 														"6"=>"StumbleUpon",
 														"7"=>"Pinterest",
-														"8"=>"Xing");
+														"8"=>"Xing",
+														"9"=>"Tumblr");
 	
 	// force a short init because we only need WP core
 	define( 'SHORTINIT', true );
 	
-	// build the wp-load/-config.php path
+	// build the wp-load.php path
 	$wp_root_path = dirname( dirname( dirname( dirname( dirname( __FILE__ ) ) ) ) );
 	
-	// include the config
-	include ( $wp_root_path . '/wp-config.php' );         
+	// include ms-functions.php for MS
+	require ( $wp_root_path . '/wp-includes/ms-functions.php' );
+	
+	// include formatting.php for untrailingslashit()
+	require ( $wp_root_path . '/wp-includes/formatting.php' );
 	
 	// include wp-load.php file (that loads wp-config.php and bootstraps WP)
 	require ( $wp_root_path . '/wp-load.php' );
 	
-	// include for needed untrailingslashit()
-	require ( $wp_root_path . '/wp-includes/formatting.php' );
+    // include link-template.php for site_url()
+	require ( $wp_root_path . '/wp-includes/link-template.php' );
 
+	// set WP_CONTENT_URL
+	if ( ! defined( 'WP_CONTENT_URL' ) ) define( 'WP_CONTENT_URL', site_url( 'wp-content') );
+	
 	// get fb app id and secret and ttl
 	$shariff3UU_advanced = (array) get_option( 'shariff3UU_advanced' );
 
@@ -94,6 +99,12 @@ class Application {
 
 	// final check that temp dir is usuable
 	if ( ! is_writable( $tmp["cache"]["cacheDir"] ) ) die( "No usable tmp dir found. Please check " . $tmp["cache"]["cacheDir"] );
+
+	// use proxy if set in wp_config.php
+	if ( defined( 'WP_PROXY_HOST' ) && defined( 'WP_PROXY_PORT' ) ) {
+		$tmp["client"]["curl"]["CURLOPT_PROXY"] = WP_PROXY_HOST;
+		$tmp["client"]["curl"]["CURLOPT_PROXYPORT"] = WP_PROXY_PORT;
+	}
 
 	// start backend
 	$shariff = new Backend( $tmp );
