@@ -124,9 +124,12 @@ A: In this case edit your themes style.css to include
     font-family: "shariff3uu";
     font-style: normal;
     font-weight: 400;
-    src: url("http://www.YOUR-DOMAIN.com/wp-content/plugins/shariff/fonts/shariff3uu.eot") format("embedded-opentype"), url("http://YOUR-DOMAIN.com/wp-content/plugins/shariff/fonts/shariff3uu.woff") format("woff"), url("http://www.YOUR-DOMAIN.com/wp-content/plugins/shariff/fonts/shariff3uu.ttf") format("truetype"), url("http://www.YOUR-DOMAIN.com/wp-content/plugins/shariff/fonts/shariff3uu.svg") format("svg");
+    src: url("http://www.EXAMPLE.com/wp-content/plugins/shariff/fonts/shariff3uu.eot") format("embedded-opentype"),
+         url("http://www.EXAMPLE.com/wp-content/plugins/shariff/fonts/shariff3uu.woff") format("woff"),
+         url("http://www.EXAMPLE.com/wp-content/plugins/shariff/fonts/shariff3uu.ttf") format("truetype"),
+         url("http://www.EXAMPLE.com/wp-content/plugins/shariff/fonts/shariff3uu.svg") format("svg");
 }`
-Be sure to replace www.YOUR_DOMAIN.de!
+Be sure to replace www.EXAMPLE.com!
 
 = Q: Pinterest does not show an image =
 A: You can add media="http://wwww.example.com/yourImage.png"
@@ -147,6 +150,11 @@ A: mail was replaced with mailform to provide an easier way of distinguishing be
 A: Yes, take a look at the Mail Form tab on the plugin options page.
 
 == Changelog ==
+= 2.4.1 =
+- fix: lang attribute
+- nicer support hints about GD lib
+- cleanup readme.txt
+
 = 2.4.0 =
 - ensure compatibility to WordPress 4.3
 - new service Tumblr

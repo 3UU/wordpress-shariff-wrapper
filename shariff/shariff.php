@@ -3,7 +3,7 @@
  * Plugin Name: Shariff Wrapper
  * Plugin URI: http://www.3uu.org/plugins.htm
  * Description: This is a wrapper to Shariff. It enables shares with Twitter, Facebook ... on posts, pages and themes with no harm for visitors privacy.
- * Version: 2.4.0
+ * Version: 2.4.1
  * Author: 3UU, JP
  * Author URI: http://www.DatenVerwurstungsZentrale.com/
  * License: http://opensource.org/licenses/MIT
@@ -91,7 +91,7 @@ else {
 function shariff3UU_update() {
 
 	/******************** ADJUST VERSION ********************/
-	$code_version = "2.4.0"; // set code version - needs to be adjusted for every new version!
+	$code_version = "2.4.1"; // set code version - needs to be adjusted for every new version!
 	/******************** ADJUST VERSION ********************/
 
 	// do we want to display an admin notice after the update?
@@ -418,15 +418,15 @@ function shariff3UU_design_sanitize( $input ) {
 	// create array
 	$valid = array();
 
-	if ( isset( $input["language"] ) ) 				$valid["language"] 				= sanitize_text_field( $input["language"] );
-	if ( isset( $input["theme"] ) ) 				$valid["theme"] 				= sanitize_text_field( $input["theme"] );
+	if ( isset( $input["lang"] ) ) 				$valid["lang"] 				= sanitize_text_field( $input["lang"] );
+	if ( isset( $input["theme"] ) ) 			$valid["theme"] 			= sanitize_text_field( $input["theme"] );
 	if ( isset( $input["buttonsize"] ) )			$valid["buttonsize"]			= absint( $input["buttonsize"] );
 	if ( isset( $input["buttonstretch"] ) )			$valid["buttonstretch"]			= absint( $input["buttonstretch"] );
-	if ( isset( $input["vertical"] ) ) 				$valid["vertical"] 				= absint( $input["vertical"] );
-	if ( isset( $input["align"] ) ) 				$valid["align"] 				= sanitize_text_field( $input["align"] );
+	if ( isset( $input["vertical"] ) ) 			$valid["vertical"] 			= absint( $input["vertical"] );
+	if ( isset( $input["align"] ) ) 			$valid["align"] 			= sanitize_text_field( $input["align"] );
 	if ( isset( $input["align_widget"] ) ) 			$valid["align_widget"] 			= sanitize_text_field( $input["align_widget"] );
-	if ( isset( $input["style"] ) ) 				$valid["style"] 				= sanitize_text_field( $input["style"] );
-	if ( isset( $input["headline"] ) ) 				$valid["headline"] 				= wp_kses( $input["headline"], $GLOBALS["allowed_tags"] );
+	if ( isset( $input["style"] ) ) 			$valid["style"] 			= sanitize_text_field( $input["style"] );
+	if ( isset( $input["headline"] ) ) 			$valid["headline"] 			= wp_kses( $input["headline"], $GLOBALS["allowed_tags"] );
 
 	// remove empty elements
 	$valid = array_filter($valid);
@@ -1002,7 +1002,7 @@ function shariff3UU_help_section_callback() {
 			echo '<div class="shariff_shortcode_cell">language</div>';
 			echo '<div class="shariff_shortcode_cell">da, de, en, es, fi, fr, hr, hu, it, ja, ko, nl, no, pl, pt, ro, ru, sk, sl, sr, sv, tr, zh</div>';
 			echo '<div class="shariff_shortcode_cell">automatically selected by the browser</div>';
-			echo '<div class="shariff_shortcode_cell">[shariff language="de"]</div>';
+			echo '<div class="shariff_shortcode_cell">[shariff lang="de"]</div>';
 			echo '<div class="shariff_shortcode_cell">' . __( 'Changes the language of the share buttons.', 'shariff3UU' ) . '</div>';
 		echo '</div>';
 		// headline
@@ -1932,8 +1932,8 @@ function Render3UUShariff( $atts, $content = null ) {
 	if ( array_key_exists( 'theme', $atts ) )       $output .= ' data-theme="' .		esc_html( $atts['theme'] ) . '"';
 
 	// if no language is set, try http_negotiate_language otherwise fallback language in JS is used
-	if ( array_key_exists( 'language', $atts ) ) { 
-		$output .= ' data-lang="' . esc_html( $atts['language']) . '"';
+	if ( array_key_exists( 'lang', $atts ) ) { 
+		$output .= ' data-lang="' . esc_html( $atts['lang']) . '"';
 	}
 	elseif ( function_exists('http_negotiate_language') ) {
 		$available_lang = array( 'en', 'de', 'fr', 'es', 'zh', 'hr', 'da', 'nl', 'fi', 'it', 'ja', 'ko', 'no', 'pl', 'pt', 'ro', 'ru', 'sk', 'sl', 'sr', 'sv', 'tr', );
