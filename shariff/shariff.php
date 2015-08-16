@@ -3,7 +3,7 @@
  * Plugin Name: Shariff Wrapper
  * Plugin URI: http://www.3uu.org/plugins.htm
  * Description: This is a wrapper to Shariff. It enables shares with Twitter, Facebook ... on posts, pages and themes with no harm for visitors privacy.
- * Version: 2.4.1
+ * Version: 2.4.2
  * Author: 3UU, JP
  * Author URI: http://www.DatenVerwurstungsZentrale.com/
  * License: http://opensource.org/licenses/MIT
@@ -91,7 +91,7 @@ else {
 function shariff3UU_update() {
 
 	/******************** ADJUST VERSION ********************/
-	$code_version = "2.4.1"; // set code version - needs to be adjusted for every new version!
+	$code_version = "2.4.2"; // set code version - needs to be adjusted for every new version!
 	/******************** ADJUST VERSION ********************/
 
 	// do we want to display an admin notice after the update?
@@ -155,6 +155,9 @@ function shariff3UU_update() {
 		// set new version
 		$GLOBALS["shariff3UU"]["version"] = $code_version;
 		$GLOBALS["shariff3UU_basic"]["version"] = $code_version;
+
+		// set update notice true / false
+		$GLOBALS["shariff3UU"]["update_notice"] = $do_admin_notice;
 
 		// remove empty elements and save to options table
 
@@ -604,31 +607,31 @@ function shariff3UU_design_section_callback(){
 // language
 function shariff3UU_select_language_render() {
 	$options = $GLOBALS["shariff3UU_design"]; 
-	if ( ! isset( $options["language"] ) ) $options["language"] = '';
-	echo '<select name="shariff3UU_design[language]">
-	<option value="" ' .   selected( $options["language"], "", 0 ) . '>' . __( "auto", "shariff3UU") . '</option>
-	<option value="en" ' . selected( $options["language"], "en", 0 ) . '>English</option>
-	<option value="de" ' . selected( $options["language"], "de", 0 ) . '>Deutsch</option>
-	<option value="fr" ' . selected( $options["language"], "fr", 0 ) . '>Français</option>
-	<option value="es" ' . selected( $options["language"], "es", 0 ) . '>Español</option>
-	<option value="zh" ' . selected( $options["language"], "zh", 0 ) . '>Chinese</option>
-	<option value="hr" ' . selected( $options["language"], "hr", 0 ) . '>Croatian</option>
-	<option value="da" ' . selected( $options["language"], "da", 0 ) . '>Danish</option>
-	<option value="nl" ' . selected( $options["language"], "nl", 0 ) . '>Dutch</option>
-	<option value="fi" ' . selected( $options["language"], "fi", 0 ) . '>Finnish</option>
-	<option value="it" ' . selected( $options["language"], "it", 0 ) . '>Italiano</option>
-	<option value="ja" ' . selected( $options["language"], "ja", 0 ) . '>Japanese</option>
-	<option value="ko" ' . selected( $options["language"], "ko", 0 ) . '>Korean</option>
-	<option value="no" ' . selected( $options["language"], "no", 0 ) . '>Norwegian</option>
-	<option value="pl" ' . selected( $options["language"], "pl", 0 ) . '>Polish</option>
-	<option value="pt" ' . selected( $options["language"], "pt", 0 ) . '>Portuguese</option>
-	<option value="ro" ' . selected( $options["language"], "ro", 0 ) . '>Romanian</option>
-	<option value="ru" ' . selected( $options["language"], "ru", 0 ) . '>Russian</option>
-	<option value="sk" ' . selected( $options["language"], "sk", 0 ) . '>Slovak</option>
-	<option value="sl" ' . selected( $options["language"], "sl", 0 ) . '>Slovene</option>
-	<option value="sr" ' . selected( $options["language"], "sr", 0 ) . '>Serbian</option>
-	<option value="sv" ' . selected( $options["language"], "sv", 0 ) . '>Swedish</option>
-	<option value="tr" ' . selected( $options["language"], "tr", 0 ) . '>Turkish</option>
+	if ( ! isset( $options["lang"] ) ) $options["lang"] = '';
+	echo '<select name="shariff3UU_design[lang]">
+	<option value="" ' .   selected( $options["lang"], "", 0 ) . '>' . __( "auto", "shariff3UU") . '</option>
+	<option value="en" ' . selected( $options["lang"], "en", 0 ) . '>English</option>
+	<option value="de" ' . selected( $options["lang"], "de", 0 ) . '>Deutsch</option>
+	<option value="fr" ' . selected( $options["lang"], "fr", 0 ) . '>Français</option>
+	<option value="es" ' . selected( $options["lang"], "es", 0 ) . '>Español</option>
+	<option value="zh" ' . selected( $options["lang"], "zh", 0 ) . '>Chinese</option>
+	<option value="hr" ' . selected( $options["lang"], "hr", 0 ) . '>Croatian</option>
+	<option value="da" ' . selected( $options["lang"], "da", 0 ) . '>Danish</option>
+	<option value="nl" ' . selected( $options["lang"], "nl", 0 ) . '>Dutch</option>
+	<option value="fi" ' . selected( $options["lang"], "fi", 0 ) . '>Finnish</option>
+	<option value="it" ' . selected( $options["lang"], "it", 0 ) . '>Italiano</option>
+	<option value="ja" ' . selected( $options["lang"], "ja", 0 ) . '>Japanese</option>
+	<option value="ko" ' . selected( $options["lang"], "ko", 0 ) . '>Korean</option>
+	<option value="no" ' . selected( $options["lang"], "no", 0 ) . '>Norwegian</option>
+	<option value="pl" ' . selected( $options["lang"], "pl", 0 ) . '>Polish</option>
+	<option value="pt" ' . selected( $options["lang"], "pt", 0 ) . '>Portuguese</option>
+	<option value="ro" ' . selected( $options["lang"], "ro", 0 ) . '>Romanian</option>
+	<option value="ru" ' . selected( $options["lang"], "ru", 0 ) . '>Russian</option>
+	<option value="sk" ' . selected( $options["lang"], "sk", 0 ) . '>Slovak</option>
+	<option value="sl" ' . selected( $options["lang"], "sl", 0 ) . '>Slovene</option>
+	<option value="sr" ' . selected( $options["lang"], "sr", 0 ) . '>Serbian</option>
+	<option value="sv" ' . selected( $options["lang"], "sv", 0 ) . '>Swedish</option>
+	<option value="tr" ' . selected( $options["lang"], "tr", 0 ) . '>Turkish</option>
 	</select>';
 }
 
@@ -2206,7 +2209,7 @@ function shariff3UU_admin_notice() {
 	global $current_user;
 	$user_id = $current_user->ID;
 	// check that the user hasn't already clicked to ignore the message and can access options
-	if ( ! get_user_meta( $user_id, 'shariff3UU_ignore_notice' ) && current_user_can( 'manage_options' ) ) {
+	if ( ! get_user_meta( $user_id, 'shariff3UU_ignore_notice' ) && current_user_can( 'manage_options' && isset( $GLOBALS["shariff3UU"]["update_notice"] ) && $GLOBALS["shariff3UU"]["update_notice"] ) ) {
 		$link = add_query_arg( 'shariff3UU_nag_ignore', '0', esc_url_raw( $_SERVER['REQUEST_URI'] ) );
 		echo "<div class='updated'><a href='" . esc_url( $link ) . "' class='shariff_admininfo_cross'><div class='shariff_cross_icon'></div></a><p>" . __( 'Please check your ', 'shariff3UU' ) . "<a href='" . get_bloginfo( 'wpurl' ) . "/wp-admin/options-general.php?page=shariff3uu'>" . __( 'Shariff-Settings</a> - Mail was split into mailform and mailto. Manual shorttags may need to be adjusted accordingly.', 'shariff3UU' ) . "</span></p></div>";
 	}
