@@ -3,7 +3,7 @@
  * Plugin Name: Shariff Wrapper
  * Plugin URI: http://www.3uu.org/plugins.htm
  * Description: This is a wrapper to Shariff. It enables shares with Twitter, Facebook ... on posts, pages and themes with no harm for visitors privacy.
- * Version: 2.4.1
+ * Version: 2.4.2
  * Author: 3UU, JP
  * Author URI: http://www.DatenVerwurstungsZentrale.com/
  * License: http://opensource.org/licenses/MIT
@@ -91,7 +91,7 @@ else {
 function shariff3UU_update() {
 
 	/******************** ADJUST VERSION ********************/
-	$code_version = "2.4.1"; // set code version - needs to be adjusted for every new version!
+	$code_version = "2.4.2"; // set code version - needs to be adjusted for every new version!
 	/******************** ADJUST VERSION ********************/
 
 	// do we want to display an admin notice after the update?
@@ -155,6 +155,9 @@ function shariff3UU_update() {
 		// set new version
 		$GLOBALS["shariff3UU"]["version"] = $code_version;
 		$GLOBALS["shariff3UU_basic"]["version"] = $code_version;
+
+		// set update notice true / false
+		$GLOBALS["shariff3UU"]["update_notice"] = $do_admin_notice;
 
 		// remove empty elements and save to options table
 
@@ -2206,7 +2209,7 @@ function shariff3UU_admin_notice() {
 	global $current_user;
 	$user_id = $current_user->ID;
 	// check that the user hasn't already clicked to ignore the message and can access options
-	if ( ! get_user_meta( $user_id, 'shariff3UU_ignore_notice' ) && current_user_can( 'manage_options' ) ) {
+	if ( ! get_user_meta( $user_id, 'shariff3UU_ignore_notice' ) && current_user_can( 'manage_options' && isset( $GLOBALS["shariff3UU"]["update_notice"] ) && $GLOBALS["shariff3UU"]["update_notice"] ) ) {
 		$link = add_query_arg( 'shariff3UU_nag_ignore', '0', esc_url_raw( $_SERVER['REQUEST_URI'] ) );
 		echo "<div class='updated'><a href='" . esc_url( $link ) . "' class='shariff_admininfo_cross'><div class='shariff_cross_icon'></div></a><p>" . __( 'Please check your ', 'shariff3UU' ) . "<a href='" . get_bloginfo( 'wpurl' ) . "/wp-admin/options-general.php?page=shariff3uu'>" . __( 'Shariff-Settings</a> - Mail was split into mailform and mailto. Manual shorttags may need to be adjusted accordingly.', 'shariff3UU' ) . "</span></p></div>";
 	}
