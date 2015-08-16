@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Shariff Wrapper for Wordpress\n"
-"PO-Revision-Date: 2015-08-10 01:10+0100\n"
+"PO-Revision-Date: 2015-08-15 23:28+0100\n"
 "Last-Translator: JP\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
 "Content-Type: text/plain; charset=utf-8\n"
@@ -779,3 +779,9 @@ msgstr "Mets en place le adresse Bitcoin."
 #: shariff.php:1
 msgid "bbPress replies"
 msgstr "bbPress réponses"
+
+# @ shariff3UU
+#. Text in function
+#: shariff.php:1
+msgid "The GD Library is not installed on this server. This is only needed for the QR codes, if your are using the bitcoin button."
+msgstr "La bibliothèque GD est pas installé sur ce serveur. Ceci est nécessaire uniquement pour les codes QR, si vous utilisez le bouton de Bitcoin."
