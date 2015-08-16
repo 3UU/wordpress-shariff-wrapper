@@ -150,8 +150,12 @@ A: mail was replaced with mailform to provide an easier way of distinguishing be
 A: Yes, take a look at the Mail Form tab on the plugin options page.
 
 == Changelog ==
+= 2.4.2 =
+- fix lang attribute again
+- fix update notice
+
 = 2.4.1 =
-- fix: lang attribute
+- fix lang attribute
 - nicer support hints about GD lib
 - cleanup readme.txt
 

@@ -11,7 +11,7 @@
 */
 
 // Migration < v 1.7
-if ( empty($GLOBALS["shariff3UU"]["version"] ) || ( isset( $GLOBALS["shariff3UU"]["version"] ) && version_compare( $GLOBALS["shariff3UU"]["version"], '1.7' ) == '-1' ) ) {
+if ( isset( $GLOBALS["shariff3UU"]["version"] ) && version_compare( $GLOBALS["shariff3UU"]["version"], '1.7' ) == '-1' ) {
 	if ( isset($GLOBALS["shariff3UU"]["add_all"] ) ) {
 		if ( $GLOBALS["shariff3UU"]["add_all"] == '1') { 
 			$GLOBALS["shariff3UU"]["add_after_all_posts"] = '1'; 
@@ -27,14 +27,13 @@ if ( empty($GLOBALS["shariff3UU"]["version"] ) || ( isset( $GLOBALS["shariff3UU"
 		}
 	}
 	$GLOBALS["shariff3UU"]["version"] = '1.7';
-	$do_admin_notice = true;
 }  
 
 // Migration < v 1.9.7
 if ( ! isset( $wpdb ) ) { 
 	global $wpdb; 
 }
-if ( version_compare($GLOBALS["shariff3UU"]["version"], '1.9.7') == '-1' ) {
+if ( isset( $GLOBALS["shariff3UU"]["version"] ) && version_compare($GLOBALS["shariff3UU"]["version"], '1.9.7') == '-1' ) {
 	// clear wrong entries from the past
 	if ( ! is_multisite() ) { 
 		$users = get_users('role=administrator'); 
@@ -66,7 +65,7 @@ if ( version_compare($GLOBALS["shariff3UU"]["version"], '1.9.7') == '-1' ) {
 }
 
 // Migration < v 2.0
-if ( version_compare($GLOBALS["shariff3UU"]["version"], '2.0') == '-1' ) {
+if ( isset( $GLOBALS["shariff3UU"]["version"] ) && version_compare($GLOBALS["shariff3UU"]["version"], '2.0') == '-1' ) {
 	// switch service mail to mailto if mailto is not set in services too
 	// services ist bei Erstinstallation leer -> isset() und strpos kann 0 zurückliefern (gefunden an nullter Stelle), was als false verstanden werden würde, daher === notwendig
 	if ( isset( $GLOBALS["shariff3UU"]["services"] ) && strpos( $GLOBALS["shariff3UU"]["services"],'mail' ) !== FALSE && strpos( $GLOBALS["shariff3UU"]["services"],'mailto' ) === FALSE ) {
@@ -76,7 +75,7 @@ if ( version_compare($GLOBALS["shariff3UU"]["version"], '2.0') == '-1' ) {
 }
 
 // Migration < v 2.3
-if ( version_compare( $GLOBALS["shariff3UU"]["version"], '2.2.5' ) == '-1' ) {
+if ( isset( $GLOBALS["shariff3UU"]["version"] ) && version_compare( $GLOBALS["shariff3UU"]["version"], '2.2.5' ) == '-1' ) {
 
 	// switch mail to mailform
 	if ( isset( $GLOBALS["shariff3UU"]["services"] ) && strpos( $GLOBALS["shariff3UU"]["services"], 'mail' ) !== FALSE ) {
