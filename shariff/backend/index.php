@@ -102,8 +102,8 @@ class Application {
 
 	// use proxy if set in wp_config.php
 	if ( defined( 'WP_PROXY_HOST' ) && defined( 'WP_PROXY_PORT' ) ) {
-		$tmp["client"]["curl"]["CURLOPT_PROXY"] = WP_PROXY_HOST;
-		$tmp["client"]["curl"]["CURLOPT_PROXYPORT"] = WP_PROXY_PORT;
+    	$proxy = WP_PROXY_HOST . ':' . WP_PROXY_PORT;
+    	$tmp["client"]["proxy"] = $proxy;
 	}
 
 	// start backend

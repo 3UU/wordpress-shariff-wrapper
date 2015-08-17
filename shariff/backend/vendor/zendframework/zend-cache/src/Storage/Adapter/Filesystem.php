@@ -150,27 +150,23 @@ class Filesystem extends AbstractAdapter implements
 
         ErrorHandler::start();
         foreach ($glob as $entry) {
-            $mtime = $entry->getMTime();
-            if ($time >= $mtime + $ttl) {
-                $pathname = $entry->getPathname();
-                unlink($pathname);
+            try {
+                $mtime = $entry->getMTime();
+                if ($time >= $mtime + $ttl) {
+                    $pathname = $entry->getPathname();
+                    unlink($pathname);
 
-                $tagPathname = substr($pathname, 0, -4) . '.tag';
-                if (file_exists($tagPathname)) {
-                    unlink($tagPathname);
+                    $tagPathname = substr($pathname, 0, -4) . '.tag';
+                    if (file_exists($tagPathname)) {
+                        unlink($tagPathname);
+                    }
                 }
             }
+            // TEMPORARY FIX: Disregard any exceptions because a race condition in ZendCache 
+            // throws too many errors and the ErrorHandler is not able to catch them.
+            catch (\Exception $e) {}            
         }
         $error = ErrorHandler::stop();
-        if ($error) {
-            $result = false;
-            return $this->triggerException(
-                __FUNCTION__,
-                new ArrayObject(),
-                $result,
-                new Exception\RuntimeException('Failed to clear expired items', 0, $error)
-            );
-        }
 
         return true;
     }
