@@ -45,7 +45,31 @@ define( 'SHORTINIT', true );
 	
 // build the wp-load.php path
 $wp_root_path = dirname( dirname( dirname( dirname( dirname( __FILE__ ) ) ) ) );
-	
+
+// if wp-load.php doesn't exist at $wp_root_path, then search for it.
+if( !file_exists($wp_root_path . '/wp-load.php') ) {
+	$wp_load = rsearch( $wp_root_path, '/wp-load.php/');
+	// set $wp_root_path to the location of wp-load.php
+	$wp_root_path = $wp_load['path'];
+}
+
+// search in the subfolders of $wp_root_path for a given file (regex)
+function rsearch($folder, $pattern) {
+    $dir = new RecursiveDirectoryIterator($folder);
+    $iterator = new RecursiveIteratorIterator($dir);
+    $files = new RegexIterator($iterator, $pattern, RegexIterator::GET_MATCH);
+    $fileList = array();
+
+    foreach($files as $file) {
+      $fileList[] = array(
+      	'file' => $file,
+      	'path' => $iterator->getPath()
+      );
+    }
+    // return only the first result
+    return $fileList[0];
+}
+
 // include ms-functions.php for MS
 require ( $wp_root_path . '/wp-includes/ms-functions.php' );
 	
