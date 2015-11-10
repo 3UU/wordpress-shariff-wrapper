@@ -2003,7 +2003,7 @@ function Render3UUShariff( $atts, $content = null ) {
 	}
 
 	// enable share counts
-	if ( array_key_exists( 'backend', $atts ) ) if ( $atts['backend'] == "on" ) $output .= " data-backend-url='" . esc_url( plugins_url( '/backend/', __FILE__ ) ) . "'";
+	if ( array_key_exists( 'backend', $atts ) ) if ( $atts['backend'] == "on" ) $output .= " data-backend-url='" . esc_url( plugins_url( '/backend/index.php', __FILE__ ) ) . "'";
 
 	// close the container
 	$output .= '></div>';
