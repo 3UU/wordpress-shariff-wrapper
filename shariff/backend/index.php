@@ -74,6 +74,14 @@ else {
 	include ( 'services/twitter.php' );
 	// Google
 	include ( 'services/google.php' );
+	// Xing
+	include ( 'services/xing.php' );
+	// LinkedIn
+	include ( 'services/linkedin.php' );
+	// Pinterest
+	include ( 'services/pinterest.php' );
+	// Flattr
+	include ( 'services/flattr.php' );
 	// save transient if we have counts
 	if ( isset( $share_counts ) && $share_counts != null ) {
 		set_transient( $post_hash, $share_counts, $ttl );

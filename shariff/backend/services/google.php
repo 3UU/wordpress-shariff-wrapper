@@ -37,12 +37,9 @@ $google = json_decode( $google, true );
 if ( isset( $google['result']['metadata']['globalCounts']['count'] ) ) {
 	$share_counts['googleplus'] = $google['result']['metadata']['globalCounts']['count'];
 }
-// otherwise show the error message
+// otherwise store the error message
 else {
-	echo "Google error! Message: ";
-	print "<pre>";
-	print_r( $google );
-	print "</pre>";
+	$share_counts['errors']['google'] = "GooglePlus Error! Message: " . $google;
 }
 
 ?>

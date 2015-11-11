@@ -15,13 +15,9 @@ if ( isset( $shariff3UU_advanced['fb_id'] ) && isset( $shariff3UU_advanced['fb_s
 	if ( isset( $facebookID['share']['share_count'] ) ) {
 		$share_counts['facebook'] = $facebookID['share']['share_count'];
 	}
-	// otherwise show the error message
+	// otherwise store the error message
 	else {
-		echo "Facebook ID Error! Message: ";
-		print "<pre>";
-		print_r( $fb_token );
-		print_r( $facebookID );
-		print "</pre>";
+		$share_counts['errors']['facebookID'] = "Facebook ID Error! Message: " . $facebookID;
 	}
 }
 // otherwise use the normal way
@@ -34,10 +30,7 @@ else {
 	}
 	// otherwise show the error message
 	else {
-		echo "Facebook Error! Message: ";
-		print "<pre>";
-		print_r( $facebook );
-		print "</pre>";
+		$share_counts['errors']['facebook'] = "Facebook Error! Message: " . $facebook;
 	}
 }
 
