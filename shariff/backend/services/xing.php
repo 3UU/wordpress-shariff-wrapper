@@ -20,11 +20,11 @@ $xing_post_options = array(
 
 // fetch counts
 $xing = sanitize_text_field( wp_remote_retrieve_body( wp_remote_post( 'https://www.xing-share.com/spi/shares/statistics', $xing_post_options ) ) );
-$xing = json_decode( $xing, true );
+$xing_json = json_decode( $xing, true );
 
 // store results, if we have some
-if ( isset( $xing['share_counter'] ) ) {
-	$share_counts['xing'] = $xing['share_counter'];
+if ( isset( $xing_json['share_counter'] ) ) {
+	$share_counts['xing'] = $xing_json['share_counter'];
 }
 // otherwise store the error message
 else {

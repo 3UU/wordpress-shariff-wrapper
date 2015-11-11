@@ -3,7 +3,7 @@
 // GooglePlus
 
 // set google options
-$google_json = array(
+$google_options = array(
 	'method' => 'pos.plusones.get',
 	'id'     => 'p',
 	'params' => array(
@@ -26,16 +26,16 @@ $google_post_options = array(
 	'httpversion' => '1.0',
 	'blocking' => true,
 	'headers' => array( 'content-type' => 'application/json' ),
-	'body' => json_encode( $google_json )
+	'body' => json_encode( $google_options )
 );
 
 // fetch counts
 $google = sanitize_text_field( wp_remote_retrieve_body( wp_remote_post( 'https://clients6.google.com/rpc?key=AIzaSyCKSbrvQasunBoV16zDH9R33D88CeLr9gQ', $google_post_options ) ) );
-$google = json_decode( $google, true );
+$google_json = json_decode( $google, true );
 
 // store results, if we have some
-if ( isset( $google['result']['metadata']['globalCounts']['count'] ) ) {
-	$share_counts['googleplus'] = $google['result']['metadata']['globalCounts']['count'];
+if ( isset( $google_json['result']['metadata']['globalCounts']['count'] ) ) {
+	$share_counts['googleplus'] = $google_json['result']['metadata']['globalCounts']['count'];
 }
 // otherwise store the error message
 else {
