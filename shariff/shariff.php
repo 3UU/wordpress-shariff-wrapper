@@ -3,7 +3,7 @@
  * Plugin Name: Shariff Wrapper
  * Plugin URI: http://www.3uu.org/plugins.htm
  * Description: This is a wrapper to Shariff. It enables shares with Twitter, Facebook ... on posts, pages and themes with no harm for visitors privacy.
- * Version: 2.4.3
+ * Version: 2.5.0
  * Author: 3UU, JP
  * Author URI: http://www.DatenVerwurstungsZentrale.com/
  * License: http://opensource.org/licenses/MIT
@@ -91,7 +91,7 @@ else {
 function shariff3UU_update() {
 
 	/******************** ADJUST VERSION ********************/
-	$code_version = "2.4.3"; // set code version - needs to be adjusted for every new version!
+	$code_version = "2.5.0"; // set code version - needs to be adjusted for every new version!
 	/******************** ADJUST VERSION ********************/
 
 	// do we want to display an admin notice after the update?
@@ -1111,38 +1111,24 @@ function shariff3UU_status_section_callback() {
 		echo '</div>';
 	}
 	else {
-		// check if constant for the cache dir is defined in wp-config.php
-		if ( defined( 'SHARIFF_BACKEND_TMPDIR' ) ) {
-			$cache_dir = SHARIFF_BACKEND_TMPDIR;
-		}
-		// if constant is not set, we use the upload dir of WP
-		if ( empty( $cache_dir ) ) {
-			$upload_dir = wp_upload_dir();
-			$cache_dir = $upload_dir['basedir'] . '/shariff3uu_cache';
-			// if it doesn't exit, try to create it
-			if( ! file_exists( $cache_dir ) ) {
-				wp_mkdir_p( $cache_dir );
-			}
-		}
-		// check if cache dir is usuable and backend shows results
+		// check if backend shows results
 		$wp_url = get_bloginfo('url');
 		$wp_url = preg_replace('#^https?://#', '', $wp_url);
 		$backend_testurl = plugin_dir_url( __FILE__ ) . 'backend/index.php?url=http%3A%2F%2F' . $wp_url;
 		$backend_output = sanitize_text_field( wp_remote_retrieve_body( wp_remote_get( $backend_testurl ) ) );
 		$backend_output_json = json_decode( $backend_output, true );
-		if ( is_writable( $cache_dir ) && ( isset( $backend_output_json['googleplus'] ) && $backend_output_json['googleplus'] >= '0' ) || ( isset( $backend_output_json['facebook'] ) && $backend_output_json['facebook'] >= '0' ) ) {
+		if ( ! isset( $backend_output_json['errors'] ) ) {
 			// statistic working message
 			echo '<div class="shariff_status-cell">';
 				// working message table
 				echo '<div class="shariff_status-table">';
 				echo '<div class="shariff_status-row"><div class="shariff_status-cell"><span class="shariff_status-ok">' . __( 'OK', 'shariff3UU' ) . '</span></div></div>';
-				echo '<div class="shariff_status-row"><div class="shariff_status-cell">' . __( 'Cache directory is writable.', 'shariff3UU' ) . '</div></div>';
-				echo '<div class="shariff_status-row"><div class="shariff_status-cell">' . __( 'Using the following directory: ', 'shariff3UU' ) . $cache_dir . '</div></div>';
+				echo '<div class="shariff_status-row"><div class="shariff_status-cell">' . __( 'No error messages.', 'shariff3UU' ) . '</div></div>';
+				echo '<div class="shariff_status-row"><div class="shariff_status-cell">' . '</div></div>';
 				echo '</div>';
 			echo '</div>';
 			// end statistic row, if working correctly
 			echo '</div>';
-		
 			// Facebook row
 			echo '<div class="shariff_status-row">';
 			echo '<div class="shariff_status-cell">' . __( 'Facebook:', 'shariff3UU' ) . '</div>';
@@ -1252,15 +1238,8 @@ function shariff3UU_status_section_callback() {
 				// error message table
 				echo '<div class="shariff_status-table">';
 				echo '<div class="shariff_status-row"><div class="shariff_status-cell"><span class="shariff_status-error">' . __( 'Error', 'shariff3UU' ) . '</span></div></div>';
-				if ( ! is_writable( $cache_dir ) ) {
-					echo '<div class="shariff_status-row"><div class="shariff_status-cell">' . __( 'Cache directory is not writable or cannot be found.', 'shariff3UU' ) . '</div></div>';
-					echo '<div class="shariff_status-row"><div class="shariff_status-cell">' . __( 'Tried using the following directory: ', 'shariff3UU' ) . $cache_dir . '</div></div>';
-				}
-				elseif ( ! isset( $backend_output_json['googleplus'] ) || ( isset( $backend_output_json['googleplus'] ) && $backend_output_json['googleplus'] >= '0' ) || ( ! isset( $backend_output_json['facebook'] ) || ( isset( $backend_output_json['facebook'] ) && $backend_output_json['facebook'] >= '0' ) ) ) {
-					echo '<div class="shariff_status-row"><div class="shariff_status-cell">' . __( 'Backend error.', 'shariff3UU' ) . '</div></div>';
-					echo '<div class="shariff_status-row"><div class="shariff_status-cell">' . esc_html( $backend_output ) . '</div></div>';
-				}
-
+				echo '<div class="shariff_status-row"><div class="shariff_status-cell">' . __( 'Backend error.', 'shariff3UU' ) . '</div></div>';
+				echo '<div class="shariff_status-row"><div class="shariff_status-cell">' . esc_html( $backend_output_json ) . '</div></div>';
 				echo '</div>';
 			echo '</div>';
 			// end statistic row, if not working correctly
