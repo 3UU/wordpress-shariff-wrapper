@@ -3,7 +3,7 @@
  * Plugin Name: Shariff Wrapper
  * Plugin URI: http://www.3uu.org/plugins.htm
  * Description: This is a wrapper to Shariff. It enables shares with Twitter, Facebook ... on posts, pages and themes with no harm for visitors privacy.
- * Version: 2.4.3
+ * Version: 2.5.0
  * Author: 3UU, JP
  * Author URI: http://www.DatenVerwurstungsZentrale.com/
  * License: http://opensource.org/licenses/MIT
@@ -91,7 +91,7 @@ else {
 function shariff3UU_update() {
 
 	/******************** ADJUST VERSION ********************/
-	$code_version = "2.4.3"; // set code version - needs to be adjusted for every new version!
+	$code_version = "2.5.0"; // set code version - needs to be adjusted for every new version!
 	/******************** ADJUST VERSION ********************/
 
 	// do we want to display an admin notice after the update?
@@ -423,11 +423,11 @@ function shariff3UU_design_sanitize( $input ) {
 
 	if ( isset( $input["lang"] ) ) 				$valid["lang"] 				= sanitize_text_field( $input["lang"] );
 	if ( isset( $input["theme"] ) ) 			$valid["theme"] 			= sanitize_text_field( $input["theme"] );
-	if ( isset( $input["buttonsize"] ) )			$valid["buttonsize"]			= absint( $input["buttonsize"] );
-	if ( isset( $input["buttonstretch"] ) )			$valid["buttonstretch"]			= absint( $input["buttonstretch"] );
+	if ( isset( $input["buttonsize"] ) )		$valid["buttonsize"]		= absint( $input["buttonsize"] );
+	if ( isset( $input["buttonstretch"] ) )		$valid["buttonstretch"]		= absint( $input["buttonstretch"] );
 	if ( isset( $input["vertical"] ) ) 			$valid["vertical"] 			= absint( $input["vertical"] );
 	if ( isset( $input["align"] ) ) 			$valid["align"] 			= sanitize_text_field( $input["align"] );
-	if ( isset( $input["align_widget"] ) ) 			$valid["align_widget"] 			= sanitize_text_field( $input["align_widget"] );
+	if ( isset( $input["align_widget"] ) ) 		$valid["align_widget"] 		= sanitize_text_field( $input["align_widget"] );
 	if ( isset( $input["style"] ) ) 			$valid["style"] 			= sanitize_text_field( $input["style"] );
 	if ( isset( $input["headline"] ) ) 			$valid["headline"] 			= wp_kses( $input["headline"], $GLOBALS["allowed_tags"] );
 
@@ -547,6 +547,11 @@ function shariff3UU_multiplecheckbox_add_after_render() {
 	echo '<p><input type="checkbox" name="shariff3UU_basic[add_after][bbp_reply]" ';
 	if ( isset( $GLOBALS["shariff3UU_basic"]["add_after"]["bbp_reply"] ) ) echo checked( $GLOBALS["shariff3UU_basic"]["add_after"]["bbp_reply"], 1, 0 );
 	echo ' value="1">' . __('bbPress replies', 'shariff3UU') . '</p>';
+	
+	// add after all excerpts
+	echo '<p><input type="checkbox" name="shariff3UU_basic[add_after][excerpt]" ';
+	if ( isset( $GLOBALS["shariff3UU_basic"]["add_after"]["excerpt"] ) ) echo checked( $GLOBALS["shariff3UU_basic"]["add_after"]["excerpt"], 1, 0 );
+	echo ' value="1">' . __('Excerpt', 'shariff3UU') . '</p>';
 }
 
 // add before
@@ -565,6 +570,11 @@ function shariff3UU_multiplecheckbox_add_before_render() {
 	echo '<p><input type="checkbox" name="shariff3UU_basic[add_before][pages]" ';
 	if ( isset( $GLOBALS["shariff3UU_basic"]["add_before"]["pages"] ) ) echo checked( $GLOBALS["shariff3UU_basic"]["add_before"]["pages"], 1, 0 );
 	echo ' value="1">' . __('Pages', 'shariff3UU') . '</p>';
+	
+	// Add before all excerpts
+	echo '<p><input type="checkbox" name="shariff3UU_basic[add_before][excerpt]" ';
+	if ( isset( $GLOBALS["shariff3UU_basic"]["add_before"]["excerpt"] ) ) echo checked( $GLOBALS["shariff3UU_basic"]["add_before"]["excerpt"], 1, 0 );
+	echo ' value="1">' . __('Excerpt', 'shariff3UU') . '</p>';
 }
 
 // disable on password protected posts
@@ -1111,38 +1121,24 @@ function shariff3UU_status_section_callback() {
 		echo '</div>';
 	}
 	else {
-		// check if constant for the cache dir is defined in wp-config.php
-		if ( defined( 'SHARIFF_BACKEND_TMPDIR' ) ) {
-			$cache_dir = SHARIFF_BACKEND_TMPDIR;
-		}
-		// if constant is not set, we use the upload dir of WP
-		if ( empty( $cache_dir ) ) {
-			$upload_dir = wp_upload_dir();
-			$cache_dir = $upload_dir['basedir'] . '/shariff3uu_cache';
-			// if it doesn't exit, try to create it
-			if( ! file_exists( $cache_dir ) ) {
-				wp_mkdir_p( $cache_dir );
-			}
-		}
-		// check if cache dir is usuable and backend shows results
+		// check if backend shows results
 		$wp_url = get_bloginfo('url');
 		$wp_url = preg_replace('#^https?://#', '', $wp_url);
 		$backend_testurl = plugin_dir_url( __FILE__ ) . 'backend/index.php?url=http%3A%2F%2F' . $wp_url;
 		$backend_output = sanitize_text_field( wp_remote_retrieve_body( wp_remote_get( $backend_testurl ) ) );
 		$backend_output_json = json_decode( $backend_output, true );
-		if ( is_writable( $cache_dir ) && ( isset( $backend_output_json['googleplus'] ) && $backend_output_json['googleplus'] >= '0' ) || ( isset( $backend_output_json['facebook'] ) && $backend_output_json['facebook'] >= '0' ) ) {
+		if ( ! isset( $backend_output_json['errors'] ) ) {
 			// statistic working message
 			echo '<div class="shariff_status-cell">';
 				// working message table
 				echo '<div class="shariff_status-table">';
 				echo '<div class="shariff_status-row"><div class="shariff_status-cell"><span class="shariff_status-ok">' . __( 'OK', 'shariff3UU' ) . '</span></div></div>';
-				echo '<div class="shariff_status-row"><div class="shariff_status-cell">' . __( 'Cache directory is writable.', 'shariff3UU' ) . '</div></div>';
-				echo '<div class="shariff_status-row"><div class="shariff_status-cell">' . __( 'Using the following directory: ', 'shariff3UU' ) . $cache_dir . '</div></div>';
+				echo '<div class="shariff_status-row"><div class="shariff_status-cell">' . __( 'No error messages.', 'shariff3UU' ) . '</div></div>';
+				echo '<div class="shariff_status-row"><div class="shariff_status-cell">' . '</div></div>';
 				echo '</div>';
 			echo '</div>';
 			// end statistic row, if working correctly
 			echo '</div>';
-		
 			// Facebook row
 			echo '<div class="shariff_status-row">';
 			echo '<div class="shariff_status-cell">' . __( 'Facebook:', 'shariff3UU' ) . '</div>';
@@ -1252,15 +1248,8 @@ function shariff3UU_status_section_callback() {
 				// error message table
 				echo '<div class="shariff_status-table">';
 				echo '<div class="shariff_status-row"><div class="shariff_status-cell"><span class="shariff_status-error">' . __( 'Error', 'shariff3UU' ) . '</span></div></div>';
-				if ( ! is_writable( $cache_dir ) ) {
-					echo '<div class="shariff_status-row"><div class="shariff_status-cell">' . __( 'Cache directory is not writable or cannot be found.', 'shariff3UU' ) . '</div></div>';
-					echo '<div class="shariff_status-row"><div class="shariff_status-cell">' . __( 'Tried using the following directory: ', 'shariff3UU' ) . $cache_dir . '</div></div>';
-				}
-				elseif ( ! isset( $backend_output_json['googleplus'] ) || ( isset( $backend_output_json['googleplus'] ) && $backend_output_json['googleplus'] >= '0' ) || ( ! isset( $backend_output_json['facebook'] ) || ( isset( $backend_output_json['facebook'] ) && $backend_output_json['facebook'] >= '0' ) ) ) {
-					echo '<div class="shariff_status-row"><div class="shariff_status-cell">' . __( 'Backend error.', 'shariff3UU' ) . '</div></div>';
-					echo '<div class="shariff_status-row"><div class="shariff_status-cell">' . esc_html( $backend_output ) . '</div></div>';
-				}
-
+				echo '<div class="shariff_status-row"><div class="shariff_status-cell">' . __( 'Backend error.', 'shariff3UU' ) . '</div></div>';
+				echo '<div class="shariff_status-row"><div class="shariff_status-cell">' . esc_html( $backend_output_json ) . '</div></div>';
 				echo '</div>';
 			echo '</div>';
 			// end statistic row, if not working correctly
@@ -1789,6 +1778,23 @@ function shariffPosts( $content ) {
 }
 add_filter( 'the_content', 'shariffPosts' );
 
+// add shorttag to excerpt
+function shariffExcerpt( $content ) {
+	$shariff3UU = $GLOBALS["shariff3UU"];
+	// remove headline in post
+	$content = str_replace( strip_tags( $shariff3UU["headline"] ), " ", $content );
+	// add shariff before the excerpt, if option checked in the admin menu
+	if ( isset( $shariff3UU["add_before"]["excerpt"] ) && $shariff3UU["add_before"]["excerpt"] == '1' ) {
+		$content = do_shortcode( buildShariffShorttag() ) . $content;
+	}
+	// add shariff after the excerpt, if option checked in the admin menu
+	if ( isset( $shariff3UU["add_after"]["excerpt"] ) && $shariff3UU["add_after"]["excerpt"] == '1' ) {
+		$content .= do_shortcode( buildShariffShorttag() );
+	}
+	return $content;
+}
+add_filter( 'get_the_excerpt', 'shariffExcerpt' );
+
 // add mailform to bbpress_replies
 function bbp_add_mailform_to_bbpress_replies() {
 	$content = '';
@@ -2003,7 +2009,7 @@ function Render3UUShariff( $atts, $content = null ) {
 	}
 
 	// enable share counts
-	if ( array_key_exists( 'backend', $atts ) ) if ( $atts['backend'] == "on" ) $output .= " data-backend-url='" . esc_url( plugins_url( '/backend/', __FILE__ ) ) . "'";
+	if ( array_key_exists( 'backend', $atts ) ) if ( $atts['backend'] == "on" ) $output .= " data-backend-url='" . esc_url( plugins_url( '/backend/index.php', __FILE__ ) ) . "'";
 
 	// close the container
 	$output .= '></div>';

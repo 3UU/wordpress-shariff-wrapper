@@ -51,7 +51,7 @@ To enable it for all posts please check the options in the admin menu.
 = Q: Can I use it in my theme? =
 A: Yes. 
 `<?=do_shortcode('[shariff backend="on"]')?>` 
-Backend is an example. You can use all options of the shorttag, but first you should have a look at the widget.
+Backend="on" is an example. You can use all options of the shorttag, but first you should have a look at the widget.
 
 = Q: How can I configure the widget? =
 A: It uses the same options that have been configured on the plugin options page. However, you can put in a shorttag that overwrites the default options. It has the same format as you use in posts. Take a look at the help section of the plugin options page for more information.
@@ -73,10 +73,6 @@ A: The time to live (TTL) value determines, if a share count of a post or page g
 
 = Q: I get the Facebook API error message "request limit reached" =
 A: Facebook has a rate limit of 600 requests per 600 seconds per IP address. Especially in shared hosting enviroments many domains share the same IP address and therefore the same limit. To avoid this you can try to raise the TTL value or provide a Facebook App ID and Secret. Google "facebook app id secret" will provide many guides on how to get these.
-
-= Q: How can I change the options of the backend that provide the share counts? =
-A: The backend should work well with all common configurations. If needed, you can change the cache directory with the PHP constant
-`define("SHARIFF_BACKEND_TMPDIR","/example/path/to/tmp");`
 
 = Q: How can I change the position of all buttons =
 A: Have a look at the alignment options in the admin menu or checkout the 
@@ -150,6 +146,16 @@ A: mail was replaced with mailform to provide an easier way of distinguishing be
 A: Yes, take a look at the Mail Form tab on the plugin options page.
 
 == Changelog ==
+= 2.5.0 =
+- new wp specific statistics backend for share counts
+- new SHARIFF_WP_ROOT_PATH constant for custom wp locations
+- fix timeout issues and a lot of other backend issues
+- deprecated Heise shariff-backend-php
+- deprecated ZendFramework
+- deprecated shariff3uu_cache directory
+- deprecated SHARIFF_BACKEND_TMPDIR constant
+- temporarily disabled flattr share counts due to problems with the flattr API
+
 = 2.4.3 =
 - fix proxy settings
 - fix PHP error notice caused by a race condition around concurrent requests in Zend_Cache
