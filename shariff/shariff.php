@@ -423,11 +423,11 @@ function shariff3UU_design_sanitize( $input ) {
 
 	if ( isset( $input["lang"] ) ) 				$valid["lang"] 				= sanitize_text_field( $input["lang"] );
 	if ( isset( $input["theme"] ) ) 			$valid["theme"] 			= sanitize_text_field( $input["theme"] );
-	if ( isset( $input["buttonsize"] ) )			$valid["buttonsize"]			= absint( $input["buttonsize"] );
-	if ( isset( $input["buttonstretch"] ) )			$valid["buttonstretch"]			= absint( $input["buttonstretch"] );
+	if ( isset( $input["buttonsize"] ) )		$valid["buttonsize"]		= absint( $input["buttonsize"] );
+	if ( isset( $input["buttonstretch"] ) )		$valid["buttonstretch"]		= absint( $input["buttonstretch"] );
 	if ( isset( $input["vertical"] ) ) 			$valid["vertical"] 			= absint( $input["vertical"] );
 	if ( isset( $input["align"] ) ) 			$valid["align"] 			= sanitize_text_field( $input["align"] );
-	if ( isset( $input["align_widget"] ) ) 			$valid["align_widget"] 			= sanitize_text_field( $input["align_widget"] );
+	if ( isset( $input["align_widget"] ) ) 		$valid["align_widget"] 		= sanitize_text_field( $input["align_widget"] );
 	if ( isset( $input["style"] ) ) 			$valid["style"] 			= sanitize_text_field( $input["style"] );
 	if ( isset( $input["headline"] ) ) 			$valid["headline"] 			= wp_kses( $input["headline"], $GLOBALS["allowed_tags"] );
 
@@ -547,6 +547,11 @@ function shariff3UU_multiplecheckbox_add_after_render() {
 	echo '<p><input type="checkbox" name="shariff3UU_basic[add_after][bbp_reply]" ';
 	if ( isset( $GLOBALS["shariff3UU_basic"]["add_after"]["bbp_reply"] ) ) echo checked( $GLOBALS["shariff3UU_basic"]["add_after"]["bbp_reply"], 1, 0 );
 	echo ' value="1">' . __('bbPress replies', 'shariff3UU') . '</p>';
+	
+	// add after all excerpts
+	echo '<p><input type="checkbox" name="shariff3UU_basic[add_after][excerpt]" ';
+	if ( isset( $GLOBALS["shariff3UU_basic"]["add_after"]["excerpt"] ) ) echo checked( $GLOBALS["shariff3UU_basic"]["add_after"]["excerpt"], 1, 0 );
+	echo ' value="1">' . __('Excerpt', 'shariff3UU') . '</p>';
 }
 
 // add before
@@ -565,6 +570,11 @@ function shariff3UU_multiplecheckbox_add_before_render() {
 	echo '<p><input type="checkbox" name="shariff3UU_basic[add_before][pages]" ';
 	if ( isset( $GLOBALS["shariff3UU_basic"]["add_before"]["pages"] ) ) echo checked( $GLOBALS["shariff3UU_basic"]["add_before"]["pages"], 1, 0 );
 	echo ' value="1">' . __('Pages', 'shariff3UU') . '</p>';
+	
+	// Add before all excerpts
+	echo '<p><input type="checkbox" name="shariff3UU_basic[add_before][excerpt]" ';
+	if ( isset( $GLOBALS["shariff3UU_basic"]["add_before"]["excerpt"] ) ) echo checked( $GLOBALS["shariff3UU_basic"]["add_before"]["excerpt"], 1, 0 );
+	echo ' value="1">' . __('Excerpt', 'shariff3UU') . '</p>';
 }
 
 // disable on password protected posts
@@ -1767,6 +1777,23 @@ function shariffPosts( $content ) {
 	return $content;
 }
 add_filter( 'the_content', 'shariffPosts' );
+
+// add shorttag to excerpt
+function shariffExcerpt( $content ) {
+	$shariff3UU = $GLOBALS["shariff3UU"];
+	// remove headline in post
+	$content = str_replace( strip_tags( $shariff3UU["headline"] ), " ", $content );
+	// add shariff before the excerpt, if option checked in the admin menu
+	if ( isset( $shariff3UU["add_before"]["excerpt"] ) && $shariff3UU["add_before"]["excerpt"] == '1' ) {
+		$content = do_shortcode( buildShariffShorttag() ) . $content;
+	}
+	// add shariff after the excerpt, if option checked in the admin menu
+	if ( isset( $shariff3UU["add_after"]["excerpt"] ) && $shariff3UU["add_after"]["excerpt"] == '1' ) {
+		$content .= do_shortcode( buildShariffShorttag() );
+	}
+	return $content;
+}
+add_filter( 'get_the_excerpt', 'shariffExcerpt' );
 
 // add mailform to bbpress_replies
 function bbp_add_mailform_to_bbpress_replies() {
