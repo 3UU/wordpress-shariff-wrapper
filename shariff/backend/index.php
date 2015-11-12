@@ -18,9 +18,18 @@ if ( ! isset( $_GET["url"] ) ) {
 // build the wp root path
 $wp_root_path = dirname( dirname( dirname( dirname( dirname( __FILE__ ) ) ) ) );
 
-// if wp-blog-header.php doesn't exist at $wp_root_path, then use constant
+// if wp-blog-header.php doesn't exist at $wp_root_path, then try the constant
 if( ! file_exists( $wp_root_path . '/wp-blog-header.php') ) {
-	$wp_root_path = SHARIFF_WP_ROOT_PATH;
+	// get the shariff-config.php
+	require ( '../shariff-config.php');
+	// use the constant, if it was changed, otherwise show an error message
+	if ( isset( SHARIFF_WP_ROOT_PATH ) && SHARIFF_WP_ROOT_PATH != '/path/to/wordpress/') {
+		$wp_root_path = SHARIFF_WP_ROOT_PATH;
+	}
+	else {
+		echo 'WordPress not found! Path to WordPress needs to be set in the shariff-config.php!';
+		return; 
+	}
 }
 
 // fire up WordPress without theme support
@@ -57,7 +66,9 @@ $post_url  = urlencode( esc_url( $_GET["url"] ) );
 $post_url2 = esc_url( $_GET["url"] );
 
 // set transient name
-$post_hash = hash( "md5", $post_url );
+// transient names can only contain 40 characters, therefore we use a hash (md5 always creeates a 32 character hash)
+// we need a prefix so we can clean up on deinstallation and updates
+$post_hash = 'shariff' . hash( "md5", $post_url );
 
 // check if transient exist and is valid
 if ( get_transient( $post_hash ) !== false ) {
