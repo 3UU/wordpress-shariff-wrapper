@@ -1,4 +1,4 @@
-=== Shariff Wrapper ===
+﻿=== Shariff Wrapper ===
 Contributors: 3UU, starguide
 Tags: Twitter, Facebook, GooglePlus, sharebutton, sharing, privacy, social, whatsapp
 Requires at least: 3.0.1
@@ -149,6 +149,7 @@ A: Yes, take a look at the Mail Form tab on the plugin options page.
 = 2.5.0 =
 - new wp specific statistics backend for share counts
 - new SHARIFF_WP_ROOT_PATH constant for custom wp locations
+- new option to add buttons before/after the excerpt
 - fix timeout issues and a lot of other backend issues
 - deprecated Heise shariff-backend-php
 - deprecated ZendFramework
