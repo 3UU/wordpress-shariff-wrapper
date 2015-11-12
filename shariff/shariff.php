@@ -61,6 +61,12 @@ else {
 				'style' => array(),
 				'id' => array()
 			),
+		'div' => array 
+			(
+				'class' => array(),
+				'style' => array(),
+				'id' => array()
+			),
 		'p' => array
 			(
 				'class' => array(),
@@ -74,6 +80,12 @@ else {
 				'id' => array()
 			),
 		'h2' => array
+			(
+				'class' => array(),
+				'style' => array(),
+				'id' => array()
+			),
+		'h3' => array
 			(
 				'class' => array(),
 				'style' => array(),
