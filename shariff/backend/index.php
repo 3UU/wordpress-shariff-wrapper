@@ -21,8 +21,8 @@ $wp_root_path = dirname( dirname( dirname( dirname( dirname( __FILE__ ) ) ) ) );
 // if wp-blog-header.php doesn't exist at $wp_root_path, then try the constant
 if( ! file_exists( $wp_root_path . '/wp-blog-header.php') ) {
 	// get the shariff-config.php
-	if( file_exists( '../shariff-config.php' ) ) {
-		require ( '../shariff-config.php' );
+	if( file_exists( 'shariff-config.php' ) ) {
+		require ( 'shariff-config.php' );
 	}
 	// try the constant, if it was changed
 	if ( defined( SHARIFF_WP_ROOT_PATH ) && ( SHARIFF_WP_ROOT_PATH != '/path/to/wordpress/' ) ) {
@@ -64,7 +64,7 @@ function rsearch($folder, $pattern) {
 
 // save $wp_root_path in shariff-config.php
 function configsave( $wp_root_path ) {
-	$shariffconfig = fopen( "../shariff-config.php", "w") or die( "Unable to create or open the shariff-config.php!" );
+	$shariffconfig = fopen( "shariff-config.php", "w") or die( "Unable to create or open the shariff-config.php!" );
 	$txt = "<?php\n\n// Here you can define the path to your WordPress installation in case you have changed the default directory structure\n// Replace /www/htdocs/w00a94e9/social-emotions.de with the path to your wp-blog-header.php\n\ndefine( 'SHARIFF_WP_ROOT_PATH', '" . $wp_root_path . "' );\n\n?>\n";
 	fwrite( $shariffconfig, $txt );
 	fclose( $shariffconfig );
