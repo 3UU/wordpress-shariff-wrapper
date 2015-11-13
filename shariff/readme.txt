@@ -2,11 +2,11 @@
 Contributors: 3UU, starguide
 Tags: Twitter, Facebook, GooglePlus, sharebutton, sharing, privacy, social, whatsapp
 Requires at least: 3.0.1
-Tested up to: 4.3
+Tested up to: 4.4
 Stable tag: trunk
 License: MIT
 License URI: http://opensource.org/licenses/MIT
-Donate link: http://folge.link/?bitcoin=1Ritz1iUaLaxuYcXhUCoFhkVRH6GWiMTP
+Donate link: https://www.jplambeck.de/wp-content/plugins/shariff/bitcoin.php?bitcoinaddress=1Pm5JgQkWnadUN81uakULAp3VuLSztYqz
 
 This is a wrapper to Shariff. It enables shares with Twitter, Facebook ... on posts, pages and themes with no harm for visitors privacy.
 
@@ -147,15 +147,26 @@ A: Yes, take a look at the Mail Form tab on the plugin options page.
 
 == Changelog ==
 = 2.5.0 =
-- new wp specific statistics backend for share counts
+- new WP specific statistics backend for share counts
 - new SHARIFF_WP_ROOT_PATH constant for custom wp locations
+- automatic search for custom WP locations (thanks to hirasso)
 - new option to add buttons before/after the excerpt
+- new service Threema (thanks to medienverbinder)
+- new service Diaspora (thanks to craiq)
+- new service AddThis (thanks to bozana)
+- new share count service AddThis (thanks to bozana)
+- new service PayPal.Me
+- new google icon
 - fix timeout issues and a lot of other backend issues
+- fix title tag usage in some cases
+- fix rel to data-rel popup
+- fix round buttons in certain themes
+- fix flattr API to fetch counts again
+- up to date with Heise code version 1.21.0 2015-11-06
 - deprecated Heise shariff-backend-php
 - deprecated ZendFramework
 - deprecated shariff3uu_cache directory
 - deprecated SHARIFF_BACKEND_TMPDIR constant
-- temporarily disabled flattr share counts due to problems with the flattr API
 
 = 2.4.3 =
 - fix proxy settings

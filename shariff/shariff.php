@@ -7,12 +7,12 @@
  * Author: 3UU, JP
  * Author URI: http://www.DatenVerwurstungsZentrale.com/
  * License: http://opensource.org/licenses/MIT
- * Donate link: http://folge.link/?bitcoin:1Ritz1iUaLaxuYcXhUCoFhkVRH6GWiMTP
+ * Donate link: https://www.jplambeck.de/wp-content/plugins/shariff/bitcoin.php?bitcoinaddress=1Pm5JgQkWnadUN81uakULAp3VuLSztYqz
  * Domain Path: /locale/
  * Text Domain: shariff3UU
  * 
  * ### Supported options ###
- *   services: [facebook|twitter|googleplus|whatsapp|pinterest|linkedin|xing|reddit|stumbleupon|tumblr|flattr|patreon|paypal|bitcoin|mailform|mailto|printer|info]
+ *   services: [facebook|twitter|googleplus|whatsapp|threema|pinterest|linkedin|xing|reddit|stumbleupon|tumblr|diaspora|addthis|flattr|patreon|paypal|paypalme|bitcoin|mailform|mailto|printer|info]
  *   info_url: http://ct.de/-2467514
  *   lang: de|en
  *   theme: default|color|grey|white|round
@@ -343,6 +343,11 @@ function shariff3UU_options_init(){
 		'shariff3UU_text_paypalbuttonid', __( 'PayPal hosted button ID:', 'shariff3UU' ),
 		'shariff3UU_text_paypalbuttonid_render', 'advanced', 'shariff3UU_advanced_section' );
 
+	// paypalme id
+	add_settings_field(
+		'shariff3UU_text_paypalmeid', __( 'PayPal.Me ID:', 'shariff3UU' ),
+		'shariff3UU_text_paypalmeid_render', 'advanced', 'shariff3UU_advanced_section' );
+
 	// bitcoin address
 	add_settings_field(
 		'shariff3UU_text_bitcoinaddress', __( 'Bitcoin address:', 'shariff3UU' ),
@@ -460,6 +465,7 @@ function shariff3UU_advanced_sanitize( $input ) {
 	if ( isset($input["flattruser"] ) )    			$valid["flattruser"]       		= str_replace( '@', '', sanitize_text_field( $input["flattruser"] ) );
 	if ( isset($input["patreonid"] ) )    			$valid["patreonid"]       		= str_replace( '@', '', sanitize_text_field( $input["patreonid"] ) );
 	if ( isset($input["paypalbuttonid"] ) )    		$valid["paypalbuttonid"]       	= str_replace( '@', '', sanitize_text_field( $input["paypalbuttonid"] ) );
+	if ( isset($input["paypalmeid"] ) )      		$valid["paypalmeid"]       	    = str_replace( '@', '', sanitize_text_field( $input["paypalmeid"] ) );
 	if ( isset($input["bitcoinaddress"] ) )    		$valid["bitcoinaddress"]       	= str_replace( '@', '', sanitize_text_field( $input["bitcoinaddress"] ) );
 	if ( isset($input["default_pinterest"] ) ) 	    $valid["default_pinterest"]		= sanitize_text_field( $input["default_pinterest"] );
 	if ( isset($input["fb_id"] ) ) 	    			$valid["fb_id"]					= sanitize_text_field( $input["fb_id"] );
@@ -528,8 +534,8 @@ function shariff3UU_text_services_render(){
 		$services = '';
 	}
 	echo '<input type="text" name="shariff3UU_basic[services]" value="' . esc_html($services) . '" size="50" placeholder="twitter|facebook|googleplus|info">';
-	echo '<p><code>facebook|twitter|googleplus|whatsapp|pinterest|xing|linkedin|reddit</code></p>';
-	echo '<p><code>stumbleupon|tumblr|flattr|patreon|paypal|bitcoin|mailform|mailto|printer|info</code></p>'; 
+	echo '<p><code>facebook|twitter|googleplus|whatsapp|threema|pinterest|xing|linkedin|reddit|diaspora</code></p>';
+	echo '<p><code>stumbleupon|tumblr|addthis|flattr|patreon|paypal|paypalme|bitcoin|mailform|mailto|printer|info</code></p>'; 
 	echo '<p>' . __( 'Use the pipe sign | (Alt Gr + &lt; or &#8997; + 7) between two or more services.', 'shariff3UU' ) . '</p>';
 }
 
@@ -806,6 +812,17 @@ function shariff3UU_text_paypalbuttonid_render() {
 	echo '<input type="text" name="shariff3UU_advanced[paypalbuttonid]" value="'. $paypalbuttonid .'" size="50" placeholder="' . __( '1ABCDEF23GH4I', 'shariff3UU' ) . '">';
 }
 
+// paypalme id
+function shariff3UU_text_paypalmeid_render() {
+	if ( isset($GLOBALS["shariff3UU_advanced"]["paypalmeid"]) ) {
+		$paypalmeid = $GLOBALS["shariff3UU_advanced"]["paypalmeid"];
+	}
+	else { 
+		$paypalmeid = '';
+	}
+	echo '<input type="text" name="shariff3UU_advanced[paypalmeid]" value="'. $paypalmeid .'" size="50" placeholder="' . __( 'name', 'shariff3UU' ) . '">';
+}
+
 // bitcoin address
 function shariff3UU_text_bitcoinaddress_render() {
 	if ( isset($GLOBALS["shariff3UU_advanced"]["bitcoinaddress"]) ) {
@@ -965,7 +982,7 @@ function shariff3UU_help_section_callback() {
 	echo '<p>' . __( 'If you enjoy our plugin, please consider writing a review about it on ', 'shariff3UU' );
 	echo '<a href="https://wordpress.org/support/view/plugin-reviews/shariff" target="_blank">wordpress.org</a>';
 	echo __( '. If you want to support us financially, you can donate via ', 'shariff3UU' );
-	echo '<a href="http://folge.link/?bitcoin=1Ritz1iUaLaxuYcXhUCoFhkVRH6GWiMTP" target="_blank">Bitcoin</a> ';
+	echo '<a href="https://www.jplambeck.de/wp-content/plugins/shariff/bitcoin.php?bitcoinaddress=1Pm5JgQkWnadUN81uakULAp3VuLSztYqz" target="_blank">Bitcoin</a> ';
 	echo __( 'and', 'shariff3UU' );
 	echo ' <a href="https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=5BASYVM96PZ3L" target="_blanK">PayPal</a>';
 	echo __( '. Thank you!', 'shariff3UU' );
@@ -985,7 +1002,7 @@ function shariff3UU_help_section_callback() {
 		// services
 		echo '<div class="shariff_shortcode_row">';
 			echo '<div class="shariff_shortcode_cell">services</div>';
-			echo '<div class="shariff_shortcode_cell">facebook<br>twitter<br>googleplus<br>whatsapp<br>pinterest<br>xing<br>linkedin<br>reddit<br>stumbleupon<br>tumblr<br>flattr<br>patreon<br>paypal<br>bitcoin<br>mailform<br>mailto<br>printer<br>info</div>';
+			echo '<div class="shariff_shortcode_cell">facebook<br>twitter<br>googleplus<br>whatsapp<br>threema<br>pinterest<br>xing<br>linkedin<br>reddit<br>stumbleupon<br>tumblr<br>diaspora<br>addthis<br>flattr<br>patreon<br>paypal<br>paypalme<br>bitcoin<br>mailform<br>mailto<br>printer<br>info</div>';
 			echo '<div class="shariff_shortcode_cell">twitter|facebook|googleplus|info</div>';
 			echo '<div class="shariff_shortcode_cell">[shariff theme="facebook|twitter|mailform"]</div>';
 			echo '<div class="shariff_shortcode_cell">' . __( 'Determines which buttons to show and in which order.', 'shariff3UU' ) . '</div>';
@@ -1069,7 +1086,15 @@ function shariff3UU_help_section_callback() {
 			echo '<div class="shariff_shortcode_cell"></div>';
 			echo '<div class="shariff_shortcode_cell">[shariff paypalbuttonid="hosted_button_id"]</div>';
 			echo '<div class="shariff_shortcode_cell">' . __( 'Sets the PayPal hosted button ID.', 'shariff3UU' ) . '</div>';
-		echo '</div>';		
+		echo '</div>';
+		// paypalmeid
+		echo '<div class="shariff_shortcode_row">';
+			echo '<div class="shariff_shortcode_cell">paypalmeid</div>';
+			echo '<div class="shariff_shortcode_cell"></div>';
+			echo '<div class="shariff_shortcode_cell"></div>';
+			echo '<div class="shariff_shortcode_cell">[shariff paypalmeid="name"]</div>';
+			echo '<div class="shariff_shortcode_cell">' . __( 'Sets the PayPal.Me ID. Default amount can be added with a / e.g. name/25.', 'shariff3UU' ) . '</div>';
+		echo '</div>';	
 		// bitcoinaddress
 		echo '<div class="shariff_shortcode_row">';
 			echo '<div class="shariff_shortcode_cell">bitcoinaddress</div>';
@@ -1966,6 +1991,7 @@ function Render3UUShariff( $atts, $content = null ) {
 	if ( array_key_exists( 'flattruser', $atts ) )      $output .= ' data-flattruser="'     . esc_html( $atts['flattruser'] ) . '"';
 	if ( array_key_exists( 'patreonid', $atts ) )       $output .= ' data-patreonid="'      . esc_html( $atts['patreonid'] ) . '"';
 	if ( array_key_exists( 'paypalbuttonid', $atts ) )  $output .= ' data-paypalbuttonid="' . esc_html( $atts['paypalbuttonid'] ) . '"';
+	if ( array_key_exists( 'paypalmeid', $atts ) )      $output .= ' data-paypalmeid="'     . esc_html( $atts['paypalmeid'] ) . '"';
 	if ( array_key_exists( 'bitcoinaddress', $atts ) )  $output .= ' data-bitcoinaddress="' . esc_html( $atts['bitcoinaddress'] ) . '"';
 	if ( array_key_exists( 'bitcoinaddress', $atts ) )  $output .= ' data-bitcoinurl="'     . esc_url( plugins_url( '/', __FILE__ ) ) . '"';
 	if ( array_key_exists( 'buttonsize', $atts ) )      $output .= ' data-buttonsize="'     . esc_html( $atts['buttonsize'] ) . '"';
@@ -1979,18 +2005,22 @@ function Render3UUShariff( $atts, $content = null ) {
 		$strServices = '';
 		$flattr_error = '';
 		$paypal_error = '';
+		$paypalme_error = '';
 		$bitcoin_error = '';
 		$patreon_error = '';
 		// walk
 		while ( list( $key, $val ) = each( $s ) ) { 
 			// services without usernames, etc.
-			if ( $val != 'flattr' && $val != 'paypal' && $val != 'bitcoin' && $val != 'patreon' ) $strServices .= '"' . $val . '", ';
+			if ( $val != 'flattr' && $val != 'paypal' && $val != 'bitcoin' && $val != 'patreon' && $val != 'paypalme' ) $strServices .= '"' . $val . '", ';
 			// check if flattr username is set
 			elseif ( $val == 'flattr' && array_key_exists( 'flattruser', $atts ) ) $strServices .= '"' . $val . '", ';
 			elseif ( $val == 'flattr' ) $flattr_error = '1';
 			// check if paypal button id is set
 			elseif ( $val == 'paypal' && array_key_exists( 'paypalbuttonid', $atts ) ) $strServices .= '"' . $val . '", ';
 			elseif ( $val == 'paypal' ) $paypal_error = '1';
+			// check if paypal.me id is set
+			elseif ( $val == 'paypalme' && array_key_exists( 'paypalmeid', $atts ) ) $strServices .= '"' . $val . '", ';
+			elseif ( $val == 'paypalme' ) $paypalme_error = '1';
 			// check if bitcoin address is set
 			elseif ( $val == 'bitcoin' && array_key_exists( 'bitcoinaddress', $atts ) ) $strServices .= '"' . $val . '", ';
 			elseif ( $val == 'bitcoin' ) $bitcoin_error = '1';
@@ -2039,6 +2069,11 @@ function Render3UUShariff( $atts, $content = null ) {
 	// display warning to admins if paypal is set, but no paypal button id is provided
 	if ( $paypal_error == '1' && current_user_can( 'manage_options' ) ) {
 		$output .= '<div class="flattr_warning">' . __('Button ID for PayPal is missing!', 'shariff3UU') . '</div>';
+	}
+
+	// display warning to admins if paypalme is set, but no paypalme id is provided
+	if ( $paypalme_error == '1' && current_user_can( 'manage_options' ) ) {
+		$output .= '<div class="flattr_warning">' . __('PayPal.Me ID is missing!', 'shariff3UU') . '</div>';
 	}
 
 	// display warning to admins if bitcoin is set, but no bitcoin address is provided
@@ -2263,11 +2298,19 @@ add_action( 'admin_notices', 'shariff3UU_patreon_notice' );
 
 // display an info notice if paypal is set as a service, but no button id is entered
 function shariff3UU_paypal_notice() {
-	if ( isset( $GLOBALS["shariff3UU"]["services"] ) &&  ( strpos( $GLOBALS["shariff3UU"]["services"], 'paypal' ) !== false ) && empty( $GLOBALS["shariff3UU"]["paypalbuttonid"] ) && current_user_can( 'manage_options' ) ) {
+	if ( isset( $GLOBALS["shariff3UU"]["services"] ) &&  ( strpos( $GLOBALS["shariff3UU"]["services"], 'paypal' ) !== false ) && ( strpos( $GLOBALS["shariff3UU"]["services"], 'paypalme' ) === false ) && empty( $GLOBALS["shariff3UU"]["paypalbuttonid"] ) && current_user_can( 'manage_options' ) ) {
 		echo "<div class='error'><p>" . __('Please check your ', 'shariff3UU') . "<a href='" . get_bloginfo('wpurl') . "/wp-admin/options-general.php?page=shariff3uu&tab=advanced'>" . __('Shariff-Settings</a> - PayPal was selected, but no button ID was provided! Please enter your <strong>Hosted Button ID</strong> in the shariff options!', 'shariff3UU') . "</span></p></div>";
 	}
 }
 add_action( 'admin_notices', 'shariff3UU_paypal_notice' );
+
+// display an info notice if paypalme is set as a service, but no paypal.me id is entered
+function shariff3UU_paypalme_notice() {
+	if ( isset( $GLOBALS["shariff3UU"]["services"] ) &&  ( strpos( $GLOBALS["shariff3UU"]["services"], 'paypalme' ) !== false ) && empty( $GLOBALS["shariff3UU"]["paypalmeid"] ) && current_user_can( 'manage_options' ) ) {
+		echo "<div class='error'><p>" . __('Please check your ', 'shariff3UU') . "<a href='" . get_bloginfo('wpurl') . "/wp-admin/options-general.php?page=shariff3uu&tab=advanced'>" . __('Shariff-Settings</a> - PayPal.Me was selected, but no ID was provided! Please enter your <strong>PayPal.Me ID</strong> in the shariff options!', 'shariff3UU') . "</span></p></div>";
+	}
+}
+add_action( 'admin_notices', 'shariff3UU_paypalme_notice' );
 
 // display an info notice if bitcoin is set as a service, but no address is entered
 function shariff3UU_bitcoin_notice() {

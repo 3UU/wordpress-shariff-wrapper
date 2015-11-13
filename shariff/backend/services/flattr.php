@@ -9,6 +9,10 @@ $flattr_json = json_decode( $flattr, true );
 if ( isset( $flattr_json['flattrs'] ) ) {
 	$share_counts['flattr'] = $flattr_json['flattrs'];
 }
+// if no thing was found, set it to 0
+elseif ( isset( $flattr_json['description'] ) && $flattr_json['description'] == 'No thing was found' ) {
+	$share_counts['flattr'] = 0;
+}
 // otherwise show the error message
 else {
 	$share_counts['errors']['flattr'] = "Flattr Error! Message: " . $flattr;
