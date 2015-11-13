@@ -1162,7 +1162,7 @@ function shariff3UU_status_section_callback() {
 		$wp_url = get_bloginfo('url');
 		$wp_url = preg_replace('#^https?://#', '', $wp_url);
 		$backend_testurl = plugin_dir_url( __FILE__ ) . 'backend/index.php?url=http%3A%2F%2F' . $wp_url;
-		$backend_output = sanitize_text_field( wp_remote_retrieve_body( wp_remote_get( $backend_testurl ) ) );
+		$backend_output = sanitize_text_field( wp_remote_retrieve_body( wp_remote_get( $backend_testurl, array( 'timeout' => 11 ) ) ) );
 		$backend_output_json = json_decode( $backend_output, true );
 		if ( ! isset( $backend_output_json['errors'] ) ) {
 			// statistic working message
@@ -1176,108 +1176,6 @@ function shariff3UU_status_section_callback() {
 			echo '</div>';
 			// end statistic row, if working correctly
 			echo '</div>';
-			// Facebook row
-			echo '<div class="shariff_status-row">';
-			echo '<div class="shariff_status-cell">' . __( 'Facebook:', 'shariff3UU' ) . '</div>';
-			// check if Facebook is responding correctly (no rate limits actice, etc.)
-			$blog_url = urlencode( esc_url( get_bloginfo('url') ) );
-			$facebook = sanitize_text_field( wp_remote_retrieve_body( wp_remote_get( 'https://graph.facebook.com/fql?q=SELECT%20share_count%20FROM%20link_stat%20WHERE%20url="' . $blog_url . '"' ) ) );
-			$facebook = json_decode( $facebook, true );
-			if ( isset( $facebook['data']['0']['share_count'] ) ) {
-				// Facebook working message
-				echo '<div class="shariff_status-cell">';
-					// working message table
-					echo '<div style="display: table">';
-					echo '<div class="shariff_status-row"><div class="shariff_status-cell"><span class="shariff_status-ok">' . __( 'OK', 'shariff3UU' ) . '</span></div></div>';
-					echo '<div class="shariff_status-row"><div class="shariff_status-cell">' . __( 'Current share count for ', 'shariff3UU' ) . urldecode( $blog_url ) . ': ' . absint( $facebook['data']['0']['share_count'] ) . '</div></div>';
-					echo '</div>';
-				echo '</div>';
-				// end Facebook row, if working correctly
-				echo '</div>';
-			}
-			elseif ( isset( $facebook['error']['message'] ) ) {
-				// Facebook API error message
-				echo '<div class="shariff_status-cell">';
-					// error message table
-					echo '<div class="shariff_status-table">';
-					echo '<div class="shariff_status-row"><div class="shariff_status-cell"><span class="shariff_status-error">' . __( 'Error', 'shariff3UU' ) . '</span></div></div>';
-					echo '<div class="shariff_status-row"><div class="shariff_status-cell">' . __( 'Message:', 'shariff3UU' ) . '</div><div style="display: table-cell">' . esc_html( $facebook['error']['message'] ) . '</div></div>';
-					echo '<div class="shariff_status-row"><div class="shariff_status-cell">' . __( 'Type:', 'shariff3UU' ) . '</div><div class="shariff_status-cell">' . esc_html( $facebook['error']['type'] ) . '</div></div>';
-					echo '<div class="shariff_status-row"><div class="shariff_status-cell">' . __( 'Code:', 'shariff3UU' ) . '</div><div class="shariff_status-cell">' . esc_html( $facebook['error']['code'] ) . '</div></div>';
-					echo '</div>';
-				echo '</div>';
-				// end Facebook row, if not working correctly
-				echo '</div>';
-			}
-			// Facebook Graph API ID row
-			echo '<div class="shariff_status-row">';
-			echo '<div class="shariff_status-cell">' . __( 'Facebook API (ID):', 'shariff3UU' ) . '</div>';
-			// credentials provided?
-			if ( ! isset( $GLOBALS['shariff3UU_advanced']['fb_id'] ) || ! isset( $GLOBALS['shariff3UU_advanced']['fb_secret'] ) ) {
-				// no credentials
-				echo '<div class="shariff_status-cell">';
-					echo '<div class="shariff_status-table">';
-					echo '<div class="shariff_status-row"><div class="shariff_status-cell"><span class="shariff_status-disabled">' . __( 'Not configured', 'shariff3UU' ) . '</span></div></div>';
-					echo '</div>';
-				echo '</div>';
-				// end Graph API ID row, if not configured
-				echo '</div>';
-			}
-			else {
-				// app_id and secret
-				$fb_app_id = $GLOBALS['shariff3UU_advanced']['fb_id'];
-				$fb_app_secret = $GLOBALS['shariff3UU_advanced']['fb_secret'];
-				// check if Facebook Graph API ID is responding correctly (no rate limits actice, credentials ok, etc.)
-				$blog_url = urlencode( esc_url( get_bloginfo('url') ) );
-				// get fb access token
-				$fb_token = sanitize_text_field( wp_remote_retrieve_body( wp_remote_get( 'https://graph.facebook.com/oauth/access_token?client_id=' .  $fb_app_id . '&client_secret=' . $fb_app_secret . '&grant_type=client_credentials' ) ) );
-				// use token to get share counts
-				$facebookID = sanitize_text_field( wp_remote_retrieve_body( wp_remote_get( 'https://graph.facebook.com/v2.2/?id=' . $blog_url . '&' . $fb_token ) ) );
-				$facebookID = json_decode( $facebookID, true );
-				$fb_token = json_decode( $fb_token, true );
-				// is it working?
-				if ( isset( $facebookID['share']['share_count'] ) ) {
-					// Facebook Graph API ID working message
-					echo '<div class="shariff_status-cell">';
-						// working message table
-						echo '<div style="display: table">';
-						echo '<div class="shariff_status-row"><div class="shariff_status-cell"><span class="shariff_status-ok">' . __( 'OK', 'shariff3UU' ) . '</span></div></div>';
-						echo '<div class="shariff_status-row"><div class="shariff_status-cell">' . __( 'Current share count for ', 'shariff3UU' ) . urldecode( $blog_url ) . ': ' . absint( $facebookID['share']['share_count'] ) . '</div></div>';
-						echo '</div>';
-					echo '</div>';
-					// end Facebook Graph API ID row, if working correctly
-					echo '</div>';
-				}
-				elseif ( isset( $facebookID['error']['message'] ) ) {
-					// Facebook Graph API ID error message
-					echo '<div class="shariff_status-cell">';
-						// error message table
-						echo '<div class="shariff_status-table">';
-						echo '<div class="shariff_status-row"><div class="shariff_status-cell"><span class="shariff_status-error">' . __( 'Error', 'shariff3UU' ) . '</span></div></div>';
-						echo '<div class="shariff_status-row"><div class="shariff_status-cell">' . __( 'Message:', 'shariff3UU' ) . '</div><div style="display: table-cell">' . esc_html( $facebookID['error']['message'] ) . '</div></div>';
-						echo '<div class="shariff_status-row"><div class="shariff_status-cell">' . __( 'Type:', 'shariff3UU' ) . '</div><div class="shariff_status-cell">' . esc_html( $facebookID['error']['type'] ) . '</div></div>';
-						echo '<div class="shariff_status-row"><div class="shariff_status-cell">' . __( 'Code:', 'shariff3UU' ) . '</div><div class="shariff_status-cell">' . esc_html( $facebookID['error']['code'] ) . '</div></div>';
-						echo '</div>';
-					echo '</div>';
-					// end Facebook Graph API ID row, if not working correctly
-					echo '</div>';
-				}
-				elseif ( isset( $fb_token['error']['message'] ) ) {
-					// Facebook Graph API ID auth error message
-					echo '<div class="shariff_status-cell">';
-						// error message table
-						echo '<div class="shariff_status-table">';
-						echo '<div class="shariff_status-row"><div class="shariff_status-cell"><span class="shariff_status-error">' . __( 'Error', 'shariff3UU' ) . '</span></div></div>';
-						echo '<div class="shariff_status-row"><div class="shariff_status-cell">' . __( 'Message:', 'shariff3UU' ) . '</div><div style="display: table-cell">' . esc_html( $fb_token['error']['message'] ) . '</div></div>';
-						echo '<div class="shariff_status-row"><div class="shariff_status-cell">' . __( 'Type:', 'shariff3UU' ) . '</div><div class="shariff_status-cell">' . esc_html( $fb_token['error']['type'] ) . '</div></div>';
-						echo '<div class="shariff_status-row"><div class="shariff_status-cell">' . __( 'Code:', 'shariff3UU' ) . '</div><div class="shariff_status-cell">' . esc_html( $fb_token['error']['code'] ) . '</div></div>';
-						echo '</div>';
-					echo '</div>';
-					// end Facebook Graph API ID row, if not working correctly bc of auth error
-					echo '</div>';
-				}
-
-			}
 		}
 		else {
 			// statistic error message
@@ -1286,11 +1184,115 @@ function shariff3UU_status_section_callback() {
 				echo '<div class="shariff_status-table">';
 				echo '<div class="shariff_status-row"><div class="shariff_status-cell"><span class="shariff_status-error">' . __( 'Error', 'shariff3UU' ) . '</span></div></div>';
 				echo '<div class="shariff_status-row"><div class="shariff_status-cell">' . __( 'Backend error.', 'shariff3UU' ) . '</div></div>';
-				echo '<div class="shariff_status-row"><div class="shariff_status-cell">' . esc_html( $backend_output_json ) . '</div></div>';
-				echo '</div>';
+				echo '<div class="shariff_status-row"><div class="shariff_status-cell">';
+				foreach( $backend_output_json['errors'] as $service_error ) {
+    				echo esc_html( $service_error );
+				}
+				echo '</div></div></div>';
 			echo '</div>';
 			// end statistic row, if not working correctly
 			echo '</div>';
+		}
+		// Facebook row
+		echo '<div class="shariff_status-row">';
+		echo '<div class="shariff_status-cell">' . __( 'Facebook:', 'shariff3UU' ) . '</div>';
+		// check if Facebook is responding correctly (no rate limits actice, etc.)
+		$blog_url = urlencode( esc_url( get_bloginfo('url') ) );
+		$facebook = sanitize_text_field( wp_remote_retrieve_body( wp_remote_get( 'https://graph.facebook.com/fql?q=SELECT%20share_count%20FROM%20link_stat%20WHERE%20url="' . $blog_url . '"' ) ) );
+		$facebook = json_decode( $facebook, true );
+		if ( isset( $facebook['data']['0']['share_count'] ) ) {
+			// Facebook working message
+			echo '<div class="shariff_status-cell">';
+				// working message table
+				echo '<div style="display: table">';
+				echo '<div class="shariff_status-row"><div class="shariff_status-cell"><span class="shariff_status-ok">' . __( 'OK', 'shariff3UU' ) . '</span></div></div>';
+				echo '<div class="shariff_status-row"><div class="shariff_status-cell">' . __( 'Current share count for ', 'shariff3UU' ) . urldecode( $blog_url ) . ': ' . absint( $facebook['data']['0']['share_count'] ) . '</div></div>';
+				echo '</div>';
+			echo '</div>';
+			// end Facebook row, if working correctly
+			echo '</div>';
+		}
+		elseif ( isset( $facebook['error']['message'] ) ) {
+			// Facebook API error message
+			echo '<div class="shariff_status-cell">';
+				// error message table
+				echo '<div class="shariff_status-table">';
+				echo '<div class="shariff_status-row"><div class="shariff_status-cell"><span class="shariff_status-error">' . __( 'Error', 'shariff3UU' ) . '</span></div></div>';
+				echo '<div class="shariff_status-row"><div class="shariff_status-cell">' . __( 'Message:', 'shariff3UU' ) . '</div><div style="display: table-cell">' . esc_html( $facebook['error']['message'] ) . '</div></div>';
+				echo '<div class="shariff_status-row"><div class="shariff_status-cell">' . __( 'Type:', 'shariff3UU' ) . '</div><div class="shariff_status-cell">' . esc_html( $facebook['error']['type'] ) . '</div></div>';
+				echo '<div class="shariff_status-row"><div class="shariff_status-cell">' . __( 'Code:', 'shariff3UU' ) . '</div><div class="shariff_status-cell">' . esc_html( $facebook['error']['code'] ) . '</div></div>';
+				echo '</div>';
+			echo '</div>';
+			// end Facebook row, if not working correctly
+			echo '</div>';
+		}
+		// Facebook Graph API ID row
+		echo '<div class="shariff_status-row">';
+		echo '<div class="shariff_status-cell">' . __( 'Facebook API (ID):', 'shariff3UU' ) . '</div>';
+		// credentials provided?
+		if ( ! isset( $GLOBALS['shariff3UU_advanced']['fb_id'] ) || ! isset( $GLOBALS['shariff3UU_advanced']['fb_secret'] ) ) {
+			// no credentials
+			echo '<div class="shariff_status-cell">';
+				echo '<div class="shariff_status-table">';
+				echo '<div class="shariff_status-row"><div class="shariff_status-cell"><span class="shariff_status-disabled">' . __( 'Not configured', 'shariff3UU' ) . '</span></div></div>';
+				echo '</div>';
+			echo '</div>';
+			// end Graph API ID row, if not configured
+			echo '</div>';
+		}
+		else {
+			// app_id and secret
+			$fb_app_id = $GLOBALS['shariff3UU_advanced']['fb_id'];
+			$fb_app_secret = $GLOBALS['shariff3UU_advanced']['fb_secret'];
+			// check if Facebook Graph API ID is responding correctly (no rate limits actice, credentials ok, etc.)
+			$blog_url = urlencode( esc_url( get_bloginfo('url') ) );
+			// get fb access token
+			$fb_token = sanitize_text_field( wp_remote_retrieve_body( wp_remote_get( 'https://graph.facebook.com/oauth/access_token?client_id=' .  $fb_app_id . '&client_secret=' . $fb_app_secret . '&grant_type=client_credentials' ) ) );
+			// use token to get share counts
+			$facebookID = sanitize_text_field( wp_remote_retrieve_body( wp_remote_get( 'https://graph.facebook.com/v2.2/?id=' . $blog_url . '&' . $fb_token ) ) );
+			$facebookID = json_decode( $facebookID, true );
+			$fb_token = json_decode( $fb_token, true );
+			// is it working?
+			if ( isset( $facebookID['share']['share_count'] ) ) {
+				// Facebook Graph API ID working message
+				echo '<div class="shariff_status-cell">';
+					// working message table
+					echo '<div style="display: table">';
+					echo '<div class="shariff_status-row"><div class="shariff_status-cell"><span class="shariff_status-ok">' . __( 'OK', 'shariff3UU' ) . '</span></div></div>';
+					echo '<div class="shariff_status-row"><div class="shariff_status-cell">' . __( 'Current share count for ', 'shariff3UU' ) . urldecode( $blog_url ) . ': ' . absint( $facebookID['share']['share_count'] ) . '</div></div>';
+					echo '</div>';
+				echo '</div>';
+				// end Facebook Graph API ID row, if working correctly
+				echo '</div>';
+			}
+			elseif ( isset( $facebookID['error']['message'] ) ) {
+				// Facebook Graph API ID error message
+				echo '<div class="shariff_status-cell">';
+					// error message table
+					echo '<div class="shariff_status-table">';
+					echo '<div class="shariff_status-row"><div class="shariff_status-cell"><span class="shariff_status-error">' . __( 'Error', 'shariff3UU' ) . '</span></div></div>';
+					echo '<div class="shariff_status-row"><div class="shariff_status-cell">' . __( 'Message:', 'shariff3UU' ) . '</div><div style="display: table-cell">' . esc_html( $facebookID['error']['message'] ) . '</div></div>';
+					echo '<div class="shariff_status-row"><div class="shariff_status-cell">' . __( 'Type:', 'shariff3UU' ) . '</div><div class="shariff_status-cell">' . esc_html( $facebookID['error']['type'] ) . '</div></div>';
+					echo '<div class="shariff_status-row"><div class="shariff_status-cell">' . __( 'Code:', 'shariff3UU' ) . '</div><div class="shariff_status-cell">' . esc_html( $facebookID['error']['code'] ) . '</div></div>';
+					echo '</div>';
+				echo '</div>';
+				// end Facebook Graph API ID row, if not working correctly
+				echo '</div>';
+			}
+			elseif ( isset( $fb_token['error']['message'] ) ) {
+				// Facebook Graph API ID auth error message
+				echo '<div class="shariff_status-cell">';
+					// error message table
+					echo '<div class="shariff_status-table">';
+					echo '<div class="shariff_status-row"><div class="shariff_status-cell"><span class="shariff_status-error">' . __( 'Error', 'shariff3UU' ) . '</span></div></div>';
+					echo '<div class="shariff_status-row"><div class="shariff_status-cell">' . __( 'Message:', 'shariff3UU' ) . '</div><div style="display: table-cell">' . esc_html( $fb_token['error']['message'] ) . '</div></div>';
+					echo '<div class="shariff_status-row"><div class="shariff_status-cell">' . __( 'Type:', 'shariff3UU' ) . '</div><div class="shariff_status-cell">' . esc_html( $fb_token['error']['type'] ) . '</div></div>';
+					echo '<div class="shariff_status-row"><div class="shariff_status-cell">' . __( 'Code:', 'shariff3UU' ) . '</div><div class="shariff_status-cell">' . esc_html( $fb_token['error']['code'] ) . '</div></div>';
+					echo '</div>';
+				echo '</div>';
+				// end Facebook Graph API ID row, if not working correctly bc of auth error
+				echo '</div>';
+			}
 		}
 	}
 
