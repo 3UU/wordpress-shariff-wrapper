@@ -3,11 +3,11 @@
  * Plugin Name: Shariff Wrapper
  * Plugin URI: http://www.3uu.org/plugins.htm
  * Description: This is a wrapper to Shariff. It enables shares with Twitter, Facebook ... on posts, pages and themes with no harm for visitors privacy.
- * Version: 2.5.0
+ * Version: 3.1.0
  * Author: 3UU, JP
  * Author URI: http://www.DatenVerwurstungsZentrale.com/
  * License: http://opensource.org/licenses/MIT
- * Donate link: https://www.jplambeck.de/wp-content/plugins/shariff/bitcoin.php?bitcoinaddress=1Pm5JgQkWnadUN81uakULAp3VuLSztYqz
+ * Donate link: http://folge.link/?bitcoin:1Ritz1iUaLaxuYcXhUCoFhkVRH6GWiMTP
  * Domain Path: /locale/
  * Text Domain: shariff3UU
  * 
@@ -103,7 +103,7 @@ else {
 function shariff3UU_update() {
 
 	/******************** ADJUST VERSION ********************/
-	$code_version = "2.5.0"; // set code version - needs to be adjusted for every new version!
+	$code_version = "3.1.0"; // set code version - needs to be adjusted for every new version!
 	/******************** ADJUST VERSION ********************/
 
 	// do we want to display an admin notice after the update?
@@ -982,7 +982,7 @@ function shariff3UU_help_section_callback() {
 	echo '<p>' . __( 'If you enjoy our plugin, please consider writing a review about it on ', 'shariff3UU' );
 	echo '<a href="https://wordpress.org/support/view/plugin-reviews/shariff" target="_blank">wordpress.org</a>';
 	echo __( '. If you want to support us financially, you can donate via ', 'shariff3UU' );
-	echo '<a href="https://www.jplambeck.de/wp-content/plugins/shariff/bitcoin.php?bitcoinaddress=1Pm5JgQkWnadUN81uakULAp3VuLSztYqz" target="_blank">Bitcoin</a> ';
+	echo '<a href="http://folge.link/?bitcoin=1Ritz1iUaLaxuYcXhUCoFhkVRH6GWiMTP" target="_blank">Bitcoin</a> ';
 	echo __( 'and', 'shariff3UU' );
 	echo ' <a href="https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=5BASYVM96PZ3L" target="_blanK">PayPal</a>';
 	echo __( '. Thank you!', 'shariff3UU' );
