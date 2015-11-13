@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Shariff Wrapper for Wordpress\n"
-"PO-Revision-Date: 2015-08-15 23:28+0100\n"
+"PO-Revision-Date: 2015-11-13 01:41+0100\n"
 "Last-Translator: JP\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
 "Content-Type: text/plain; charset=utf-8\n"
@@ -15,7 +15,7 @@ msgstr ""
 "Last-Translator: JP\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
-"X-Generator: Poedit 1.8.1\n"
+"X-Generator: Poedit 1.8.6\n"
 "Language: de_DE\n"
 "X-Poedit-SearchPath-0: .\n"
 
@@ -785,3 +785,33 @@ msgstr "bbPress Antworten"
 #: shariff.php:1
 msgid "The GD Library is not installed on this server. This is only needed for the QR codes, if your are using the bitcoin button."
 msgstr "Die GD-Library ist auf diesem Server nicht installiert. Diese wird nur für die QR-Codes benötigt, wenn der Bitcoin-Button verwendet wird."
+
+# @ shariff3UU
+#. Text in function
+#: shariff.php:1
+msgid "No error messages."
+msgstr "Keine Fehlermeldungen."
+
+# @ shariff3UU
+#. Text in function
+#: shariff.php:1
+msgid "name"
+msgstr "Name"
+
+# @ shariff3UU
+#. Text in function
+#: shariff.php:1
+msgid "Sets the PayPal.Me ID. Default amount can be added with a / e.g. name/25."
+msgstr "Legt die PayPal.Me ID fest. Standard Betrag kann mit einem / angehängt werden. Zum Beispiel: Name/25."
+
+# @ shariff3UU
+#. Text in function
+#: shariff.php:1
+msgid "Shariff-Settings</a> - PayPal.Me was selected, but no ID was provided! Please enter your <strong>PayPal.Me ID</strong> in the shariff options!"
+msgstr "Shariff-Einstellungen</a> - PayPal.Me wurde als Dienst ausgewählt, aber keine ID eingetragen! Bitte in den Shariff-Einstellungen eine <b>PayPal.Me ID</b> festlegen!"
+
+# @ shariff3UU
+#. Text in function
+#: shariff.php:1
+msgid "Excerpt"
+msgstr "Textauszug (Excerpt)"

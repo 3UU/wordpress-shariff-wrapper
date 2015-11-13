@@ -2,11 +2,11 @@
 Contributors: 3UU, starguide
 Tags: Twitter, Facebook, GooglePlus, sharebutton, sharing, privacy, social, whatsapp
 Requires at least: 3.0.1
-Tested up to: 4.3
+Tested up to: 4.4
 Stable tag: trunk
 License: MIT
 License URI: http://opensource.org/licenses/MIT
-Donate link: http://folge.link/?bitcoin=1Ritz1iUaLaxuYcXhUCoFhkVRH6GWiMTP
+Donate link: https://www.jplambeck.de/wp-content/plugins/shariff/bitcoin.php?bitcoinaddress=1Pm5JgQkWnadUN81uakULAp3VuLSztYqz
 
 This is a wrapper to Shariff. It enables shares with Twitter, Facebook ... on posts, pages and themes with no harm for visitors privacy.
 
@@ -51,7 +51,7 @@ To enable it for all posts please check the options in the admin menu.
 = Q: Can I use it in my theme? =
 A: Yes. 
 `<?=do_shortcode('[shariff backend="on"]')?>` 
-Backend is an example. You can use all options of the shorttag, but first you should have a look at the widget.
+Backend="on" is an example. You can use all options of the shorttag, but first you should have a look at the widget.
 
 = Q: How can I configure the widget? =
 A: It uses the same options that have been configured on the plugin options page. However, you can put in a shorttag that overwrites the default options. It has the same format as you use in posts. Take a look at the help section of the plugin options page for more information.
@@ -73,10 +73,6 @@ A: The time to live (TTL) value determines, if a share count of a post or page g
 
 = Q: I get the Facebook API error message "request limit reached" =
 A: Facebook has a rate limit of 600 requests per 600 seconds per IP address. Especially in shared hosting enviroments many domains share the same IP address and therefore the same limit. To avoid this you can try to raise the TTL value or provide a Facebook App ID and Secret. Google "facebook app id secret" will provide many guides on how to get these.
-
-= Q: How can I change the options of the backend that provide the share counts? =
-A: The backend should work well with all common configurations. If needed, you can change the cache directory with the PHP constant
-`define("SHARIFF_BACKEND_TMPDIR","/example/path/to/tmp");`
 
 = Q: How can I change the position of all buttons =
 A: Have a look at the alignment options in the admin menu or checkout the 
@@ -150,6 +146,32 @@ A: mail was replaced with mailform to provide an easier way of distinguishing be
 A: Yes, take a look at the Mail Form tab on the plugin options page.
 
 == Changelog ==
+
+= 3.1.0 =
+- new option to add buttons before/after the excerpt
+- new service Threema (thanks to medienverbinder)
+- new service Diaspora (thanks to craiq)
+- new service AddThis (thanks to bozana)
+- new share count service AddThis (thanks to bozana)
+- new service PayPal.Me
+- new google icon
+- fix title tag usage in some cases
+- fix rel to data-rel popup
+- fix round buttons in certain themes
+- fix flattr API to fetch counts again
+- workaround to fix the wrong JSON answer of xing API
+- up to date with Heise code version 1.21.0 2015-11-06
+
+= 3.0.0 =
+- new WP specific statistics backend for share counts
+- new SHARIFF_WP_ROOT_PATH constant for custom wp locations
+- automatic search for custom WP locations (thanks to hirasso)
+- fix timeout issues and a lot of other backend issues
+- deprecated Heise shariff-backend-php
+- deprecated ZendFramework
+- deprecated shariff3uu_cache directory
+- deprecated SHARIFF_BACKEND_TMPDIR constant
+
 = 2.4.3 =
 - fix proxy settings
 - fix PHP error notice caused by a race condition around concurrent requests in Zend_Cache
