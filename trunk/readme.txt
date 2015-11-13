@@ -147,6 +147,9 @@ A: Yes, take a look at the Mail Form tab on the plugin options page.
 
 == Changelog ==
 
+= 3.1.1 =
+- make admin help compatible to the new backend
+
 = 3.1.0 =
 - new option to add buttons before/after the excerpt
 - new service Threema (thanks to medienverbinder)
