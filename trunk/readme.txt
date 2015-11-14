@@ -147,6 +147,9 @@ A: Yes, take a look at the Mail Form tab on the plugin options page.
 
 == Changelog ==
 
+= 3.1.2 =
+- fix Facebook ID on 32-bit systems
+
 = 3.1.1 =
 - make admin help compatible to the new backend
 
