@@ -4,8 +4,9 @@
 
 // if we have a fb id and secret, use it
 if ( isset( $shariff3UU_advanced['fb_id'] ) && isset( $shariff3UU_advanced['fb_secret'] ) ) {
-	$fb_app_id = $shariff3UU_advanced['fb_id'];
-	$fb_app_secret = $shariff3UU_advanced['fb_secret'];
+	// on 32bit PHP the constant ist 4 and we have to disable the check
+	$fb_app_id = (PHP_INT_SIZE==='4') ? $shariff3UU_advanced['fb_id'] : absint( $shariff3UU_advanced['fb_id'] );
+	$fb_app_secret = sanitize_text_field( $shariff3UU_advanced['fb_secret'] );
 	// get fb access token
 	$fb_token = sanitize_text_field( wp_remote_retrieve_body( wp_remote_get( 'https://graph.facebook.com/oauth/access_token?client_id=' .  $fb_app_id . '&client_secret=' . $fb_app_secret . '&grant_type=client_credentials' ) ) );
 	// use token to get share counts
