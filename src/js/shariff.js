@@ -19,6 +19,7 @@ var Shariff = function(element, options) {
 	// available services. /!\ Browserify can't require dynamically by now.
 	var availableServices = [
 		require('./services/facebook.js'),
+		require('./services/vk.js'),
 		require('./services/googleplus.js'),
 		require('./services/twitter.js'),
 		require('./services/whatsapp.js'),
@@ -37,9 +38,9 @@ var Shariff = function(element, options) {
 		require('./services/tumblr.js'),
 		require('./services/patreon.js'),
 		require('./services/addthis.js'),
-		require('./services/diaspora'),
-		require('./services/threema'),
-		require('./services/paypalme'),
+		require('./services/diaspora.js'),
+		require('./services/threema.js'),
+		require('./services/paypalme.js'),
 	];
 
 	// filter available services to those that are enabled and initialize them
