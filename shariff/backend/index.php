@@ -128,13 +128,17 @@ else {
 	// Pinterest
 	include ( 'services/pinterest.php' );
 	// Flattr
-	// include ( 'services/flattr.php' ); // temporarly disabled due to problems with the flattr API
+	include ( 'services/flattr.php' );
 	// Reddit
 	include ( 'services/reddit.php' );
 	// StumbleUpon
 	include ( 'services/stumbleupon.php' );
 	// Tumblr
 	include ( 'services/tumblr.php' );
+	// AddThis
+	include ( 'services/addthis.php' );
+	// VK
+	include ( 'services/vk.php' );
 	// save transient if we have counts
 	if ( isset( $share_counts ) && $share_counts != null ) {
 		set_transient( $post_hash, $share_counts, $ttl );

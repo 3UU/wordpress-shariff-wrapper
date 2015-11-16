@@ -1,6 +1,6 @@
 {
   "name": "shariff",
-  "version": "1.16.0",
+  "version": "1.21.0",
   "description": "Shariff enables website users to share their favorite content without compromising their privacy.",
   "main": "src/js/shariff.js",
   "scripts": {
@@ -38,6 +38,8 @@
   },
   "dependencies": {
     "browserify-window": "0.0.2",
+    "grunt": "^0.4.5",
+    "grunt-cli": "^0.1.13",
     "jquery": "^1.11.2"
   },
   "publishConfig": {

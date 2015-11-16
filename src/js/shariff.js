@@ -6,260 +6,267 @@ var url = require('url');
 var window = require('browserify-window');
 
 var Shariff = function(element, options) {
-    var self = this;
+	var self = this;
 
-    // the DOM element that will contain the buttons
-    this.element = element;
+	// the DOM element that will contain the buttons
+	this.element = element;
 
-    // Ensure elemnt is empty
-    $(element).empty();
+	// Ensure elemnt is empty
+	$(element).empty();
 
-    this.options = $.extend({}, this.defaults, options, $(element).data());
+	this.options = $.extend({}, this.defaults, options, $(element).data());
 
-    // available services. /!\ Browserify can't require dynamically by now.
-    var availableServices = [
-        require('./services/facebook.js'),
-        require('./services/googleplus.js'),
-        require('./services/twitter.js'),
-        require('./services/whatsapp.js'),
-        require('./services/mailform.js'),
-        require('./services/info.js'),
-        require('./services/mailto.js'),
-        require('./services/linkedin.js'),
-        require('./services/xing.js'),
-        require('./services/pinterest.js'),
-        require('./services/reddit.js'),
-        require('./services/stumbleupon.js'),
-        require('./services/printer.js'),
-        require('./services/flattr.js'),
-        require('./services/paypal.js'),
-        require('./services/bitcoin.js'),
-        require('./services/tumblr.js'),
-        require('./services/patreon.js'),
-    ];
+	// available services. /!\ Browserify can't require dynamically by now.
+	var availableServices = [
+		require('./services/facebook.js'),
+		require('./services/vk.js'),
+		require('./services/googleplus.js'),
+		require('./services/twitter.js'),
+		require('./services/whatsapp.js'),
+		require('./services/mailform.js'),
+		require('./services/info.js'),
+		require('./services/mailto.js'),
+		require('./services/linkedin.js'),
+		require('./services/xing.js'),
+		require('./services/pinterest.js'),
+		require('./services/reddit.js'),
+		require('./services/stumbleupon.js'),
+		require('./services/printer.js'),
+		require('./services/flattr.js'),
+		require('./services/paypal.js'),
+		require('./services/bitcoin.js'),
+		require('./services/tumblr.js'),
+		require('./services/patreon.js'),
+		require('./services/addthis.js'),
+		require('./services/diaspora.js'),
+		require('./services/threema.js'),
+		require('./services/paypalme.js'),
+	];
 
-    // filter available services to those that are enabled and initialize them
-    this.services = $.map(this.options.services, function(serviceName) {
-        var service;
-        availableServices.forEach(function(availableService) {
-            availableService = availableService(self);
-            // migrate 2.3.0 mail to mailform
-            if (serviceName === 'mail') { serviceName = 'mailform'; }
-            if (availableService.name === serviceName) {
-                service = availableService;
-                return null;
-            }
-        });
-        return service;
-    });
+	// filter available services to those that are enabled and initialize them
+	this.services = $.map(this.options.services, function(serviceName) {
+		var service;
+		availableServices.forEach(function(availableService) {
+			availableService = availableService(self);
+			// migrate 2.3.0 mail to mailform
+			if (serviceName === 'mail') { serviceName = 'mailform'; }
+			if (availableService.name === serviceName) {
+				service = availableService;
+				return null;
+			}
+		});
+		return service;
+	});
 
-    this._addButtonList();
+	this._addButtonList();
 
-    if (this.options.backendUrl !== null) {
-        this.getShares().then( $.proxy( this._updateCounts, this ) );
-    }
+	if (this.options.backendUrl !== null) {
+		this.getShares().then( $.proxy( this._updateCounts, this ) );
+	}
 
 };
 
 Shariff.prototype = {
 
-    // Defaults may be over either by passing "options" to constructor method
-    // or by setting data attributes.
-    defaults: {
-        theme      : 'default',
+	// Defaults may be over either by passing "options" to constructor method
+	// or by setting data attributes.
+	defaults: {
+		theme      : 'default',
 
-        // URL to backend that requests social counts. null means "disabled"
-        backendUrl : null,
+		// URL to backend that requests social counts. null means "disabled"
+		backendUrl : null,
 
-        // Link to the "about" page
-        infoUrl: 'http://ct.de/-2467514',
+		// Link to the "about" page
+		infoUrl: 'http://ct.de/-2467514',
 
-        // localisation: "de" or "en"
-        lang: 'de',
+		// localisation: "de" or "en"
+		lang: 'de',
 
-        // fallback language for not fully localized services
-        langFallback: 'en',
+		// fallback language for not fully localized services
+		langFallback: 'en',
 
-        mailUrl: function() {
-            var shareUrl = url.parse(this.getURL(), true);
-            shareUrl.query.view = 'mail';
-            delete shareUrl.search;
-            return url.format(shareUrl);
-        },
+		mailUrl: function() {
+			var shareUrl = url.parse(this.getURL(), true);
+			shareUrl.query.view = 'mail';
+			delete shareUrl.search;
+			return url.format(shareUrl);
+		},
 
-        // if
-        mailSubject: function() {
-            return this.getMeta('DC.title') || this.getTitle();
-        },
+		// if
+		mailSubject: function() {
+			return this.getMeta('DC.title') || this.getTitle();
+		},
 
-        mailBody: function() { return '<' + this.getURL() + '>'; },
+		mailBody: function() { return '<' + this.getURL() + '>'; },
 
-        // Media (e.g. image) URL to be shared
-        mediaUrl: null,
+		// Media (e.g. image) URL to be shared
+		mediaUrl: null,
 
-        // horizontal/vertical
-        orientation: 'horizontal',
+		// horizontal/vertical
+		orientation: 'horizontal',
 
-        // big/small
-        buttonsize: 'big',
+		// big/small
+		buttonsize: 'big',
 
-        // a string to suffix current URL
-        referrerTrack: null,
+		// a string to suffix current URL
+		referrerTrack: null,
 
-        // services to be enabled in the following order
-        services   : ['twitter', 'facebook', 'googleplus', 'info'],
+		// services to be enabled in the following order
+		services   : ['twitter', 'facebook', 'googleplus', 'info'],
 
-        title: function() {
-            return $('title').text();
-        },
+		title: function() {
+			return $('head title').text();
+		},
 
-        twitterVia: null,
+		twitterVia: null,
 
-        // build URI from rel="canonical" or document.location
-        url: function() {
-            var url = global.document.location.href;
-            var canonical = $('link[rel=canonical]').attr('href') || this.getMeta('og:url') || '';
+		flattruser: null,
 
-            if (canonical.length > 0) {
-                if (canonical.indexOf('http') < 0) {
-                    canonical = global.document.location.protocol + '//' + global.document.location.host + canonical;
-                }
-                url = canonical;
-            }
+		// build URI from rel="canonical" or document.location
+		url: function() {
+			var url = global.document.location.href;
+			var canonical = $('link[rel=canonical]').attr('href') || this.getMeta('og:url') || '';
 
-            return url;
-        }
-    },
+			if (canonical.length > 0) {
+				if (canonical.indexOf('http') < 0) {
+					canonical = global.document.location.protocol + '//' + global.document.location.host + canonical;
+				}
+				url = canonical;
+			}
 
-    $socialshareElement: function() {
-        return $(this.element);
-    },
+			return url;
+		}
+	},
 
-    getLocalized: function(data, key) {
-        if (typeof data[key] === 'object') {
-            if (typeof data[key][this.options.lang] === 'undefined') {
-                return data[key][this.options.langFallback];
-            } else {
-                return data[key][this.options.lang];
-            }
-        } else if (typeof data[key] === 'string') {
-            return data[key];
-        } 
-        return undefined;
-    },
+	$socialshareElement: function() {
+		return $(this.element);
+	},
 
-    // returns content of <meta name="" content=""> tags or '' if empty/non existant
-    getMeta: function(name) {
-        var metaContent = $('meta[name="' + name + '"],[property="' + name + '"]').attr('content');
-        return metaContent || '';
-    },
+	getLocalized: function(data, key) {
+		if (typeof data[key] === 'object') {
+			if (typeof data[key][this.options.lang] === 'undefined') {
+				return data[key][this.options.langFallback];
+			} else {
+				return data[key][this.options.lang];
+			}
+		} else if (typeof data[key] === 'string') {
+			return data[key];
+		}
+		return undefined;
+	},
 
-    getInfoUrl: function() {
-        return this.options.infoUrl;
-    },
+	// returns content of <meta name="" content=""> tags or '' if empty/non existant
+	getMeta: function(name) {
+		var metaContent = $('meta[name="' + name + '"],[property="' + name + '"]').attr('content');
+		return metaContent || '';
+	},
 
-    getURL: function() {
-        return this.getOption('url');
-    },
+	getInfoUrl: function() {
+		return this.options.infoUrl;
+	},
 
-    getOption: function(name) {
-        var option = this.options[name];
-        return (typeof option === 'function') ? $.proxy(option, this)() : option;
-    },
+	getURL: function() {
+		return this.getOption('url');
+	},
 
-    getTitle: function() {
-        return this.getOption('title');
-    },
+	getOption: function(name) {
+		var option = this.options[name];
+		return (typeof option === 'function') ? $.proxy(option, this)() : option;
+	},
 
-    getReferrerTrack: function() {
-        return this.options.referrerTrack || '';
-    },
+	getTitle: function() {
+		return this.getOption('title');
+	},
 
-    // set a default image for pinterest by using media=""
-    getMedia: function() {
-        return this.getOption('media');
-    },
+	getReferrerTrack: function() {
+		return this.options.referrerTrack || '';
+	},
 
-    // returns shareCounts of document
-    getShares: function() {
-        var baseUrl = url.parse(this.options.backendUrl, true);
-        baseUrl.query.url = this.getURL();
-        delete baseUrl.search;
-        return $.getJSON(url.format(baseUrl));
-    },
+	// set a default image for pinterest by using media=""
+	getMedia: function() {
+		return this.getOption('media');
+	},
 
-    // add value of shares for each service
-    _updateCounts: function(data) {
-        var self = this;
-        $.each(data, function(key, value) {
-            if(value >= 1000) {
-                value = Math.round(value / 1000) + 'k';
-            }
-            $(self.element).find('.' + key + ' a').append('<span class="share_count">' + value);
-        });
-    },
+	// returns shareCounts of document
+	getShares: function() {
+		var baseUrl = url.parse(this.options.backendUrl, true);
+		baseUrl.query.url = this.getURL();
+		delete baseUrl.search;
+		return $.getJSON(url.format(baseUrl));
+	},
 
-    // add html for button-container
-    _addButtonList: function() {
-        var self = this;
+	// add value of shares for each service
+	_updateCounts: function(data) {
+		var self = this;
+		$.each(data, function(key, value) {
+			if(value >= 1000) {
+				value = Math.round(value / 1000) + 'k';
+			}
+			$(self.element).find('.' + key + ' a').append('<span class="share_count">' + value);
+		});
+	},
 
-        var $socialshareElement = this.$socialshareElement();
+	// add html for button-container
+	_addButtonList: function() {
+		var self = this;
 
-        var themeClass = 'theme-' + this.options.theme;
-        var orientationClass = 'orientation-' + this.options.orientation;
-        var serviceCountClass = 'col-' + this.options.services.length;
-        var buttonsizeClass = 'buttonsize-' + this.options.buttonsize;
+		var $socialshareElement = this.$socialshareElement();
 
-        var $buttonList = $('<ul>').addClass(themeClass).addClass(orientationClass).addClass(serviceCountClass).addClass(buttonsizeClass);
+		var themeClass = 'theme-' + this.options.theme;
+		var orientationClass = 'orientation-' + this.options.orientation;
+		var serviceCountClass = 'col-' + this.options.services.length;
+		var buttonsizeClass = 'buttonsize-' + this.options.buttonsize;
 
-        // add html for service-links
-        this.services.forEach(function(service) {
-        // adding mobile-only option for whatsapp and fix mobile Mozilla problem by checking for window.document.ontouchstart as object
-        if (!service.mobileonly || (typeof window.orientation !== 'undefined') || (typeof(window.document.ontouchstart) === 'object')) {
-            var $li = $('<li class="shariff-button">').addClass(service.name);
-            var $shareText = '<span class="share_text">' + self.getLocalized(service, 'shareText');
+		var $buttonList = $('<ul>').addClass(themeClass).addClass(orientationClass).addClass(serviceCountClass).addClass(buttonsizeClass);
 
-            var $shareLink = $('<a>')
-              .attr('href', service.shareUrl)
-              .append($shareText);
+		// add html for service-links
+		this.services.forEach(function(service) {
+		// adding mobile-only option for whatsapp and fix mobile Mozilla problem by checking for window.document.ontouchstart as object
+		if (!service.mobileonly || (typeof window.orientation !== 'undefined') || (typeof(window.document.ontouchstart) === 'object')) {
+			var $li = $('<li class="shariff-button">').addClass(service.name);
+			var $shareText = '<span class="share_text">' + self.getLocalized(service, 'shareText');
 
-            if (typeof service.faName !== 'undefined') {
-                $shareLink.prepend('<span class="s3uu ' +  service.faName + '">');
-            }
+			var $shareLink = $('<a>')
+			  .attr('href', service.shareUrl)
+			  .append($shareText);
 
-            if (service.popup) {
-                $shareLink.attr('rel', 'popup');
-            } else if (service.blank) {
-                $shareLink.attr('target', '_blank');
-            }
-            $shareLink.attr('title', self.getLocalized(service, 'title'));
+			if (typeof service.faName !== 'undefined') {
+				$shareLink.prepend('<span class="s3uu ' +  service.faName + '">');
+			}
 
-            // add attributes for screen readers
-            $shareLink.attr('role', 'button');
-            $shareLink.attr('aria-label', self.getLocalized(service, 'title'));
+			if (service.popup) {
+				$shareLink.attr('data-rel', 'popup');
+			} else if (service.blank) {
+				$shareLink.attr('target', '_blank');
+			}
+			$shareLink.attr('title', self.getLocalized(service, 'title'));
 
-            $li.append($shareLink);
+			// add attributes for screen readers
+			$shareLink.attr('role', 'button');
+			$shareLink.attr('aria-label', self.getLocalized(service, 'title'));
 
-            $buttonList.append($li);
-        }
-        });
+			$li.append($shareLink);
 
-        // event delegation
-        $buttonList.on('click', '[rel="popup"]', function(e) {
-            e.preventDefault();
+			$buttonList.append($li);
+		}
+		});
 
-            var url = $(this).attr('href');
-            var windowName = '_blank';
-            var windowSizeX = '1000';
-            var windowSizeY = '500';
-            var windowSize = 'width=' + windowSizeX + ',height=' + windowSizeY + ',scrollbars=yes';
+		// event delegation
+		$buttonList.on('click', '[data-rel="popup"]', function(e) {
+			e.preventDefault();
 
-            global.window.open(url, windowName, windowSize);
+			var url = $(this).attr('href');
+			var windowName = '_blank';
+			var windowSizeX = '1000';
+			var windowSizeY = '500';
+			var windowSize = 'width=' + windowSizeX + ',height=' + windowSizeY + ',scrollbars=yes';
 
-        });
+			global.window.open(url, windowName, windowSize);
 
-        $socialshareElement.append($buttonList);
-    }
+		});
+
+		$socialshareElement.append($buttonList);
+	}
 };
 
 module.exports = Shariff;
@@ -269,7 +276,7 @@ global.Shariff = Shariff;
 
 // initialize .shariff elements
 $('.shariff').each(function() {
-    if (!this.hasOwnProperty('shariff')) {
-        this.shariff = new Shariff(this);
-    }
+	if (!this.hasOwnProperty('shariff')) {
+		this.shariff = new Shariff(this);
+	}
 });

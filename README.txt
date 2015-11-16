@@ -17,4 +17,6 @@ This is the development Repo for https://wordpress.org/plugins/shariff/
 git clone https://github.com/3UU/wordpress-shariff-wrapper.git
 npm install
 npm install browserify-window --save
+# if grunt does not work 
+# npm install grunt-cli -g
 grunt wp

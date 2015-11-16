@@ -3,7 +3,7 @@
  * Plugin Name: Shariff Wrapper
  * Plugin URI: http://www.3uu.org/plugins.htm
  * Description: This is a wrapper to Shariff. It enables shares with Twitter, Facebook ... on posts, pages and themes with no harm for visitors privacy.
- * Version: 2.5.0
+ * Version: 3.1.2
  * Author: 3UU, JP
  * Author URI: http://www.DatenVerwurstungsZentrale.com/
  * License: http://opensource.org/licenses/MIT
@@ -12,7 +12,7 @@
  * Text Domain: shariff3UU
  * 
  * ### Supported options ###
- *   services: [facebook|twitter|googleplus|whatsapp|pinterest|linkedin|xing|reddit|stumbleupon|tumblr|flattr|patreon|paypal|bitcoin|mailform|mailto|printer|info]
+ *   services: [facebook|twitter|googleplus|whatsapp|threema|pinterest|linkedin|xing|reddit|stumbleupon|tumblr|diaspora|addthis|flattr|patreon|paypal|paypalme|bitcoin|mailform|mailto|printer|info]
  *   info_url: http://ct.de/-2467514
  *   lang: de|en
  *   theme: default|color|grey|white|round
@@ -61,6 +61,12 @@ else {
 				'style' => array(),
 				'id' => array()
 			),
+		'div' => array 
+			(
+				'class' => array(),
+				'style' => array(),
+				'id' => array()
+			),
 		'p' => array
 			(
 				'class' => array(),
@@ -79,6 +85,12 @@ else {
 				'style' => array(),
 				'id' => array()
 			),
+		'h3' => array
+			(
+				'class' => array(),
+				'style' => array(),
+				'id' => array()
+			),
 		'hr' => array
 			(
 				'class' => array(),
@@ -91,7 +103,7 @@ else {
 function shariff3UU_update() {
 
 	/******************** ADJUST VERSION ********************/
-	$code_version = "2.5.0"; // set code version - needs to be adjusted for every new version!
+	$code_version = "3.1.2"; // set code version - needs to be adjusted for every new version!
 	/******************** ADJUST VERSION ********************/
 
 	// do we want to display an admin notice after the update?
@@ -331,6 +343,11 @@ function shariff3UU_options_init(){
 		'shariff3UU_text_paypalbuttonid', __( 'PayPal hosted button ID:', 'shariff3UU' ),
 		'shariff3UU_text_paypalbuttonid_render', 'advanced', 'shariff3UU_advanced_section' );
 
+	// paypalme id
+	add_settings_field(
+		'shariff3UU_text_paypalmeid', __( 'PayPal.Me ID:', 'shariff3UU' ),
+		'shariff3UU_text_paypalmeid_render', 'advanced', 'shariff3UU_advanced_section' );
+
 	// bitcoin address
 	add_settings_field(
 		'shariff3UU_text_bitcoinaddress', __( 'Bitcoin address:', 'shariff3UU' ),
@@ -448,6 +465,7 @@ function shariff3UU_advanced_sanitize( $input ) {
 	if ( isset($input["flattruser"] ) )    			$valid["flattruser"]       		= str_replace( '@', '', sanitize_text_field( $input["flattruser"] ) );
 	if ( isset($input["patreonid"] ) )    			$valid["patreonid"]       		= str_replace( '@', '', sanitize_text_field( $input["patreonid"] ) );
 	if ( isset($input["paypalbuttonid"] ) )    		$valid["paypalbuttonid"]       	= str_replace( '@', '', sanitize_text_field( $input["paypalbuttonid"] ) );
+	if ( isset($input["paypalmeid"] ) )      		$valid["paypalmeid"]       	    = str_replace( '@', '', sanitize_text_field( $input["paypalmeid"] ) );
 	if ( isset($input["bitcoinaddress"] ) )    		$valid["bitcoinaddress"]       	= str_replace( '@', '', sanitize_text_field( $input["bitcoinaddress"] ) );
 	if ( isset($input["default_pinterest"] ) ) 	    $valid["default_pinterest"]		= sanitize_text_field( $input["default_pinterest"] );
 	if ( isset($input["fb_id"] ) ) 	    			$valid["fb_id"]					= sanitize_text_field( $input["fb_id"] );
@@ -516,8 +534,8 @@ function shariff3UU_text_services_render(){
 		$services = '';
 	}
 	echo '<input type="text" name="shariff3UU_basic[services]" value="' . esc_html($services) . '" size="50" placeholder="twitter|facebook|googleplus|info">';
-	echo '<p><code>facebook|twitter|googleplus|whatsapp|pinterest|xing|linkedin|reddit</code></p>';
-	echo '<p><code>stumbleupon|tumblr|flattr|patreon|paypal|bitcoin|mailform|mailto|printer|info</code></p>'; 
+	echo '<p><code>facebook|twitter|googleplus|whatsapp|threema|pinterest|xing|linkedin|reddit|diaspora</code></p>';
+	echo '<p><code>stumbleupon|tumblr|addthis|flattr|patreon|paypal|paypalme|bitcoin|mailform|mailto|printer|info</code></p>'; 
 	echo '<p>' . __( 'Use the pipe sign | (Alt Gr + &lt; or &#8997; + 7) between two or more services.', 'shariff3UU' ) . '</p>';
 }
 
@@ -794,6 +812,17 @@ function shariff3UU_text_paypalbuttonid_render() {
 	echo '<input type="text" name="shariff3UU_advanced[paypalbuttonid]" value="'. $paypalbuttonid .'" size="50" placeholder="' . __( '1ABCDEF23GH4I', 'shariff3UU' ) . '">';
 }
 
+// paypalme id
+function shariff3UU_text_paypalmeid_render() {
+	if ( isset($GLOBALS["shariff3UU_advanced"]["paypalmeid"]) ) {
+		$paypalmeid = $GLOBALS["shariff3UU_advanced"]["paypalmeid"];
+	}
+	else { 
+		$paypalmeid = '';
+	}
+	echo '<input type="text" name="shariff3UU_advanced[paypalmeid]" value="'. $paypalmeid .'" size="50" placeholder="' . __( 'name', 'shariff3UU' ) . '">';
+}
+
 // bitcoin address
 function shariff3UU_text_bitcoinaddress_render() {
 	if ( isset($GLOBALS["shariff3UU_advanced"]["bitcoinaddress"]) ) {
@@ -973,7 +1002,7 @@ function shariff3UU_help_section_callback() {
 		// services
 		echo '<div class="shariff_shortcode_row">';
 			echo '<div class="shariff_shortcode_cell">services</div>';
-			echo '<div class="shariff_shortcode_cell">facebook<br>twitter<br>googleplus<br>whatsapp<br>pinterest<br>xing<br>linkedin<br>reddit<br>stumbleupon<br>tumblr<br>flattr<br>patreon<br>paypal<br>bitcoin<br>mailform<br>mailto<br>printer<br>info</div>';
+			echo '<div class="shariff_shortcode_cell">facebook<br>twitter<br>googleplus<br>whatsapp<br>threema<br>pinterest<br>xing<br>linkedin<br>reddit<br>stumbleupon<br>tumblr<br>diaspora<br>addthis<br>flattr<br>patreon<br>paypal<br>paypalme<br>bitcoin<br>mailform<br>mailto<br>printer<br>info</div>';
 			echo '<div class="shariff_shortcode_cell">twitter|facebook|googleplus|info</div>';
 			echo '<div class="shariff_shortcode_cell">[shariff theme="facebook|twitter|mailform"]</div>';
 			echo '<div class="shariff_shortcode_cell">' . __( 'Determines which buttons to show and in which order.', 'shariff3UU' ) . '</div>';
@@ -1057,7 +1086,15 @@ function shariff3UU_help_section_callback() {
 			echo '<div class="shariff_shortcode_cell"></div>';
 			echo '<div class="shariff_shortcode_cell">[shariff paypalbuttonid="hosted_button_id"]</div>';
 			echo '<div class="shariff_shortcode_cell">' . __( 'Sets the PayPal hosted button ID.', 'shariff3UU' ) . '</div>';
-		echo '</div>';		
+		echo '</div>';
+		// paypalmeid
+		echo '<div class="shariff_shortcode_row">';
+			echo '<div class="shariff_shortcode_cell">paypalmeid</div>';
+			echo '<div class="shariff_shortcode_cell"></div>';
+			echo '<div class="shariff_shortcode_cell"></div>';
+			echo '<div class="shariff_shortcode_cell">[shariff paypalmeid="name"]</div>';
+			echo '<div class="shariff_shortcode_cell">' . __( 'Sets the PayPal.Me ID. Default amount can be added with a / e.g. name/25.', 'shariff3UU' ) . '</div>';
+		echo '</div>';	
 		// bitcoinaddress
 		echo '<div class="shariff_shortcode_row">';
 			echo '<div class="shariff_shortcode_cell">bitcoinaddress</div>';
@@ -1125,7 +1162,7 @@ function shariff3UU_status_section_callback() {
 		$wp_url = get_bloginfo('url');
 		$wp_url = preg_replace('#^https?://#', '', $wp_url);
 		$backend_testurl = plugin_dir_url( __FILE__ ) . 'backend/index.php?url=http%3A%2F%2F' . $wp_url;
-		$backend_output = sanitize_text_field( wp_remote_retrieve_body( wp_remote_get( $backend_testurl ) ) );
+		$backend_output = sanitize_text_field( wp_remote_retrieve_body( wp_remote_get( $backend_testurl, array( 'timeout' => 11 ) ) ) );
 		$backend_output_json = json_decode( $backend_output, true );
 		if ( ! isset( $backend_output_json['errors'] ) ) {
 			// statistic working message
@@ -1139,108 +1176,6 @@ function shariff3UU_status_section_callback() {
 			echo '</div>';
 			// end statistic row, if working correctly
 			echo '</div>';
-			// Facebook row
-			echo '<div class="shariff_status-row">';
-			echo '<div class="shariff_status-cell">' . __( 'Facebook:', 'shariff3UU' ) . '</div>';
-			// check if Facebook is responding correctly (no rate limits actice, etc.)
-			$blog_url = urlencode( esc_url( get_bloginfo('url') ) );
-			$facebook = sanitize_text_field( wp_remote_retrieve_body( wp_remote_get( 'https://graph.facebook.com/fql?q=SELECT%20share_count%20FROM%20link_stat%20WHERE%20url="' . $blog_url . '"' ) ) );
-			$facebook = json_decode( $facebook, true );
-			if ( isset( $facebook['data']['0']['share_count'] ) ) {
-				// Facebook working message
-				echo '<div class="shariff_status-cell">';
-					// working message table
-					echo '<div style="display: table">';
-					echo '<div class="shariff_status-row"><div class="shariff_status-cell"><span class="shariff_status-ok">' . __( 'OK', 'shariff3UU' ) . '</span></div></div>';
-					echo '<div class="shariff_status-row"><div class="shariff_status-cell">' . __( 'Current share count for ', 'shariff3UU' ) . urldecode( $blog_url ) . ': ' . absint( $facebook['data']['0']['share_count'] ) . '</div></div>';
-					echo '</div>';
-				echo '</div>';
-				// end Facebook row, if working correctly
-				echo '</div>';
-			}
-			elseif ( isset( $facebook['error']['message'] ) ) {
-				// Facebook API error message
-				echo '<div class="shariff_status-cell">';
-					// error message table
-					echo '<div class="shariff_status-table">';
-					echo '<div class="shariff_status-row"><div class="shariff_status-cell"><span class="shariff_status-error">' . __( 'Error', 'shariff3UU' ) . '</span></div></div>';
-					echo '<div class="shariff_status-row"><div class="shariff_status-cell">' . __( 'Message:', 'shariff3UU' ) . '</div><div style="display: table-cell">' . esc_html( $facebook['error']['message'] ) . '</div></div>';
-					echo '<div class="shariff_status-row"><div class="shariff_status-cell">' . __( 'Type:', 'shariff3UU' ) . '</div><div class="shariff_status-cell">' . esc_html( $facebook['error']['type'] ) . '</div></div>';
-					echo '<div class="shariff_status-row"><div class="shariff_status-cell">' . __( 'Code:', 'shariff3UU' ) . '</div><div class="shariff_status-cell">' . esc_html( $facebook['error']['code'] ) . '</div></div>';
-					echo '</div>';
-				echo '</div>';
-				// end Facebook row, if not working correctly
-				echo '</div>';
-			}
-			// Facebook Graph API ID row
-			echo '<div class="shariff_status-row">';
-			echo '<div class="shariff_status-cell">' . __( 'Facebook API (ID):', 'shariff3UU' ) . '</div>';
-			// credentials provided?
-			if ( ! isset( $GLOBALS['shariff3UU_advanced']['fb_id'] ) || ! isset( $GLOBALS['shariff3UU_advanced']['fb_secret'] ) ) {
-				// no credentials
-				echo '<div class="shariff_status-cell">';
-					echo '<div class="shariff_status-table">';
-					echo '<div class="shariff_status-row"><div class="shariff_status-cell"><span class="shariff_status-disabled">' . __( 'Not configured', 'shariff3UU' ) . '</span></div></div>';
-					echo '</div>';
-				echo '</div>';
-				// end Graph API ID row, if not configured
-				echo '</div>';
-			}
-			else {
-				// app_id and secret
-				$fb_app_id = $GLOBALS['shariff3UU_advanced']['fb_id'];
-				$fb_app_secret = $GLOBALS['shariff3UU_advanced']['fb_secret'];
-				// check if Facebook Graph API ID is responding correctly (no rate limits actice, credentials ok, etc.)
-				$blog_url = urlencode( esc_url( get_bloginfo('url') ) );
-				// get fb access token
-				$fb_token = sanitize_text_field( wp_remote_retrieve_body( wp_remote_get( 'https://graph.facebook.com/oauth/access_token?client_id=' .  $fb_app_id . '&client_secret=' . $fb_app_secret . '&grant_type=client_credentials' ) ) );
-				// use token to get share counts
-				$facebookID = sanitize_text_field( wp_remote_retrieve_body( wp_remote_get( 'https://graph.facebook.com/v2.2/?id=' . $blog_url . '&' . $fb_token ) ) );
-				$facebookID = json_decode( $facebookID, true );
-				$fb_token = json_decode( $fb_token, true );
-				// is it working?
-				if ( isset( $facebookID['share']['share_count'] ) ) {
-					// Facebook Graph API ID working message
-					echo '<div class="shariff_status-cell">';
-						// working message table
-						echo '<div style="display: table">';
-						echo '<div class="shariff_status-row"><div class="shariff_status-cell"><span class="shariff_status-ok">' . __( 'OK', 'shariff3UU' ) . '</span></div></div>';
-						echo '<div class="shariff_status-row"><div class="shariff_status-cell">' . __( 'Current share count for ', 'shariff3UU' ) . urldecode( $blog_url ) . ': ' . absint( $facebookID['share']['share_count'] ) . '</div></div>';
-						echo '</div>';
-					echo '</div>';
-					// end Facebook Graph API ID row, if working correctly
-					echo '</div>';
-				}
-				elseif ( isset( $facebookID['error']['message'] ) ) {
-					// Facebook Graph API ID error message
-					echo '<div class="shariff_status-cell">';
-						// error message table
-						echo '<div class="shariff_status-table">';
-						echo '<div class="shariff_status-row"><div class="shariff_status-cell"><span class="shariff_status-error">' . __( 'Error', 'shariff3UU' ) . '</span></div></div>';
-						echo '<div class="shariff_status-row"><div class="shariff_status-cell">' . __( 'Message:', 'shariff3UU' ) . '</div><div style="display: table-cell">' . esc_html( $facebookID['error']['message'] ) . '</div></div>';
-						echo '<div class="shariff_status-row"><div class="shariff_status-cell">' . __( 'Type:', 'shariff3UU' ) . '</div><div class="shariff_status-cell">' . esc_html( $facebookID['error']['type'] ) . '</div></div>';
-						echo '<div class="shariff_status-row"><div class="shariff_status-cell">' . __( 'Code:', 'shariff3UU' ) . '</div><div class="shariff_status-cell">' . esc_html( $facebookID['error']['code'] ) . '</div></div>';
-						echo '</div>';
-					echo '</div>';
-					// end Facebook Graph API ID row, if not working correctly
-					echo '</div>';
-				}
-				elseif ( isset( $fb_token['error']['message'] ) ) {
-					// Facebook Graph API ID auth error message
-					echo '<div class="shariff_status-cell">';
-						// error message table
-						echo '<div class="shariff_status-table">';
-						echo '<div class="shariff_status-row"><div class="shariff_status-cell"><span class="shariff_status-error">' . __( 'Error', 'shariff3UU' ) . '</span></div></div>';
-						echo '<div class="shariff_status-row"><div class="shariff_status-cell">' . __( 'Message:', 'shariff3UU' ) . '</div><div style="display: table-cell">' . esc_html( $fb_token['error']['message'] ) . '</div></div>';
-						echo '<div class="shariff_status-row"><div class="shariff_status-cell">' . __( 'Type:', 'shariff3UU' ) . '</div><div class="shariff_status-cell">' . esc_html( $fb_token['error']['type'] ) . '</div></div>';
-						echo '<div class="shariff_status-row"><div class="shariff_status-cell">' . __( 'Code:', 'shariff3UU' ) . '</div><div class="shariff_status-cell">' . esc_html( $fb_token['error']['code'] ) . '</div></div>';
-						echo '</div>';
-					echo '</div>';
-					// end Facebook Graph API ID row, if not working correctly bc of auth error
-					echo '</div>';
-				}
-
-			}
 		}
 		else {
 			// statistic error message
@@ -1249,11 +1184,115 @@ function shariff3UU_status_section_callback() {
 				echo '<div class="shariff_status-table">';
 				echo '<div class="shariff_status-row"><div class="shariff_status-cell"><span class="shariff_status-error">' . __( 'Error', 'shariff3UU' ) . '</span></div></div>';
 				echo '<div class="shariff_status-row"><div class="shariff_status-cell">' . __( 'Backend error.', 'shariff3UU' ) . '</div></div>';
-				echo '<div class="shariff_status-row"><div class="shariff_status-cell">' . esc_html( $backend_output_json ) . '</div></div>';
-				echo '</div>';
+				echo '<div class="shariff_status-row"><div class="shariff_status-cell">';
+				foreach( $backend_output_json['errors'] as $service_error ) {
+    				echo esc_html( $service_error );
+				}
+				echo '</div></div></div>';
 			echo '</div>';
 			// end statistic row, if not working correctly
 			echo '</div>';
+		}
+		// Facebook row
+		echo '<div class="shariff_status-row">';
+		echo '<div class="shariff_status-cell">' . __( 'Facebook:', 'shariff3UU' ) . '</div>';
+		// check if Facebook is responding correctly (no rate limits actice, etc.)
+		$blog_url = urlencode( esc_url( get_bloginfo('url') ) );
+		$facebook = sanitize_text_field( wp_remote_retrieve_body( wp_remote_get( 'https://graph.facebook.com/fql?q=SELECT%20share_count%20FROM%20link_stat%20WHERE%20url="' . $blog_url . '"' ) ) );
+		$facebook = json_decode( $facebook, true );
+		if ( isset( $facebook['data']['0']['share_count'] ) ) {
+			// Facebook working message
+			echo '<div class="shariff_status-cell">';
+				// working message table
+				echo '<div style="display: table">';
+				echo '<div class="shariff_status-row"><div class="shariff_status-cell"><span class="shariff_status-ok">' . __( 'OK', 'shariff3UU' ) . '</span></div></div>';
+				echo '<div class="shariff_status-row"><div class="shariff_status-cell">' . __( 'Current share count for ', 'shariff3UU' ) . urldecode( $blog_url ) . ': ' . absint( $facebook['data']['0']['share_count'] ) . '</div></div>';
+				echo '</div>';
+			echo '</div>';
+			// end Facebook row, if working correctly
+			echo '</div>';
+		}
+		elseif ( isset( $facebook['error']['message'] ) ) {
+			// Facebook API error message
+			echo '<div class="shariff_status-cell">';
+				// error message table
+				echo '<div class="shariff_status-table">';
+				echo '<div class="shariff_status-row"><div class="shariff_status-cell"><span class="shariff_status-error">' . __( 'Error', 'shariff3UU' ) . '</span></div></div>';
+				echo '<div class="shariff_status-row"><div class="shariff_status-cell">' . __( 'Message:', 'shariff3UU' ) . '</div><div style="display: table-cell">' . esc_html( $facebook['error']['message'] ) . '</div></div>';
+				echo '<div class="shariff_status-row"><div class="shariff_status-cell">' . __( 'Type:', 'shariff3UU' ) . '</div><div class="shariff_status-cell">' . esc_html( $facebook['error']['type'] ) . '</div></div>';
+				echo '<div class="shariff_status-row"><div class="shariff_status-cell">' . __( 'Code:', 'shariff3UU' ) . '</div><div class="shariff_status-cell">' . esc_html( $facebook['error']['code'] ) . '</div></div>';
+				echo '</div>';
+			echo '</div>';
+			// end Facebook row, if not working correctly
+			echo '</div>';
+		}
+		// Facebook Graph API ID row
+		echo '<div class="shariff_status-row">';
+		echo '<div class="shariff_status-cell">' . __( 'Facebook API (ID):', 'shariff3UU' ) . '</div>';
+		// credentials provided?
+		if ( ! isset( $GLOBALS['shariff3UU_advanced']['fb_id'] ) || ! isset( $GLOBALS['shariff3UU_advanced']['fb_secret'] ) ) {
+			// no credentials
+			echo '<div class="shariff_status-cell">';
+				echo '<div class="shariff_status-table">';
+				echo '<div class="shariff_status-row"><div class="shariff_status-cell"><span class="shariff_status-disabled">' . __( 'Not configured', 'shariff3UU' ) . '</span></div></div>';
+				echo '</div>';
+			echo '</div>';
+			// end Graph API ID row, if not configured
+			echo '</div>';
+		}
+		else {
+			// app_id and secret
+			$fb_app_id = $GLOBALS['shariff3UU_advanced']['fb_id'];
+			$fb_app_secret = $GLOBALS['shariff3UU_advanced']['fb_secret'];
+			// check if Facebook Graph API ID is responding correctly (no rate limits actice, credentials ok, etc.)
+			$blog_url = urlencode( esc_url( get_bloginfo('url') ) );
+			// get fb access token
+			$fb_token = sanitize_text_field( wp_remote_retrieve_body( wp_remote_get( 'https://graph.facebook.com/oauth/access_token?client_id=' .  $fb_app_id . '&client_secret=' . $fb_app_secret . '&grant_type=client_credentials' ) ) );
+			// use token to get share counts
+			$facebookID = sanitize_text_field( wp_remote_retrieve_body( wp_remote_get( 'https://graph.facebook.com/v2.2/?id=' . $blog_url . '&' . $fb_token ) ) );
+			$facebookID = json_decode( $facebookID, true );
+			$fb_token = json_decode( $fb_token, true );
+			// is it working?
+			if ( isset( $facebookID['share']['share_count'] ) ) {
+				// Facebook Graph API ID working message
+				echo '<div class="shariff_status-cell">';
+					// working message table
+					echo '<div style="display: table">';
+					echo '<div class="shariff_status-row"><div class="shariff_status-cell"><span class="shariff_status-ok">' . __( 'OK', 'shariff3UU' ) . '</span></div></div>';
+					echo '<div class="shariff_status-row"><div class="shariff_status-cell">' . __( 'Current share count for ', 'shariff3UU' ) . urldecode( $blog_url ) . ': ' . absint( $facebookID['share']['share_count'] ) . '</div></div>';
+					echo '</div>';
+				echo '</div>';
+				// end Facebook Graph API ID row, if working correctly
+				echo '</div>';
+			}
+			elseif ( isset( $facebookID['error']['message'] ) ) {
+				// Facebook Graph API ID error message
+				echo '<div class="shariff_status-cell">';
+					// error message table
+					echo '<div class="shariff_status-table">';
+					echo '<div class="shariff_status-row"><div class="shariff_status-cell"><span class="shariff_status-error">' . __( 'Error', 'shariff3UU' ) . '</span></div></div>';
+					echo '<div class="shariff_status-row"><div class="shariff_status-cell">' . __( 'Message:', 'shariff3UU' ) . '</div><div style="display: table-cell">' . esc_html( $facebookID['error']['message'] ) . '</div></div>';
+					echo '<div class="shariff_status-row"><div class="shariff_status-cell">' . __( 'Type:', 'shariff3UU' ) . '</div><div class="shariff_status-cell">' . esc_html( $facebookID['error']['type'] ) . '</div></div>';
+					echo '<div class="shariff_status-row"><div class="shariff_status-cell">' . __( 'Code:', 'shariff3UU' ) . '</div><div class="shariff_status-cell">' . esc_html( $facebookID['error']['code'] ) . '</div></div>';
+					echo '</div>';
+				echo '</div>';
+				// end Facebook Graph API ID row, if not working correctly
+				echo '</div>';
+			}
+			elseif ( isset( $fb_token['error']['message'] ) ) {
+				// Facebook Graph API ID auth error message
+				echo '<div class="shariff_status-cell">';
+					// error message table
+					echo '<div class="shariff_status-table">';
+					echo '<div class="shariff_status-row"><div class="shariff_status-cell"><span class="shariff_status-error">' . __( 'Error', 'shariff3UU' ) . '</span></div></div>';
+					echo '<div class="shariff_status-row"><div class="shariff_status-cell">' . __( 'Message:', 'shariff3UU' ) . '</div><div style="display: table-cell">' . esc_html( $fb_token['error']['message'] ) . '</div></div>';
+					echo '<div class="shariff_status-row"><div class="shariff_status-cell">' . __( 'Type:', 'shariff3UU' ) . '</div><div class="shariff_status-cell">' . esc_html( $fb_token['error']['type'] ) . '</div></div>';
+					echo '<div class="shariff_status-row"><div class="shariff_status-cell">' . __( 'Code:', 'shariff3UU' ) . '</div><div class="shariff_status-cell">' . esc_html( $fb_token['error']['code'] ) . '</div></div>';
+					echo '</div>';
+				echo '</div>';
+				// end Facebook Graph API ID row, if not working correctly bc of auth error
+				echo '</div>';
+			}
 		}
 	}
 
@@ -1954,6 +1993,7 @@ function Render3UUShariff( $atts, $content = null ) {
 	if ( array_key_exists( 'flattruser', $atts ) )      $output .= ' data-flattruser="'     . esc_html( $atts['flattruser'] ) . '"';
 	if ( array_key_exists( 'patreonid', $atts ) )       $output .= ' data-patreonid="'      . esc_html( $atts['patreonid'] ) . '"';
 	if ( array_key_exists( 'paypalbuttonid', $atts ) )  $output .= ' data-paypalbuttonid="' . esc_html( $atts['paypalbuttonid'] ) . '"';
+	if ( array_key_exists( 'paypalmeid', $atts ) )      $output .= ' data-paypalmeid="'     . esc_html( $atts['paypalmeid'] ) . '"';
 	if ( array_key_exists( 'bitcoinaddress', $atts ) )  $output .= ' data-bitcoinaddress="' . esc_html( $atts['bitcoinaddress'] ) . '"';
 	if ( array_key_exists( 'bitcoinaddress', $atts ) )  $output .= ' data-bitcoinurl="'     . esc_url( plugins_url( '/', __FILE__ ) ) . '"';
 	if ( array_key_exists( 'buttonsize', $atts ) )      $output .= ' data-buttonsize="'     . esc_html( $atts['buttonsize'] ) . '"';
@@ -1967,18 +2007,22 @@ function Render3UUShariff( $atts, $content = null ) {
 		$strServices = '';
 		$flattr_error = '';
 		$paypal_error = '';
+		$paypalme_error = '';
 		$bitcoin_error = '';
 		$patreon_error = '';
 		// walk
 		while ( list( $key, $val ) = each( $s ) ) { 
 			// services without usernames, etc.
-			if ( $val != 'flattr' && $val != 'paypal' && $val != 'bitcoin' && $val != 'patreon' ) $strServices .= '"' . $val . '", ';
+			if ( $val != 'flattr' && $val != 'paypal' && $val != 'bitcoin' && $val != 'patreon' && $val != 'paypalme' ) $strServices .= '"' . $val . '", ';
 			// check if flattr username is set
 			elseif ( $val == 'flattr' && array_key_exists( 'flattruser', $atts ) ) $strServices .= '"' . $val . '", ';
 			elseif ( $val == 'flattr' ) $flattr_error = '1';
 			// check if paypal button id is set
 			elseif ( $val == 'paypal' && array_key_exists( 'paypalbuttonid', $atts ) ) $strServices .= '"' . $val . '", ';
 			elseif ( $val == 'paypal' ) $paypal_error = '1';
+			// check if paypal.me id is set
+			elseif ( $val == 'paypalme' && array_key_exists( 'paypalmeid', $atts ) ) $strServices .= '"' . $val . '", ';
+			elseif ( $val == 'paypalme' ) $paypalme_error = '1';
 			// check if bitcoin address is set
 			elseif ( $val == 'bitcoin' && array_key_exists( 'bitcoinaddress', $atts ) ) $strServices .= '"' . $val . '", ';
 			elseif ( $val == 'bitcoin' ) $bitcoin_error = '1';
@@ -2027,6 +2071,11 @@ function Render3UUShariff( $atts, $content = null ) {
 	// display warning to admins if paypal is set, but no paypal button id is provided
 	if ( $paypal_error == '1' && current_user_can( 'manage_options' ) ) {
 		$output .= '<div class="flattr_warning">' . __('Button ID for PayPal is missing!', 'shariff3UU') . '</div>';
+	}
+
+	// display warning to admins if paypalme is set, but no paypalme id is provided
+	if ( $paypalme_error == '1' && current_user_can( 'manage_options' ) ) {
+		$output .= '<div class="flattr_warning">' . __('PayPal.Me ID is missing!', 'shariff3UU') . '</div>';
 	}
 
 	// display warning to admins if bitcoin is set, but no bitcoin address is provided
@@ -2251,11 +2300,19 @@ add_action( 'admin_notices', 'shariff3UU_patreon_notice' );
 
 // display an info notice if paypal is set as a service, but no button id is entered
 function shariff3UU_paypal_notice() {
-	if ( isset( $GLOBALS["shariff3UU"]["services"] ) &&  ( strpos( $GLOBALS["shariff3UU"]["services"], 'paypal' ) !== false ) && empty( $GLOBALS["shariff3UU"]["paypalbuttonid"] ) && current_user_can( 'manage_options' ) ) {
+	if ( isset( $GLOBALS["shariff3UU"]["services"] ) &&  ( strpos( $GLOBALS["shariff3UU"]["services"], 'paypal' ) !== false ) && ( strpos( $GLOBALS["shariff3UU"]["services"], 'paypalme' ) === false ) && empty( $GLOBALS["shariff3UU"]["paypalbuttonid"] ) && current_user_can( 'manage_options' ) ) {
 		echo "<div class='error'><p>" . __('Please check your ', 'shariff3UU') . "<a href='" . get_bloginfo('wpurl') . "/wp-admin/options-general.php?page=shariff3uu&tab=advanced'>" . __('Shariff-Settings</a> - PayPal was selected, but no button ID was provided! Please enter your <strong>Hosted Button ID</strong> in the shariff options!', 'shariff3UU') . "</span></p></div>";
 	}
 }
 add_action( 'admin_notices', 'shariff3UU_paypal_notice' );
+
+// display an info notice if paypalme is set as a service, but no paypal.me id is entered
+function shariff3UU_paypalme_notice() {
+	if ( isset( $GLOBALS["shariff3UU"]["services"] ) &&  ( strpos( $GLOBALS["shariff3UU"]["services"], 'paypalme' ) !== false ) && empty( $GLOBALS["shariff3UU"]["paypalmeid"] ) && current_user_can( 'manage_options' ) ) {
+		echo "<div class='error'><p>" . __('Please check your ', 'shariff3UU') . "<a href='" . get_bloginfo('wpurl') . "/wp-admin/options-general.php?page=shariff3uu&tab=advanced'>" . __('Shariff-Settings</a> - PayPal.Me was selected, but no ID was provided! Please enter your <strong>PayPal.Me ID</strong> in the shariff options!', 'shariff3UU') . "</span></p></div>";
+	}
+}
+add_action( 'admin_notices', 'shariff3UU_paypalme_notice' );
 
 // display an info notice if bitcoin is set as a service, but no address is entered
 function shariff3UU_bitcoin_notice() {
