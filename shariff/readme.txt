@@ -1,4 +1,4 @@
-=== Shariff Wrapper ===
+﻿=== Shariff Wrapper ===
 Contributors: 3UU, starguide
 Tags: Twitter, Facebook, GooglePlus, sharebutton, sharing, privacy, social, whatsapp
 Requires at least: 3.0.1
@@ -146,6 +146,9 @@ A: mail was replaced with mailform to provide an easier way of distinguishing be
 A: Yes, take a look at the Mail Form tab on the plugin options page.
 
 == Changelog ==
+
+= 3.1.3 =
+- fix ajax call when a custom permalink structure is used
 
 = 3.1.2 =
 - fix Facebook ID on 32-bit systems
