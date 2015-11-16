@@ -73,6 +73,8 @@ function configsave( $wp_root_path ) {
 // fire up WordPress without theme support
 define('WP_USE_THEMES', false);
 require ( $wp_root_path . '/wp-blog-header.php');
+// if a custom permalink structure is used, WordPress throws a 404 in every ajax call
+header( "HTTP/1.1 200 OK" );
 
 // make sure that the provided url matches the WordPress domain
 $get_url = parse_url( esc_url( $_GET["url"] ) );
@@ -137,6 +139,8 @@ else {
 	include ( 'services/tumblr.php' );
 	// AddThis
 	include ( 'services/addthis.php' );
+	// VK
+	include ( 'services/vk.php' );
 	// save transient if we have counts
 	if ( isset( $share_counts ) && $share_counts != null ) {
 		set_transient( $post_hash, $share_counts, $ttl );
