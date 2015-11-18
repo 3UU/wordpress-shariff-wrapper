@@ -1821,7 +1821,9 @@ add_filter( 'the_content', 'shariffPosts' );
 function shariffExcerpt( $content ) {
 	$shariff3UU = $GLOBALS["shariff3UU"];
 	// remove headline in post
-	$content = str_replace( strip_tags( $shariff3UU["headline"] ), " ", $content );
+	if ( isset( $shariff3UU["headline"] ) {
+		$content = str_replace( strip_tags( $shariff3UU["headline"] ), " ", $content );
+	}
 	// add shariff before the excerpt, if option checked in the admin menu
 	if ( isset( $shariff3UU["add_before"]["excerpt"] ) && $shariff3UU["add_before"]["excerpt"] == '1' ) {
 		$content = do_shortcode( buildShariffShorttag() ) . $content;
