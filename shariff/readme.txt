@@ -6,7 +6,7 @@ Tested up to: 4.4
 Stable tag: trunk
 License: MIT
 License URI: http://opensource.org/licenses/MIT
-Donate link: https://www.jplambeck.de/wp-content/plugins/shariff/bitcoin.php?bitcoinaddress=1Pm5JgQkWnadUN81uakULAp3VuLSztYqz
+Donate link: http://folge.link/?bitcoin=1Ritz1iUaLaxuYcXhUCoFhkVRH6GWiMTP
 
 This is a wrapper to Shariff. It enables shares with Twitter, Facebook ... on posts, pages and themes with no harm for visitors privacy.
 
@@ -156,6 +156,7 @@ A: Yes, take a look at the Mail Form tab on the plugin options page.
 - fix search for custom WP locations
 - backend optimization
 - temporarily disabled the Flattr counts (statistic) due to ongoing problems of the Flattr API
+- fix use of wp_title() is/was deprecated in WP4.4
 
 = 3.1.3 =
 - fix ajax call when a custom permalink structure is used
