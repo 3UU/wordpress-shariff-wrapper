@@ -28,6 +28,9 @@ else {
 if ( isset( $facebook_json['data'] ) && isset( $facebook_json['data'][0] ) && isset( $facebook_json['data'][0]['total_count'] ) ) {
 	$share_counts['facebook'] = intval( $facebook_json['data'][0]['total_count'] );
 }
+elseif ( isset($facebook_json['data'] ) && isset( $facebook_json['data'][0] ) && isset( $facebook_json['data'][0]['share_count'] ) ) {
+	$share_counts['facebook'] = intval( $facebook_json['data'][0]['share_count'] );
+}
 elseif ( isset($facebook_json['share'] ) && isset( $facebook_json['share']['share_count'] ) ) {
 	$share_counts['facebook'] = intval( $facebook_json['share']['share_count'] );
 }

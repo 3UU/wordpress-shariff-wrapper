@@ -30,8 +30,8 @@ $google_post_options = array(
 );
 
 // fetch counts
-$google = sanitize_text_field( wp_remote_retrieve_body( wp_remote_post( 'https://clients6.google.com/rpc?key=AIzaSyCKSbrvQasunBoV16zDH9R33D88CeLr9gQ', $google_post_options ) ) );
-$google_json = json_decode( $google, true );
+$googleplus = sanitize_text_field( wp_remote_retrieve_body( wp_remote_post( 'https://clients6.google.com/rpc?key=AIzaSyCKSbrvQasunBoV16zDH9R33D88CeLr9gQ', $google_post_options ) ) );
+$google_json = json_decode( $googleplus, true );
 
 // store results, if we have some
 if ( isset( $google_json['result']['metadata']['globalCounts']['count'] ) ) {
