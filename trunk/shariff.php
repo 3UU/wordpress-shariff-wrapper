@@ -1234,7 +1234,7 @@ function shariff3UU_status_section_callback() {
 		$backend_services_url = plugin_dir_path( __FILE__ ) . 'backend/services/';
 
 		// temporarily removed flattr due to ongoing problems with the flattr api
-		$services = array( 'facebook', 'twitter', 'googleplus', 'pinterest', 'linkedin', 'xing', 'reddit', 'stumbleupon', 'tumblr', 'vk', 'addthis' );
+		$services = array( 'facebook', 'googleplus', 'pinterest', 'linkedin', 'xing', 'reddit', 'stumbleupon', 'tumblr', 'vk', 'addthis' );
 		
 		// start testing services
 		foreach ( $services as $service ) {

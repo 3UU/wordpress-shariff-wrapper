@@ -147,10 +147,10 @@ else {
 	if ( ! isset ( $shariff3UU_advanced["disable"]["facebook"] ) || ( isset ( $shariff3UU_advanced["disable"]["facebook"] ) && $shariff3UU_advanced["disable"]["facebook"] == 0 ) ) {
 		include ( 'services/facebook.php' );
 	}
-	// Twitter
-	if ( ! isset ( $shariff3UU_advanced["disable"]["twitter"] ) || ( isset ( $shariff3UU_advanced["disable"]["twitter"] ) && $shariff3UU_advanced["disable"]["twitter"] == 0 ) ) {
-		include ( 'services/twitter.php' );
-	}
+#	// Twitter https://blog.twitter.com/2015/hard-decisions-for-a-sustainable-platform
+#	if ( ! isset ( $shariff3UU_advanced["disable"]["twitter"] ) || ( isset ( $shariff3UU_advanced["disable"]["twitter"] ) && $shariff3UU_advanced["disable"]["twitter"] == 0 ) ) {
+#		include ( 'services/twitter.php' );
+#	}
 	// GooglePlus
 	if ( ! isset ( $shariff3UU_advanced["disable"]["googleplus"] ) || ( isset ( $shariff3UU_advanced["disable"]["googleplus"] ) && $shariff3UU_advanced["disable"]["googleplus"] == 0 ) ) {
 		include ( 'services/googleplus.php' );
