@@ -2297,7 +2297,9 @@ class ShariffWidget extends WP_Widget {
 		// same for title
 		$page_title = '';
 		if ( strpos( $original_shorttag, 'title=' ) === false ) {
-			$wp_title = wp_title( '', false );
+			$wp_title = get_the_title(); # for WP4.4 
+			// rtzTODO: use wp_get_document_title() with backward compatibility 
+			// prior wp_title( '', false );
 			// wp_title for all pages that have it
 			if ( ! empty( $wp_title ) ) {
 				$page_title = ltrim($wp_title);
@@ -2306,8 +2308,7 @@ class ShariffWidget extends WP_Widget {
 			else {
 				$page_title = get_bloginfo('name');
 			}
-			$page_title = ' title="' . $page_title;
-			$page_title .= '"';
+			$page_title = ' title="' . $page_title . '"';
 		}
 			
 		// same for media
