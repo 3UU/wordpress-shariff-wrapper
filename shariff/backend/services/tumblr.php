@@ -8,11 +8,7 @@ $tumblr_json = json_decode( $tumblr, true );
 
 // store results, if we have some
 if ( isset( $tumblr_json['response']['note_count'] ) ) {
-	$share_counts['tumblr'] = $tumblr_json['response']['note_count'];
-}
-// otherwise store the error message
-else {
-	$share_counts['errors']['tumblr'] = "Tumblr Error! Message: " . $tumblr;
+	$share_counts['tumblr'] = intval( $tumblr_json['response']['note_count'] );
 }
 
 ?>

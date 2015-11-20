@@ -1,4 +1,4 @@
-﻿=== Shariff Wrapper ===
+=== Shariff Wrapper ===
 Contributors: 3UU, starguide
 Tags: Twitter, Facebook, GooglePlus, sharebutton, sharing, privacy, social, whatsapp
 Requires at least: 3.0.1
@@ -146,6 +146,16 @@ A: mail was replaced with mailform to provide an easier way of distinguishing be
 A: Yes, take a look at the Mail Form tab on the plugin options page.
 
 == Changelog ==
+
+= 3.2.0 =
+- new service VK
+- new share count service VK
+- new dynamic cache lifespan (ttl) based on post / page age (last modified)
+- new option to disable individual services (only share counts)
+- fix facebook share counts now use total_counts again
+- fix search for custom WP locations
+- backend optimization
+- temporarily disabled the Flattr counts (statistic) due to ongoing problems of the Flattr API
 
 = 3.1.3 =
 - fix ajax call when a custom permalink structure is used

@@ -8,11 +8,7 @@ $twitter_json = json_decode( $twitter, true );
 
 // store results, if we have some
 if ( isset( $twitter_json['count'] ) ) {
-	$share_counts['twitter'] = $twitter_json['count'];
-}
-// otherwise store the error message
-else {
-	$share_counts['errors']['twitter'] = "Twitter Error! Message: " . $twitter;
+	$share_counts['twitter'] = intval( $twitter_json['count'] );
 }
 
 ?>

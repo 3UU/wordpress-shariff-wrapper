@@ -8,11 +8,7 @@ $linkedin_json = json_decode( $linkedin, true );
 
 // store results, if we have some
 if ( isset( $linkedin_json['count'] ) ) {
-	$share_counts['linkedin'] = $linkedin_json['count'];
-}
-// otherwise store the error message
-else {
-	$share_counts['errors']['linkedin'] = "LinkedIn Error! Message: " . $linkedin;
+	$share_counts['linkedin'] = intval( $linkedin_json['count'] );
 }
 
 ?>

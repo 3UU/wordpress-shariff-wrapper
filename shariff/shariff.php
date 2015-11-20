@@ -3,7 +3,7 @@
  * Plugin Name: Shariff Wrapper
  * Plugin URI: http://www.3uu.org/plugins.htm
  * Description: This is a wrapper to Shariff. It enables shares with Twitter, Facebook ... on posts, pages and themes with no harm for visitors privacy.
- * Version: 3.1.3
+ * Version: 3.2.0
  * Author: 3UU, JP
  * Author URI: http://www.DatenVerwurstungsZentrale.com/
  * License: http://opensource.org/licenses/MIT
@@ -12,7 +12,7 @@
  * Text Domain: shariff3UU
  * 
  * ### Supported options ###
- *   services: [facebook|twitter|googleplus|whatsapp|threema|pinterest|linkedin|xing|reddit|stumbleupon|tumblr|diaspora|addthis|flattr|patreon|paypal|paypalme|bitcoin|mailform|mailto|printer|info]
+ *   services: [facebook|twitter|googleplus|whatsapp|threema|pinterest|linkedin|xing|reddit|stumbleupon|tumblr|vk|diaspora|addthis|flattr|patreon|paypal|paypalme|bitcoin|mailform|mailto|printer|info]
  *   info_url: http://ct.de/-2467514
  *   lang: de|en
  *   theme: default|color|grey|white|round
@@ -103,7 +103,7 @@ else {
 function shariff3UU_update() {
 
 	/******************** ADJUST VERSION ********************/
-	$code_version = "3.1.3"; // set code version - needs to be adjusted for every new version!
+	$code_version = "3.2.0"; // set code version - needs to be adjusted for every new version!
 	/******************** ADJUST VERSION ********************/
 
 	// do we want to display an admin notice after the update?
@@ -369,6 +369,10 @@ function shariff3UU_options_init(){
 	add_settings_field( 'shariff3UU_number_ttl', __( 'Cache TTL in seconds (60 - 7200):', 'shariff3UU' ),
 		'shariff3UU_number_ttl_render', 'advanced', 'shariff3UU_advanced_section' );
 
+	// disable services
+	add_settings_field( 'shariff3UU_multiplecheckbox_disable_services', __( 'Disable the following services (share counts only):', 'shariff3UU' ),
+		'shariff3UU_multiplecheckbox_disable_services_render', 'advanced', 'shariff3UU_advanced_section' );
+
 	// fourth tab - mailform
 
 	// register fourth tab (mailform) settings and call sanitize function
@@ -471,6 +475,7 @@ function shariff3UU_advanced_sanitize( $input ) {
 	if ( isset($input["fb_id"] ) ) 	    			$valid["fb_id"]					= sanitize_text_field( $input["fb_id"] );
 	if ( isset($input["fb_secret"] ) ) 	    		$valid["fb_secret"]				= sanitize_text_field( $input["fb_secret"] );
 	if ( isset($input["ttl"] ) ) 	    			$valid["ttl"]					= absint( $input["ttl"] );
+	if ( isset($input["disable"] ) ) 	    		$valid["disable"]				= sani_add_arrays( $input["disable"] );
 
 	// protect users from themselfs
 	if ( isset( $valid["ttl"] ) && $valid["ttl"] < '60' ) $valid["ttl"] = '';
@@ -534,7 +539,7 @@ function shariff3UU_text_services_render(){
 		$services = '';
 	}
 	echo '<input type="text" name="shariff3UU_basic[services]" value="' . esc_html($services) . '" size="50" placeholder="twitter|facebook|googleplus|info">';
-	echo '<p><code>facebook|twitter|googleplus|whatsapp|threema|pinterest|xing|linkedin|reddit|diaspora</code></p>';
+	echo '<p><code>facebook|twitter|googleplus|whatsapp|threema|pinterest|xing|linkedin|reddit|vk|diaspora</code></p>';
 	echo '<p><code>stumbleupon|tumblr|addthis|flattr|patreon|paypal|paypalme|bitcoin|mailform|mailto|printer|info</code></p>'; 
 	echo '<p>' . __( 'Use the pipe sign | (Alt Gr + &lt; or &#8997; + 7) between two or more services.', 'shariff3UU' ) . '</p>';
 }
@@ -894,6 +899,69 @@ function shariff3UU_number_ttl_render() {
 		$ttl = '';
 	}
 	echo '<input type="number" name="shariff3UU_advanced[ttl]" value="'. $ttl .'" maxlength="4" min="60" max="7200" placeholder="60" style="width: 75px">';
+}
+
+// disable services
+function shariff3UU_multiplecheckbox_disable_services_render() {
+	// Facebook
+	echo '<p><input type="checkbox" name="shariff3UU_advanced[disable][facebook]" ';
+	if ( isset( $GLOBALS['shariff3UU_advanced']['disable']['facebook'] ) ) echo checked( $GLOBALS['shariff3UU_advanced']['disable']['facebook'], 1, 0 );
+	echo ' value="1">' . __('Facebook', 'shariff3UU') . '</p>';
+
+	// Twitter
+	echo '<p><input type="checkbox" name="shariff3UU_advanced[disable][twitter]" ';
+	if ( isset( $GLOBALS['shariff3UU_advanced']['disable']['twitter'] ) ) echo checked( $GLOBALS['shariff3UU_advanced']['disable']['twitter'], 1, 0 );
+	echo ' value="1">' . __('Twitter', 'shariff3UU') . '</p>';
+
+	// GooglePlus
+	echo '<p><input type="checkbox" name="shariff3UU_advanced[disable][googleplus]" ';
+	if ( isset( $GLOBALS['shariff3UU_advanced']['disable']['googleplus'] ) ) echo checked( $GLOBALS['shariff3UU_advanced']['disable']['googleplus'], 1, 0 );
+	echo ' value="1">' . __('GooglePlus', 'shariff3UU') . '</p>';
+	
+	// Pinterest
+	echo '<p><input type="checkbox" name="shariff3UU_advanced[disable][pinterest]" ';
+	if ( isset( $GLOBALS['shariff3UU_advanced']['disable']['pinterest'] ) ) echo checked( $GLOBALS['shariff3UU_advanced']['disable']['pinterest'], 1, 0 );
+	echo ' value="1">' . __('Pinterest', 'shariff3UU') . '</p>';
+
+	// Xing
+	echo '<p><input type="checkbox" name="shariff3UU_advanced[disable][xing]" ';
+	if ( isset( $GLOBALS['shariff3UU_advanced']['disable']['xing'] ) ) echo checked( $GLOBALS['shariff3UU_advanced']['disable']['xing'], 1, 0 );
+	echo ' value="1">' . __('Xing', 'shariff3UU') . '</p>';
+
+	// LinkedIn
+	echo '<p><input type="checkbox" name="shariff3UU_advanced[disable][linkedin]" ';
+	if ( isset( $GLOBALS['shariff3UU_advanced']['disable']['linkedin'] ) ) echo checked( $GLOBALS['shariff3UU_advanced']['disable']['linkedin'], 1, 0 );
+	echo ' value="1">' . __('LinkedIn', 'shariff3UU') . '</p>';
+
+	// Tumblr
+	echo '<p><input type="checkbox" name="shariff3UU_advanced[disable][tumblr]" ';
+	if ( isset( $GLOBALS['shariff3UU_advanced']['disable']['tumblr'] ) ) echo checked( $GLOBALS['shariff3UU_advanced']['disable']['tumblr'], 1, 0 );
+	echo ' value="1">' . __('Tumblr', 'shariff3UU') . '</p>';
+
+	// VK
+	echo '<p><input type="checkbox" name="shariff3UU_advanced[disable][vk]" ';
+	if ( isset( $GLOBALS['shariff3UU_advanced']['disable']['vk'] ) ) echo checked( $GLOBALS['shariff3UU_advanced']['disable']['vk'], 1, 0 );
+	echo ' value="1">' . __('VK', 'shariff3UU') . '</p>';
+
+	// StumbleUpon
+	echo '<p><input type="checkbox" name="shariff3UU_advanced[disable][stumbleupon]" ';
+	if ( isset( $GLOBALS['shariff3UU_advanced']['disable']['stumbleupon'] ) ) echo checked( $GLOBALS['shariff3UU_advanced']['disable']['stumbleupon'], 1, 0 );
+	echo ' value="1">' . __('StumbleUpon', 'shariff3UU') . '</p>';
+
+	// Reddit
+	echo '<p><input type="checkbox" name="shariff3UU_advanced[disable][reddit]" ';
+	if ( isset( $GLOBALS['shariff3UU_advanced']['disable']['reddit'] ) ) echo checked( $GLOBALS['shariff3UU_advanced']['disable']['reddit'], 1, 0 );
+	echo ' value="1">' . __('Reddit', 'shariff3UU') . '</p>';
+
+	// AddThis
+	echo '<p><input type="checkbox" name="shariff3UU_advanced[disable][addthis]" ';
+	if ( isset( $GLOBALS['shariff3UU_advanced']['disable']['addthis'] ) ) echo checked( $GLOBALS['shariff3UU_advanced']['disable']['addthis'], 1, 0 );
+	echo ' value="1">' . __('AddThis', 'shariff3UU') . '</p>';
+
+	// Flattr
+	echo '<p><input type="checkbox" name="shariff3UU_advanced[disable][flattr]" ';
+	if ( isset( $GLOBALS['shariff3UU_advanced']['disable']['flattr'] ) ) echo checked( $GLOBALS['shariff3UU_advanced']['disable']['flattr'], 1, 0 );
+	echo ' value="1">' . __('Flattr', 'shariff3UU') . '</p>';
 }
 
 // mailform options
@@ -1429,6 +1497,8 @@ function buildShariffShorttag() {
 	if ( ! empty($shariff3UU["twitter_via"] ) )	$shorttag .= ' twitter_via="' . $shariff3UU["twitter_via"] . '"';
 	// flatter-username
 	if ( ! empty($shariff3UU["flattruser"] ) )	$shorttag .= ' flattruser="' . $shariff3UU["flattruser"] . '"';
+	// set timestamp of last modification
+	$shorttag .= ' timestamp="' . get_the_modified_date( 'U', true ) . '"';
 
 	// close the shorttag
 	$shorttag .= ']';
@@ -1999,7 +2069,7 @@ function Render3UUShariff( $atts, $content = null ) {
 	if ( array_key_exists( 'bitcoinaddress', $atts ) )  $output .= ' data-bitcoinaddress="' . esc_html( $atts['bitcoinaddress'] ) . '"';
 	if ( array_key_exists( 'bitcoinaddress', $atts ) )  $output .= ' data-bitcoinurl="'     . esc_url( plugins_url( '/', __FILE__ ) ) . '"';
 	if ( array_key_exists( 'buttonsize', $atts ) )      $output .= ' data-buttonsize="'     . esc_html( $atts['buttonsize'] ) . '"';
-
+	if ( array_key_exists( 'timestamp', $atts ) )      	$output .= ' data-timestamp="'      . esc_html( $atts['timestamp'] ) . '"';
 	// if services are set only use these
 	if ( array_key_exists( 'services', $atts ) ) {
 		// build an array
@@ -2334,27 +2404,45 @@ add_action( 'admin_notices', 'shariff3UU_mail_notice' );
 
 // clear cache upon deactivation
 function shariff3UU_deactivate() {
-// check for multisite
-if ( is_multisite() ) {
 	global $wpdb;
-	$current_blog_id = get_current_blog_id();
-	$blogs = $wpdb->get_results( "SELECT blog_id FROM {$wpdb->blogs}", ARRAY_A );
-	if ( $blogs ) {
-		foreach ( $blogs as $blog ) {
-			// switch to each blog
-			switch_to_blog( $blog['blog_id'] );
-			// delete cache dir
-			shariff_removecachedir();
-			// switch back to main
-			restore_current_blog();
+	// check for multisite
+	if ( is_multisite() ) {
+		$current_blog_id = get_current_blog_id();
+		$blogs = $wpdb->get_results( "SELECT blog_id FROM {$wpdb->blogs}", ARRAY_A );
+		if ( $blogs ) {
+			foreach ( $blogs as $blog ) {
+				// switch to each blog
+				switch_to_blog( $blog['blog_id'] );
+				// delete cache dir
+				shariff_removecachedir();
+				// purge transients
+				purge_transients();
+				// switch back to main
+				restore_current_blog();
+			}
 		}
-	}
-} else {
-	// delete cache dir
-	shariff_removecachedir();
+	} else {
+		// delete cache dir
+		shariff_removecachedir();
+		// purge transients
+		purge_transients();
 	}
 }
 register_deactivation_hook( __FILE__, 'shariff3UU_deactivate' );
+
+// purge all the transients associated with our plugin
+function purge_transients() {
+	global $wpdb;
+
+	// delete transients
+	$sql = 'DELETE FROM ' . $wpdb->options . ' WHERE option_name LIKE "_transient_timeout_shariff%"';
+	$wpdb->query($sql);
+	$sql = 'DELETE FROM ' . $wpdb->options . ' WHERE option_name LIKE "_transient_shariff%"';
+	$wpdb->query($sql);
+
+	// clear object cache
+	wp_cache_flush();
+}
 
 // delete cache directory
 function shariff_removecachedir() {

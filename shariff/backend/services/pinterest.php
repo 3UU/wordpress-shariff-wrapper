@@ -9,12 +9,7 @@ $pinterest_json = json_decode( $pinterest_json, true );
 
 // store results, if we have some
 if ( isset( $pinterest_json['count'] ) ) {
-	$share_counts['pinterest'] = $pinterest_json['count'];
+	$share_counts['pinterest'] = intval( $pinterest_json['count'] );
 }
-// otherwise store the error message
-else {
-	$share_counts['errors']['pinterest'] = "Pinterest Error! Message: " . $pinterest;
-}
-
 
 ?>
