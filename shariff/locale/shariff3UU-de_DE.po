@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Shariff Wrapper for Wordpress\n"
-"PO-Revision-Date: 2015-11-13 01:41+0100\n"
+"PO-Revision-Date: 2015-11-20 01:27+0100\n"
 "Last-Translator: JP\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
 "Content-Type: text/plain; charset=utf-8\n"
@@ -815,3 +815,9 @@ msgstr "Shariff-Einstellungen</a> - PayPal.Me wurde als Dienst ausgewählt, aber
 #: shariff.php:1
 msgid "Excerpt"
 msgstr "Textauszug (Excerpt)"
+
+# @ shariff3UU
+#. Text in function
+#: shariff.php:1
+msgid "Disable the following services (share counts only):"
+msgstr "Deaktiviere die folgenden Dienste (nur Statistik):"

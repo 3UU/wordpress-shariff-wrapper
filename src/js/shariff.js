@@ -192,6 +192,8 @@ Shariff.prototype = {
 		var baseUrl = url.parse(this.options.backendUrl, true);
 		baseUrl.query.url = this.getURL();
 		delete baseUrl.search;
+		// add timestamp
+        baseUrl.query.timestamp = this.getOption('timestamp');
 		return $.getJSON(url.format(baseUrl));
 	},
 

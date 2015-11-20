@@ -10,13 +10,9 @@ $reddit_json = json_decode( $reddit, true );
 if ( isset( $reddit_json['data']['children'] ) ) {
 	$count = 0;
 	foreach ( $reddit_json['data']['children'] as $child ) {
-		$count += $child['data']['score'];
+		$count += intval( $child['data']['score'] );
     }
 	$share_counts['reddit'] = $count;
-}
-// otherwise store the error message
-else {
-	$share_counts['errors']['reddit'] = "Reddit Error! Message: " . $reddit;
 }
 
 ?>

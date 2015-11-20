@@ -9,15 +9,11 @@ $stumbleupon_json = json_decode( $stumbleupon, true );
 // store results, if we have some
 if ( isset( $stumbleupon_json['success'] ) && $stumbleupon_json['success'] == true ) {
 	if ( isset( $stumbleupon_json['result']['views'] ) ) {
-		$share_counts['stumbleupon'] = $stumbleupon_json['result']['views'];
+		$share_counts['stumbleupon'] = intval( $stumbleupon_json['result']['views'] );
 	}
 	else {
 		$share_counts['stumbleupon'] = 0;
 	}
-}
-// otherwise store the error message
-else {
-	$share_counts['errors']['stumbleupon'] = "StumbleUpon Error! Message: " . $stumbleupon;
 }
 
 ?>

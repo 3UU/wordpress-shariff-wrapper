@@ -47,12 +47,12 @@ if( ! file_exists( $wp_root_path . '/wp-blog-header.php') ) {
 }
 
 // search in the subfolders of $wp_root_path for a given file (regex)
-function rsearch($folder, $pattern) {
+function rsearch( $folder, $pattern ) {
     $dir = new RecursiveDirectoryIterator( $folder );
-    $iterator = new RecursiveIteratorIterator( $dir, RecursiveIteratorIterator::CATCH_GET_CHILD );
-    $files = new RegexIterator($iterator, $pattern, RegexIterator::GET_MATCH);
+	$iterator = new RecursiveIteratorIterator( $dir );
+    $files = new RegexIterator( $iterator, $pattern, RegexIterator::GET_MATCH );
     $fileList = array();
-    foreach($files as $file) {
+    foreach( $files as $file ) {
       $fileList[] = array(
       	'file' => $file,
       	'path' => $iterator->getPath()
@@ -73,6 +73,7 @@ function configsave( $wp_root_path ) {
 // fire up WordPress without theme support
 define('WP_USE_THEMES', false);
 require ( $wp_root_path . '/wp-blog-header.php');
+
 // if a custom permalink structure is used, WordPress throws a 404 in every ajax call
 header( "HTTP/1.1 200 OK" );
 
@@ -82,23 +83,6 @@ $wp_url = parse_url( esc_url( get_bloginfo('url') ) );
 if ( $get_url['host'] != $wp_url['host'] ) {
    	echo 'Wrong domain!';
 	return; 
-}
-
-// get shariff options (fb id, fb secret and ttl)
-$shariff3UU_advanced = (array) get_option( 'shariff3UU_advanced' );
-	
-// if we have a constant for the ttl
-if ( defined( 'SHARIFF_BACKEND_TTL' ) ) $ttl = SHARIFF_BACKEND_TTL;
-// elseif check for option from the WordPress plugin, must be between 120 and 7200 seconds
-elseif ( isset( $shariff3UU_advanced['ttl'] ) ) {
-	$ttl = absint( $shariff3UU_advanced['ttl'] );
-	// make sure ttl is a reasonable number
-	if ( $ttl < '61' ) $ttl = '60';
-	elseif ( $ttl > '7200' ) $ttl = '7200';
-}
-// else set it to default (60 seconds)
-else {
-	$ttl = '60';
 }
 
 // get url
@@ -117,31 +101,98 @@ if ( get_transient( $post_hash ) !== false ) {
 }
 // if transient doesn't exit or is outdated, we fetch all counts
 else {
+	// get shariff options (fb id, fb secret and ttl)
+	$shariff3UU_advanced = (array) get_option( 'shariff3UU_advanced' );
+		
+	// if we have a constant for the ttl
+	if ( defined( 'SHARIFF_BACKEND_TTL' ) ) $ttl = SHARIFF_BACKEND_TTL;
+	// elseif check for option from the WordPress plugin, must be between 120 and 7200 seconds
+	elseif ( isset( $shariff3UU_advanced['ttl'] ) ) {
+		$ttl = absint( $shariff3UU_advanced['ttl'] );
+		// make sure ttl is a reasonable number
+		if ( $ttl < '61' ) $ttl = '60';
+		elseif ( $ttl > '7200' ) $ttl = '7200';
+	}
+	// else set it to default (60 seconds)
+	else {
+		$ttl = '60';
+	}
+
+	// adjust ttl based on the post age
+	if ( isset ( $_GET["timestamp"] ) ) {
+		// the timestamp represents the last time the post or page was modfied
+		$post_time = intval( $_GET["timestamp"] );
+		$current_time = current_time( 'timestamp', true );
+		$post_age = round( abs( $current_time - $post_time ) );
+		if ( $post_age > '0' ) {
+			$post_age_days = round( $post_age / 60 / 60 / 24 );
+			// make sure ttl base is not getting too high
+			if ( $ttl > '300' ) $ttl = '300';
+			$ttl = round( ( $ttl + $post_age_days * 3 ) * ( $post_age_days * 2 ) );
+		}
+		// set minimum ttl to 60 seconds and maxium ttl to one week
+		if ( $ttl < '60' ) {
+			$ttl = '60';
+		}
+		elseif ( $ttl > '604800' ) {
+			$ttl = '604800';
+		}
+		// in case we get a timestamp older than 01.01.2000 or for example a 0, use a reasonable default value of five minutes
+		if ( $post_time < '946684800' ) {
+			$ttl = '300';
+		} 
+	}
+
 	// Facebook
-	include ( 'services/facebook.php' );
+	if ( ! isset ( $shariff3UU_advanced["disable"]["facebook"] ) || ( isset ( $shariff3UU_advanced["disable"]["facebook"] ) && $shariff3UU_advanced["disable"]["facebook"] == 0 ) ) {
+		include ( 'services/facebook.php' );
+	}
 	// Twitter
-	include ( 'services/twitter.php' );
-	// Google
-	include ( 'services/google.php' );
+	if ( ! isset ( $shariff3UU_advanced["disable"]["twitter"] ) || ( isset ( $shariff3UU_advanced["disable"]["twitter"] ) && $shariff3UU_advanced["disable"]["twitter"] == 0 ) ) {
+		include ( 'services/twitter.php' );
+	}
+	// GooglePlus
+	if ( ! isset ( $shariff3UU_advanced["disable"]["googleplus"] ) || ( isset ( $shariff3UU_advanced["disable"]["googleplus"] ) && $shariff3UU_advanced["disable"]["googleplus"] == 0 ) ) {
+		include ( 'services/googleplus.php' );
+	}
 	// Xing
-	include ( 'services/xing.php' );
+	if ( ! isset ( $shariff3UU_advanced["disable"]["xing"] ) || ( isset ( $shariff3UU_advanced["disable"]["xing"] ) && $shariff3UU_advanced["disable"]["xing"] == 0 ) ) {
+		include ( 'services/xing.php' );
+	}
 	// LinkedIn
-	include ( 'services/linkedin.php' );
+	if ( ! isset ( $shariff3UU_advanced["disable"]["linkedin"] ) || ( isset ( $shariff3UU_advanced["disable"]["linkedin"] ) && $shariff3UU_advanced["disable"]["linkedin"] == 0 ) ) {
+		include ( 'services/linkedin.php' );
+	}
 	// Pinterest
-	include ( 'services/pinterest.php' );
+	if ( ! isset ( $shariff3UU_advanced["disable"]["pinterest"] ) || ( isset ( $shariff3UU_advanced["disable"]["pinterest"] ) && $shariff3UU_advanced["disable"]["pinterest"] == 0 ) ) {
+		include ( 'services/pinterest.php' );
+	}
 	// Flattr
-	include ( 'services/flattr.php' );
+	if ( ! isset ( $shariff3UU_advanced["disable"]["flattr"] ) || ( isset ( $shariff3UU_advanced["disable"]["flattr"] ) && $shariff3UU_advanced["disable"]["flattr"] == 0 ) ) {
+		// include ( 'services/flattr.php' ); // temporarily disabled due to ongoing problems with the flattr api
+	}
 	// Reddit
-	include ( 'services/reddit.php' );
+	if ( ! isset ( $shariff3UU_advanced["disable"]["reddit"] ) || ( isset ( $shariff3UU_advanced["disable"]["reddit"] ) && $shariff3UU_advanced["disable"]["reddit"] == 0 ) ) {
+		include ( 'services/reddit.php' );
+	}
 	// StumbleUpon
-	include ( 'services/stumbleupon.php' );
+	if ( ! isset ( $shariff3UU_advanced["disable"]["stumbleupon"] ) || ( isset ( $shariff3UU_advanced["disable"]["stumbleupon"] ) && $shariff3UU_advanced["disable"]["stumbleupon"] == 0 ) ) {
+		include ( 'services/stumbleupon.php' );
+	}
 	// Tumblr
-	include ( 'services/tumblr.php' );
+	if ( ! isset ( $shariff3UU_advanced["disable"]["tumblr"] ) || ( isset ( $shariff3UU_advanced["disable"]["tumblr"] ) && $shariff3UU_advanced["disable"]["tumblr"] == 0 ) ) {
+		include ( 'services/tumblr.php' );
+	}
 	// AddThis
-	include ( 'services/addthis.php' );
+	if ( ! isset ( $shariff3UU_advanced["disable"]["addthis"] ) || ( isset ( $shariff3UU_advanced["disable"]["addthis"] ) && $shariff3UU_advanced["disable"]["addthis"] == 0 ) ) {
+		include ( 'services/addthis.php' );
+	}
 	// VK
-	include ( 'services/vk.php' );
-	// save transient if we have counts
+	if ( ! isset ( $shariff3UU_advanced["disable"]["vk"] ) || ( isset ( $shariff3UU_advanced["disable"]["vk"] ) && $shariff3UU_advanced["disable"]["vk"] == 0 ) ) {
+		include ( 'services/vk.php' );
+	}
+
+	// save transient, if we have counts
 	if ( isset( $share_counts ) && $share_counts != null ) {
 		set_transient( $post_hash, $share_counts, $ttl );
 	}

@@ -8,11 +8,7 @@ $addthis_json = json_decode( $addthis, true );
 
 // store results, if we have some
 if ( isset( $addthis_json['shares'] ) ) {
-	$share_counts['addthis'] = $addthis_json['shares'];
-}
-// otherwise store the error message
-else {
-	$share_counts['errors']['addthis'] = "AddThis Error! Message: " . $addthis;
+	$share_counts['addthis'] = intval( $addthis_json['shares'] );
 }
 
 ?>
