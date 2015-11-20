@@ -1211,6 +1211,8 @@ function shariff3UU_help_section_callback() {
 
 // statistic status on fist tab (basic) only
 function shariff3UU_status_section_callback() {
+	// options
+	$shariff3UU_advanced = $GLOBALS["shariff3UU_advanced"];
 	// status table
 	echo '<div class="shariff_status-main-table">';
 	// statistic row
@@ -1226,13 +1228,26 @@ function shariff3UU_status_section_callback() {
 		echo '</div>';
 	}
 	else {
-		// check if backend shows results
-		$wp_url = get_bloginfo('url');
-		$wp_url = preg_replace('#^https?://#', '', $wp_url);
-		$backend_testurl = plugin_dir_url( __FILE__ ) . 'backend/index.php?url=http%3A%2F%2F' . $wp_url;
-		$backend_output = sanitize_text_field( wp_remote_retrieve_body( wp_remote_get( $backend_testurl, array( 'timeout' => 11 ) ) ) );
-		$backend_output_json = json_decode( $backend_output, true );
-		if ( ! isset( $backend_output_json['errors'] ) ) {
+		// check if services produce error messages
+		$post_url  = urlencode( esc_url( get_bloginfo('url') ) );
+		$post_url2 = esc_url( get_bloginfo('url') );
+		$backend_services_url = plugin_dir_path( __FILE__ ) . 'backend/services/';
+
+		// temporarily removed flattr due to ongoing problems with the flattr api
+		$services = array( 'facebook', 'twitter', 'googleplus', 'pinterest', 'linkedin', 'xing', 'reddit', 'stumbleupon', 'tumblr', 'vk', 'addthis' );
+		
+		// start testing services
+		foreach ( $services as $service ) {
+			if ( ! isset ( $shariff3UU_advanced["disable"][ $service ] ) || ( isset ( $shariff3UU_advanced["disable"][ $service ] ) && $shariff3UU_advanced["disable"][ $service ] == 0 ) ) {
+				include ( $backend_services_url . $service . '.php' );
+				if ( ! isset ( $share_counts[ $service ] ) ) {
+					$service_errors[ $service ] = $$service;
+				}
+			}
+		}
+
+		// status output
+		if ( ! isset( $service_errors ) ) {
 			// statistic working message
 			echo '<div class="shariff_status-cell">';
 				// working message table
@@ -1250,13 +1265,14 @@ function shariff3UU_status_section_callback() {
 			echo '<div style="display: table-cell">';
 				// error message table
 				echo '<div class="shariff_status-table">';
-				echo '<div class="shariff_status-row"><div class="shariff_status-cell"><span class="shariff_status-error">' . __( 'Error', 'shariff3UU' ) . '</span></div></div>';
-				echo '<div class="shariff_status-row"><div class="shariff_status-cell">' . __( 'Backend error.', 'shariff3UU' ) . '</div></div>';
-				echo '<div class="shariff_status-row"><div class="shariff_status-cell">';
-				foreach( $backend_output_json['errors'] as $service_error ) {
-    				echo esc_html( $service_error );
-				}
-				echo '</div></div></div>';
+					echo '<div class="shariff_status-row"><div class="shariff_status-cell"><span class="shariff_status-error">' . __( 'Error', 'shariff3UU' ) . '</span></div></div>';
+					echo '<div class="shariff_status-row"><div class="shariff_status-cell">' . __( 'Backend error.', 'shariff3UU' ) . '</div></div>';
+					foreach( $service_errors as $service => $error ) {
+						echo '<div class="shariff_status-row"><div class="shariff_status-cell">';
+    					echo ucfirst( $service ) . '-Error! Message: ' . esc_html( $error );
+    					echo '</div></div>';
+					}
+				echo '</div>';
 			echo '</div>';
 			// end statistic row, if not working correctly
 			echo '</div>';
