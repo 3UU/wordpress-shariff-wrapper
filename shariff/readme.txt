@@ -191,6 +191,7 @@ must be the array key and the values can be empty.
   array('www.example.com'=>'',
         'example.com'=>'',
         'blog.example.com'=>'');`
+Please also make sure the set the Access-Control-Allow-Origin header right.
 
 = KNOW BUGS =
 

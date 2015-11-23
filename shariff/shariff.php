@@ -1983,7 +1983,9 @@ add_action('bbp_theme_after_reply_content', 'bbp_add_shariff_after_replies');
 function shariff3UU_align_styles() {
 	$shariff3UU_design = $GLOBALS["shariff3UU_design"];
 	$custom_css = '';
-	wp_enqueue_style('shariffcss', plugins_url('/css/shariff.min.local.css',__FILE__));
+
+	if( isset($GLOBALS["shariff3UU_basic"]["external_host"]) ) wp_enqueue_style('shariffcss', $GLOBALS["shariff3UU_basic"]["external_host"].'css/shariff.min.local.css');
+	else wp_enqueue_style('shariffcss', plugins_url('/css/shariff.min.local.css',__FILE__));
 
 	// align option
 	if ( isset( $shariff3UU_design["align"] ) && $shariff3UU_design["align"] != 'none' ) {
@@ -2056,10 +2058,12 @@ function Render3UUShariff( $atts, $content = null ) {
 	$atts = array_filter( $atts );
  
 	// make sure that default WP jquery is loaded
+	#rtzrtz_ Hm, die sollten wir dann potenziell vielleicht auch vom externen Server holen. Nochens gruebeln, was es fuer Seiteneffekte hat!
 	wp_enqueue_script( 'jquery' );
 
 	// the JS must be loaded at footer. Make sure that wp_footer() is present in your theme!
-	wp_enqueue_script( 'shariffjs', plugins_url( '/shariff.js', __FILE__ ), '', '', true );
+	if( isset($GLOBALS["shariff3UU_basic"]["external_host"]) ) wp_enqueue_script( 'shariffjs', $GLOBALS["shariff3UU_basic"]["external_host"].'shariff.js', '', '', true );
+	else wp_enqueue_script( 'shariffjs', plugins_url( '/shariff.js', __FILE__ ), '', '', true );
 
 	// clean up headline in case it was used in a shorttag
 	if ( array_key_exists( 'headline', $atts ) ) {
@@ -2177,7 +2181,12 @@ function Render3UUShariff( $atts, $content = null ) {
 	}
 
 	// enable share counts
-	if ( array_key_exists( 'backend', $atts ) ) if ( $atts['backend'] == "on" ) $output .= " data-backend-url='" . esc_url( plugins_url( '/backend/index.php', __FILE__ ) ) . "'";
+	if ( array_key_exists( 'backend', $atts ) ) if ( $atts['backend'] == "on" ) {
+		
+		if( isset($GLOBALS["shariff3UU_basic"]["external_host"]) ) $data_backen_url=$GLOBALS["shariff3UU_basic"]["external_host"].'backend/index.php';
+		else $data_backen_url=esc_url( plugins_url( '/backend/index.php', __FILE__ ) );
+		$output .= " data-backend-url='$data_backen_url'";
+	}
 
 	// close the container
 	$output .= '></div>';
