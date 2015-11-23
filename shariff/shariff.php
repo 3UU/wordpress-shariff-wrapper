@@ -3,7 +3,7 @@
  * Plugin Name: Shariff Wrapper
  * Plugin URI: http://www.3uu.org/plugins.htm
  * Description: This is a wrapper to Shariff. It enables shares with Twitter, Facebook ... on posts, pages and themes with no harm for visitors privacy.
- * Version: 3.2.0
+ * Version: 3.3.0
  * Author: 3UU, JP
  * Author URI: http://www.DatenVerwurstungsZentrale.com/
  * License: http://opensource.org/licenses/MIT
@@ -103,7 +103,7 @@ else {
 function shariff3UU_update() {
 
 	/******************** ADJUST VERSION ********************/
-	$code_version = "3.2.0"; // set code version - needs to be adjusted for every new version!
+	$code_version = "3.3.0"; // set code version - needs to be adjusted for every new version!
 	/******************** ADJUST VERSION ********************/
 
 	// do we want to display an admin notice after the update?
@@ -259,10 +259,14 @@ function shariff3UU_options_init(){
 	// share counts
 	add_settings_field( 'shariff3UU_checkbox_backend', __( 'Enable share counts (statistic).', 'shariff3UU' ),
 		'shariff3UU_checkbox_backend_render', 'basic', 'shariff3UU_basic_section' );
-
-	// service status section
-	add_settings_section( 'shariff3UU_status_section', __( 'Status', 'shariff3UU' ),
-		'shariff3UU_status_section_callback', 'status' );
+	
+	// external hosts
+        add_settings_field( 'shariff3UU_text_external_host', '<div class="shariff_status-col">' . __( 'External host for JS, syles and counters backend.', 'shariff3UU' ) . '</div>',
+		'shariff3UU_text_external_host_render', 'basic', 'shariff3UU_basic_section' );
+                                                
+	// service status section (jetzt shariff3UU_checks_section_callback)
+#	add_settings_section( 'shariff3UU_status_section', __( 'Status', 'shariff3UU' ),
+#		'shariff3UU_status_section_callback', 'status' );
 
 	// second tab - design
 
@@ -417,6 +421,13 @@ function shariff3UU_options_init(){
 	// fifth tab - help
 	add_settings_section( 'shariff3UU_help_section', __( 'Shariff Help', 'shariff3UU' ),
 		'shariff3UU_help_section_callback', 'help' );
+	
+	// sexter tab - status (checks auslagern, damit sie im Base nicht ausbremsen)
+
+	// register sexter tab 
+        add_settings_section( 'shariff3UU_status_section', __( 'Check installation/configuration', 'shariff3UU' ),
+                'shariff3UU_checks_section_callback', 'checks' );
+
 }
 
 // sanitize input from the basic settings page
@@ -430,7 +441,8 @@ function shariff3UU_basic_sanitize( $input ) {
 	if ( isset( $input["add_before"] ) )			$valid["add_before"]			= sani_add_arrays( $input["add_before"] );
 	if ( isset( $input["disable_on_protected"] ) )	$valid["disable_on_protected"]	= absint( $input["disable_on_protected"] );
 	if ( isset( $input["backend"] ) ) 				$valid["backend"] 				= absint( $input["backend"] );
-
+	if ( isset( $input["external_host"] ) )				$valid["external_host"]				= str_replace( ' ', '', sanitize_text_field( $input["external_host"] ) );
+	
 	// remove empty elements
 	$valid = array_filter($valid);
 
@@ -624,6 +636,18 @@ function shariff3UU_checkbox_backend_render() {
 		}
 		echo ' value="1">';
 	}
+}
+
+// external host
+function shariff3UU_text_external_host_render(){
+        if ( isset( $GLOBALS["shariff3UU_basic"]["external_host"] ) ) {
+                 $external_host = $GLOBALS["shariff3UU_basic"]["external_host"];
+        } else { $external_host = ''; }
+
+        echo '<p><input type="text" name="shariff3UU_basic[external_host]" value="' . esc_html($external_host) . '" size="50" placeholder="'. plugins_url() .'/shariff/"></p>';
+        echo '<p>' . __( 'Warning: This is an experimental feature. Please read the FAQ.', 'shariff3UU' ) . '</p>';
+        echo '<p>' . __( 'Please check if do you have to add this domain to the array SHARIFF_FRONTENDS at the external server.', 'shariff3UU' ) . '</p>';
+#rtzrtz
 }
 
 // design options
@@ -876,7 +900,9 @@ function shariff3UU_text_fb_id_render() {
 	else { 
 		$fb_id = '';
 	}
-	echo '<input type="text" name="shariff3UU_advanced[fb_id]" value="'. $fb_id .'" size="50" placeholder="1234567891234567">';
+	echo '<input type="text" name="shariff3UU_advanced[fb_id]" value="'. $fb_id .'" size="50" placeholder="1234567891234567 skdfjsdölgsdlkng">';
+	if ( isset($GLOBALS["shariff3UU_basic"]["external_host"]) ) 
+		echo '<p>You must configure it on the <a target="_blank" href="'. $GLOBALS["shariff3UU_basic"]["external_host"] .'">external host</a> or <a href="?page=shariff3uu&tab=basic">remove this option</a>!</p>';
 }
 
 // Facebook App Secret
@@ -888,6 +914,8 @@ function shariff3UU_text_fb_secret_render() {
 		$fb_secret = '';
 	}
 	echo '<input type="text" name="shariff3UU_advanced[fb_secret]" value="'. $fb_secret .'" size="50" placeholder="123abc456def789123456789ghi12345">';
+	if ( isset($GLOBALS["shariff3UU_basic"]["external_host"]) ) 
+		echo '<p>You must configure it on the <a target="_blank" href="'. $GLOBALS["shariff3UU_basic"]["external_host"] .'">external host</a> or <a href="?page=shariff3uu&tab=basic">remove this option</a>!</p>';
 }
 
 // ttl
@@ -966,7 +994,7 @@ function shariff3UU_multiplecheckbox_disable_services_render() {
 
 // mailform options
 
-// description advanced options
+// description mailform options
 function shariff3UU_mailform_section_callback() {
 	echo __( "The mail form can be completely disabled, if not needed. Otherwise, it is recommended to configure a default sender e-mail address from <u>your domain</u> that actually exists, to prevent spam filters from blocking the e-mails.", "shariff3UU" );
 }
@@ -1070,7 +1098,7 @@ function shariff3UU_help_section_callback() {
 		// services
 		echo '<div class="shariff_shortcode_row">';
 			echo '<div class="shariff_shortcode_cell">services</div>';
-			echo '<div class="shariff_shortcode_cell">facebook<br>twitter<br>googleplus<br>whatsapp<br>threema<br>pinterest<br>xing<br>linkedin<br>reddit<br>stumbleupon<br>tumblr<br>diaspora<br>addthis<br>flattr<br>patreon<br>paypal<br>paypalme<br>bitcoin<br>mailform<br>mailto<br>printer<br>info</div>';
+			echo '<div class="shariff_shortcode_cell">facebook<br>twitter<br>googleplus<br>whatsapp<br>threema<br>pinterest<br>linkedin<br>xing<br>reddit<br>stumbleupon<br>tumblr<br>vk<br>diaspora<br>addthis<br>flattr<br>patreon<br>paypal<br>paypalme<br>bitcoin<br>mailform<br>mailto<br>printer<br>info</div>';
 			echo '<div class="shariff_shortcode_cell">twitter|facebook|googleplus|info</div>';
 			echo '<div class="shariff_shortcode_cell">[shariff theme="facebook|twitter|mailform"]</div>';
 			echo '<div class="shariff_shortcode_cell">' . __( 'Determines which buttons to show and in which order.', 'shariff3UU' ) . '</div>';
@@ -1207,10 +1235,10 @@ function shariff3UU_help_section_callback() {
 	echo '</div>';
 }
 
-// status section
+// checks section
 
 // statistic status on fist tab (basic) only
-function shariff3UU_status_section_callback() {
+function shariff3UU_checks_section_callback() {
 	// options
 	$shariff3UU_advanced = $GLOBALS["shariff3UU_advanced"];
 	// status table
@@ -1451,6 +1479,10 @@ function shariff3UU_options_page() {
 		echo '<a href="?page=shariff3uu&tab=help" class="nav-tab ';
 		if ( $active_tab == 'help' ) echo 'nav-tab-active';
 		echo '">' . __( 'Help', 'shariff3UU' ) . '</a>';
+		// checks
+		echo '<a href="?page=shariff3uu&tab=checks" class="nav-tab ';
+		if ( $active_tab == 'checks' ) echo 'nav-tab-active';
+		echo '">' . __( 'Checks', 'shariff3UU' ) . '</a>';
 	echo '</h2>';
 
 	// content of tabs
@@ -1478,7 +1510,11 @@ function shariff3UU_options_page() {
 	elseif ( $active_tab == 'help' ) {
 		settings_fields( 'help' );
 		do_settings_sections( 'help' );
-	}	
+	}
+        elseif ( $active_tab == 'checks' ) {
+                settings_fields( 'checks' );
+                do_settings_sections( 'checks' );
+        }
 
 	// end of form
 	echo '</form>';

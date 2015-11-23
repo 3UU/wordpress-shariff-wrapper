@@ -46,6 +46,19 @@ if( ! file_exists( $wp_root_path . '/wp-blog-header.php') ) {
 	}
 }
 
+// fire up WordPress without theme support
+define('WP_USE_THEMES', false);
+require ( $wp_root_path . '/wp-blog-header.php');
+
+// if we have an external backend make a redirect. 
+// Usually on a well configured host this should not happen. 
+// But it is better to have a bad fallback than non fallback.
+if ( isset($GLOBALS["shariff3UU_basic"]["external_host"]) ) {
+        Header('Location: '.$GLOBALS["shariff3UU_basic"]["external_host"].'backend/?'.$_SERVER["QUERY_STRING"]);
+        // nothing else we can do for the client
+	die();
+}
+
 // search in the subfolders of $wp_root_path for a given file (regex)
 function rsearch( $folder, $pattern ) {
     $dir = new RecursiveDirectoryIterator( $folder );
@@ -70,20 +83,18 @@ function configsave( $wp_root_path ) {
 	fclose( $shariffconfig );
 }
 
-// fire up WordPress without theme support
-define('WP_USE_THEMES', false);
-require ( $wp_root_path . '/wp-blog-header.php');
-
 // if a custom permalink structure is used, WordPress throws a 404 in every ajax call
 header( "HTTP/1.1 200 OK" );
 
 // make sure that the provided url matches the WordPress domain
 $get_url = parse_url( esc_url( $_GET["url"] ) );
 $wp_url = parse_url( esc_url( get_bloginfo('url') ) );
-if ( $get_url['host'] != $wp_url['host'] ) {
-   	echo 'Wrong domain!';
-	return; 
-}
+
+// on a backend check allowed hosts
+if(isset($SHARIFF_FRONTENDS)){
+	if(!array_key_exists($get_url['host'],$SHARIFF_FRONTENDS)) die('Wrong domain!'); 
+// else compare that domain is equal
+}elseif ( $get_url['host'] != $wp_url['host'] ) die('Wrong domain!'); 
 
 // get url
 $post_url  = urlencode( esc_url( $_GET["url"] ) );

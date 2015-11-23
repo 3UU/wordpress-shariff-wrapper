@@ -1,6 +1,6 @@
 === Shariff Wrapper ===
 Contributors: 3UU, starguide
-Tags: Twitter, Facebook, GooglePlus, sharebutton, sharing, privacy, social, whatsapp
+Tags: Facebook, VKontakte, VK, GooglePlus, Twitter, sharebutton, sharing, privacy, social, whatsapp
 Requires at least: 3.0.1
 Tested up to: 4.4
 Stable tag: trunk
@@ -145,7 +145,74 @@ A: mail was replaced with mailform to provide an easier way of distinguishing be
 = Q: Can I disable the mail form completely? =
 A: Yes, take a look at the Mail Form tab on the plugin options page.
 
+= EXPERIMENTAL FEATURES =
+
+Features marked as "experimental" in the admin menu are experimental! 
+This mean: We think it is a good extension that we should have in future
+plugin versions. But we are not sure to find the best way that work for
+all/most people. So please feel free to use and test it. But please 
+also be aware on any update we do!
+
+= Q: What does the external server URL is good for? =
+A: First of all: Usually you do not need it! The Plugin use the WP host to
+get all the fles, sharecount and statistics. However there are some good
+reasons put the backend on an other server:
+ - avoid requests from you wordpress server to other servers
+ - use a more powerfull server for the statistic
+ - use the original backend implementation of Heise or your own solution
+ - make your own backend available for more that one WP installations
+But please have in mind that there are also some good reasons not to use
+external servers:
+ - at least 1 additional DNS lookup and an additional connection is needed
+ - you need an additions installation of WP and the plugin or have to create
+   your own implementation of Shariff
+ - if it is not your host you will break the privacy protection of the 
+   visitors that is Shariff made for
+ - we CAN NOT give support for your own implementation
+ - some parts of the admin menu (backend checks, statistics) will only work
+   on the external server
+ - you have to use SHARIFF_FRONTENDS as array with all your frontend domains
+   to enable the backend or find your own solution
+
+= Q: Who does parameter backend-url work with external server URL set? =
+A: It override the URL of the backend to use. So usually it makes no sense
+to use both.
+
+= Q: How to configure the external backend? =
+A: At your WP host fill in the URL of the backend server. You can add it
+with or without the protocol. So usually 
+`//backend.example.com/wp-content/plugins/shariff/`
+would do the job. 
+For the WP installation at the backend server you have to create an array as
+"constant" array SHARIFF_FRONTENDS to allow your WP installation. Please
+have in mind that you have to fill in all subdomains do you use! The domain
+must be the array key and the values can be empty.
+`static $SHARIFF_FRONTENDS =
+  array('www.example.com'=>'',
+        'example.com'=>'',
+        'blog.example.com'=>'');`
+
+= KNOW BUGS =
+
+These are bugs or better call it strange things that we know, that do not
+have impact on most people, are not security relevant and will perhaps be
+fixed in the future. If we have much time to spend or do you give us really
+much "K&#xF6;lsch" ;-)
+
+- if the first post on the start page is password protected and Shariff is
+  disabled on protected posts a widget at the end of the loop will not be
+  rendered.
+
 == Changelog ==
+
+= 3.3.0 =
+- add option to use an additional host for Shariff and the counters backend
+- add vk to help section
+- fix counter VK on design round
+- add a know bugs section to the readme
+- move the installation/configuration checks to an own tab in the admin menu
+  for better performance of the basic setup section
+- new design preview button without Twitter
 
 = 3.2.0 =
 - new service VK
