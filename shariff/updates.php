@@ -192,7 +192,7 @@ if ( isset( $GLOBALS["shariff3UU"]["version"] ) && version_compare( $GLOBALS["sh
 	}
 
 	// disable Twitter backend due to new service OpenShareCount.com
-	$GLOBALS["shariff3UU_advanced"]["disable"]["twitter"] = '1';
+	$GLOBALS["shariff3UU_statistic"]["disable"]["twitter"] = '1';
 
 	// display update notice
 	$do_admin_notice = true;
