@@ -69,10 +69,10 @@ A: Enable it on the plugin options page in general or add `backend="on"` to the 
 A: Please have a look at the status section of the plugin options page. It states wether share counts are enabled and if there is a problem with the cache directory. Please also keep in mind that the plugin has a minimum refresh time of 60 seconds.
 
 = Q: Why can't I change the TTL to a smaller / bigger value? =
-A: The time to live (TTL) value determines, if a share count of a post or page gets refreshed when someone visits this specific page / post of your blog. Too small values create too much useless traffic, too high values negate the goal of motivating visitors to also share a post. The value can be adjusted betweeen 60 and 7200 seconds.
+A: The time to live (TTL) value determines, if a share count of a post or page gets refreshed when someone visits this specific page / post of your blog. Too small values create too much useless traffic, too high values negate the goal of motivating visitors to also share a post. The value can be adjusted between 60 and 7200 seconds.
 
 = Q: I get the Facebook API error message "request limit reached" =
-A: Facebook has a rate limit of 600 requests per 600 seconds per IP address. Especially in shared hosting enviroments many domains share the same IP address and therefore the same limit. To avoid this you can try to raise the TTL value or provide a Facebook App ID and Secret. Google "facebook app id secret" will provide many guides on how to get these.
+A: Facebook has a rate limit of 600 requests per 600 seconds per IP address. Especially in shared hosting environments many domains share the same IP address and therefore the same limit. To avoid this you can try to raise the TTL value or provide a Facebook App ID and Secret. Google "facebook app id secret" will provide many guides on how to get these.
 
 = Q: How can I change the position of all buttons =
 A: Have a look at the alignment options in the admin menu or checkout the 
@@ -139,11 +139,14 @@ This is also available within widgets. However, it is not a good idea to manipul
 = Q: What is the differenz between the services `mailform` and `mailto´? =
 A: mailform will provide an e-mail form on top of the post or page and mailto will draw a link with the mailto-protocol to open the default e-mail application of the client.
 
-= Q: What happend to `mail`? =
+= Q: What happened to `mail`? =
 A: mail was replaced with mailform to provide an easier way of distinguishing between the two types of mail buttons.
 
 = Q: Can I disable the mail form completely? =
 A: Yes, take a look at the Mail Form tab on the plugin options page.
+
+= Q: What happened to the Twitter share counts and what is OpenShareCount? =
+A: Please read: https://www.jplambeck.de/twitter-saveoursharecounts/
 
 = EXPERIMENTAL FEATURES =
 
@@ -176,7 +179,7 @@ Please also make sure to set the Access-Control-Allow-Origin header right.
 
 = KNOWN BUGS =
 
-These are bugs or unexspected gliches that we know of, but that do not
+These are bugs or unexpected glitches that we know of, but that do not
 have an impact on the majority of users, are not security relevant and will perhaps be
 fixed in the future - if we have time to spend or you provide us with a lot of "K&#xF6;lsch" ;-)
 
@@ -206,7 +209,7 @@ fixed in the future - if we have time to spend or you provide us with a lot of "
 - new share count service VK
 - new dynamic cache lifespan (ttl) based on post / page age (last modified)
 - new option to disable individual services (only share counts)
-- fix facebook share counts now use total_counts again
+- fix Facebook share counts now use total_counts again
 - fix search for custom WP locations
 - backend optimization
 - temporarily disabled the Flattr counts (statistic) due to ongoing problems of the Flattr API
@@ -232,7 +235,7 @@ fixed in the future - if we have time to spend or you provide us with a lot of "
 - fix title tag usage in some cases
 - fix rel to data-rel popup
 - fix round buttons in certain themes
-- fix flattr API to fetch counts again
+- fix Flattr API to fetch counts again
 - workaround to fix the wrong JSON answer of xing API
 - up to date with Heise code version 1.21.0 2015-11-06
 
