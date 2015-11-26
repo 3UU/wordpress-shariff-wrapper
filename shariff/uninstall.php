@@ -35,6 +35,8 @@ if ( is_multisite() ) {
           };
           // delete cache dir
           shariff_removecachedir();
+          // purge transients
+          purge_transients();
           // switch back to main
           restore_current_blog();
         }
@@ -56,6 +58,8 @@ if ( is_multisite() ) {
     };
     // delete cache dir
     shariff_removecachedir();
+    // purge transients
+    purge_transients();
 }
 
 // delete cache directory
@@ -75,4 +79,19 @@ function shariff_removefiles( $directory ) {
   }
   @rmdir( $directory );
 }
+
+// purge all the transients associated with our plugin
+function purge_transients() {
+  global $wpdb;
+
+  // delete transients
+  $sql = 'DELETE FROM ' . $wpdb->options . ' WHERE option_name LIKE "_transient_timeout_shariff%"';
+  $wpdb->query($sql);
+  $sql = 'DELETE FROM ' . $wpdb->options . ' WHERE option_name LIKE "_transient_shariff%"';
+  $wpdb->query($sql);
+
+  // clear object cache
+  wp_cache_flush();
+}
+
 ?>

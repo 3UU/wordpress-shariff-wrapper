@@ -1,6 +1,6 @@
 
 /*!
- * shariff - v1.21.0 - 20.11.2015
+ * shariff - v1.21.0 - 26.11.2015
  * https://github.com/heiseonline/shariff
  * Copyright (c) 2015 Ines Pauer, Philipp Busse, Sebastian Hilbig, Erich Kramer, Deniz Sesli
  * Licensed under the MIT license
@@ -86,7 +86,7 @@ function Url(){this.protocol=null,this.slashes=null,this.auth=null,this.host=nul
 
 },{}],26:[function(require,module,exports){
 (function (global){
-"use strict";var url=require("url"),$=(typeof window !== "undefined" ? window['jQuery'] : typeof global !== "undefined" ? global['jQuery'] : null),abbreviateText=function(t,e){var r=$("<div/>").html(t).text();if(r.length<=e)return t;var i=r.substring(0,e-1).lastIndexOf(" ");return r=r.substring(0,i)+"…"};module.exports=function(t){var e;e=window.twttr?url.parse("https://twitter.com/share",!0):url.parse("https://twitter.com/intent/tweet",!0);var r=t.getMeta("DC.title"),i=t.getMeta("DC.creator");return r.length>0&&i.length>0?r+=" - "+i:r=t.getTitle(),e.query.text=abbreviateText(r,120),e.query.url=t.getURL(),null!==t.options.twitterVia&&(e.query.via=t.options.twitterVia),delete e.search,{popup:!0,mobileonly:!1,shareText:{de:"twittern",en:"tweet"},name:"twitter",faName:"s3uu-twitter",title:{bg:"Сподели в Twitter",da:"Del på Twitter",de:"Bei Twitter teilen",en:"Share on Twitter",es:"Compartir en Twitter",fi:"Jaa Twitterissä",fr:"Partager sur Twitter",hr:"Podijelite na Twitteru",hu:"Megosztás Twitteren",it:"Condividi su Twitter",ja:"ツイッター上で共有",ko:"트위터에서 공유하기",nl:"Delen op Twitter",no:"Del på Twitter",pl:"Udostępnij na Twitterze",pt:"Compartilhar no Twitter",ro:"Partajează pe Twitter",ru:"Поделиться на Twitter",sk:"Zdieľať na Twitteri",sl:"Deli na Twitterju",sr:"Podeli na Twitter-u",sv:"Dela på Twitter",tr:"Twitter'da paylaş",zh:"在Twitter上分享"},shareUrl:url.format(e)+t.getReferrerTrack()}};
+"use strict";var url=require("url"),$=(typeof window !== "undefined" ? window['jQuery'] : typeof global !== "undefined" ? global['jQuery'] : null),abbreviateText=function(t,e){var r=$("<div/>").html(t).text();if(r.length<=e)return t;var i=r.substring(0,e-1).lastIndexOf(" ");return r=r.substring(0,i)+"…"};module.exports=function(t){var e=url.parse("https://twitter.com/share",!0),r=t.getMeta("DC.title"),i=t.getMeta("DC.creator");return r.length>0&&i.length>0?r+=" - "+i:r=t.getTitle(),e.query.text=abbreviateText(r,120),e.query.url=t.getURL(),null!==t.options.twitterVia&&(e.query.via=t.options.twitterVia),delete e.search,{popup:!0,mobileonly:!1,shareText:{de:"twittern",en:"tweet"},name:"twitter",faName:"s3uu-twitter",title:{bg:"Сподели в Twitter",da:"Del på Twitter",de:"Bei Twitter teilen",en:"Share on Twitter",es:"Compartir en Twitter",fi:"Jaa Twitterissä",fr:"Partager sur Twitter",hr:"Podijelite na Twitteru",hu:"Megosztás Twitteren",it:"Condividi su Twitter",ja:"ツイッター上で共有",ko:"트위터에서 공유하기",nl:"Delen op Twitter",no:"Del på Twitter",pl:"Udostępnij na Twitterze",pt:"Compartilhar no Twitter",ro:"Partajează pe Twitter",ru:"Поделиться на Twitter",sk:"Zdieľať na Twitteri",sl:"Deli na Twitterju",sr:"Podeli na Twitter-u",sv:"Dela på Twitter",tr:"Twitter'da paylaş",zh:"在Twitter上分享"},shareUrl:url.format(e)+t.getReferrerTrack()}};
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
 },{"url":6}],27:[function(require,module,exports){

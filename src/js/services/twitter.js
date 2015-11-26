@@ -19,14 +19,7 @@ var abbreviateText = function(text, length) {
 };
 
 module.exports = function(shariff) {
-    var shareUrl;
-    // Fix für Seiten auf denen die Twitter-Skripte geladen sind -> verwende veralteten Share-Link
-    if (window.twttr) { 
-        shareUrl = url.parse('https://twitter.com/share', true);
-    }
-    else {
-        shareUrl = url.parse('https://twitter.com/intent/tweet', true);
-    }
+    var shareUrl = url.parse('https://twitter.com/share', true);
 
     var title = shariff.getMeta('DC.title');
     var creator = shariff.getMeta('DC.creator');
