@@ -202,7 +202,7 @@ fixed in the future - if we have time to spend or you provide us with a lot of "
 - purge Shariff transients on update, deactivate and uninstall
 - code cleanup
 - add vk to help section
-- add a know bugs section to the readme
+- add a known bugs section to the readme
 
 = 3.2.0 =
 - new service VK
