@@ -593,8 +593,8 @@ function shariff3UU_align_styles() {
 	$custom_css = '';
 
 	// add styles, load it from external server, if configured
-	if ( isset( $GLOBALS["shariff3UU_basic"]["external_host"] ) ) {
-		wp_enqueue_style( 'shariffcss', $GLOBALS["shariff3UU_basic"]["external_host"].'css/shariff.min.local.css' );
+	if ( isset( $GLOBALS["shariff3UU_statistic"]["external_host"] ) ) {
+		wp_enqueue_style( 'shariffcss', $GLOBALS["shariff3UU_statistic"]["external_host"].'css/shariff.min.local.css' );
 	}
 	else {
 		wp_enqueue_style( 'shariffcss', plugins_url( '/css/shariff.min.local.css', __FILE__ ) );
@@ -676,8 +676,8 @@ function Render3UUShariff( $atts, $content = null ) {
 	wp_enqueue_script( 'jquery' );
 
 	// the JS must be loaded at footer - make sure that wp_footer() is present in your theme!
-	if ( isset( $GLOBALS["shariff3UU_basic"]["external_host"] ) ) {
-		wp_enqueue_script( 'shariffjs', $GLOBALS["shariff3UU_basic"]["external_host"] . 'shariff.js', '', '', true );
+	if ( isset( $GLOBALS["shariff3UU_statistic"]["external_host"] ) ) {
+		wp_enqueue_script( 'shariffjs', $GLOBALS["shariff3UU_statistic"]["external_host"] . 'shariff.js', '', '', true );
 	}
 	else {
 		wp_enqueue_script( 'shariffjs', plugins_url( '/shariff.js', __FILE__ ), '', '', true );
@@ -801,8 +801,8 @@ function Render3UUShariff( $atts, $content = null ) {
 	// enable share counts
 	if ( array_key_exists( 'backend', $atts ) && $atts['backend'] == "on" ) {
 		// set backend_url to external server, if configured, otherwiese use local backend
-		if ( isset( $GLOBALS["shariff3UU_basic"]["external_host"] ) ) {
-			$data_backen_url = esc_url( $GLOBALS["shariff3UU_basic"]["external_host"] . 'backend/index.php' );
+		if ( isset( $GLOBALS["shariff3UU_statistic"]["external_host"] ) ) {
+			$data_backen_url = esc_url( $GLOBALS["shariff3UU_statistic"]["external_host"] . 'backend/index.php' );
 		}
 		else {
 			$data_backen_url = esc_url( plugins_url( '/backend/index.php', __FILE__ ) );
