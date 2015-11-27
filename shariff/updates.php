@@ -1,14 +1,17 @@
 <?php
 /**
- * Would be included by shariff3UU_update() only if needed. 
- * Put all update task here and feel free to split files per update 
- * but make sure that all "older" updates are checked first.
- * To enable a admin notice plz set
- * $do_admin_notice = true; 
- * At least you must set
- * $GLOBALS["shariff3UU"]["version"] = [YOUR VERSION];
- * to avoid includes later on.
+ * Will be included by shariff3UU_update() only if needed. 
+ * Put all update task here and feel free to split files per update, but make sure that all "older" updates are checked first.
+ * To enable an admin notice please set $do_admin_notice = true; at any point during your update routine.
+ * The admin notice needs to be configured in admin_notices.php.
+ * At least you must set $GLOBALS["shariff3UU"]["version"] = [YOUR VERSION]; to avoid includes later on.
 */
+
+// prevent direct calls to updates.php
+if ( ! class_exists('WP') ) { die(); }
+
+// default is false, unless it is set to true in one of the update routines
+$do_admin_notice = false;
 
 // Migration < v 1.7
 if ( isset( $GLOBALS["shariff3UU"]["version"] ) && version_compare( $GLOBALS["shariff3UU"]["version"], '1.7' ) == '-1' ) {
@@ -151,11 +154,51 @@ if ( isset( $GLOBALS["shariff3UU"]["version"] ) && version_compare( $GLOBALS["sh
 		delete_option( 'shariff3UU' );
 	}
 
+	// update version
+	$GLOBALS["shariff3UU"]["version"] = '2.3.0';
+}
+
+// Migration < v 3.3
+if ( isset( $GLOBALS["shariff3UU"]["version"] ) && version_compare( $GLOBALS["shariff3UU"]["version"], '3.3.0' ) == '-1' ) {
+
+	// update options that were moved
+	if ( isset( $GLOBALS["shariff3UU"]["backend"] ) )   $GLOBALS["shariff3UU_statistic"]["backend"]   = $GLOBALS["shariff3UU"]["backend"];
+	if ( isset( $GLOBALS["shariff3UU"]["fb_id"] ) )     $GLOBALS["shariff3UU_statistic"]["fb_id"]     = $GLOBALS["shariff3UU"]["fb_id"];
+	if ( isset( $GLOBALS["shariff3UU"]["fb_secret"] ) ) $GLOBALS["shariff3UU_statistic"]["fb_secret"] = $GLOBALS["shariff3UU"]["fb_secret"];
+	if ( isset( $GLOBALS["shariff3UU"]["ttl"] ) )       $GLOBALS["shariff3UU_statistic"]["ttl"]       = $GLOBALS["shariff3UU"]["ttl"];
+	if ( isset( $GLOBALS["shariff3UU"]["disable"] ) )   $GLOBALS["shariff3UU_statistic"]["disable"]   = $GLOBALS["shariff3UU"]["disable"];
+
+	// delete old cache directory for the last time
+	
+	// check for multisite
+	if ( is_multisite() ) {
+		global $wpdb;
+		$current_blog_id = get_current_blog_id();
+		$blogs = $wpdb->get_results( "SELECT blog_id FROM {$wpdb->blogs}", ARRAY_A );
+		if ( $blogs ) {
+			foreach( $blogs as $blog ) {
+				// switch to each blog
+				switch_to_blog( $blog['blog_id'] );
+				// delete cache dir
+				shariff_removeoldcachedir();
+				// switch back to main
+				restore_current_blog();
+			}
+		}
+	}
+	else {
+		// delete cache dir
+		shariff_removeoldcachedir();
+	}
+
+	// disable Twitter backend due to new service OpenShareCount.com
+	$GLOBALS["shariff3UU_statistic"]["disable"]["twitter"] = '1';
+
 	// display update notice
 	$do_admin_notice = true;
 
 	// update version
-	$GLOBALS["shariff3UU"]["version"] = '2.3.0';
+	$GLOBALS["shariff3UU"]["version"] = '3.3.0';
 }
 
 // helper function to delete old cache directory
@@ -177,5 +220,85 @@ function shariff_removeoldfiles( $directory ) {
 	}
 	@rmdir( $directory );
 }
+
+// Migration < v x.x
+
+
+// future update routines go here!
+
+
+// general tasks we do on every update, like clean up transients and so on
+
+// make sure we have the $wpdb class ready
+if ( ! isset( $wpdb ) ) { global $wpdb; }
+
+// delete user meta entry shariff3UU_ignore_notice to display update message again after an update (check for multisite)
+if ( is_multisite() && $do_admin_notice == true ) {
+	$blogs = $wpdb -> get_results( 'SELECT blog_id FROM {$wpdb->blogs}', ARRAY_A );
+	if ( $blogs ) {
+		foreach( $blogs as $blog ) {
+			// switch to each blog
+			switch_to_blog( $blog['blog_id'] );
+			// delete user meta entry shariff3UU_ignore_notice
+			$users = get_users( 'role=administrator' );
+			foreach ( $users as $user ) { 
+				if ( get_user_meta( $user -> ID, 'shariff3UU_ignore_notice', true ) ) { 
+					delete_user_meta( $user -> ID, 'shariff3UU_ignore_notice' ); 
+				} 
+			}
+			// switch back to main
+			restore_current_blog();
+		}
+	}
+}
+elseif ( $do_admin_notice == true ) {
+	$users = get_users( 'role=administrator' );
+	foreach ( $users as $user ) { 
+		if ( get_user_meta( $user -> ID, 'shariff3UU_ignore_notice', true ) ) { 
+			delete_user_meta( $user -> ID, 'shariff3UU_ignore_notice' ); 
+		} 
+	}
+}
+
+// purge transients (check for multisite)
+if ( is_multisite() ) {
+	$current_blog_id = get_current_blog_id();
+	$blogs = $wpdb -> get_results('SELECT blog_id FROM { $wpdb -> blogs }', ARRAY_A);
+	if ( $blogs ) {
+		foreach( $blogs as $blog ) {
+			// switch to each blog
+			switch_to_blog( $blog['blog_id'] );
+			// purge transients
+			purge_transients();
+			// switch back to main
+			restore_current_blog();
+		}
+	}
+} else {
+	// purge transients
+	purge_transients();
+}
+
+// set new version
+$GLOBALS["shariff3UU"]["version"] = $code_version;
+$GLOBALS["shariff3UU_basic"]["version"] = $code_version;
+
+// remove empty elements and save to options table
+
+// basic
+$shariff3UU_basic = array_filter( $GLOBALS['shariff3UU_basic'] );
+update_option( 'shariff3UU_basic', $shariff3UU_basic );
+// design
+$shariff3UU_design = array_filter( $GLOBALS['shariff3UU_design'] );
+update_option( 'shariff3UU_design', $shariff3UU_design );
+// advanced
+$shariff3UU_advanced = array_filter( $GLOBALS['shariff3UU_advanced'] );
+update_option( 'shariff3UU_advanced', $shariff3UU_advanced );
+// mailform
+$shariff3UU_mailform = array_filter( $GLOBALS['shariff3UU_mailform'] );
+update_option( 'shariff3UU_mailform', $shariff3UU_mailform );
+// statistic
+$shariff3UU_statistic = array_filter( $GLOBALS['shariff3UU_statistic'] );
+update_option( 'shariff3UU_statistic', $shariff3UU_statistic );
 
 ?>

@@ -69,10 +69,10 @@ A: Enable it on the plugin options page in general or add `backend="on"` to the 
 A: Please have a look at the status section of the plugin options page. It states wether share counts are enabled and if there is a problem with the cache directory. Please also keep in mind that the plugin has a minimum refresh time of 60 seconds.
 
 = Q: Why can't I change the TTL to a smaller / bigger value? =
-A: The time to live (TTL) value determines, if a share count of a post or page gets refreshed when someone visits this specific page / post of your blog. Too small values create too much useless traffic, too high values negate the goal of motivating visitors to also share a post. The value can be adjusted betweeen 60 and 7200 seconds.
+A: The time to live (TTL) value determines, if a share count of a post or page gets refreshed when someone visits this specific page / post of your blog. Too small values create too much useless traffic, too high values negate the goal of motivating visitors to also share a post. The value can be adjusted between 60 and 7200 seconds.
 
 = Q: I get the Facebook API error message "request limit reached" =
-A: Facebook has a rate limit of 600 requests per 600 seconds per IP address. Especially in shared hosting enviroments many domains share the same IP address and therefore the same limit. To avoid this you can try to raise the TTL value or provide a Facebook App ID and Secret. Google "facebook app id secret" will provide many guides on how to get these.
+A: Facebook has a rate limit of 600 requests per 600 seconds per IP address. Especially in shared hosting environments many domains share the same IP address and therefore the same limit. To avoid this you can try to raise the TTL value or provide a Facebook App ID and Secret. Google "facebook app id secret" will provide many guides on how to get these.
 
 = Q: How can I change the position of all buttons =
 A: Have a look at the alignment options in the admin menu or checkout the 
@@ -139,88 +139,77 @@ This is also available within widgets. However, it is not a good idea to manipul
 = Q: What is the differenz between the services `mailform` and `mailto´? =
 A: mailform will provide an e-mail form on top of the post or page and mailto will draw a link with the mailto-protocol to open the default e-mail application of the client.
 
-= Q: What happend to `mail`? =
+= Q: What happened to `mail`? =
 A: mail was replaced with mailform to provide an easier way of distinguishing between the two types of mail buttons.
 
 = Q: Can I disable the mail form completely? =
 A: Yes, take a look at the Mail Form tab on the plugin options page.
 
+= Q: What happened to the Twitter share counts and what is OpenShareCount? =
+A: Please read: https://www.jplambeck.de/twitter-saveoursharecounts/
+
 = EXPERIMENTAL FEATURES =
 
-Features marked as "experimental" in the admin menu are experimental! 
-This mean: We think it is a good extension that we should have in future
-plugin versions. But we are not sure to find the best way that work for
-all/most people. So please feel free to use and test it. But please 
-also be aware on any update we do!
+Features marked as "experimental" in the admin menu are experimental! This means: We think it is a good extension to our plugin that we would like to include in future versions, but we are not sure yet about the best solution that works for all or most people. So please feel free to use and test it and report back to us about it. Experimental features might be removed in an update, if it does not work out. So please pay close attention to our changelog!
 
 = Q: What does the external server URL is good for? =
-A: First of all: Usually you do not need it! The Plugin use the WP host to
-get all the fles, sharecount and statistics. However there are some good
-reasons put the backend on an other server:
- - avoid requests from you wordpress server to other servers
- - use a more powerfull server for the statistic
- - use the original backend implementation of Heise or your own solution
- - make your own backend available for more that one WP installations
-But please have in mind that there are also some good reasons not to use
-external servers:
- - at least 1 additional DNS lookup and an additional connection is needed
- - you need an additions installation of WP and the plugin or have to create
-   your own implementation of Shariff
- - if it is not your host you will break the privacy protection of the 
-   visitors that is Shariff made for
- - we CAN NOT give support for your own implementation
- - some parts of the admin menu (backend checks, statistics) will only work
-   on the external server
- - you have to use SHARIFF_FRONTENDS as array with all your frontend domains
-   to enable the backend or find your own solution
+A: First of all: Usually you do not need it! The Plugin uses the WP host to get all the files, share counts and statistics. However, there are some good reasons to put the backend on another server:
+- avoid requests from you WP server to other servers
+- use a more powerfull server for the statistic
+- use the original backend implementation of Heise or your own solution
+- make your own backend available for more than one WP installation
+But please have in mind that there are also some good reasons not to use external servers:
+- at least one additional DNS lookup and an additional connection is needed
+- you need an additional installation of WP and the plugin or have to create your own implementation of Shariff
+- if it is not your host you will break the privacy protection of your visitors and defeat the purpose of Shariff
+- we CAN NOT provide support for your own implementation
+- some options of the admin menu (backend checks, statistic) will only work on the external server
+- you have to use SHARIFF_FRONTENDS as an array with all your frontend domains to enable the backend or find your own solution
 
-= Q: Who does parameter backend-url work with external server URL set? =
-A: It override the URL of the backend to use. So usually it makes no sense
-to use both.
+= Q: How does the parameter backend-url work with an external server URL set? =
+A: It overrides the URL of the backend to use. So usually it makes no sense to use both.
 
 = Q: How to configure the external backend? =
-A: At your WP host fill in the URL of the backend server. You can add it
-with or without the protocol. So usually 
-`//backend.example.com/wp-content/plugins/shariff/`
-would do the job. 
-For the WP installation at the backend server you have to create an array as
-"constant" array SHARIFF_FRONTENDS to allow your WP installation. Please
-have in mind that you have to fill in all subdomains do you use! The domain
-must be the array key and the values can be empty.
+A: At your WP host fill in the URL of the backend server. You can add it with or without the protocol. So usually `//backend.example.com/wp-content/plugins/shariff/` will do the job. For the WP installation on the external server you have to create an array as a "constant" called SHARIFF_FRONTENDS to permit your WP installations on other domains to use it. Please have in mind that you have to fill in all subdomains you want to use! The domain must be the array key and the values can be empty.
 `static $SHARIFF_FRONTENDS =
   array('www.example.com'=>'',
         'example.com'=>'',
         'blog.example.com'=>'');`
-Please also make sure the set the Access-Control-Allow-Origin header right.
+Please also make sure to set the Access-Control-Allow-Origin header right.
 
-= KNOW BUGS =
+= KNOWN BUGS =
 
-These are bugs or better call it strange things that we know, that do not
-have impact on most people, are not security relevant and will perhaps be
-fixed in the future. If we have much time to spend or do you give us really
-much "K&#xF6;lsch" ;-)
+These are bugs or unexpected glitches that we know of, but that do not
+have an impact on the majority of users, are not security relevant and will perhaps be
+fixed in the future - if we have time to spend or you provide us with a lot of "K&#xF6;lsch" ;-)
 
-- if the first post on the start page is password protected and Shariff is
-  disabled on protected posts a widget at the end of the loop will not be
+- If the first post on the start page is password protected and Shariff is
+  disabled on protected posts, a widget at the end of the loop will not be
   rendered.
 
 == Changelog ==
 
 = 3.3.0 =
-- add option to use an additional host for Shariff and the counters backend
-- add vk to help section
-- fix counter VK on design round
-- add a know bugs section to the readme
-- move the installation/configuration checks to an own tab in the admin menu
-  for better performance of the basic setup section
+- new option to use an external host for Shariff and the share count backend
+- new share count service OpenShareCount.com for Twitter
+- new settings tab "Statistic" for all options regarding the share counts
+- new settings tab "Status" for all system checks to increase performance
 - new design preview button without Twitter
+- fix counter VK on design round
+- fix Facebook total_count again
+- fix double Twitter share windows under certain conditions
+- reactivate Flattr counts, since they fixed their API
+- purge Shariff transients on update, deactivate and uninstall
+- code cleanup
+- add vk to help section
+- add a known bugs section to the readme
 
 = 3.2.0 =
 - new service VK
 - new share count service VK
 - new dynamic cache lifespan (ttl) based on post / page age (last modified)
 - new option to disable individual services (only share counts)
-- fix facebook share counts now use total_counts again
+- fix Facebook share counts now use total_counts again
 - fix search for custom WP locations
 - backend optimization
 - temporarily disabled the Flattr counts (statistic) due to ongoing problems of the Flattr API
@@ -246,7 +235,7 @@ much "K&#xF6;lsch" ;-)
 - fix title tag usage in some cases
 - fix rel to data-rel popup
 - fix round buttons in certain themes
-- fix flattr API to fetch counts again
+- fix Flattr API to fetch counts again
 - workaround to fix the wrong JSON answer of xing API
 - up to date with Heise code version 1.21.0 2015-11-06
 

@@ -46,19 +46,6 @@ if( ! file_exists( $wp_root_path . '/wp-blog-header.php') ) {
 	}
 }
 
-// fire up WordPress without theme support
-define('WP_USE_THEMES', false);
-require ( $wp_root_path . '/wp-blog-header.php');
-
-// if we have an external backend make a redirect. 
-// Usually on a well configured host this should not happen. 
-// But it is better to have a bad fallback than non fallback.
-if ( isset($GLOBALS["shariff3UU_basic"]["external_host"]) ) {
-        Header('Location: '.$GLOBALS["shariff3UU_basic"]["external_host"].'backend/?'.$_SERVER["QUERY_STRING"]);
-        // nothing else we can do for the client
-	die();
-}
-
 // search in the subfolders of $wp_root_path for a given file (regex)
 function rsearch( $folder, $pattern ) {
     $dir = new RecursiveDirectoryIterator( $folder );
@@ -83,18 +70,38 @@ function configsave( $wp_root_path ) {
 	fclose( $shariffconfig );
 }
 
+// fire up WordPress without theme support
+define('WP_USE_THEMES', false);
+require ( $wp_root_path . '/wp-blog-header.php');
+
+// get shariff statistic options
+$shariff3UU_statistic = (array) get_option( 'shariff3UU_statistic' );
+
+// if we have an external backend make a redirect
+// usually on a well configured host this should not happen 
+// but it is better to have a bad fallback than no fallback
+if ( isset( $shariff3UU_statistic["external_host"] ) &&  $shariff3UU_statistic["external_host"] != null ) {
+	header( 'Location: ' . $shariff3UU_statistic["external_host"] . 'backend/?' . $_SERVER["QUERY_STRING"] );
+	// nothing else we can do for the client
+	die();
+}
+
 // if a custom permalink structure is used, WordPress throws a 404 in every ajax call
 header( "HTTP/1.1 200 OK" );
 
 // make sure that the provided url matches the WordPress domain
 $get_url = parse_url( esc_url( $_GET["url"] ) );
 $wp_url = parse_url( esc_url( get_bloginfo('url') ) );
-
-// on a backend check allowed hosts
-if(isset($SHARIFF_FRONTENDS)){
-	if(!array_key_exists($get_url['host'],$SHARIFF_FRONTENDS)) die('Wrong domain!'); 
-// else compare that domain is equal
-}elseif ( $get_url['host'] != $wp_url['host'] ) die('Wrong domain!'); 
+// on an external backend check allowed hosts
+if ( isset( $SHARIFF_FRONTENDS ) ) {
+	if ( ! array_key_exists( $get_url['host'], $SHARIFF_FRONTENDS ) ) {
+		die( 'Domain not allowed by this server!' ); 
+	}
+}
+// else compare that domain is equal 
+elseif ( $get_url['host'] != $wp_url['host'] ) {
+	die( 'Wrong domain!' );
+}
 
 // get url
 $post_url  = urlencode( esc_url( $_GET["url"] ) );
@@ -112,14 +119,11 @@ if ( get_transient( $post_hash ) !== false ) {
 }
 // if transient doesn't exit or is outdated, we fetch all counts
 else {
-	// get shariff options (fb id, fb secret and ttl)
-	$shariff3UU_advanced = (array) get_option( 'shariff3UU_advanced' );
-		
 	// if we have a constant for the ttl
 	if ( defined( 'SHARIFF_BACKEND_TTL' ) ) $ttl = SHARIFF_BACKEND_TTL;
 	// elseif check for option from the WordPress plugin, must be between 120 and 7200 seconds
-	elseif ( isset( $shariff3UU_advanced['ttl'] ) ) {
-		$ttl = absint( $shariff3UU_advanced['ttl'] );
+	elseif ( isset( $shariff3UU_statistic['ttl'] ) ) {
+		$ttl = absint( $shariff3UU_statistic['ttl'] );
 		// make sure ttl is a reasonable number
 		if ( $ttl < '61' ) $ttl = '60';
 		elseif ( $ttl > '7200' ) $ttl = '7200';
@@ -155,51 +159,52 @@ else {
 	}
 
 	// Facebook
-	if ( ! isset ( $shariff3UU_advanced["disable"]["facebook"] ) || ( isset ( $shariff3UU_advanced["disable"]["facebook"] ) && $shariff3UU_advanced["disable"]["facebook"] == 0 ) ) {
+	if ( ! isset ( $shariff3UU_statistic["disable"]["facebook"] ) || ( isset ( $shariff3UU_statistic["disable"]["facebook"] ) && $shariff3UU_statistic["disable"]["facebook"] == 0 ) ) {
 		include ( 'services/facebook.php' );
 	}
-#	// Twitter https://blog.twitter.com/2015/hard-decisions-for-a-sustainable-platform
-#	if ( ! isset ( $shariff3UU_advanced["disable"]["twitter"] ) || ( isset ( $shariff3UU_advanced["disable"]["twitter"] ) && $shariff3UU_advanced["disable"]["twitter"] == 0 ) ) {
-#		include ( 'services/twitter.php' );
-#	}
+	// Twitter - https://blog.twitter.com/2015/hard-decisions-for-a-sustainable-platform
+	// replacement of some sort: http://opensharecount.com
+	if ( ! isset ( $shariff3UU_statistic["disable"]["twitter"] ) || ( isset ( $shariff3UU_statistic["disable"]["twitter"] ) && $shariff3UU_statistic["disable"]["twitter"] == 0 ) ) {
+		include ( 'services/twitter.php' );
+	}
 	// GooglePlus
-	if ( ! isset ( $shariff3UU_advanced["disable"]["googleplus"] ) || ( isset ( $shariff3UU_advanced["disable"]["googleplus"] ) && $shariff3UU_advanced["disable"]["googleplus"] == 0 ) ) {
+	if ( ! isset ( $shariff3UU_statistic["disable"]["googleplus"] ) || ( isset ( $shariff3UU_statistic["disable"]["googleplus"] ) && $shariff3UU_statistic["disable"]["googleplus"] == 0 ) ) {
 		include ( 'services/googleplus.php' );
 	}
 	// Xing
-	if ( ! isset ( $shariff3UU_advanced["disable"]["xing"] ) || ( isset ( $shariff3UU_advanced["disable"]["xing"] ) && $shariff3UU_advanced["disable"]["xing"] == 0 ) ) {
+	if ( ! isset ( $shariff3UU_statistic["disable"]["xing"] ) || ( isset ( $shariff3UU_statistic["disable"]["xing"] ) && $shariff3UU_statistic["disable"]["xing"] == 0 ) ) {
 		include ( 'services/xing.php' );
 	}
 	// LinkedIn
-	if ( ! isset ( $shariff3UU_advanced["disable"]["linkedin"] ) || ( isset ( $shariff3UU_advanced["disable"]["linkedin"] ) && $shariff3UU_advanced["disable"]["linkedin"] == 0 ) ) {
+	if ( ! isset ( $shariff3UU_statistic["disable"]["linkedin"] ) || ( isset ( $shariff3UU_statistic["disable"]["linkedin"] ) && $shariff3UU_statistic["disable"]["linkedin"] == 0 ) ) {
 		include ( 'services/linkedin.php' );
 	}
 	// Pinterest
-	if ( ! isset ( $shariff3UU_advanced["disable"]["pinterest"] ) || ( isset ( $shariff3UU_advanced["disable"]["pinterest"] ) && $shariff3UU_advanced["disable"]["pinterest"] == 0 ) ) {
+	if ( ! isset ( $shariff3UU_statistic["disable"]["pinterest"] ) || ( isset ( $shariff3UU_statistic["disable"]["pinterest"] ) && $shariff3UU_statistic["disable"]["pinterest"] == 0 ) ) {
 		include ( 'services/pinterest.php' );
 	}
 	// Flattr
-	if ( ! isset ( $shariff3UU_advanced["disable"]["flattr"] ) || ( isset ( $shariff3UU_advanced["disable"]["flattr"] ) && $shariff3UU_advanced["disable"]["flattr"] == 0 ) ) {
-		// include ( 'services/flattr.php' ); // temporarily disabled due to ongoing problems with the flattr api
+	if ( ! isset ( $shariff3UU_statistic["disable"]["flattr"] ) || ( isset ( $shariff3UU_statistic["disable"]["flattr"] ) && $shariff3UU_statistic["disable"]["flattr"] == 0 ) ) {
+		include ( 'services/flattr.php' );
 	}
 	// Reddit
-	if ( ! isset ( $shariff3UU_advanced["disable"]["reddit"] ) || ( isset ( $shariff3UU_advanced["disable"]["reddit"] ) && $shariff3UU_advanced["disable"]["reddit"] == 0 ) ) {
+	if ( ! isset ( $shariff3UU_statistic["disable"]["reddit"] ) || ( isset ( $shariff3UU_statistic["disable"]["reddit"] ) && $shariff3UU_statistic["disable"]["reddit"] == 0 ) ) {
 		include ( 'services/reddit.php' );
 	}
 	// StumbleUpon
-	if ( ! isset ( $shariff3UU_advanced["disable"]["stumbleupon"] ) || ( isset ( $shariff3UU_advanced["disable"]["stumbleupon"] ) && $shariff3UU_advanced["disable"]["stumbleupon"] == 0 ) ) {
+	if ( ! isset ( $shariff3UU_statistic["disable"]["stumbleupon"] ) || ( isset ( $shariff3UU_statistic["disable"]["stumbleupon"] ) && $shariff3UU_statistic["disable"]["stumbleupon"] == 0 ) ) {
 		include ( 'services/stumbleupon.php' );
 	}
 	// Tumblr
-	if ( ! isset ( $shariff3UU_advanced["disable"]["tumblr"] ) || ( isset ( $shariff3UU_advanced["disable"]["tumblr"] ) && $shariff3UU_advanced["disable"]["tumblr"] == 0 ) ) {
+	if ( ! isset ( $shariff3UU_statistic["disable"]["tumblr"] ) || ( isset ( $shariff3UU_statistic["disable"]["tumblr"] ) && $shariff3UU_statistic["disable"]["tumblr"] == 0 ) ) {
 		include ( 'services/tumblr.php' );
 	}
 	// AddThis
-	if ( ! isset ( $shariff3UU_advanced["disable"]["addthis"] ) || ( isset ( $shariff3UU_advanced["disable"]["addthis"] ) && $shariff3UU_advanced["disable"]["addthis"] == 0 ) ) {
+	if ( ! isset ( $shariff3UU_statistic["disable"]["addthis"] ) || ( isset ( $shariff3UU_statistic["disable"]["addthis"] ) && $shariff3UU_statistic["disable"]["addthis"] == 0 ) ) {
 		include ( 'services/addthis.php' );
 	}
 	// VK
-	if ( ! isset ( $shariff3UU_advanced["disable"]["vk"] ) || ( isset ( $shariff3UU_advanced["disable"]["vk"] ) && $shariff3UU_advanced["disable"]["vk"] == 0 ) ) {
+	if ( ! isset ( $shariff3UU_statistic["disable"]["vk"] ) || ( isset ( $shariff3UU_statistic["disable"]["vk"] ) && $shariff3UU_statistic["disable"]["vk"] == 0 ) ) {
 		include ( 'services/vk.php' );
 	}
 
