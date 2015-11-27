@@ -10,10 +10,7 @@ header( "Pragma: no-cache" );
 header('Content-type: application/json; charset=utf-8');
 
 // exit if no url is provided
-if ( ! isset( $_GET["url"] ) ) { 
-	echo 'No URL provided!';
-	return; 
-}
+if ( ! isset( $_GET["url"] ) ) die('No URL provided!');
 	
 // build the wp root path
 $wp_root_path = dirname( dirname( dirname( dirname( dirname( __FILE__ ) ) ) ) );
@@ -71,6 +68,9 @@ function configsave( $wp_root_path ) {
 }
 
 // fire up WordPress without theme support
+#rtz20161127: bloed, dass wir hier nicht dierekt nach der wp-config ansetzen und mit
+# if ( ! defined( 'WP_USE_THEMES' ) )
+# pruefen koennen. Klar brauchen wir im Backend kein Theme, aber so wirft es ggf errors
 define('WP_USE_THEMES', false);
 require ( $wp_root_path . '/wp-blog-header.php');
 
