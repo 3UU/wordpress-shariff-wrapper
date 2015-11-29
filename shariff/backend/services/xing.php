@@ -10,7 +10,7 @@ $xing_json = array(
 // set post options
 $xing_post_options = array(
 	'method' => 'POST',
-	'timeout' => 45,
+	'timeout' => 5,
 	'redirection' => 5,
 	'httpversion' => '1.0',
 	'blocking' => true,

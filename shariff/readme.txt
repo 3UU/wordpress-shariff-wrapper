@@ -189,6 +189,10 @@ fixed in the future - if we have time to spend or you provide us with a lot of "
 
 == Changelog ==
 
+= 3.3.1 =
+- fix ttl setting on statistic tab
+- reduce timeout for post requests to five seconds
+
 = 3.3.0 =
 - new option to use an external host for Shariff and the share count backend
 - new share count service OpenShareCount.com for Twitter
