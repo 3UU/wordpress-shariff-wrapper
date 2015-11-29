@@ -824,7 +824,7 @@ function shariff3UU_number_ttl_render() {
 	else { 
 		$ttl = '';
 	}
-	echo '<input type="number" name="shariff3UU_advanced[ttl]" value="'. $ttl .'" maxlength="4" min="60" max="7200" placeholder="60" style="width: 75px">';
+	echo '<input type="number" name="shariff3UU_statistic[ttl]" value="'. $ttl .'" maxlength="4" min="60" max="7200" placeholder="60" style="width: 75px">';
 }
 
 // disable services
