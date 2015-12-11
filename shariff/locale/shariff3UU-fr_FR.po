@@ -297,12 +297,6 @@ msgstr "Exemple"
 # @ shariff3UU
 #. Text in function
 #: shariff.php:1
-msgid "Extension pages (e.g. product sites)"
-msgstr "Pages d'extension (ex. sites de produits)"
-
-# @ shariff3UU
-#. Text in function
-#: shariff.php:1
 msgid "Facebook API (ID):"
 msgstr "Facebook API (ID) : "
 
