@@ -13,10 +13,10 @@ add_action( 'admin_init', 'shariff3UU_options_init' );
 add_action( 'init', 'shariff3UU_init_locale' );
 
 // add settings link on plugin page
-function shariff3UU_settings_link( $links ) { 
-	$settings_link = '<a href="options-general.php?page=shariff3uu">' . __( 'Settings', 'shariff3UU' ) . '</a>'; 
-	array_unshift( $links, $settings_link ); 
-	return $links; 
+function shariff3UU_settings_link( $links ) {
+	$settings_link = '<a href="options-general.php?page=shariff3uu">' . __( 'Settings', 'shariff3UU' ) . '</a>';
+	array_unshift( $links, $settings_link );
+	return $links;
 }
 $plugin = plugin_basename( __FILE__ );
 add_filter( "plugin_action_links_$plugin", 'shariff3UU_settings_link' );
@@ -37,12 +37,12 @@ function shariff3UU_admin_style( $hook ) {
 add_action( 'admin_enqueue_scripts', 'shariff3UU_admin_style' );
 
 // add admin menu
-function shariff3UU_add_admin_menu() { 
-	add_options_page( 'Shariff', 'Shariff', 'manage_options', 'shariff3uu', 'shariff3UU_options_page' ); 
+function shariff3UU_add_admin_menu() {
+	add_options_page( 'Shariff', 'Shariff', 'manage_options', 'shariff3uu', 'shariff3UU_options_page' );
 }
 
 // plugin options page
-function shariff3UU_options_init(){ 
+function shariff3UU_options_init(){
 
 	// first tab - basic
 
@@ -56,8 +56,8 @@ function shariff3UU_options_init(){
 	// services
 	add_settings_field( 'shariff3UU_text_services', '<div class="shariff_status-col">' . __( 'Enable the following services in the provided order:', 'shariff3UU' ) . '</div>',
 		'shariff3UU_text_services_render', 'basic', 'shariff3UU_basic_section' );
-	
-	// add after		
+
+	// add after
 	add_settings_field( 'shariff3UU_multiplecheckbox_add_after', __( 'Add the Shariff buttons <u>after</u> all:', 'shariff3UU' ),
 		'shariff3UU_multiplecheckbox_add_after_render', 'basic', 'shariff3UU_basic_section' );
 
@@ -79,7 +79,7 @@ function shariff3UU_options_init(){
 		'shariff3UU_design_section_callback', 'design' );
 
 	// button language
-	add_settings_field( 'shariff3UU_select_language', '<div class="shariff_status-col">' . __( 'Shariff button language:', 'shariff3UU' ) . '</div>', 
+	add_settings_field( 'shariff3UU_select_language', '<div class="shariff_status-col">' . __( 'Shariff button language:', 'shariff3UU' ) . '</div>',
 		'shariff3UU_select_language_render', 'design', 'shariff3UU_design_section' );
 
 	// theme
@@ -87,21 +87,21 @@ function shariff3UU_options_init(){
 		'shariff3UU_radio_theme_render', 'design', 'shariff3UU_design_section' );
 
 	// button size
-	add_settings_field( 'shariff3UU_checkbox_buttonsize', __( 'Reduce button size by 30%.', 'shariff3UU' ), 
+	add_settings_field( 'shariff3UU_checkbox_buttonsize', __( 'Reduce button size by 30%.', 'shariff3UU' ),
 		'shariff3UU_checkbox_buttonsize_render', 'design', 'shariff3UU_design_section' );
 
 	// button stretch
-	add_settings_field( 'shariff3UU_checkbox_buttonsstretch', __( 'Stretch buttons horizontally to full width.', 'shariff3UU' ), 
+	add_settings_field( 'shariff3UU_checkbox_buttonsstretch', __( 'Stretch buttons horizontally to full width.', 'shariff3UU' ),
 		'shariff3UU_checkbox_buttonstretch_render', 'design', 'shariff3UU_design_section' );
 
 	// vertical
-	add_settings_field( 'shariff3UU_checkbox_vertical', __( 'Shariff button orientation <b>vertical</b>.', 'shariff3UU' ), 
+	add_settings_field( 'shariff3UU_checkbox_vertical', __( 'Shariff button orientation <b>vertical</b>.', 'shariff3UU' ),
 		'shariff3UU_checkbox_vertical_render', 'design', 'shariff3UU_design_section' );
 
 	// alignment option
 	add_settings_field( 'shariff3UU_radio_align', __( 'Alignment of the Shariff buttons:', 'shariff3UU' ),
 		'shariff3UU_radio_align_render', 'design', 'shariff3UU_design_section' );
-	
+
 	// alignment option for the widget
 	add_settings_field( 'shariff3UU_radio_align_widget', __( 'Alignment of the Shariff buttons in the widget:', 'shariff3UU' ),
 		'shariff3UU_radio_align_widget_render', 'design', 'shariff3UU_design_section' );
@@ -127,7 +127,7 @@ function shariff3UU_options_init(){
 	add_settings_field(
 		'shariff3UU_text_info_url', '<div class="shariff_status-col">' . __( 'Custom link for the info button:', 'shariff3UU' ) . '</div>',
 		'shariff3UU_text_info_url_render', 'advanced', 'shariff3UU_advanced_section' );
-	
+
 	// twitter via
 	add_settings_field(
 		'shariff3UU_text_twittervia', __( 'Twitter username for the via tag:', 'shariff3UU' ),
@@ -157,7 +157,7 @@ function shariff3UU_options_init(){
 	add_settings_field(
 		'shariff3UU_text_bitcoinaddress', __( 'Bitcoin address:', 'shariff3UU' ),
 		'shariff3UU_text_bitcoinaddress_render', 'advanced', 'shariff3UU_advanced_section' );
-	
+
 	// default image for pinterest
 	add_settings_field( 'shariff3UU_text_default_pinterest', __( 'Default image for Pinterest:', 'shariff3UU' ),
 		'shariff3UU_text_default_pinterest_render', 'advanced', 'shariff3UU_advanced_section' );
@@ -172,32 +172,32 @@ function shariff3UU_options_init(){
 		'shariff3UU_mailform_section_callback', 'mailform' );
 
 	// disable mailform
-	add_settings_field( 
+	add_settings_field(
 		'shariff3UU_checkbox_disable_mailform', '<div class="shariff_status-col">' . __( 'Disable the mail form functionality.', 'shariff3UU' ) .'</div>',
 		'shariff3UU_checkbox_disable_mailform_render', 'mailform', 'shariff3UU_mailform_section' );
 
 	// require sender e-mail address
-	add_settings_field( 
+	add_settings_field(
 		'shariff3UU_checkbox_require_sender', '<div class="shariff_status-col">' . __( 'Require sender e-mail address.', 'shariff3UU' ) .'</div>',
 		'shariff3UU_checkbox_require_sender_render', 'mailform', 'shariff3UU_mailform_section' );
 
 	// mailform language
-	add_settings_field( 
+	add_settings_field(
 		'shariff3UU_select_mailform_language', '<div class="shariff_status-col">' . __( 'Mailform language:', 'shariff3UU' ) .'</div>',
 		'shariff3UU_select_mailform_language_render', 'mailform', 'shariff3UU_mailform_section' );
 
 	// add content of the post to e-mails
-	add_settings_field( 
+	add_settings_field(
 		'shariff3UU_checkbox_mail_add_post_content', '<div class="shariff_status-col">' . __( 'Add the post content to the e-mail body.', 'shariff3UU' ) .'</div>',
 		'shariff3UU_checkbox_mail_add_post_content_render', 'mailform', 'shariff3UU_mailform_section' );
 
 	// mail sender name
-	add_settings_field( 
+	add_settings_field(
 		'shariff3UU_text_mail_sender_name', '<div class="shariff_status-col">' . __( 'Default sender name:', 'shariff3UU' ) .'</div>',
 		'shariff3UU_text_mail_sender_name_render', 'mailform', 'shariff3UU_mailform_section' );
 
 	// mail sender address
-	add_settings_field( 
+	add_settings_field(
 		'shariff3UU_text_mail_sender_from', '<div class="shariff_status-col">' . __( 'Default sender e-mail address:', 'shariff3UU' ) .'</div>',
 		'shariff3UU_text_mail_sender_from_render', 'mailform', 'shariff3UU_mailform_section' );
 
@@ -213,7 +213,7 @@ function shariff3UU_options_init(){
 	// share counts
 	add_settings_field( 'shariff3UU_checkbox_backend', '<div class="shariff_status-col">' . __( 'Enable share counts (statistic).', 'shariff3UU' ) .'</div>',
 		'shariff3UU_checkbox_backend_render', 'statistic', 'shariff3UU_statistic_section' );
-	
+
 	// Facebook App ID
 	add_settings_field( 'shariff3UU_text_fb_id', '<div class="shariff_status-col">' . __( 'Facebook App ID:', 'shariff3UU' ) .'</div>',
 		'shariff3UU_text_fb_id_render', 'statistic', 'shariff3UU_statistic_section' );
@@ -239,7 +239,7 @@ function shariff3UU_options_init(){
 	// register sixth tab (help)
 	add_settings_section( 'shariff3UU_help_section', __( 'Shariff Help', 'shariff3UU' ),
 		'shariff3UU_help_section_callback', 'help' );
-	
+
 	// seventh tab - status
 
 	// register seventh tab (status)
@@ -372,7 +372,7 @@ function shariff3UU_basic_section_callback(){
 }
 
 // services
-function shariff3UU_text_services_render(){ 
+function shariff3UU_text_services_render(){
 	if ( isset( $GLOBALS["shariff3UU_basic"]["services"] ) ) {
 		$services = $GLOBALS["shariff3UU_basic"]["services"];
 	}
@@ -381,7 +381,7 @@ function shariff3UU_text_services_render(){
 	}
 	echo '<input type="text" name="shariff3UU_basic[services]" value="' . esc_html($services) . '" size="75" placeholder="twitter|facebook|googleplus|info">';
 	echo '<p><code>facebook|twitter|googleplus|whatsapp|threema|pinterest|xing|linkedin|reddit|vk|diaspora</code></p>';
-	echo '<p><code>stumbleupon|tumblr|addthis|flattr|patreon|paypal|paypalme|bitcoin|mailform|mailto|printer|info</code></p>'; 
+	echo '<p><code>stumbleupon|tumblr|addthis|flattr|patreon|paypal|paypalme|bitcoin|mailform|mailto|printer|info</code></p>';
 	echo '<p>' . __( 'Use the pipe sign | (Alt Gr + &lt; or &#8997; + 7) between two or more services.', 'shariff3UU' ) . '</p>';
 }
 
@@ -391,27 +391,34 @@ function shariff3UU_multiplecheckbox_add_after_render() {
 	echo '<p><input type="checkbox" name="shariff3UU_basic[add_after][posts]" ';
 	if ( isset( $GLOBALS['shariff3UU_basic']['add_after']['posts'] ) ) echo checked( $GLOBALS['shariff3UU_basic']['add_after']['posts'], 1, 0 );
 	echo ' value="1">' . __('Posts', 'shariff3UU') . '</p>';
-	
+
 	// add after all posts (blog page)
 	echo '<p><input type="checkbox" name="shariff3UU_basic[add_after][posts_blogpage]" ';
 	if ( isset( $GLOBALS["shariff3UU_basic"]["add_after"]["posts_blogpage"] ) ) echo checked( $GLOBALS["shariff3UU_basic"]["add_after"]["posts_blogpage"], 1, 0 );
 	echo ' value="1">' . __('Posts (blog page)', 'shariff3UU') . '</p>';
-	
+
 	// add after all pages
 	echo '<p><input type="checkbox" name="shariff3UU_basic[add_after][pages]" ';
 	if ( isset( $GLOBALS["shariff3UU_basic"]["add_after"]["pages"] ) ) echo checked( $GLOBALS["shariff3UU_basic"]["add_after"]["pages"], 1, 0 );
 	echo ' value="1">' . __('Pages', 'shariff3UU') . '</p>';
-	
-	// add after all custom type (e.g. product pages)
-	echo '<p><input type="checkbox" name="shariff3UU_basic[add_after][custom_type]" ';
-	if ( isset( $GLOBALS["shariff3UU_basic"]["add_after"]["custom_type"] ) ) echo checked( $GLOBALS["shariff3UU_basic"]["add_after"]["custom_type"], 1, 0 );
-	echo ' value="1">' . __('Extension pages (e.g. product sites)', 'shariff3UU') . '</p>';
+
+	// choose after which custom post types to add
+	$post_types = get_post_types(array('_builtin' => FALSE));
+	array_walk($post_types, function ($cpt) {
+		$object = get_post_type_object($cpt);
+		printf(
+			'<p><input type="checkbox" name="shariff3UU_basic[add_after][%s]" %s value="1"/>%s</p>',
+			$cpt,
+			isset($GLOBALS['shariff3UU_basic']['add_after'][$cpt]) ? checked($GLOBALS['shariff3UU_basic']['add_after'][$cpt], 1, 0) : '',
+			$object->labels->singular_name	// this should already be localized
+		);
+	});
 
 	// add after all bbpress replies
 	echo '<p><input type="checkbox" name="shariff3UU_basic[add_after][bbp_reply]" ';
 	if ( isset( $GLOBALS["shariff3UU_basic"]["add_after"]["bbp_reply"] ) ) echo checked( $GLOBALS["shariff3UU_basic"]["add_after"]["bbp_reply"], 1, 0 );
 	echo ' value="1">' . __('bbPress replies', 'shariff3UU') . '</p>';
-	
+
 	// add after all excerpts
 	echo '<p><input type="checkbox" name="shariff3UU_basic[add_after][excerpt]" ';
 	if ( isset( $GLOBALS["shariff3UU_basic"]["add_after"]["excerpt"] ) ) echo checked( $GLOBALS["shariff3UU_basic"]["add_after"]["excerpt"], 1, 0 );
@@ -424,17 +431,17 @@ function shariff3UU_multiplecheckbox_add_before_render() {
 	echo '<p><input type="checkbox" name="shariff3UU_basic[add_before][posts]" ';
 	if ( isset( $GLOBALS['shariff3UU_basic']['add_before']['posts'] ) ) echo checked( $GLOBALS['shariff3UU_basic']['add_before']['posts'], 1, 0 );
 	echo ' value="1">' . __('Posts', 'shariff3UU') . '</p>';
-	
+
 	// Add before all posts (blog page)
 	echo '<p><input type="checkbox" name="shariff3UU_basic[add_before][posts_blogpage]" ';
 	if ( isset( $GLOBALS["shariff3UU_basic"]["add_before"]["posts_blogpage"] ) ) echo checked( $GLOBALS["shariff3UU_basic"]["add_before"]["posts_blogpage"], 1, 0 );
 	echo ' value="1">' . __('Posts (blog page)', 'shariff3UU') . '</p>';
-	
+
 	// Add before all pages
 	echo '<p><input type="checkbox" name="shariff3UU_basic[add_before][pages]" ';
 	if ( isset( $GLOBALS["shariff3UU_basic"]["add_before"]["pages"] ) ) echo checked( $GLOBALS["shariff3UU_basic"]["add_before"]["pages"], 1, 0 );
 	echo ' value="1">' . __('Pages', 'shariff3UU') . '</p>';
-	
+
 	// Add before all excerpts
 	echo '<p><input type="checkbox" name="shariff3UU_basic[add_before][excerpt]" ';
 	if ( isset( $GLOBALS["shariff3UU_basic"]["add_before"]["excerpt"] ) ) echo checked( $GLOBALS["shariff3UU_basic"]["add_before"]["excerpt"], 1, 0 );
@@ -461,7 +468,7 @@ function shariff3UU_design_section_callback(){
 
 // language
 function shariff3UU_select_language_render() {
-	$options = $GLOBALS["shariff3UU_design"]; 
+	$options = $GLOBALS["shariff3UU_design"];
 	if ( ! isset( $options["lang"] ) ) $options["lang"] = '';
 	echo '<select name="shariff3UU_design[lang]">
 	<option value="" ' .   selected( $options["lang"], "", 0 ) . '>' . __( "auto", "shariff3UU") . '</option>
@@ -492,7 +499,7 @@ function shariff3UU_select_language_render() {
 
 // theme
 function shariff3UU_radio_theme_render() {
-	$options = $GLOBALS["shariff3UU_design"]; 
+	$options = $GLOBALS["shariff3UU_design"];
 	if ( ! isset( $options["theme"] ) ) $options["theme"] = "";
 	$plugins_url = plugins_url();
 	echo '<div class="shariff_options-table">
@@ -530,7 +537,7 @@ function shariff3UU_checkbox_vertical_render() {
 
 // alignment
 function shariff3UU_radio_align_render() {
-	$options = $GLOBALS['shariff3UU_design']; 
+	$options = $GLOBALS['shariff3UU_design'];
 	if ( ! isset( $options['align'] ) ) $options['align'] = 'flex-start';
 	echo '<div class="shariff_options-table"><div class="shariff_options-row">
 	<div class="shariff_options-cell"><input type="radio" name="shariff3UU_design[align]" value="flex-start" ' . checked( $options["align"], "flex-start", 0 ) . '>' . __( "left", "shariff3UU" ) . '</div>
@@ -541,7 +548,7 @@ function shariff3UU_radio_align_render() {
 
 // alignment widget
 function shariff3UU_radio_align_widget_render() {
-	$options = $GLOBALS['shariff3UU_design']; 
+	$options = $GLOBALS['shariff3UU_design'];
 	if ( ! isset( $options['align_widget'] ) ) $options['align_widget'] = 'flex-start';
 	echo '<div class="shariff_options-table"><div class="shariff_options-row">
 	<div class="shariff_options-cell"><input type="radio" name="shariff3UU_design[align_widget]" value="flex-start" ' . checked( $options["align_widget"], "flex-start", 0 ) . '>' . __( "left", "shariff3UU" ) . '</div>
@@ -590,7 +597,7 @@ function shariff3UU_text_info_url_render() {
 		$info_url = $GLOBALS["shariff3UU_advanced"]["info_url"];
 	}
 	else {
-		$info_url = '';  
+		$info_url = '';
 	}
 	echo '<input type="text" name="shariff3UU_advanced[info_url]" value="'. esc_html($info_url) .'" size="50" placeholder="http://ct.de/-2467514">';
 }
@@ -611,7 +618,7 @@ function shariff3UU_text_flattruser_render() {
 	if ( isset($GLOBALS["shariff3UU_advanced"]["flattruser"]) ) {
 		$flattruser = $GLOBALS["shariff3UU_advanced"]["flattruser"];
 	}
-	else { 
+	else {
 		$flattruser = '';
 	}
 	echo '<input type="text" name="shariff3UU_advanced[flattruser]" value="'. $flattruser .'" size="50" placeholder="' . __( 'username', 'shariff3UU' ) . '">';
@@ -622,7 +629,7 @@ function shariff3UU_text_patreonid_render() {
 	if ( isset($GLOBALS["shariff3UU_advanced"]["patreonid"]) ) {
 		$patreonid = $GLOBALS["shariff3UU_advanced"]["patreonid"];
 	}
-	else { 
+	else {
 		$patreonid = '';
 	}
 	echo '<input type="text" name="shariff3UU_advanced[patreonid]" value="'. $patreonid .'" size="50" placeholder="' . __( 'username', 'shariff3UU' ) . '">';
@@ -633,7 +640,7 @@ function shariff3UU_text_paypalbuttonid_render() {
 	if ( isset($GLOBALS["shariff3UU_advanced"]["paypalbuttonid"]) ) {
 		$paypalbuttonid = $GLOBALS["shariff3UU_advanced"]["paypalbuttonid"];
 	}
-	else { 
+	else {
 		$paypalbuttonid = '';
 	}
 	echo '<input type="text" name="shariff3UU_advanced[paypalbuttonid]" value="'. $paypalbuttonid .'" size="50" placeholder="' . __( '1ABCDEF23GH4I', 'shariff3UU' ) . '">';
@@ -644,7 +651,7 @@ function shariff3UU_text_paypalmeid_render() {
 	if ( isset($GLOBALS["shariff3UU_advanced"]["paypalmeid"]) ) {
 		$paypalmeid = $GLOBALS["shariff3UU_advanced"]["paypalmeid"];
 	}
-	else { 
+	else {
 		$paypalmeid = '';
 	}
 	echo '<input type="text" name="shariff3UU_advanced[paypalmeid]" value="'. $paypalmeid .'" size="50" placeholder="' . __( 'name', 'shariff3UU' ) . '">';
@@ -655,7 +662,7 @@ function shariff3UU_text_bitcoinaddress_render() {
 	if ( isset($GLOBALS["shariff3UU_advanced"]["bitcoinaddress"]) ) {
 		$bitcoinaddress = $GLOBALS["shariff3UU_advanced"]["bitcoinaddress"];
 	}
-	else { 
+	else {
 		$bitcoinaddress = '';
 	}
 	echo '<input type="text" name="shariff3UU_advanced[bitcoinaddress]" value="'. $bitcoinaddress .'" size="50" placeholder="' . __( '1Ab2CdEfGhijKL34mnoPQRSTu5VwXYzaBcD', 'shariff3UU' ) . '">';
@@ -663,14 +670,14 @@ function shariff3UU_text_bitcoinaddress_render() {
 
 // pinterest default image
 function shariff3UU_text_default_pinterest_render() {
-	$options = $GLOBALS["shariff3UU_advanced"]; 
+	$options = $GLOBALS["shariff3UU_advanced"];
 	if ( ! isset( $options["default_pinterest"] ) ) $options["default_pinterest"] = '';
 	echo '<div><input type="text" name="shariff3UU_advanced[default_pinterest]" value="' . $options["default_pinterest"] . '" id="image_url" class="regular-text"><input type="button" name="upload-btn" id="upload-btn" class="button-secondary" value="' . __( 'Choose image', 'shariff3UU' ) . '"></div>';
 	echo '<script type="text/javascript">
 	jQuery(document).ready(function($){
 		$("#upload-btn").click(function(e) {
 			e.preventDefault();
-			var image = wp.media({ 
+			var image = wp.media({
 				title: "Choose image",
 				// mutiple: true if you want to upload multiple files at once
 				multiple: false
@@ -713,7 +720,7 @@ function shariff3UU_checkbox_require_sender_render() {
 
 // mailform language
 function shariff3UU_select_mailform_language_render() {
-	$options = $GLOBALS["shariff3UU_mailform"]; 
+	$options = $GLOBALS["shariff3UU_mailform"];
 	if ( ! isset( $options["mailform_language"] ) ) $options["mailform_language"] = 'auto';
 	echo '<select name="shariff3UU_mailform[mailform_language]" style="min-width:110px">
 	<option value="auto" ' . selected( $options["mailform_language"], "auto", 0 ) . '>' . __( "auto", "shariff3UU") . '</option>
@@ -729,8 +736,8 @@ function shariff3UU_checkbox_mail_add_post_content_render() {
 	if ( isset( $GLOBALS["shariff3UU_mailform"]["mail_add_post_content"] ) ) echo checked( $GLOBALS["shariff3UU_mailform"]["mail_add_post_content"], 1, 0 );
 	echo ' value="1">';
 }
-	
-// sender name		
+
+// sender name
 function shariff3UU_text_mail_sender_name_render() {
 	if ( isset( $GLOBALS["shariff3UU_mailform"]["mail_sender_name"] ) ) {
 		$mail_sender_name = $GLOBALS["shariff3UU_mailform"]["mail_sender_name"];
@@ -799,7 +806,7 @@ function shariff3UU_text_fb_id_render() {
 	if ( isset($GLOBALS["shariff3UU_statistic"]["fb_id"]) ) {
 		$fb_id = $GLOBALS["shariff3UU_statistic"]["fb_id"];
 	}
-	else { 
+	else {
 		$fb_id = '';
 	}
 	echo '<input type="text" name="shariff3UU_statistic[fb_id]" value="'. $fb_id .'" size="50" placeholder="1234567891234567">';
@@ -810,7 +817,7 @@ function shariff3UU_text_fb_secret_render() {
 	if ( isset($GLOBALS["shariff3UU_statistic"]["fb_secret"]) ) {
 		$fb_secret = $GLOBALS["shariff3UU_statistic"]["fb_secret"];
 	}
-	else { 
+	else {
 		$fb_secret = '';
 	}
 	echo '<input type="text" name="shariff3UU_statistic[fb_secret]" value="'. $fb_secret .'" size="50" placeholder="123abc456def789123456789ghi12345">';
@@ -821,7 +828,7 @@ function shariff3UU_number_ttl_render() {
 	if ( isset($GLOBALS["shariff3UU_statistic"]["ttl"]) ) {
 		$ttl = $GLOBALS["shariff3UU_statistic"]["ttl"];
 	}
-	else { 
+	else {
 		$ttl = '';
 	}
 	echo '<input type="number" name="shariff3UU_statistic[ttl]" value="'. $ttl .'" maxlength="4" min="60" max="7200" placeholder="60" style="width: 75px">';
@@ -843,7 +850,7 @@ function shariff3UU_multiplecheckbox_disable_services_render() {
 	echo '<p><input type="checkbox" name="shariff3UU_statistic[disable][googleplus]" ';
 	if ( isset( $GLOBALS['shariff3UU_statistic']['disable']['googleplus'] ) ) echo checked( $GLOBALS['shariff3UU_statistic']['disable']['googleplus'], 1, 0 );
 	echo ' value="1">' . __('GooglePlus', 'shariff3UU') . '</p>';
-	
+
 	// Pinterest
 	echo '<p><input type="checkbox" name="shariff3UU_statistic[disable][pinterest]" ';
 	if ( isset( $GLOBALS['shariff3UU_statistic']['disable']['pinterest'] ) ) echo checked( $GLOBALS['shariff3UU_statistic']['disable']['pinterest'], 1, 0 );
@@ -895,7 +902,7 @@ function shariff3UU_text_external_host_render(){
 	if ( isset( $GLOBALS["shariff3UU_statistic"]["external_host"] ) ) {
 		$external_host = $GLOBALS["shariff3UU_statistic"]["external_host"];
 	}
-	else { 
+	else {
 		$external_host = '';
 	}
 	echo '<input type="text" name="shariff3UU_statistic[external_host]" value="' . esc_html( $external_host ) . '" size="50" placeholder="'. plugins_url() .'/shariff/">';
@@ -994,7 +1001,7 @@ function shariff3UU_help_section_callback() {
 			echo '<div class="shariff_shortcode_cell"></div>';
 			echo '<div class="shariff_shortcode_cell">[shariff twitter_via="your_twittername"]</div>';
 			echo '<div class="shariff_shortcode_cell">' . __( 'Sets the Twitter via tag.', 'shariff3UU' ) . '</div>';
-		echo '</div>';	
+		echo '</div>';
 		// flattruser
 		echo '<div class="shariff_shortcode_row">';
 			echo '<div class="shariff_shortcode_cell">flattruser</div>';
@@ -1010,7 +1017,7 @@ function shariff3UU_help_section_callback() {
 			echo '<div class="shariff_shortcode_cell"></div>';
 			echo '<div class="shariff_shortcode_cell">[shariff patreonid="your_username"]</div>';
 			echo '<div class="shariff_shortcode_cell">' . __( 'Sets the Patreon username.', 'shariff3UU' ) . '</div>';
-		echo '</div>';		
+		echo '</div>';
 		// paypalbuttonid
 		echo '<div class="shariff_shortcode_row">';
 			echo '<div class="shariff_shortcode_cell">paypalbuttonid</div>';
@@ -1026,7 +1033,7 @@ function shariff3UU_help_section_callback() {
 			echo '<div class="shariff_shortcode_cell"></div>';
 			echo '<div class="shariff_shortcode_cell">[shariff paypalmeid="name"]</div>';
 			echo '<div class="shariff_shortcode_cell">' . __( 'Sets the PayPal.Me ID. Default amount can be added with a / e.g. name/25.', 'shariff3UU' ) . '</div>';
-		echo '</div>';	
+		echo '</div>';
 		// bitcoinaddress
 		echo '<div class="shariff_shortcode_row">';
 			echo '<div class="shariff_shortcode_cell">bitcoinaddress</div>';
@@ -1034,7 +1041,7 @@ function shariff3UU_help_section_callback() {
 			echo '<div class="shariff_shortcode_cell"></div>';
 			echo '<div class="shariff_shortcode_cell">[shariff bitcoinaddress="bitcoin_address"]</div>';
 			echo '<div class="shariff_shortcode_cell">' . __( 'Sets the bitcoin address.', 'shariff3UU' ) . '</div>';
-		echo '</div>';	
+		echo '</div>';
 		// media
 		echo '<div class="shariff_shortcode_row">';
 			echo '<div class="shariff_shortcode_cell">media</div>';
@@ -1099,7 +1106,7 @@ function shariff3UU_status_section_callback() {
 
 		// temporarily removed flattr due to ongoing problems with the flattr api
 		$services = array( 'facebook', 'twitter', 'googleplus', 'pinterest', 'linkedin', 'xing', 'reddit', 'stumbleupon', 'tumblr', 'vk', 'addthis' );
-		
+
 		// start testing services
 		foreach ( $services as $service ) {
 			if ( ! isset ( $shariff3UU_statistic["disable"][ $service ] ) || ( isset ( $shariff3UU_statistic["disable"][ $service ] ) && $shariff3UU_statistic["disable"][ $service ] == 0 ) ) {
@@ -1266,25 +1273,25 @@ function shariff3UU_status_section_callback() {
 		echo '</div>';
 	}
 	echo '</div>';
-                                                                                                                                                                                                
+
 	// end status table
 	echo '</div>';
 }
 
 // render the plugin option page
-function shariff3UU_options_page() { 
+function shariff3UU_options_page() {
 	// the <div> with the class "wrap" makes sure that admin messages are displayed below the title and not above
 	echo '<div class="wrap">';
 
 	// title
 	echo '<h2>Shariff ' . $GLOBALS["shariff3UU_basic"]["version"] . '</h2>';
-	
+
 	// start the form
 	echo '<form class="shariff" action="options.php" method="post">';
-	
+
 	// hidden version entry, so it will get saved upon updating the options
 	echo '<input type="hidden" name="shariff3UU_basic[version]" value="' . $GLOBALS["shariff3UU_basic"]["version"] . '">';
-	
+
 	// determine active tab
 	if ( isset( $_GET['tab'] ) ) {
 		$active_tab = $_GET['tab'];
@@ -1292,7 +1299,7 @@ function shariff3UU_options_page() {
 	else {
 		$active_tab = 'basic';
 	}
-	
+
 	// tabs
 	echo '<h2 class="nav-tab-wrapper">';
 		// basic
