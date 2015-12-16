@@ -568,9 +568,8 @@ function shariffPosts( $content ) {
 			$custom_types = array_keys( $all_custom_post_types );
 			// type of current post
 			$current_post_type = get_post_type();
-
 			// add shariff, if custom type and option checked in the admin menu
-			if (isset($shariff3UU['add_after'][$current_post_type]) && $shariff3UU['add_after'][$current_post_type] == 1) {
+			if ( isset( $shariff3UU['add_after'][$current_post_type] ) && $shariff3UU['add_after'][$current_post_type] == 1 ) {
 				$content .= buildShariffShorttag();
 			}
 		}
