@@ -402,18 +402,6 @@ function shariff3UU_multiplecheckbox_add_after_render() {
 	if ( isset( $GLOBALS["shariff3UU_basic"]["add_after"]["pages"] ) ) echo checked( $GLOBALS["shariff3UU_basic"]["add_after"]["pages"], 1, 0 );
 	echo ' value="1">' . __('Pages', 'shariff3UU') . '</p>';
 
-	// choose after which custom post types to add
-	$post_types = get_post_types(array('_builtin' => FALSE));
-	array_walk($post_types, function ($cpt) {
-		$object = get_post_type_object($cpt);
-		printf(
-			'<p><input type="checkbox" name="shariff3UU_basic[add_after][%s]" %s value="1"/>%s</p>',
-			$cpt,
-			isset($GLOBALS['shariff3UU_basic']['add_after'][$cpt]) ? checked($GLOBALS['shariff3UU_basic']['add_after'][$cpt], 1, 0) : '',
-			$object->labels->singular_name	// this should already be localized
-		);
-	});
-
 	// add after all bbpress replies
 	echo '<p><input type="checkbox" name="shariff3UU_basic[add_after][bbp_reply]" ';
 	if ( isset( $GLOBALS["shariff3UU_basic"]["add_after"]["bbp_reply"] ) ) echo checked( $GLOBALS["shariff3UU_basic"]["add_after"]["bbp_reply"], 1, 0 );
@@ -423,6 +411,21 @@ function shariff3UU_multiplecheckbox_add_after_render() {
 	echo '<p><input type="checkbox" name="shariff3UU_basic[add_after][excerpt]" ';
 	if ( isset( $GLOBALS["shariff3UU_basic"]["add_after"]["excerpt"] ) ) echo checked( $GLOBALS["shariff3UU_basic"]["add_after"]["excerpt"], 1, 0 );
 	echo ' value="1">' . __('Excerpt', 'shariff3UU') . '</p>';
+
+	// add after custom post types - choose after which to add
+	$post_types = get_post_types( array( '_builtin' => FALSE ) );
+	if ( isset( $post_types ) && is_array( $post_types ) && ! empty( $post_types ) ) {
+		echo '<p>Custom Post Types:</p>';
+	};
+	array_walk( $post_types, function ( $cpt ) {
+		$object = get_post_type_object( $cpt );
+		printf(
+			'<p><input type="checkbox" name="shariff3UU_basic[add_after][%s]" %s value="1">%s</p>',
+			$cpt,
+			isset( $GLOBALS['shariff3UU_basic']['add_after'][$cpt] ) ? checked( $GLOBALS['shariff3UU_basic']['add_after'][$cpt], 1, 0 ) : '',
+			$object->labels->singular_name	// this should already be localized <- not always, but there is no way to know, so we have to accept the language mixup
+		);
+	} );
 }
 
 // add before
