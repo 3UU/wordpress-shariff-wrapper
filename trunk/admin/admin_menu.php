@@ -417,15 +417,16 @@ function shariff3UU_multiplecheckbox_add_after_render() {
 	if ( isset( $post_types ) && is_array( $post_types ) && ! empty( $post_types ) ) {
 		echo '<p>Custom Post Types:</p>';
 	};
-	array_walk( $post_types, function ( $cpt ) {
-		$object = get_post_type_object( $cpt );
+
+	foreach ( $post_types as $post_type ) {
+		$object = get_post_type_object( $post_type );
 		printf(
 			'<p><input type="checkbox" name="shariff3UU_basic[add_after][%s]" %s value="1">%s</p>',
-			$cpt,
-			isset( $GLOBALS['shariff3UU_basic']['add_after'][$cpt] ) ? checked( $GLOBALS['shariff3UU_basic']['add_after'][$cpt], 1, 0 ) : '',
+			$post_type,
+			isset( $GLOBALS['shariff3UU_basic']['add_after'][$post_type] ) ? checked( $GLOBALS['shariff3UU_basic']['add_after'][$post_type], 1, 0 ) : '',
 			$object->labels->singular_name	// this should already be localized <- not always, but there is no way to know, so we have to accept the language mixup
 		);
-	} );
+	} 
 }
 
 // add before

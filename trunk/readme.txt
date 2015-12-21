@@ -188,6 +188,8 @@ fixed in the future - if we have time to spend or you provide us with a lot of "
   rendered.
 
 == Changelog ==
+= 3.3.3 =
+- fix anonymous function request for PHP < version 5.3
 
 = 3.3.2 =
 - improve/extend handling of custom post types
