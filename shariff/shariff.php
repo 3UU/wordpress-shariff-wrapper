@@ -29,7 +29,11 @@ if ( ! class_exists('WP') ) { die(); }
 if ( ! get_option( 'shariff3UU_basic' ) ) {
 	// version < 2.3
 	$shariff3UU = get_option( 'shariff3UU' );
-	$shariff3UU_basic = array(); $shariff3UU_design = array(); $shariff3UU_advanced = array(); $shariff3UU_mailform = array();
+	$shariff3UU_basic = array();
+	$shariff3UU_design = array();
+	$shariff3UU_advanced = array();
+	$shariff3UU_mailform = array();
+	$shariff3UU_statistic = array();
 }
 else {
 	// version >= 2.3
