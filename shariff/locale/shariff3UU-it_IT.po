@@ -9,7 +9,7 @@ msgstr ""
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
 "Language: de_DE\n"
-"X-Generator: Poedit 1.8.1\n"
+"X-Generator: Poedit 1.8.6\n"
 
 #. Text in function
 #: shariff.php:1
@@ -84,8 +84,8 @@ msgstr "Errore di backend."
 
 #. Text in function
 #: shariff.php:1
-msgid "<p>Basic HTML as well as style and class attributes are allowed - e.g. <code>&lt;h1 class=\"shariff_headline\"&gt;Share this post&lt;/h1&gt;</code></p>"
-msgstr "<p>E' possibile utilizzare HTML base, come pure attributi di stile e classe - ad esempio: <code>&lt;h1 class=\"shariff_headline\"&gt;Teile diesen Beitrag&lt;/h1&gt;</code></p>"
+msgid "<p>Basic HTML as well as style and class attributes are allowed - e.g. <code>&lt;h3 class=\"shariff_headline\"&gt;Share this post&lt;/h3&gt;</code></p>"
+msgstr "<p>E' possibile utilizzare HTML base, come pure attributi di stile e classe - ad esempio: <code>&lt;h3 class=\"shariff_headline\"&gt;Teile diesen Beitrag&lt;/h3&gt;</code></p>"
 
 #. Text in function
 #: shariff.php:1

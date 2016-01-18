@@ -167,6 +167,7 @@ function buildShariffShorttag() {
 	// close the shorttag
 	$shorttag .= ']';
 
+	/* Erst einmal auskommentiert, erfüllt eh noch keinen Zweck
 	// build in pure HTML
 	$htmltagstyle='';
 	// orientation
@@ -177,6 +178,7 @@ function buildShariffShorttag() {
         ( isset($shariff3UU["buttonsize"] ) && $shariff3UU["buttonsize"] == '1' ) ? $htmltagstyle.='buttonsize-small ' : $htmltagstyle.='buttonsize-big ';
         // lang = erstmal nich, weil wir das noch irgendwie elegant aus des JS holen muessen
         // services
+        // JP: Hier haste vergessen zu checken, of services nicht leer ist -> produziert Warnhinweise wenn nix eingetragen ist (default)
         $arr_services=explode('|',$shariff3UU["services"]);
         $htmltagstyle.='col-'.count($arr_services).' ';
         // backend
@@ -196,7 +198,8 @@ function buildShariffShorttag() {
 		 $htmltag.='</li>';
 		 }
 	$htmltag.='</ul></div>';
-#	return $htmltag;
+#	return $htmltag; */
+
 	return $shorttag;
 }
 

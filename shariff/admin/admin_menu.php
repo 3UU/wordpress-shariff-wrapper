@@ -570,7 +570,7 @@ function shariff3UU_text_headline_render() {
 		$headline = '';
 	}
 	echo '<input type="text" name="shariff3UU_design[headline]" value="' . esc_html( $headline ) . '" size="50" placeholder="' . __( "Share this post", "shariff3UU" ) . '">';
-	echo __( '<p>Basic HTML as well as style and class attributes are allowed - e.g. <code>&lt;h1 class="shariff_headline"&gt;Share this post&lt;/h1&gt;</code></p>', "shariff3UU" );
+	echo __( '<p>Basic HTML as well as style and class attributes are allowed - e.g. <code>&lt;h3 class="shariff_headline"&gt;Share this post&lt;/h3&gt;</code></p>', "shariff3UU" );
 }
 
 // custom css
