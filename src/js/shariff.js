@@ -41,6 +41,7 @@ var Shariff = function(element, options) {
 		require('./services/diaspora.js'),
 		require('./services/threema.js'),
 		require('./services/paypalme.js'),
+		require('./services/rss.js'),
 	];
 
 	// filter available services to those that are enabled and initialize them

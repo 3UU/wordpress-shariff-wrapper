@@ -188,6 +188,11 @@ fixed in the future - if we have time to spend or you provide us with a lot of "
   rendered.
 
 == Changelog ==
+
+= 3.4.0 =
+- new rss service
+- minor bug fixes
+
 = 3.3.3 =
 - fix anonymous function request for PHP < version 5.3
 

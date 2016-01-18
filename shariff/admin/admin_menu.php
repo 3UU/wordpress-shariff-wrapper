@@ -158,6 +158,11 @@ function shariff3UU_options_init(){
 		'shariff3UU_text_bitcoinaddress', __( 'Bitcoin address:', 'shariff3UU' ),
 		'shariff3UU_text_bitcoinaddress_render', 'advanced', 'shariff3UU_advanced_section' );
 
+	// rss feed
+	add_settings_field(
+		'shariff3UU_text_rssfeed', __( 'RSS feed:', 'shariff3UU' ),
+		'shariff3UU_text_rssfeed_render', 'advanced', 'shariff3UU_advanced_section' );
+
 	// default image for pinterest
 	add_settings_field( 'shariff3UU_text_default_pinterest', __( 'Default image for Pinterest:', 'shariff3UU' ),
 		'shariff3UU_text_default_pinterest_render', 'advanced', 'shariff3UU_advanced_section' );
@@ -298,6 +303,7 @@ function shariff3UU_advanced_sanitize( $input ) {
 	if ( isset($input["paypalbuttonid"] ) )    		$valid["paypalbuttonid"]       	= str_replace( '@', '', sanitize_text_field( $input["paypalbuttonid"] ) );
 	if ( isset($input["paypalmeid"] ) )      		$valid["paypalmeid"]       	    = str_replace( '@', '', sanitize_text_field( $input["paypalmeid"] ) );
 	if ( isset($input["bitcoinaddress"] ) )    		$valid["bitcoinaddress"]       	= str_replace( '@', '', sanitize_text_field( $input["bitcoinaddress"] ) );
+	if ( isset($input["rssfeed"] ) )    		    $valid["rssfeed"]       	    = str_replace( '@', '', sanitize_text_field( $input["rssfeed"] ) );
 	if ( isset($input["default_pinterest"] ) ) 	    $valid["default_pinterest"]		= sanitize_text_field( $input["default_pinterest"] );
 
 	// remove empty elements
@@ -380,8 +386,8 @@ function shariff3UU_text_services_render(){
 		$services = '';
 	}
 	echo '<input type="text" name="shariff3UU_basic[services]" value="' . esc_html($services) . '" size="75" placeholder="twitter|facebook|googleplus|info">';
-	echo '<p><code>facebook|twitter|googleplus|whatsapp|threema|pinterest|xing|linkedin|reddit|vk|diaspora</code></p>';
-	echo '<p><code>stumbleupon|tumblr|addthis|flattr|patreon|paypal|paypalme|bitcoin|mailform|mailto|printer|info</code></p>';
+	echo '<p><code>facebook|twitter|googleplus|whatsapp|threema|pinterest|xing|linkedin|reddit|vk|diaspora|stumbleupon</code></p>';
+	echo '<p><code>tumblr|addthis|flattr|patreon|paypal|paypalme|bitcoin|mailform|mailto|printer|info|rss</code></p>';
 	echo '<p>' . __( 'Use the pipe sign | (Alt Gr + &lt; or &#8997; + 7) between two or more services.', 'shariff3UU' ) . '</p>';
 }
 
@@ -672,6 +678,18 @@ function shariff3UU_text_bitcoinaddress_render() {
 	echo '<input type="text" name="shariff3UU_advanced[bitcoinaddress]" value="'. $bitcoinaddress .'" size="50" placeholder="' . __( '1Ab2CdEfGhijKL34mnoPQRSTu5VwXYzaBcD', 'shariff3UU' ) . '">';
 }
 
+// rss feed
+function shariff3UU_text_rssfeed_render() {
+	if ( isset($GLOBALS["shariff3UU_advanced"]["rssfeed"]) ) {
+		$rssfeed = esc_url( $GLOBALS["shariff3UU_advanced"]["rssfeed"] );
+	}
+	else {
+		$rssfeed = '';
+	}
+	$rssdefault = esc_url( get_bloginfo('rss_url') );
+	echo '<input type="text" name="shariff3UU_advanced[rssfeed]" value="'. $rssfeed .'" size="50" placeholder="' . $rssdefault . '">';
+}
+
 // pinterest default image
 function shariff3UU_text_default_pinterest_render() {
 	$options = $GLOBALS["shariff3UU_advanced"];
@@ -945,7 +963,7 @@ function shariff3UU_help_section_callback() {
 		// services
 		echo '<div class="shariff_shortcode_row">';
 			echo '<div class="shariff_shortcode_cell">services</div>';
-			echo '<div class="shariff_shortcode_cell">facebook<br>twitter<br>googleplus<br>whatsapp<br>threema<br>pinterest<br>linkedin<br>xing<br>reddit<br>stumbleupon<br>tumblr<br>vk<br>diaspora<br>addthis<br>flattr<br>patreon<br>paypal<br>paypalme<br>bitcoin<br>mailform<br>mailto<br>printer<br>info</div>';
+			echo '<div class="shariff_shortcode_cell">facebook<br>twitter<br>googleplus<br>whatsapp<br>threema<br>pinterest<br>linkedin<br>xing<br>reddit<br>stumbleupon<br>tumblr<br>vk<br>diaspora<br>addthis<br>flattr<br>patreon<br>paypal<br>paypalme<br>bitcoin<br>mailform<br>mailto<br>printer<br>info<br>rss</div>';
 			echo '<div class="shariff_shortcode_cell">twitter|facebook|googleplus|info</div>';
 			echo '<div class="shariff_shortcode_cell">[shariff theme="facebook|twitter|mailform"]</div>';
 			echo '<div class="shariff_shortcode_cell">' . __( 'Determines which buttons to show and in which order.', 'shariff3UU' ) . '</div>';
