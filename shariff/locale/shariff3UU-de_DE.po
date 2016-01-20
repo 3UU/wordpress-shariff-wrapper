@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Shariff Wrapper for Wordpress\n"
-"PO-Revision-Date: 2015-11-26 02:01+0100\n"
+"PO-Revision-Date: 2016-01-18 19:55+0100\n"
 "Last-Translator: JP\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
 "Content-Type: text/plain; charset=utf-8\n"
@@ -99,8 +99,8 @@ msgstr "Fehler im Backend."
 # @ shariff3UU
 #. Text in function
 #: shariff.php:1
-msgid "<p>Basic HTML as well as style and class attributes are allowed - e.g. <code>&lt;h1 class=\"shariff_headline\"&gt;Share this post&lt;/h1&gt;</code></p>"
-msgstr "<p>Basis-HTML sowie style- und class-Attribute sind erlaubt - z.B. <code>&lt;h1 class=\"shariff_headline\"&gt;Teile diesen Beitrag&lt;/h1&gt;</code></p>"
+msgid "<p>Basic HTML as well as style and class attributes are allowed - e.g. <code>&lt;h3 class=\"shariff_headline\"&gt;Share this post&lt;/h3&gt;</code></p>"
+msgstr "<p>Basis-HTML sowie style- und class-Attribute sind erlaubt - z.B. <code>&lt;h3 class=\"shariff_headline\"&gt;Teile diesen Beitrag&lt;/h3&gt;</code></p>"
 
 # @ shariff3UU
 #. Text in function
@@ -857,3 +857,9 @@ msgstr "Bitte überprüfe, ob diese Domain zum Array $SHARIFF_FRONTENDS auf dem 
 #: shariff.php:1
 msgid " <span style=\"color: red; font-weight: bold;\">Warning:</span> You entered an external host! Therefore most options on this page have no effect. You need to configure them on the external server. Remember: This feature is still experimental!"
 msgstr " <span style=\"color: red; font-weight: bold;\">Warnung:</span> Es wurde ein externer Server angegeben! Daher haben viele Optionen auf dieser Seite keinen Effekt. Diese müssen auf dem externen Server eingestellt werden. Zur Erinnerung: Diese Funktion ist noch experimentell!"
+
+# @ shariff3UU
+#. Text in function
+#: shariff.php:1
+msgid "RSS feed:"
+msgstr "RSS-Feed:"
