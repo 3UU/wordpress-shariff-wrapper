@@ -190,7 +190,7 @@ fixed in the future - if we have time to spend or you provide us with a lot of "
 == Changelog ==
 
 = 3.4.0 =
-- new rss service
+- new service rss
 - minor bug fixes
 - update to Heise version 1.22.0
 

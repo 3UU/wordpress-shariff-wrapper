@@ -167,39 +167,6 @@ function buildShariffShorttag() {
 	// close the shorttag
 	$shorttag .= ']';
 
-	/* Erst einmal auskommentiert, erfüllt eh noch keinen Zweck
-	// build in pure HTML
-	$htmltagstyle='';
-	// orientation
-	( isset($shariff3UU["vertical"]) && $shariff3UU["vertical"] == '1' ) ? $htmltagstyle.='orientation-vertical ' : $htmltagstyle.='orientation-horizontal ';
-	// theme
-	( ! empty($shariff3UU["theme"] ) ) ? $htmltagstyle.=$shariff3UU["theme"].' ' : $htmltagstyle.='theme-default ';
-	// buttonsize
-        ( isset($shariff3UU["buttonsize"] ) && $shariff3UU["buttonsize"] == '1' ) ? $htmltagstyle.='buttonsize-small ' : $htmltagstyle.='buttonsize-big ';
-        // lang = erstmal nich, weil wir das noch irgendwie elegant aus des JS holen muessen
-        // services
-        // JP: Hier haste vergessen zu checken, of services nicht leer ist -> produziert Warnhinweise wenn nix eingetragen ist (default)
-        $arr_services=explode('|',$shariff3UU["services"]);
-        $htmltagstyle.='col-'.count($arr_services).' ';
-        // backend
-        // info-url
-        // style
-        if ( ! empty($shariff3UU["style"] ) ) $htmltagstyle.='buttonsize-'.$shariff3UU["style"].' ';
-        // twitter-via
-        // flatter-username
-        // timestamp if needed for backend
-
-	$htmltag='<rtz/><div class="shariff"><ul class="'.$htmltagstyle.'">';
-	// services durchhecheln. Achtung: Der Servicename muss dem Namen des Style entsprechen
-	// $shariff3UU["services"] durchheckeln
-		foreach ($arr_services as $key => $val){
-		 $htmltag.='<li class="shariff-button '.$val.'">';
-		 $htmltag.='blubber';
-		 $htmltag.='</li>';
-		 }
-	$htmltag.='</ul></div>';
-#	return $htmltag; */
-
 	return $shorttag;
 }
 
