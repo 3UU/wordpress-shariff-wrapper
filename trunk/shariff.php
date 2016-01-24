@@ -3,7 +3,7 @@
  * Plugin Name: Shariff Wrapper
  * Plugin URI: http://www.3uu.org/plugins.htm
  * Description: This is a wrapper to Shariff. It enables shares with Twitter, Facebook ... on posts, pages and themes with no harm for visitors privacy.
- * Version: 3.3.2
+ * Version: 3.4.0
  * Author: 3UU, JP
  * Author URI: http://www.DatenVerwurstungsZentrale.com/
  * License: http://opensource.org/licenses/MIT
@@ -12,7 +12,7 @@
  * Text Domain: shariff3UU
  *
  * ### Supported options ###
- *   services: [facebook|twitter|googleplus|whatsapp|threema|pinterest|linkedin|xing|reddit|stumbleupon|tumblr|vk|diaspora|addthis|flattr|patreon|paypal|paypalme|bitcoin|mailform|mailto|printer|info]
+ *   services: [facebook|twitter|googleplus|whatsapp|threema|pinterest|linkedin|xing|reddit|stumbleupon|tumblr|vk|diaspora|addthis|flattr|patreon|paypal|paypalme|bitcoin|mailform|mailto|printer|info|rss]
  *   info_url: http://ct.de/-2467514
  *   lang: de|en
  *   theme: default|color|grey|white|round
@@ -29,7 +29,11 @@ if ( ! class_exists('WP') ) { die(); }
 if ( ! get_option( 'shariff3UU_basic' ) ) {
 	// version < 2.3
 	$shariff3UU = get_option( 'shariff3UU' );
-	$shariff3UU_basic = array(); $shariff3UU_design = array(); $shariff3UU_advanced = array(); $shariff3UU_mailform = array();
+	$shariff3UU_basic = array();
+	$shariff3UU_design = array();
+	$shariff3UU_advanced = array();
+	$shariff3UU_mailform = array();
+	$shariff3UU_statistic = array();
 }
 else {
 	// version >= 2.3
@@ -45,7 +49,7 @@ else {
 function shariff3UU_update() {
 
 	/******************** ADJUST VERSION ********************/
-	$code_version = "3.3.2"; // set code version - needs to be adjusted for every new version!
+	$code_version = "3.4.0"; // set code version - needs to be adjusted for every new version!
 	/******************** ADJUST VERSION ********************/
 
 	// check if the installed version is older than the code version and include updates.php if neccessary
@@ -163,36 +167,6 @@ function buildShariffShorttag() {
 	// close the shorttag
 	$shorttag .= ']';
 
-	// build in pure HTML
-	$htmltagstyle='';
-	// orientation
-	( isset($shariff3UU["vertical"]) && $shariff3UU["vertical"] == '1' ) ? $htmltagstyle.='orientation-vertical ' : $htmltagstyle.='orientation-horizontal ';
-	// theme
-	( ! empty($shariff3UU["theme"] ) ) ? $htmltagstyle.=$shariff3UU["theme"].' ' : $htmltagstyle.='theme-default ';
-	// buttonsize
-        ( isset($shariff3UU["buttonsize"] ) && $shariff3UU["buttonsize"] == '1' ) ? $htmltagstyle.='buttonsize-small ' : $htmltagstyle.='buttonsize-big ';
-        // lang = erstmal nich, weil wir das noch irgendwie elegant aus des JS holen muessen
-        // services
-        $arr_services=explode('|',$shariff3UU["services"]);
-        $htmltagstyle.='col-'.count($arr_services).' ';
-        // backend
-        // info-url
-        // style
-        if ( ! empty($shariff3UU["style"] ) ) $htmltagstyle.='buttonsize-'.$shariff3UU["style"].' ';
-        // twitter-via
-        // flatter-username
-        // timestamp if needed for backend
-
-	$htmltag='<rtz/><div class="shariff"><ul class="'.$htmltagstyle.'">';
-	// services durchhecheln. Achtung: Der Servicename muss dem Namen des Style entsprechen
-	// $shariff3UU["services"] durchheckeln
-		foreach ($arr_services as $key => $val){
-		 $htmltag.='<li class="shariff-button '.$val.'">';
-		 $htmltag.='blubber';
-		 $htmltag.='</li>';
-		 }
-	$htmltag.='</ul></div>';
-#	return $htmltag;
 	return $shorttag;
 }
 
@@ -774,6 +748,8 @@ function Render3UUShariff( $atts, $content = null ) {
 	if ( array_key_exists( 'paypalmeid', $atts ) )      $output .= ' data-paypalmeid="'     . esc_html( $atts['paypalmeid'] ) . '"';
 	if ( array_key_exists( 'bitcoinaddress', $atts ) )  $output .= ' data-bitcoinaddress="' . esc_html( $atts['bitcoinaddress'] ) . '"';
 	if ( array_key_exists( 'bitcoinaddress', $atts ) )  $output .= ' data-bitcoinurl="'     . esc_url( plugins_url( '/', __FILE__ ) ) . '"';
+	if ( array_key_exists( 'rssfeed', $atts ) )         $output .= ' data-rssfeed="'        . esc_url( $atts['rssfeed'] ) . '"';
+	else $output .= ' data-rssfeed="' . esc_url( get_bloginfo('rss_url') ) . '"';
 	if ( array_key_exists( 'buttonsize', $atts ) )      $output .= ' data-buttonsize="'     . esc_html( $atts['buttonsize'] ) . '"';
 	if ( array_key_exists( 'timestamp', $atts ) )      	$output .= ' data-timestamp="'      . esc_html( $atts['timestamp'] ) . '"';
 	// if services are set only use these
