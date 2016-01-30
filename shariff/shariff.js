@@ -1,6 +1,6 @@
 
 /*!
- * shariff - v1.22.0 - 18.01.2016
+ * shariff - v1.23.0 - 30.01.2016
  * https://github.com/heiseonline/shariff
  * Copyright (c) 2016 Ines Pauer, Philipp Busse, Sebastian Hilbig, Erich Kramer, Deniz Sesli
  * Licensed under the MIT license
@@ -34,7 +34,7 @@ function Url(){this.protocol=null,this.slashes=null,this.auth=null,this.host=nul
 "use strict";module.exports=function(n){var i="",o="";return null!==n.options.bitcoinaddress&&(i=n.options.bitcoinaddress),null!==n.options.bitcoinurl&&(o=n.options.bitcoinurl),{popup:!0,noblank:!1,mobileonly:!1,shareText:{de:"spenden",en:"donate",fr:"faire un don",es:"donar"},name:"bitcoin",faName:"s3uu-bitcoin",title:{de:"Spenden mit Bitcoin",en:"Donate with Bitcoin",fr:"Faire un don via Bitcoin",es:"Donar via Bitcoin"},shareUrl:o+"bitcoin.php?bitcoinaddress="+i}};
 
 },{}],9:[function(require,module,exports){
-"use strict";var url=require("url");module.exports=function(e){var r=url.parse("https://sharetodiaspora.github.io/",!0);return r.query.url=e.getURL(),r.query.title=e.getTitle()||e.getMeta("DC.title"),r.protocol="https",delete r.search,{popup:!0,mobileonly:!1,shareText:{de:"teilen",en:"share"},name:"diaspora",faName:"s3uu-diaspora",title:{de:"Bei Diaspora teilen",en:"Share on Diaspora"},shareUrl:url.format(r)+e.getReferrerTrack()}};
+"use strict";var url=require("url");module.exports=function(e){var r=url.parse("https://share.diasporafoundation.org/",!0);return r.query.url=e.getURL(),r.query.title=e.getTitle()||e.getMeta("DC.title"),r.protocol="https",delete r.search,{popup:!0,mobileonly:!1,shareText:{de:"teilen",en:"share"},name:"diaspora",faName:"s3uu-diaspora",title:{de:"Bei Diaspora teilen",en:"Share on Diaspora"},shareUrl:url.format(r)+e.getReferrerTrack()}};
 
 },{"url":6}],10:[function(require,module,exports){
 "use strict";module.exports=function(e){var o=encodeURIComponent(e.getURL());return{popup:!0,mobileonly:!1,shareText:{bg:"cподеляне",da:"del",de:"teilen",en:"share",es:"compartir",fi:"Jaa",fr:"partager",hr:"podijelite",hu:"megosztás",it:"condividi",ja:"共有",ko:"공유하기",nl:"delen",no:"del",pl:"udostępnij",pt:"compartilhar",ro:"partajează",ru:"поделиться",sk:"zdieľať",sl:"deli",sr:"podeli",sv:"dela",tr:"paylaş",zh:"分享"},name:"facebook",faName:"s3uu-facebook",title:{bg:"Сподели във Facebook",da:"Del på Facebook",de:"Bei Facebook teilen",en:"Share on Facebook",es:"Compartir en Facebook",fi:"Jaa Facebookissa",fr:"Partager sur Facebook",hr:"Podijelite na Facebooku",hu:"Megosztás Facebookon",it:"Condividi su Facebook",ja:"フェイスブック上で共有",ko:"페이스북에서 공유하기",nl:"Delen op Facebook",no:"Del på Facebook",pl:"Udostępnij na Facebooku",pt:"Compartilhar no Facebook",ro:"Partajează pe Facebook",ru:"Поделиться на Facebook",sk:"Zdieľať na Facebooku",sl:"Deli na Facebooku",sr:"Podeli na Facebook-u",sv:"Dela på Facebook",tr:"Facebook'ta paylaş",zh:"在Facebook上分享"},shareUrl:"https://www.facebook.com/sharer/sharer.php?u="+o+e.getReferrerTrack()}};

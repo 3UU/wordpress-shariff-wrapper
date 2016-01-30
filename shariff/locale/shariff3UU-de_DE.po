@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Shariff Wrapper for Wordpress\n"
-"PO-Revision-Date: 2016-01-18 19:55+0100\n"
+"PO-Revision-Date: 2016-01-30 19:32+0100\n"
 "Last-Translator: JP\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
 "Content-Type: text/plain; charset=utf-8\n"
@@ -161,6 +161,18 @@ msgstr "Legt den Titel zum Teilen fest. Nur für spezielle Umstände."
 #: shariff.php:1
 msgid "Changes the url to share. Only for special use cases."
 msgstr "Legt die URL zum Teilen fest. Nur für spezielle Umstände."
+
+# @ shariff3UU
+#. Text in function
+#: shariff.php:1
+msgid "[shariff title=\"My Post Title\"]</div>"
+msgstr "[shariff title=\"Mein Beitragstitel\"]</div>"
+
+# @ shariff3UU
+#. Text in function
+#: shariff.php:1
+msgid "Changes the rss feed url to another feed."
+msgstr "Ändert die Feed-URL für den RSS-Button."
 
 # @ shariff3UU
 #. Text in function
