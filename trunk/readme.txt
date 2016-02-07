@@ -189,6 +189,13 @@ fixed in the future - if we have time to spend or you provide us with a lot of "
 
 == Changelog ==
 
+= 3.4.1 =
+- changed diaspora share url to official one
+- fix css of rss button when using round theme in widget
+- fix accessibility of share button text 
+- added rssfeed option to help section
+- update to Heise version 1.23.0
+
 = 3.4.0 =
 - new service rss
 - minor bug fixes

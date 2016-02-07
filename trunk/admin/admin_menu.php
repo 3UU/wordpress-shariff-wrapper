@@ -1085,7 +1085,7 @@ function shariff3UU_help_section_callback() {
 			echo '<div class="shariff_shortcode_cell">url</div>';
 			echo '<div class="shariff_shortcode_cell"></div>';
 			echo '<div class="shariff_shortcode_cell">' . __( 'The url of the current post or page.</div>', 'shariff3UU' );
-			echo '<div class="shariff_shortcode_cell">[shariff url="http://www.mydomain.com"]</div>';
+			echo '<div class="shariff_shortcode_cell">[shariff url="http://www.mydomain.com/somepost"]</div>';
 			echo '<div class="shariff_shortcode_cell">' . __( 'Changes the url to share. Only for special use cases.', 'shariff3UU' ) . '</div>';
 		echo '</div>';
 		// title
@@ -1093,8 +1093,16 @@ function shariff3UU_help_section_callback() {
 			echo '<div class="shariff_shortcode_cell">title</div>';
 			echo '<div class="shariff_shortcode_cell"></div>';
 			echo '<div class="shariff_shortcode_cell">' . __( 'The title of the current post or page.</div>', 'shariff3UU' );
-			echo '<div class="shariff_shortcode_cell">[shariff title="My WordPress Blog"]</div>';
+			echo '<div class="shariff_shortcode_cell">' . __( '[shariff title="My Post Title"]</div>', 'shariff3UU' );
 			echo '<div class="shariff_shortcode_cell">' . __( 'Changes the title to share. Only for special use cases.', 'shariff3UU' ) . '</div>';
+		echo '</div>';
+		// rssfeed
+		echo '<div class="shariff_shortcode_row">';
+			echo '<div class="shariff_shortcode_cell">rssfeed</div>';
+			echo '<div class="shariff_shortcode_cell"></div>';
+			echo '<div class="shariff_shortcode_cell">' . __( 'http://www.mydomain.com/feed/rss/</div>', 'shariff3UU' );
+			echo '<div class="shariff_shortcode_cell">[shariff rssfeed="http://www.mydomain.com/feed/rss2/"]</div>';
+			echo '<div class="shariff_shortcode_cell">' . __( 'Changes the rss feed url to another feed.', 'shariff3UU' ) . '</div>';
 		echo '</div>';
 
 	echo '</div>';
