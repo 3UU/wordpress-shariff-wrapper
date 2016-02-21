@@ -189,6 +189,9 @@ fixed in the future - if we have time to spend or you provide us with a lot of "
 
 == Changelog ==
 
+= 3.4.2 =
+- fix share counts on mobile devices with exactly 360px width
+
 = 3.4.1 =
 - changed diaspora share url to official one
 - fix css of rss button when using round theme in widget
