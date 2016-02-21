@@ -192,6 +192,7 @@ fixed in the future - if we have time to spend or you provide us with a lot of "
 = 3.4.2 =
 - fix share counts on mobile devices with exactly 360px width
 - fix error on the help tab regarding services (thx to Andreas)
+- added h4-h6 to the allowed tags for the headline
 
 = 3.4.1 =
 - changed diaspora share url to official one

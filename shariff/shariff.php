@@ -105,6 +105,24 @@ $allowed_tags = array(
 			'style' => array(),
 			'id' => array()
 		),
+	'h4' => array
+		(
+			'class' => array(),
+			'style' => array(),
+			'id' => array()
+		),
+	'h5' => array
+		(
+			'class' => array(),
+			'style' => array(),
+			'id' => array()
+		),
+	'h6' => array
+		(
+			'class' => array(),
+			'style' => array(),
+			'id' => array()
+		),
 	'hr' => array
 		(
 			'class' => array(),
