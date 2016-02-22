@@ -397,12 +397,14 @@
 	.shariff {
 		.theme-default, .theme-color, .theme-grey, .theme-round {
 			li {
-				a {
+				border: medium none;
+			}
+			a {
 				color: #fff;
-				}
-				a:hover {
+				display: block;
+			}
+			a:hover {
 				color: #fff;
-				}
 			}
 		}
 	}
@@ -425,7 +427,7 @@
 	}
 }
 
-@media only screen and (min-width: 360px) {
+@media only screen and (min-width: 361px) {
 	.shariff .orientation-horizontal {
 		li {
 			min-width: 80px;
