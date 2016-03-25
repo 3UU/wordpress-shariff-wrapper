@@ -2,7 +2,7 @@
 Contributors: 3UU, starguide
 Tags: Facebook, VKontakte, VK, GooglePlus, Twitter, sharebutton, sharing, privacy, social, whatsapp
 Requires at least: 3.0.1
-Tested up to: 4.4
+Tested up to: 4.5
 Stable tag: trunk
 License: MIT
 License URI: http://opensource.org/licenses/MIT
