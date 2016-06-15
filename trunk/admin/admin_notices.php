@@ -1,13 +1,11 @@
 <?php
 /**
- * Will be included in the shariff.php.
- * Update info currently active for release 3.3 due to OpenShareCount.com replacement for Twitter
+ * will be included in the shariff.php
+ * update info currently active for release 4.0 to direct people to the support forum
 */
 
 // prevent direct calls to admin_notices.php
 if ( ! class_exists('WP') ) { die(); }
-
-// update info currently active for release 3.3 due to OpenShareCount replacement for Twitter
 
 // display an update notice that can be dismissed
 function shariff3UU_admin_notice() {
@@ -16,7 +14,8 @@ function shariff3UU_admin_notice() {
 	// check that the user hasn't already clicked to ignore the message and can access options
 	if ( ! get_user_meta( $user_id, 'shariff3UU_ignore_notice' ) && current_user_can( 'manage_options' ) ) {
 		$link = add_query_arg( 'shariff3UU_nag_ignore', '0', esc_url_raw( $_SERVER['REQUEST_URI'] ) );
-		echo "<div class='updated'><a href='" . esc_url( $link ) . "' class='shariff_admininfo_cross'><div class='shariff_cross_icon'></div></a><p>" . __( 'Shariff Wrapper: Twitter has disabled share counts. Please read <a href="https://www.jplambeck.de/twitter-saveoursharecounts/" target="_blank"><strong>this post</strong></a> prior to activating the alternative via OpenShareCount.com!', 'shariff3UU' ) . "</span></p></div>";
+		$new_version = $GLOBALS["shariff3UU"]["version"];
+		echo "<div class='updated'><a href='" . esc_url( $link ) . "' class='shariff_admininfo_cross'><div class='shariff_cross_icon'></div></a><p>" . __( 'Shariff Wrapper has been successfully updated to version 4.0. If you encounter any problems, please report them to the <a href="https://wordpress.org/support/plugin/shariff" target="_blank"><strong>Support Forum</strong></a>, so we can fix them!', 'shariff3UU' ) . "</span></p></div>";
  	}
 }
 add_action( 'admin_notices', 'shariff3UU_admin_notice' );
