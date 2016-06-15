@@ -3,7 +3,7 @@
  * Plugin Name: Shariff Wrapper
  * Plugin URI: https://de.wordpress.org/plugins/shariff/
  * Description: The Shariff Wrapper provides share buttons that respect the privacy of your visitors and are compliant to the German data protection laws.
- * Version: 4.0.0
+ * Version: 4.0.1
  * Author: Jan-Peter Lambeck & 3UU
  * Author URI: https://de.wordpress.org/plugins/shariff/
  * License: MIT
@@ -27,7 +27,7 @@ $shariff3UU = array_merge( $shariff3UU_basic, $shariff3UU_design, $shariff3UU_ad
 // update function to perform tasks _once_ after an update, based on version number to work for automatic as well as manual updates
 function shariff3UU_update() {
 	/******************** ADJUST VERSION ********************/
-	$code_version = "4.0.0"; // set code version - needs to be adjusted for every new version!
+	$code_version = "4.0.1"; // set code version - needs to be adjusted for every new version!
 	/******************** ADJUST VERSION ********************/
 
 	// get options
@@ -595,7 +595,12 @@ function shariff3UU_render( $atts, $content = null ) {
 		elseif ( $service != 'total' && $service != 'totalnumber' ) {
 			// include service parameters
 			$frontend = '1';
-			include( plugin_dir_path( __FILE__ ) . 'services/shariff-' . $service . '.php' );
+
+			// determine path to service phps
+			$path_service_file = plugin_dir_path( __FILE__ ) . 'services/shariff-' . $service . '.php';
+
+			// include service files
+			if ( file_exists( $path_service_file ) ) include( $path_service_file );
 
 			// start li
 			$output .= '<li class="shariff-button ' . $service;
