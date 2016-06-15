@@ -3,12 +3,12 @@ Contributors: 3UU, starguide
 Tags: Shariff, Facebook, Twitter, VKontakte, VK, GooglePlus, WhatsApp, share buttons, sharing, privacy, social
 Requires at least: 4.4
 Tested up to: 4.5
-Stable tag: trunk
+Stable tag: 4.0.1
 License: MIT
 License URI: http://opensource.org/licenses/MIT
 Donate link: http://folge.link/?bitcoin=1Ritz1iUaLaxuYcXhUCoFhkVRH6GWiMTP
 
-The Shariff Wrapper provides share buttons that respect the privacy of your visitors and are compliant to the German data protection laws.
+The Shariff Wrapper provides share buttons that respect the privacy of your visitors and are compliant to German data protection laws.
 
 == Description ==
 
@@ -172,6 +172,10 @@ fixed in the future - if we have time to spend or you provide us with a lot of "
 
 == Changelog ==
 
+= 4.0.1 =
+- prevent php warning messages on unsuccessful includes while WP_DEBUG is active
+- change text domain to match plugin slug
+
 = 4.0.0 =
 - complete overhaul of the plugin core
 - buttons now also work without JavaScript
@@ -186,7 +190,7 @@ fixed in the future - if we have time to spend or you provide us with a lot of "
 - new action hook shariff_share_counts (see FAQ)
 - new option to change the priority of the shortcode filter
 - new support for selective refresh introduced in WP 4.5
-- new external API feature replaces the old external host option (experimental, see FAQ)
+- new external API feature replaces the external host option (experimental, see FAQ)
 - new support for SCRIPT_DEBUG
 - css and js files are now only loaded on pages with Shariff buttons
 - improved compatibility with plugin Autoptimize (force scripts in head)

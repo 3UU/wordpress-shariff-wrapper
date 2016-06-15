@@ -10,7 +10,7 @@
  * License URI: http://opensource.org/licenses/MIT
  * Donate link: http://folge.link/?bitcoin:1Ritz1iUaLaxuYcXhUCoFhkVRH6GWiMTP
  * Domain Path: /locale/
- * Text Domain: shariff3UU
+ * Text Domain: shariff
  */
 
 // prevent direct calls to shariff.php
@@ -77,7 +77,7 @@ function shariff3UU_meta_links( $links, $file ) {
 	if ( $file == $plugin ) {
 		return array_merge(
 			$links,
-			array( '<a href="options-general.php?page=shariff3uu">' . __( 'Settings', 'shariff3UU' ) . '</a>', '<a href="https://wordpress.org/support/plugin/shariff" target="_blank">' . __( 'Support Forum', 'shariff3UU' ) . '</a>' )
+			array( '<a href="options-general.php?page=shariff3uu">' . __( 'Settings', 'shariff' ) . '</a>', '<a href="https://wordpress.org/support/plugin/shariff" target="_blank">' . __( 'Support Forum', 'shariff' ) . '</a>' )
 		);
 	}
 	return $links;
@@ -85,9 +85,9 @@ function shariff3UU_meta_links( $links, $file ) {
 add_filter( 'plugin_row_meta', 'shariff3UU_meta_links', 10, 2 );
 
 // translations
-function shariff3UU_init_locale() {
+function shariff_init_locale() {
 	if ( function_exists( 'load_plugin_textdomain' ) ) {
-		load_plugin_textdomain( 'shariff3UU', false, dirname( plugin_basename( __FILE__ ) ) . '/locale' );
+		load_plugin_textdomain( 'shariff', false, dirname( plugin_basename( __FILE__ ) ) . '/locale' );
 	}
 }
 
@@ -734,7 +734,7 @@ function shariff3UU_addMailForm( $content, $error ) {
 	// check if mailform is disabled
 	if ( isset( $shariff3UU["disable_mailform"] ) && $shariff3UU["disable_mailform"] == '1' ) {
 		echo '<div id="shariff_mailform" class="shariff_mailform"><div class="shariff_mailform_disabled">';
-		echo __( 'Mail form disabled.', 'shariff3UU' );
+		echo __( 'Mail form disabled.', 'shariff' );
 		echo '</div></div>';
 		$mailform = '';
 	}

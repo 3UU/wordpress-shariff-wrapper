@@ -15,7 +15,7 @@ function shariff3UU_admin_notice() {
 	if ( ! get_user_meta( $user_id, 'shariff3UU_ignore_notice' ) && current_user_can( 'manage_options' ) ) {
 		$link = add_query_arg( 'shariff3UU_nag_ignore', '0', esc_url_raw( $_SERVER['REQUEST_URI'] ) );
 		$new_version = $GLOBALS["shariff3UU"]["version"];
-		echo "<div class='updated'><a href='" . esc_url( $link ) . "' class='shariff_admininfo_cross'><div class='shariff_cross_icon'></div></a><p>" . __( 'Shariff Wrapper has been successfully updated to version 4.0. If you encounter any problems, please report them to the <a href="https://wordpress.org/support/plugin/shariff" target="_blank"><strong>Support Forum</strong></a>, so we can fix them!', 'shariff3UU' ) . "</span></p></div>";
+		echo "<div class='updated'><a href='" . esc_url( $link ) . "' class='shariff_admininfo_cross'><div class='shariff_cross_icon'></div></a><p>" . __( 'Shariff Wrapper has been successfully updated to version 4.0. If you encounter any problems, please report them to the <a href="https://wordpress.org/support/plugin/shariff" target="_blank"><strong>Support Forum</strong></a>, so we can fix them!', 'shariff' ) . "</span></p></div>";
  	}
 }
 add_action( 'admin_notices', 'shariff3UU_admin_notice' );

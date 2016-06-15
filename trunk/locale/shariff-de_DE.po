@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: Shariff Wrapper\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: Mon May 09 2016 21:57:11 GMT+0200 (CEST)\n"
-"PO-Revision-Date: Wed May 11 2016 12:07:31 GMT+0200\n"
+"PO-Revision-Date: Thu Jun 16 2016 00:11:05 GMT+0200 (CEST)\n"
 "Last-Translator: Jan-Peter Lambeck <shariff@posteo.de>\n"
 "Language-Team: \n"
 "Language: German\n"
@@ -23,31 +23,17 @@ msgstr ""
 "X-Poedit-Basepath: .\n"
 "X-Loco-Target-Locale: de_DE"
 
-#: ../admin/admin_menu.php:242
-msgid "Request external API directly."
-msgstr "Kontaktiere die externe API direkt."
+#. Name of the plugin
+msgid "Shariff Wrapper"
+msgstr "Shariff Wrapper"
 
-#: ../admin/admin_menu.php:833
-msgid ""
-"<span style=\"color: red; font-weight: bold;\">Warning:</span> You entered an "
-"external API and chose to call it directly! Therefore, all options and "
-"features (e.g. the ranking tab) regarding the statistic have no effect. You "
-"need to configure them on the external server. Remember: This feature is "
-"still experimental!"
-msgstr ""
-"<span style=\"color: red; font-weight: bold;\">Warnung:</span> Es wurde eine "
-"externe API angegeben und ausgewählt, diese direkt abzurufen! Daher haben "
-"viele Optionen und Funktionen (z.B. der Ranking-Reiter) auf dieser Seite "
-"keinen Effekt. Diese müssen auf dem externen Server eingestellt werden. Zur "
-"Erinnerung: Diese Funktion ist noch experimentell!"
+#. URI of the plugin
+msgid "https://de.wordpress.org/plugins/shariff"
+msgstr "https://de.wordpress.org/plugins/shariff"
 
-#: ../admin/admin_menu.php:990
-msgid ""
-"Please check, if you have correctly set the Access-Control-Allow-Origin "
-"header!"
-msgstr ""
-"Bitte überprüfe, ob der Access-Control-Allow-Origin-Header korrekt gesetzt "
-"wurde!"
+#. Author of the plugin
+msgid "Jan-Peter Lambeck & 3UU"
+msgstr "Jan-Peter Lambeck & 3UU"
 
 #. Description of the plugin
 msgid ""
@@ -67,43 +53,122 @@ msgid "Support Forum"
 msgstr "Support Forum"
 
 #. Text in function
-#: ../shariff.php:670
+#: ../shariff.php:674
 msgid "Username for Flattr is missing!"
 msgstr "Benutzername für Flattr fehlt!"
 
 #. Text in function
-#: ../shariff.php:674
+#: ../shariff.php:678
 msgid "Username for patreon is missing!"
 msgstr "Benutzername für Patreon fehlt!"
 
 #. Text in function
-#: ../shariff.php:678
+#: ../shariff.php:682
 msgid "Button ID for PayPal is missing!"
 msgstr "Button-ID für PayPal fehlt!"
 
-#: ../shariff.php:682
+#: ../shariff.php:686
 msgid "PayPal.Me ID is missing!"
 msgstr "PayPal.Me ID fehlt!"
 
 #. Text in function
-#: ../shariff.php:686
+#: ../shariff.php:690
 msgid "Address for Bitcoin is missing!"
 msgstr "Adresse für Bitcoin fehlt!"
 
 #. Text in function
-#: ../shariff.php:726
+#: ../shariff.php:737
 msgid "Mail form disabled."
 msgstr "Mailformular deaktiviert."
 
 #. Text in function
-#: ../shariff.php:1067
+#: ../shariff.php:1079
 msgid "Add Shariff as configured on the plugin options page."
 msgstr "Fügt die Shariff-Buttons mit den Einstellungen aus dem Plugin-Menü ein."
 
 #. Text in function
-#: ../shariff.php:1083
+#: ../shariff.php:1095
 msgid "Title"
 msgstr "Titel"
+
+#: ../admin/admin_notices.php:18
+msgid ""
+"Shariff Wrapper has been successfully updated to version 4.0. If you "
+"encounter any problems, please report them to the <a href=\"https://wordpress."
+"org/support/plugin/shariff\" target=\"_blank\"><strong>Support "
+"Forum</strong></a>, so we can fix them!"
+msgstr ""
+"Der Shariff Wrapper wurden erfolgreich auf Version 4.0 aktualisiert. Sollten "
+"irgendwelche Probleme auftreten, berichte uns bitte darüber im <a "
+"href=\"https://wordpress.org/support/plugin/shariff\" "
+"target=\"_blank\"><strong>Support-Forum</strong></a>, damit wir diese beheben "
+"können!"
+
+#. Text in function
+#: ../admin/admin_notices.php:37 ../admin/admin_notices.php:45 ..
+#: admin/admin_notices.php:53 ../admin/admin_notices.php:61 ..
+#: admin/admin_notices.php:69 ../admin/admin_notices.php:77
+msgid "Please check your "
+msgstr "Bitte überprüfe die "
+
+#. Text in function
+#: ../admin/admin_notices.php:37
+msgid ""
+"Shariff-Settings</a> - Flattr was selected, but no username was provided! "
+"Please enter your <strong>Flattr username</strong> in the shariff options!"
+msgstr ""
+"Shariff-Einstellungen</a> - Flattr wurde als Dienst ausgewählt, aber kein "
+"Benutzername eingetragen! Bitte in den Shariff-Einstellungen einen <b>Flattr-"
+"Benutzernamen</b> festlegen!"
+
+#. Text in function
+#: ../admin/admin_notices.php:45
+msgid ""
+"Shariff-Settings</a> - Patreon was selected, but no username was provided! "
+"Please enter your <strong>Patreon username</strong> in the shariff options!"
+msgstr ""
+"Shariff-Einstellungen</a> - Patreon wurde als Dienst ausgewählt, aber kein "
+"Benutzername eingetragen! Bitte in den Shariff-Einstellungen einen "
+"<b>Patreon-Benutzernamen</b> festlegen!"
+
+#. Text in function
+#: ../admin/admin_notices.php:53
+msgid ""
+"Shariff-Settings</a> - PayPal was selected, but no button ID was provided! "
+"Please enter your <strong>Hosted Button ID</strong> in the shariff options!"
+msgstr ""
+"Shariff-Einstellungen</a> - PayPal wurde als Dienst ausgewählt, aber keine "
+"Button-ID eingetragen! Bitte in den Shariff-Einstellungen eine <b>Hosted-"
+"Button-ID</b> festlegen!"
+
+#. Text in function
+#: ../admin/admin_notices.php:61
+msgid ""
+"Shariff-Settings</a> - PayPal.Me was selected, but no ID was provided! "
+"Please enter your <strong>PayPal.Me ID</strong> in the shariff options!"
+msgstr ""
+"Shariff-Einstellungen</a> - PayPal.Me wurde als Dienst ausgewählt, aber "
+"keine ID eingetragen! Bitte in den Shariff-Einstellungen eine <b>PayPal.Me "
+"ID</b> festlegen!"
+
+#. Text in function
+#: ../admin/admin_notices.php:69
+msgid ""
+"Shariff-Settings</a> - Bitcoin was selected, but no address was provided! "
+"Please enter your <strong>Bitcoin Address</strong> in the shariff options!"
+msgstr ""
+"Shariff-Einstellungen</a> - Bitcoin wurde als Dienst ausgewählt, aber keine "
+"Adresse eingetragen! Bitte in den Shariff-Einstellungen eine <b>Bitcoin-"
+"Adresse</b> festlegen!"
+
+#. Text in function
+#: ../admin/admin_notices.php:77
+msgid ""
+"Shariff-Settings</a> - Mailform has been selected as a service, but mail "
+"form functionality is disabled!"
+msgstr ""
+"Shariff-Einstellungen</a> - Mailform wurde als Dienst ausgewählt, jedoch die "
+"Mailformular-Funktion in den Einstellungen deaktiviert!"
 
 #. Text in function
 #: ../admin/admin_menu.php:44
@@ -307,6 +372,10 @@ msgstr "Deaktiviere die folgenden Dienste (nur Statistik):"
 msgid "External API for share counts:"
 msgstr "Externe API für die Share Counts:"
 
+#: ../admin/admin_menu.php:242
+msgid "Request external API directly."
+msgstr "Kontaktiere die externe API direkt."
+
 #. Text in function
 #: ../admin/admin_menu.php:248
 msgid "Shariff Help"
@@ -485,6 +554,20 @@ msgstr ""
 "Diese Einstellungen bestimmen, wie Shariff mit den sogenannten „Share "
 "Counts“ umgeht."
 
+#: ../admin/admin_menu.php:833
+msgid ""
+"<span style=\"color: red; font-weight: bold;\">Warning:</span> You entered an "
+"external API and chose to call it directly! Therefore, all options and "
+"features (e.g. the ranking tab) regarding the statistic have no effect. You "
+"need to configure them on the external server. Remember: This feature is "
+"still experimental!"
+msgstr ""
+"<span style=\"color: red; font-weight: bold;\">Warnung:</span> Es wurde eine "
+"externe API angegeben und ausgewählt, diese direkt abzurufen! Daher haben "
+"viele Optionen und Funktionen (z.B. der Ranking-Reiter) auf dieser Seite "
+"keinen Effekt. Diese müssen auf dem externen Server eingestellt werden. Zur "
+"Erinnerung: Diese Funktion ist noch experimentell!"
+
 #: ../admin/admin_menu.php:841
 msgid ""
 "PHP-Version 5.4 or better is required to enable the statistic / share count "
@@ -536,6 +619,14 @@ msgid ""
 msgstr ""
 "Bitte überprüfe, ob diese Domain zum Array $SHARIFF_FRONTENDS auf dem "
 "externen Server hinzugefügt werden muss."
+
+#: ../admin/admin_menu.php:990
+msgid ""
+"Please check, if you have correctly set the Access-Control-Allow-Origin "
+"header!"
+msgstr ""
+"Bitte überprüfe, ob der Access-Control-Allow-Origin-Header korrekt gesetzt "
+"wurde!"
 
 #: ../admin/admin_menu.php:997
 msgid ""
@@ -928,82 +1019,3 @@ msgstr "Mail Form"
 #: ../admin/admin_menu.php:1459
 msgid "Help"
 msgstr "Hilfe"
-
-#: ../admin/admin_notices.php:18
-msgid ""
-"Shariff Wrapper has been successfully updated to version 4.0. If you "
-"encounter any problems, please report them to the <a href=\"https://wordpress."
-"org/support/plugin/shariff\" target=\"_blank\"><strong>Support "
-"Forum</strong></a>, so we can fix them!"
-msgstr ""
-"Der Shariff Wrapper wurden erfolgreich auf Version 4.0 aktualisiert. Sollten "
-"irgendwelche Probleme auftreten, berichte uns bitte darüber im <a "
-"href=\"https://wordpress.org/support/plugin/shariff\" "
-"target=\"_blank\"><strong>Support-Forum</strong></a>, damit wir diese beheben "
-"können!"
-
-#. Text in function
-#: ../admin/admin_notices.php:37 ../admin/admin_notices.php:45 ..
-#: admin/admin_notices.php:53 ../admin/admin_notices.php:61 ..
-#: admin/admin_notices.php:69 ../admin/admin_notices.php:77
-msgid "Please check your "
-msgstr "Bitte überprüfe die "
-
-#. Text in function
-#: ../admin/admin_notices.php:37
-msgid ""
-"Shariff-Settings</a> - Flattr was selected, but no username was provided! "
-"Please enter your <strong>Flattr username</strong> in the shariff options!"
-msgstr ""
-"Shariff-Einstellungen</a> - Flattr wurde als Dienst ausgewählt, aber kein "
-"Benutzername eingetragen! Bitte in den Shariff-Einstellungen einen <b>Flattr-"
-"Benutzernamen</b> festlegen!"
-
-#. Text in function
-#: ../admin/admin_notices.php:45
-msgid ""
-"Shariff-Settings</a> - Patreon was selected, but no username was provided! "
-"Please enter your <strong>Patreon username</strong> in the shariff options!"
-msgstr ""
-"Shariff-Einstellungen</a> - Patreon wurde als Dienst ausgewählt, aber kein "
-"Benutzername eingetragen! Bitte in den Shariff-Einstellungen einen "
-"<b>Patreon-Benutzernamen</b> festlegen!"
-
-#. Text in function
-#: ../admin/admin_notices.php:53
-msgid ""
-"Shariff-Settings</a> - PayPal was selected, but no button ID was provided! "
-"Please enter your <strong>Hosted Button ID</strong> in the shariff options!"
-msgstr ""
-"Shariff-Einstellungen</a> - PayPal wurde als Dienst ausgewählt, aber keine "
-"Button-ID eingetragen! Bitte in den Shariff-Einstellungen eine <b>Hosted-"
-"Button-ID</b> festlegen!"
-
-#. Text in function
-#: ../admin/admin_notices.php:61
-msgid ""
-"Shariff-Settings</a> - PayPal.Me was selected, but no ID was provided! "
-"Please enter your <strong>PayPal.Me ID</strong> in the shariff options!"
-msgstr ""
-"Shariff-Einstellungen</a> - PayPal.Me wurde als Dienst ausgewählt, aber "
-"keine ID eingetragen! Bitte in den Shariff-Einstellungen eine <b>PayPal.Me "
-"ID</b> festlegen!"
-
-#. Text in function
-#: ../admin/admin_notices.php:69
-msgid ""
-"Shariff-Settings</a> - Bitcoin was selected, but no address was provided! "
-"Please enter your <strong>Bitcoin Address</strong> in the shariff options!"
-msgstr ""
-"Shariff-Einstellungen</a> - Bitcoin wurde als Dienst ausgewählt, aber keine "
-"Adresse eingetragen! Bitte in den Shariff-Einstellungen eine <b>Bitcoin-"
-"Adresse</b> festlegen!"
-
-#. Text in function
-#: ../admin/admin_notices.php:77
-msgid ""
-"Shariff-Settings</a> - Mailform has been selected as a service, but mail "
-"form functionality is disabled!"
-msgstr ""
-"Shariff-Einstellungen</a> - Mailform wurde als Dienst ausgewählt, jedoch die "
-"Mailformular-Funktion in den Einstellungen deaktiviert!"

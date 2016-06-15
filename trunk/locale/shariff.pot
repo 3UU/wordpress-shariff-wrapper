@@ -5,7 +5,7 @@ msgstr ""
 "Project-Id-Version: Shariff Wrapper\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: Mon May 09 2016 21:57:11 GMT+0200 (CEST)\n"
-"POT-Revision-Date: Wed May 11 2016 12:03:40 GMT+0200\n"
+"POT-Revision-Date: Thu Jun 16 2016 00:10:36 GMT+0200 (CEST)\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: \n"
 "Language-Team: \n"
@@ -24,10 +24,22 @@ msgstr ""
 "esc_html_x:1,2c;comments_number_link:2,3;t:1;st:1;trans:1;transChoice:1,2\n"
 "X-Generator: Loco - https://localise.biz/"
 
+#. Name of the plugin
+msgid "Shariff Wrapper"
+msgstr ""
+
+#. URI of the plugin
+msgid "https://de.wordpress.org/plugins/shariff"
+msgstr ""
+
 #. Description of the plugin
 msgid ""
 "The Shariff Wrapper provides share buttons that respect the privacy of your "
 "visitors and are compliant to the German data protection laws."
+msgstr ""
+
+#. Author of the plugin
+msgid "Jan-Peter Lambeck & 3UU"
 msgstr ""
 
 #: ../shariff.php:80
@@ -38,36 +50,86 @@ msgstr ""
 msgid "Support Forum"
 msgstr ""
 
-#: ../shariff.php:670
+#: ../shariff.php:674
 msgid "Username for Flattr is missing!"
 msgstr ""
 
-#: ../shariff.php:674
+#: ../shariff.php:678
 msgid "Username for patreon is missing!"
 msgstr ""
 
-#: ../shariff.php:678
+#: ../shariff.php:682
 msgid "Button ID for PayPal is missing!"
 msgstr ""
 
-#: ../shariff.php:682
+#: ../shariff.php:686
 msgid "PayPal.Me ID is missing!"
 msgstr ""
 
-#: ../shariff.php:686
+#: ../shariff.php:690
 msgid "Address for Bitcoin is missing!"
 msgstr ""
 
-#: ../shariff.php:726
+#: ../shariff.php:737
 msgid "Mail form disabled."
 msgstr ""
 
-#: ../shariff.php:1067
+#: ../shariff.php:1079
 msgid "Add Shariff as configured on the plugin options page."
 msgstr ""
 
-#: ../shariff.php:1083
+#: ../shariff.php:1095
 msgid "Title"
+msgstr ""
+
+#: ../admin/admin_notices.php:18
+msgid ""
+"Shariff Wrapper has been successfully updated to version 4.0. If you "
+"encounter any problems, please report them to the <a href=\"https://wordpress."
+"org/support/plugin/shariff\" target=\"_blank\"><strong>Support "
+"Forum</strong></a>, so we can fix them!"
+msgstr ""
+
+#: ../admin/admin_notices.php:37 ../admin/admin_notices.php:45 ..
+#: /admin/admin_notices.php:53 ../admin/admin_notices.php:61 ..
+#: /admin/admin_notices.php:69 ../admin/admin_notices.php:77
+msgid "Please check your "
+msgstr ""
+
+#: ../admin/admin_notices.php:37
+msgid ""
+"Shariff-Settings</a> - Flattr was selected, but no username was provided! "
+"Please enter your <strong>Flattr username</strong> in the shariff options!"
+msgstr ""
+
+#: ../admin/admin_notices.php:45
+msgid ""
+"Shariff-Settings</a> - Patreon was selected, but no username was provided! "
+"Please enter your <strong>Patreon username</strong> in the shariff options!"
+msgstr ""
+
+#: ../admin/admin_notices.php:53
+msgid ""
+"Shariff-Settings</a> - PayPal was selected, but no button ID was provided! "
+"Please enter your <strong>Hosted Button ID</strong> in the shariff options!"
+msgstr ""
+
+#: ../admin/admin_notices.php:61
+msgid ""
+"Shariff-Settings</a> - PayPal.Me was selected, but no ID was provided! "
+"Please enter your <strong>PayPal.Me ID</strong> in the shariff options!"
+msgstr ""
+
+#: ../admin/admin_notices.php:69
+msgid ""
+"Shariff-Settings</a> - Bitcoin was selected, but no address was provided! "
+"Please enter your <strong>Bitcoin Address</strong> in the shariff options!"
+msgstr ""
+
+#: ../admin/admin_notices.php:77
+msgid ""
+"Shariff-Settings</a> - Mailform has been selected as a service, but mail "
+"form functionality is disabled!"
 msgstr ""
 
 #: ../admin/admin_menu.php:44
@@ -728,54 +790,4 @@ msgstr ""
 
 #: ../admin/admin_menu.php:1459
 msgid "Help"
-msgstr ""
-
-#: ../admin/admin_notices.php:18
-msgid ""
-"Shariff Wrapper has been successfully updated to version 4.0. If you "
-"encounter any problems, please report them to the <a href=\"https://wordpress."
-"org/support/plugin/shariff\" target=\"_blank\"><strong>Support "
-"Forum</strong></a>, so we can fix them!"
-msgstr ""
-
-#: ../admin/admin_notices.php:37 ../admin/admin_notices.php:45 ..
-#: /admin/admin_notices.php:53 ../admin/admin_notices.php:61 ..
-#: /admin/admin_notices.php:69 ../admin/admin_notices.php:77
-msgid "Please check your "
-msgstr ""
-
-#: ../admin/admin_notices.php:37
-msgid ""
-"Shariff-Settings</a> - Flattr was selected, but no username was provided! "
-"Please enter your <strong>Flattr username</strong> in the shariff options!"
-msgstr ""
-
-#: ../admin/admin_notices.php:45
-msgid ""
-"Shariff-Settings</a> - Patreon was selected, but no username was provided! "
-"Please enter your <strong>Patreon username</strong> in the shariff options!"
-msgstr ""
-
-#: ../admin/admin_notices.php:53
-msgid ""
-"Shariff-Settings</a> - PayPal was selected, but no button ID was provided! "
-"Please enter your <strong>Hosted Button ID</strong> in the shariff options!"
-msgstr ""
-
-#: ../admin/admin_notices.php:61
-msgid ""
-"Shariff-Settings</a> - PayPal.Me was selected, but no ID was provided! "
-"Please enter your <strong>PayPal.Me ID</strong> in the shariff options!"
-msgstr ""
-
-#: ../admin/admin_notices.php:69
-msgid ""
-"Shariff-Settings</a> - Bitcoin was selected, but no address was provided! "
-"Please enter your <strong>Bitcoin Address</strong> in the shariff options!"
-msgstr ""
-
-#: ../admin/admin_notices.php:77
-msgid ""
-"Shariff-Settings</a> - Mailform has been selected as a service, but mail "
-"form functionality is disabled!"
 msgstr ""

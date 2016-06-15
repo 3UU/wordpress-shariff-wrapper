@@ -10,7 +10,7 @@ if ( ! class_exists('WP') ) { die(); }
 // the admin page
 add_action( 'admin_menu', 'shariff3UU_add_admin_menu' );
 add_action( 'admin_init', 'shariff3UU_options_init' );
-add_action( 'init', 'shariff3UU_init_locale' );
+add_action( 'init', 'shariff_init_locale' );
 
 // scripts and styles for admin pages e.g. info notice
 function shariff3UU_admin_style( $hook ) {
@@ -41,23 +41,23 @@ function shariff3UU_options_init(){
 	register_setting( 'basic', 'shariff3UU_basic', 'shariff3UU_basic_sanitize' );
 
 	// first tab - basic options
-	add_settings_section( 'shariff3UU_basic_section', __( 'Basic options', 'shariff3UU' ),
+	add_settings_section( 'shariff3UU_basic_section', __( 'Basic options', 'shariff' ),
 		'shariff3UU_basic_section_callback', 'basic' );
 
 	// services
-	add_settings_field( 'shariff3UU_text_services', '<div class="shariff_status-col">' . __( 'Enable the following services in the provided order:', 'shariff3UU' ) . '</div>',
+	add_settings_field( 'shariff3UU_text_services', '<div class="shariff_status-col">' . __( 'Enable the following services in the provided order:', 'shariff' ) . '</div>',
 		'shariff3UU_text_services_render', 'basic', 'shariff3UU_basic_section' );
 
 	// add after
-	add_settings_field( 'shariff3UU_multiplecheckbox_add_after', __( 'Add the Shariff buttons <u>after</u> all:', 'shariff3UU' ),
+	add_settings_field( 'shariff3UU_multiplecheckbox_add_after', __( 'Add the Shariff buttons <u>after</u> all:', 'shariff' ),
 		'shariff3UU_multiplecheckbox_add_after_render', 'basic', 'shariff3UU_basic_section' );
 
 	// add before
-	add_settings_field( 'shariff3UU_checkbox_add_before', __( 'Add the Shariff buttons <u>before</u> all:', 'shariff3UU' ),
+	add_settings_field( 'shariff3UU_checkbox_add_before', __( 'Add the Shariff buttons <u>before</u> all:', 'shariff' ),
 		'shariff3UU_multiplecheckbox_add_before_render', 'basic', 'shariff3UU_basic_section' );
 
 	// disable on protected posts
-	add_settings_field( 'shariff3UU_checkbox_disable_on_protected', __( 'Disable the Shariff buttons on password protected posts.', 'shariff3UU' ),
+	add_settings_field( 'shariff3UU_checkbox_disable_on_protected', __( 'Disable the Shariff buttons on password protected posts.', 'shariff' ),
 		'shariff3UU_checkbox_disable_on_protected_render', 'basic', 'shariff3UU_basic_section' );
 
 	// second tab - design
@@ -66,43 +66,43 @@ function shariff3UU_options_init(){
 	register_setting( 'design', 'shariff3UU_design', 'shariff3UU_design_sanitize' );
 
 	// second tab - design options
-	add_settings_section( 'shariff3UU_design_section', __( 'Design options', 'shariff3UU' ),
+	add_settings_section( 'shariff3UU_design_section', __( 'Design options', 'shariff' ),
 		'shariff3UU_design_section_callback', 'design' );
 
 	// button language
-	add_settings_field( 'shariff3UU_select_language', '<div class="shariff_status-col">' . __( 'Shariff button language:', 'shariff3UU' ) . '</div>',
+	add_settings_field( 'shariff3UU_select_language', '<div class="shariff_status-col">' . __( 'Shariff button language:', 'shariff' ) . '</div>',
 		'shariff3UU_select_language_render', 'design', 'shariff3UU_design_section' );
 
 	// theme
-	add_settings_field( 'shariff3UU_radio_theme', __( 'Shariff button design:', 'shariff3UU' ),
+	add_settings_field( 'shariff3UU_radio_theme', __( 'Shariff button design:', 'shariff' ),
 		'shariff3UU_radio_theme_render', 'design', 'shariff3UU_design_section' );
 
 	// button size
-	add_settings_field( 'shariff3UU_checkbox_buttonsize', __( 'Reduce button size by 30%.', 'shariff3UU' ),
+	add_settings_field( 'shariff3UU_checkbox_buttonsize', __( 'Reduce button size by 30%.', 'shariff' ),
 		'shariff3UU_checkbox_buttonsize_render', 'design', 'shariff3UU_design_section' );
 
 	// button stretch
-	add_settings_field( 'shariff3UU_checkbox_buttonsstretch', __( 'Stretch buttons horizontally to full width.', 'shariff3UU' ),
+	add_settings_field( 'shariff3UU_checkbox_buttonsstretch', __( 'Stretch buttons horizontally to full width.', 'shariff' ),
 		'shariff3UU_checkbox_buttonstretch_render', 'design', 'shariff3UU_design_section' );
 
 	// vertical
-	add_settings_field( 'shariff3UU_checkbox_vertical', __( 'Shariff button orientation <b>vertical</b>.', 'shariff3UU' ),
+	add_settings_field( 'shariff3UU_checkbox_vertical', __( 'Shariff button orientation <b>vertical</b>.', 'shariff' ),
 		'shariff3UU_checkbox_vertical_render', 'design', 'shariff3UU_design_section' );
 
 	// alignment option
-	add_settings_field( 'shariff3UU_radio_align', __( 'Alignment of the Shariff buttons:', 'shariff3UU' ),
+	add_settings_field( 'shariff3UU_radio_align', __( 'Alignment of the Shariff buttons:', 'shariff' ),
 		'shariff3UU_radio_align_render', 'design', 'shariff3UU_design_section' );
 
 	// alignment option for the widget
-	add_settings_field( 'shariff3UU_radio_align_widget', __( 'Alignment of the Shariff buttons in the widget:', 'shariff3UU' ),
+	add_settings_field( 'shariff3UU_radio_align_widget', __( 'Alignment of the Shariff buttons in the widget:', 'shariff' ),
 		'shariff3UU_radio_align_widget_render', 'design', 'shariff3UU_design_section' );
 
 	// headline
-	add_settings_field( 'shariff3UU_text_headline', __( 'Headline above all Shariff buttons:', 'shariff3UU' ),
+	add_settings_field( 'shariff3UU_text_headline', __( 'Headline above all Shariff buttons:', 'shariff' ),
 		'shariff3UU_text_headline_render', 'design', 'shariff3UU_design_section' );
 
 	// custom css
-	add_settings_field( 'shariff3UU_text_style', __( 'CSS attributes for the container <span style="text-decoration: underline;">around</span> Shariff:', 'shariff3UU' ),
+	add_settings_field( 'shariff3UU_text_style', __( 'CSS attributes for the container <span style="text-decoration: underline;">around</span> Shariff:', 'shariff' ),
 		'shariff3UU_text_style_render', 'design', 'shariff3UU_design_section' );
 
 	// third tab - advanced
@@ -111,55 +111,55 @@ function shariff3UU_options_init(){
 	register_setting( 'advanced', 'shariff3UU_advanced', 'shariff3UU_advanced_sanitize' );
 
 	// third tab - advanced options
-	add_settings_section( 'shariff3UU_advanced_section', __( 'Advanced options', 'shariff3UU' ),
+	add_settings_section( 'shariff3UU_advanced_section', __( 'Advanced options', 'shariff' ),
 		'shariff3UU_advanced_section_callback', 'advanced' );
 
 	// info url
 	add_settings_field(
-		'shariff3UU_text_info_url', '<div class="shariff_status-col">' . __( 'Custom link for the info button:', 'shariff3UU' ) . '</div>',
+		'shariff3UU_text_info_url', '<div class="shariff_status-col">' . __( 'Custom link for the info button:', 'shariff' ) . '</div>',
 		'shariff3UU_text_info_url_render', 'advanced', 'shariff3UU_advanced_section' );
 
 	// twitter via
 	add_settings_field(
-		'shariff3UU_text_twittervia', __( 'Twitter username for the via tag:', 'shariff3UU' ),
+		'shariff3UU_text_twittervia', __( 'Twitter username for the via tag:', 'shariff' ),
 		'shariff3UU_text_twittervia_render', 'advanced', 'shariff3UU_advanced_section' );
 
 	// flattr username
 	add_settings_field(
-		'shariff3UU_text_flattruser', __( 'Flattr username:', 'shariff3UU' ),
+		'shariff3UU_text_flattruser', __( 'Flattr username:', 'shariff' ),
 		'shariff3UU_text_flattruser_render', 'advanced', 'shariff3UU_advanced_section' );
 
 	// patreon username
 	add_settings_field(
-		'shariff3UU_text_patreonid', __( 'Patreon username:', 'shariff3UU' ),
+		'shariff3UU_text_patreonid', __( 'Patreon username:', 'shariff' ),
 		'shariff3UU_text_patreonid_render', 'advanced', 'shariff3UU_advanced_section' );
 
 	// paypal button id
 	add_settings_field(
-		'shariff3UU_text_paypalbuttonid', __( 'PayPal hosted button ID:', 'shariff3UU' ),
+		'shariff3UU_text_paypalbuttonid', __( 'PayPal hosted button ID:', 'shariff' ),
 		'shariff3UU_text_paypalbuttonid_render', 'advanced', 'shariff3UU_advanced_section' );
 
 	// paypalme id
 	add_settings_field(
-		'shariff3UU_text_paypalmeid', __( 'PayPal.Me ID:', 'shariff3UU' ),
+		'shariff3UU_text_paypalmeid', __( 'PayPal.Me ID:', 'shariff' ),
 		'shariff3UU_text_paypalmeid_render', 'advanced', 'shariff3UU_advanced_section' );
 
 	// bitcoin address
 	add_settings_field(
-		'shariff3UU_text_bitcoinaddress', __( 'Bitcoin address:', 'shariff3UU' ),
+		'shariff3UU_text_bitcoinaddress', __( 'Bitcoin address:', 'shariff' ),
 		'shariff3UU_text_bitcoinaddress_render', 'advanced', 'shariff3UU_advanced_section' );
 
 	// rss feed
 	add_settings_field(
-		'shariff3UU_text_rssfeed', __( 'RSS feed:', 'shariff3UU' ),
+		'shariff3UU_text_rssfeed', __( 'RSS feed:', 'shariff' ),
 		'shariff3UU_text_rssfeed_render', 'advanced', 'shariff3UU_advanced_section' );
 
 	// default image for pinterest
-	add_settings_field( 'shariff3UU_text_default_pinterest', __( 'Default image for Pinterest:', 'shariff3UU' ),
+	add_settings_field( 'shariff3UU_text_default_pinterest', __( 'Default image for Pinterest:', 'shariff' ),
 		'shariff3UU_text_default_pinterest_render', 'advanced', 'shariff3UU_advanced_section' );
 		
 	// shortcode priority
-	add_settings_field( 'shariff3UU_number_shortcodeprio', __( 'Shortcode priority:', 'shariff3UU' ),
+	add_settings_field( 'shariff3UU_number_shortcodeprio', __( 'Shortcode priority:', 'shariff' ),
 		'shariff3UU_number_shortcodeprio_render', 'advanced', 'shariff3UU_advanced_section' );
 
 	// fourth tab - mailform
@@ -168,37 +168,37 @@ function shariff3UU_options_init(){
 	register_setting( 'mailform', 'shariff3UU_mailform', 'shariff3UU_mailform_sanitize' );
 
 	// fourth tab - mailform options
-	add_settings_section( 'shariff3UU_mailform_section', __( 'Mail form options', 'shariff3UU' ),
+	add_settings_section( 'shariff3UU_mailform_section', __( 'Mail form options', 'shariff' ),
 		'shariff3UU_mailform_section_callback', 'mailform' );
 
 	// disable mailform
 	add_settings_field(
-		'shariff3UU_checkbox_disable_mailform', '<div class="shariff_status-col">' . __( 'Disable the mail form functionality.', 'shariff3UU' ) .'</div>',
+		'shariff3UU_checkbox_disable_mailform', '<div class="shariff_status-col">' . __( 'Disable the mail form functionality.', 'shariff' ) .'</div>',
 		'shariff3UU_checkbox_disable_mailform_render', 'mailform', 'shariff3UU_mailform_section' );
 
 	// require sender e-mail address
 	add_settings_field(
-		'shariff3UU_checkbox_require_sender', '<div class="shariff_status-col">' . __( 'Require sender e-mail address.', 'shariff3UU' ) .'</div>',
+		'shariff3UU_checkbox_require_sender', '<div class="shariff_status-col">' . __( 'Require sender e-mail address.', 'shariff' ) .'</div>',
 		'shariff3UU_checkbox_require_sender_render', 'mailform', 'shariff3UU_mailform_section' );
 
 	// mailform language
 	add_settings_field(
-		'shariff3UU_select_mailform_language', '<div class="shariff_status-col">' . __( 'Mailform language:', 'shariff3UU' ) .'</div>',
+		'shariff3UU_select_mailform_language', '<div class="shariff_status-col">' . __( 'Mailform language:', 'shariff' ) .'</div>',
 		'shariff3UU_select_mailform_language_render', 'mailform', 'shariff3UU_mailform_section' );
 
 	// add content of the post to e-mails
 	add_settings_field(
-		'shariff3UU_checkbox_mail_add_post_content', '<div class="shariff_status-col">' . __( 'Add the post content to the e-mail body.', 'shariff3UU' ) .'</div>',
+		'shariff3UU_checkbox_mail_add_post_content', '<div class="shariff_status-col">' . __( 'Add the post content to the e-mail body.', 'shariff' ) .'</div>',
 		'shariff3UU_checkbox_mail_add_post_content_render', 'mailform', 'shariff3UU_mailform_section' );
 
 	// mail sender name
 	add_settings_field(
-		'shariff3UU_text_mail_sender_name', '<div class="shariff_status-col">' . __( 'Default sender name:', 'shariff3UU' ) .'</div>',
+		'shariff3UU_text_mail_sender_name', '<div class="shariff_status-col">' . __( 'Default sender name:', 'shariff' ) .'</div>',
 		'shariff3UU_text_mail_sender_name_render', 'mailform', 'shariff3UU_mailform_section' );
 
 	// mail sender address
 	add_settings_field(
-		'shariff3UU_text_mail_sender_from', '<div class="shariff_status-col">' . __( 'Default sender e-mail address:', 'shariff3UU' ) .'</div>',
+		'shariff3UU_text_mail_sender_from', '<div class="shariff_status-col">' . __( 'Default sender e-mail address:', 'shariff' ) .'</div>',
 		'shariff3UU_text_mail_sender_from_render', 'mailform', 'shariff3UU_mailform_section' );
 
 	// fifth tab - statistic
@@ -207,57 +207,57 @@ function shariff3UU_options_init(){
 	register_setting( 'statistic', 'shariff3UU_statistic', 'shariff3UU_statistic_sanitize' );
 
 	// fifth tab (statistic)
-	add_settings_section( 'shariff3UU_statistic_section', __( 'Statistic', 'shariff3UU' ),
+	add_settings_section( 'shariff3UU_statistic_section', __( 'Statistic', 'shariff' ),
 		'shariff3UU_statistic_section_callback', 'statistic' );
 
 	// statistic
-	add_settings_field( 'shariff3UU_checkbox_backend', '<div class="shariff_status-col">' . __( 'Enable statistic.', 'shariff3UU' ) .'</div>',
+	add_settings_field( 'shariff3UU_checkbox_backend', '<div class="shariff_status-col">' . __( 'Enable statistic.', 'shariff' ) .'</div>',
 		'shariff3UU_checkbox_backend_render', 'statistic', 'shariff3UU_statistic_section' );
 
 	// share counts
-	add_settings_field( 'shariff3UU_checkbox_sharecounts', '<div class="shariff_status-col">' . __( 'Show share counts on buttons.', 'shariff3UU' ) .'</div>',
+	add_settings_field( 'shariff3UU_checkbox_sharecounts', '<div class="shariff_status-col">' . __( 'Show share counts on buttons.', 'shariff' ) .'</div>',
 		'shariff3UU_checkbox_sharecounts_render', 'statistic', 'shariff3UU_statistic_section' );
 
 	// Facebook App ID
-	add_settings_field( 'shariff3UU_text_fb_id', '<div class="shariff_status-col">' . __( 'Facebook App ID:', 'shariff3UU' ) .'</div>',
+	add_settings_field( 'shariff3UU_text_fb_id', '<div class="shariff_status-col">' . __( 'Facebook App ID:', 'shariff' ) .'</div>',
 		'shariff3UU_text_fb_id_render', 'statistic', 'shariff3UU_statistic_section' );
 
 	// Facebook App Secret
-	add_settings_field( 'shariff3UU_text_fb_secret', '<div class="shariff_status-col">' . __( 'Facebook App Secret:', 'shariff3UU' ) .'</div>',
+	add_settings_field( 'shariff3UU_text_fb_secret', '<div class="shariff_status-col">' . __( 'Facebook App Secret:', 'shariff' ) .'</div>',
 		'shariff3UU_text_fb_secret_render', 'statistic', 'shariff3UU_statistic_section' );
 
 	// ttl
-	add_settings_field( 'shariff3UU_number_ttl', '<div class="shariff_status-col">' . __( 'Cache TTL in seconds (60 - 7200):', 'shariff3UU' ) .'</div>',
+	add_settings_field( 'shariff3UU_number_ttl', '<div class="shariff_status-col">' . __( 'Cache TTL in seconds (60 - 7200):', 'shariff' ) .'</div>',
 		'shariff3UU_number_ttl_render', 'statistic', 'shariff3UU_statistic_section' );
 
 	// disable services
-	add_settings_field( 'shariff3UU_multiplecheckbox_disable_services', '<div class="shariff_status-col">' . __( 'Disable the following services (share counts only):', 'shariff3UU' ) .'</div>',
+	add_settings_field( 'shariff3UU_multiplecheckbox_disable_services', '<div class="shariff_status-col">' . __( 'Disable the following services (share counts only):', 'shariff' ) .'</div>',
 		'shariff3UU_multiplecheckbox_disable_services_render', 'statistic', 'shariff3UU_statistic_section' );
 
 	// external hosts
-	add_settings_field( 'shariff3UU_text_external_host', '<div class="shariff_status-col">' . __( 'External API for share counts:', 'shariff3UU' ) .'</div>',
+	add_settings_field( 'shariff3UU_text_external_host', '<div class="shariff_status-col">' . __( 'External API for share counts:', 'shariff' ) .'</div>',
 		'shariff3UU_text_external_host_render', 'statistic', 'shariff3UU_statistic_section' );
 		
 	// request external api directly from js
-	add_settings_field( 'shariff3UU_checkbox_external_direct', '<div class="shariff_status-col">' . __( 'Request external API directly.', 'shariff3UU' ) .'</div>',
+	add_settings_field( 'shariff3UU_checkbox_external_direct', '<div class="shariff_status-col">' . __( 'Request external API directly.', 'shariff' ) .'</div>',
 		'shariff3UU_text_external_direct_render', 'statistic', 'shariff3UU_statistic_section' );
 
 	// sixth tab - help
 
 	// register sixth tab (help)
-	add_settings_section( 'shariff3UU_help_section', __( 'Shariff Help', 'shariff3UU' ),
+	add_settings_section( 'shariff3UU_help_section', __( 'Shariff Help', 'shariff' ),
 		'shariff3UU_help_section_callback', 'help' );
 
 	// seventh tab - status
 
 	// register seventh tab (status)
-	add_settings_section( 'shariff3UU_status_section', __( 'Status', 'shariff3UU' ),
+	add_settings_section( 'shariff3UU_status_section', __( 'Status', 'shariff' ),
 		'shariff3UU_status_section_callback', 'status' );
 
 	// eigth tab - ranking
 
 	// register eigth tab (ranking)
-	add_settings_section( 'shariff3UU_ranking_section', __( 'Ranking', 'shariff3UU' ),
+	add_settings_section( 'shariff3UU_ranking_section', __( 'Ranking', 'shariff' ),
 		'shariff3UU_ranking_section_callback', 'ranking' );
 }
 
@@ -385,7 +385,7 @@ function sani_arrays( $data = array() ) {
 
 // description basic options
 function shariff3UU_basic_section_callback() {
-	echo __( "Select the desired services in the order you want them to be displayed and where the Shariff buttons should be included automatically.", "shariff3UU" );
+	echo __( "Select the desired services in the order you want them to be displayed and where the Shariff buttons should be included automatically.", "shariff" );
 }
 
 // services
@@ -399,7 +399,7 @@ function shariff3UU_text_services_render() {
 	echo '<input type="text" name="shariff3UU_basic[services]" value="' . esc_html($services) . '" size="75" placeholder="twitter|facebook|googleplus|info">';
 	echo '<p><code>facebook|twitter|googleplus|whatsapp|threema|pinterest|xing|linkedin|reddit|vk|diaspora|stumbleupon</code></p>';
 	echo '<p><code>tumblr|addthis|pocket|flattr|patreon|paypal|paypalme|bitcoin|mailform|mailto|printer|rss|info</code></p>';
-	echo '<p>' . __( 'Use the pipe sign | (Alt Gr + &lt; or &#8997; + 7) between two or more services.', 'shariff3UU' ) . '</p>';
+	echo '<p>' . __( 'Use the pipe sign | (Alt Gr + &lt; or &#8997; + 7) between two or more services.', 'shariff' ) . '</p>';
 }
 
 // add after
@@ -480,11 +480,11 @@ function shariff3UU_checkbox_disable_on_protected_render() {
 
 // description design options
 function shariff3UU_design_section_callback(){
-	echo __( 'This configures the default design of the Shariff buttons. Most options can be overwritten for single posts or pages with the options within the <code>[shariff]</code> shorttag. For more information have a look at the ', 'shariff3UU');
+	echo __( 'This configures the default design of the Shariff buttons. Most options can be overwritten for single posts or pages with the options within the <code>[shariff]</code> shorttag. For more information have a look at the ', 'shariff' );
 	echo '<a href="' . get_bloginfo('wpurl') . '/wp-admin/options-general.php?page=shariff3uu&tab=help">';
-	echo __( 'Help Section</a> and the ', 'shariff3UU' );
+	echo __( 'Help Section</a> and the ', 'shariff' );
 	echo '<a href="https://wordpress.org/support/plugin/shariff/" target="_blank">';
-	echo __( 'Support Forum</a>.', 'shariff3UU' );
+	echo __( 'Support Forum</a>.', 'shariff' );
 }
 
 // language
@@ -561,9 +561,9 @@ function shariff3UU_radio_align_render() {
 	$options = $GLOBALS['shariff3UU_design'];
 	if ( ! isset( $options['align'] ) ) $options['align'] = 'flex-start';
 	echo '<div class="shariff_options-table"><div class="shariff_options-row">
-	<div class="shariff_options-cell"><input type="radio" name="shariff3UU_design[align]" value="flex-start" ' . checked( $options["align"], "flex-start", 0 ) . '>' . __( "left", "shariff3UU" ) . '</div>
-	<div class="shariff_options-cell"><input type="radio" name="shariff3UU_design[align]" value="center" ' .     checked( $options["align"], "center", 0 )     . '>' . __( "center", "shariff3UU" ) . '</div>
-	<div class="shariff_options-cell"><input type="radio" name="shariff3UU_design[align]" value="flex-end" ' .   checked( $options["align"], "flex-end", 0 )   . '>' . __( "right", "shariff3UU" ) . '</div>
+	<div class="shariff_options-cell"><input type="radio" name="shariff3UU_design[align]" value="flex-start" ' . checked( $options["align"], "flex-start", 0 ) . '>' . __( "left", "shariff" ) . '</div>
+	<div class="shariff_options-cell"><input type="radio" name="shariff3UU_design[align]" value="center" ' .     checked( $options["align"], "center", 0 )     . '>' . __( "center", "shariff" ) . '</div>
+	<div class="shariff_options-cell"><input type="radio" name="shariff3UU_design[align]" value="flex-end" ' .   checked( $options["align"], "flex-end", 0 )   . '>' . __( "right", "shariff" ) . '</div>
 	</div></div>';
 }
 
@@ -572,9 +572,9 @@ function shariff3UU_radio_align_widget_render() {
 	$options = $GLOBALS['shariff3UU_design'];
 	if ( ! isset( $options['align_widget'] ) ) $options['align_widget'] = 'flex-start';
 	echo '<div class="shariff_options-table"><div class="shariff_options-row">
-	<div class="shariff_options-cell"><input type="radio" name="shariff3UU_design[align_widget]" value="flex-start" ' . checked( $options["align_widget"], "flex-start", 0 ) . '>' . __( "left", "shariff3UU" ) . '</div>
-	<div class="shariff_options-cell"><input type="radio" name="shariff3UU_design[align_widget]" value="center" ' .     checked( $options["align_widget"], "center", 0 )     . '>' . __( "center", "shariff3UU" ) . '</div>
-	<div class="shariff_options-cell"><input type="radio" name="shariff3UU_design[align_widget]" value="flex-end" ' .   checked( $options["align_widget"], "flex-end", 0 )   . '>' . __( "right", "shariff3UU" ) . '</div>
+	<div class="shariff_options-cell"><input type="radio" name="shariff3UU_design[align_widget]" value="flex-start" ' . checked( $options["align_widget"], "flex-start", 0 ) . '>' . __( "left", "shariff" ) . '</div>
+	<div class="shariff_options-cell"><input type="radio" name="shariff3UU_design[align_widget]" value="center" ' .     checked( $options["align_widget"], "center", 0 )     . '>' . __( "center", "shariff" ) . '</div>
+	<div class="shariff_options-cell"><input type="radio" name="shariff3UU_design[align_widget]" value="flex-end" ' .   checked( $options["align_widget"], "flex-end", 0 )   . '>' . __( "right", "shariff" ) . '</div>
 	</div></div>';
 }
 
@@ -586,13 +586,13 @@ function shariff3UU_text_headline_render() {
 	else {
 		$headline = '';
 	}
-	echo '<input type="text" name="shariff3UU_design[headline]" value="' . esc_html( $headline ) . '" size="50" placeholder="' . __( "Share this post", "shariff3UU" ) . '">';
+	echo '<input type="text" name="shariff3UU_design[headline]" value="' . esc_html( $headline ) . '" size="50" placeholder="' . __( "Share this post", "shariff" ) . '">';
 	echo '<p>';
-	echo __( 'Basic HTML as well as style and class attributes are allowed. You can use %total to show the total amount of shares.', 'shariff3UU' );
+	echo __( 'Basic HTML as well as style and class attributes are allowed. You can use %total to show the total amount of shares.', 'shariff' );
 	echo '<br>';
-	echo __( 'Example:', 'shariff3UU' );
+	echo __( 'Example:', 'shariff' );
 	echo '<code>&lt;h3 class="shariff_headline"&gt;';
-	echo __( 'Already shared %total times!', 'shariff3UU' );
+	echo __( 'Already shared %total times!', 'shariff' );
 	echo '&lt;/h3&gt;</code></p>';
 }
 
@@ -604,18 +604,18 @@ function shariff3UU_text_style_render() {
 	else {
 		$style = '';
 	}
-	echo '<input type="text" name="shariff3UU_design[style]" value="' . esc_html($style) . '" size="50" placeholder="' . __( "More information in the FAQ.", "shariff3UU" ) . '">';
+	echo '<input type="text" name="shariff3UU_design[style]" value="' . esc_html($style) . '" size="50" placeholder="' . __( "More information in the FAQ.", "shariff" ) . '">';
 }
 
 // advanced options
 
 // description advanced options
 function shariff3UU_advanced_section_callback(){
-	echo __( 'This configures the advanced options of Shariff regarding specific services. If you are unsure about an option, take a look at the ', 'shariff3UU' );
+	echo __( 'This configures the advanced options of Shariff regarding specific services. If you are unsure about an option, take a look at the ', 'shariff' );
 	echo '<a href="' . get_bloginfo('wpurl') . '/wp-admin/options-general.php?page=shariff3uu&tab=help">';
-	echo __( 'Help Section</a> and the ', 'shariff3UU' );
+	echo __( 'Help Section</a> and the ', 'shariff' );
 	echo '<a href="https://wordpress.org/support/plugin/shariff/" target="_blank">';
-	echo __( 'Support Forum</a>.', 'shariff3UU' );
+	echo __( 'Support Forum</a>.', 'shariff' );
 }
 
 // info url
@@ -637,7 +637,7 @@ function shariff3UU_text_twittervia_render() {
 	else {
 		$twitter_via = '';
 	}
-	echo '<input type="text" name="shariff3UU_advanced[twitter_via]" value="' . $twitter_via . '" size="50" placeholder="' . __( 'username', 'shariff3UU' ) . '">';
+	echo '<input type="text" name="shariff3UU_advanced[twitter_via]" value="' . $twitter_via . '" size="50" placeholder="' . __( 'username', 'shariff' ) . '">';
 }
 
 // flattr username
@@ -648,7 +648,7 @@ function shariff3UU_text_flattruser_render() {
 	else {
 		$flattruser = '';
 	}
-	echo '<input type="text" name="shariff3UU_advanced[flattruser]" value="'. $flattruser .'" size="50" placeholder="' . __( 'username', 'shariff3UU' ) . '">';
+	echo '<input type="text" name="shariff3UU_advanced[flattruser]" value="'. $flattruser .'" size="50" placeholder="' . __( 'username', 'shariff' ) . '">';
 }
 
 // patreon username
@@ -659,7 +659,7 @@ function shariff3UU_text_patreonid_render() {
 	else {
 		$patreonid = '';
 	}
-	echo '<input type="text" name="shariff3UU_advanced[patreonid]" value="'. $patreonid .'" size="50" placeholder="' . __( 'username', 'shariff3UU' ) . '">';
+	echo '<input type="text" name="shariff3UU_advanced[patreonid]" value="'. $patreonid .'" size="50" placeholder="' . __( 'username', 'shariff' ) . '">';
 }
 
 // paypal button id
@@ -681,7 +681,7 @@ function shariff3UU_text_paypalmeid_render() {
 	else {
 		$paypalmeid = '';
 	}
-	echo '<input type="text" name="shariff3UU_advanced[paypalmeid]" value="'. $paypalmeid .'" size="50" placeholder="' . __( 'name', 'shariff3UU' ) . '">';
+	echo '<input type="text" name="shariff3UU_advanced[paypalmeid]" value="'. $paypalmeid .'" size="50" placeholder="' . __( 'name', 'shariff' ) . '">';
 }
 
 // bitcoin address
@@ -711,7 +711,7 @@ function shariff3UU_text_rssfeed_render() {
 function shariff3UU_text_default_pinterest_render() {
 	$options = $GLOBALS["shariff3UU_advanced"];
 	if ( ! isset( $options["default_pinterest"] ) ) $options["default_pinterest"] = '';
-	echo '<div><input type="text" name="shariff3UU_advanced[default_pinterest]" value="' . $options["default_pinterest"] . '" id="image_url" class="regular-text"><input type="button" name="upload-btn" id="upload-btn" class="button-secondary" value="' . __( 'Choose image', 'shariff3UU' ) . '"></div>';
+	echo '<div><input type="text" name="shariff3UU_advanced[default_pinterest]" value="' . $options["default_pinterest"] . '" id="image_url" class="regular-text"><input type="button" name="upload-btn" id="upload-btn" class="button-secondary" value="' . __( 'Choose image', 'shariff' ) . '"></div>';
 	echo '<script type="text/javascript">
 	jQuery(document).ready(function($){
 		$("#upload-btn").click(function(e) {
@@ -745,14 +745,14 @@ function shariff3UU_number_shortcodeprio_render() {
 		$prio = '';
 	}
 	echo '<input type="number" name="shariff3UU_advanced[shortcodeprio]" value="'. $prio .'" maxlength="2" min="0" max="20" placeholder="10" style="width: 75px">';
-	echo '<p>' . __( 'Warning: <strong>DO NOT</strong> change this unless you know what you are doing or have been told so by the plugin author!', 'shariff3UU' ) . '</p>';
+	echo '<p>' . __( 'Warning: <strong>DO NOT</strong> change this unless you know what you are doing or have been told so by the plugin author!', 'shariff' ) . '</p>';
 }
 
 // mailform options
 
 // description mailform options
 function shariff3UU_mailform_section_callback() {
-	echo __( "The mail form can be completely disabled, if not needed. Otherwise, it is recommended to configure a default sender e-mail address from <u>your domain</u> that actually exists, to prevent spam filters from blocking the e-mails.", "shariff3UU" );
+	echo __( "The mail form can be completely disabled, if not needed. Otherwise, it is recommended to configure a default sender e-mail address from <u>your domain</u> that actually exists, to prevent spam filters from blocking the e-mails.", "shariff" );
 }
 
 // disable mailform
@@ -827,10 +827,10 @@ function shariff3UU_text_mail_sender_from_render() {
 
 // description statistic options
 function shariff3UU_statistic_section_callback(){
-	echo __( 'This determines how share counts are handled by Shariff.', 'shariff3UU' );
+	echo __( 'This determines how share counts are handled by Shariff.', 'shariff' );
 	if ( isset( $GLOBALS["shariff3UU_statistic"]["external_direct"] ) ) {
 		echo '<br>';
-		echo __( '<span style="color: red; font-weight: bold;">Warning:</span> You entered an external API and chose to call it directly! Therefore, all options and features (e.g. the ranking tab) regarding the statistic have no effect. You need to configure them on the external server. Remember: This feature is still experimental!', 'shariff3UU' );
+		echo __( '<span style="color: red; font-weight: bold;">Warning:</span> You entered an external API and chose to call it directly! Therefore, all options and features (e.g. the ranking tab) regarding the statistic have no effect. You need to configure them on the external server. Remember: This feature is still experimental!', 'shariff' );
 	}
 }
 
@@ -866,7 +866,7 @@ function shariff3UU_checkbox_sharecounts_render() {
 		echo ' value="1">';
 		if ( ! isset( $GLOBALS['shariff3UU_statistic']['backend'] ) && isset( $GLOBALS['shariff3UU_statistic']['sharecounts'] ) ) {
 			echo ' ';
-			echo __( 'Warning: The statistic functionality must be enabled in order for the share counts to be shown.', 'shariff3UU' );
+			echo __( 'Warning: The statistic functionality must be enabled in order for the share counts to be shown.', 'shariff' );
 		}
 	}
 }
@@ -976,8 +976,8 @@ function shariff3UU_text_external_host_render(){
 		$external_host = '';
 	}
 	echo '<input type="text" name="shariff3UU_statistic[external_host]" value="' . esc_html( $external_host ) . '" size="50" placeholder="'. esc_url( get_bloginfo('url') ) .'/wp-json/shariff/v1/share_counts">';
-	echo '<p>' . __( 'Warning: This is an <strong>experimental</strong> feature. Please read the <a href="https://wordpress.org/plugins/shariff/faq/" target="_blank">Frequently Asked Questions (FAQ)</a>.', 'shariff3UU' ) . '</p>';
-	echo '<p>' . __( 'Please check, if you have to add this domain to the array $SHARIFF_FRONTENDS on the external server.', 'shariff3UU' ) . '</p>';
+	echo '<p>' . __( 'Warning: This is an <strong>experimental</strong> feature. Please read the <a href="https://wordpress.org/plugins/shariff/faq/" target="_blank">Frequently Asked Questions (FAQ)</a>.', 'shariff' ) . '</p>';
+	echo '<p>' . __( 'Please check, if you have to add this domain to the array $SHARIFF_FRONTENDS on the external server.', 'shariff' ) . '</p>';
 }
 
 // direct external api call from JS
@@ -987,39 +987,39 @@ function shariff3UU_text_external_direct_render(){
 			echo checked( $GLOBALS['shariff3UU_statistic']['external_direct'], 1, 0 );
 		}
 	echo ' value="1">';
-	echo '<p>' . __( 'Please check, if you have correctly set the Access-Control-Allow-Origin header!', 'shariff3UU' ) . '</p>';
+	echo '<p>' . __( 'Please check, if you have correctly set the Access-Control-Allow-Origin header!', 'shariff' ) . '</p>';
 }
 
 // help section
 
 function shariff3UU_help_section_callback() {
 	echo '<p>';
-		echo __( 'The WordPress plugin "Shariff Wrapper" has been developed by <a href="https://www.jplambeck.de" target=_blank">Jan-Peter Lambeck</a> and <a href="http://www.datenverwurstungszentrale.com" target="_blank">3UU</a> in order to help protect the privacy of your visitors.', 'shariff3UU' );
-		echo ' ' . __( 'It is based on the original Shariff buttons developed by the German computer magazin <a href="http://ct.de/shariff" target="_blank">c\'t</a> that fullfill the strict data protection laws in Germany.', 'shariff3UU' );
-		echo ' ' . __( 'If you need any help with the plugin, take a look at the <a href="https://wordpress.org/plugins/shariff/faq/" target="_blank">Frequently Asked Questions (FAQ)</a> and the <a href="https://wordpress.org/support/plugin/shariff" target="_blank">Support Forum</a>.', 'shariff3UU' );
-		echo ' ' . __( 'For up to date news about the plugin you can also follow <a href="https://twitter.com/jplambeck" target=_blank">@jplambeck</a> on Twitter.', 'shariff3UU' );
+		echo __( 'The WordPress plugin "Shariff Wrapper" has been developed by <a href="https://www.jplambeck.de" target=_blank">Jan-Peter Lambeck</a> and <a href="http://www.datenverwurstungszentrale.com" target="_blank">3UU</a> in order to help protect the privacy of your visitors.', 'shariff' );
+		echo ' ' . __( 'It is based on the original Shariff buttons developed by the German computer magazin <a href="http://ct.de/shariff" target="_blank">c\'t</a> that fullfill the strict data protection laws in Germany.', 'shariff' );
+		echo ' ' . __( 'If you need any help with the plugin, take a look at the <a href="https://wordpress.org/plugins/shariff/faq/" target="_blank">Frequently Asked Questions (FAQ)</a> and the <a href="https://wordpress.org/support/plugin/shariff" target="_blank">Support Forum</a>.', 'shariff' );
+		echo ' ' . __( 'For up to date news about the plugin you can also follow <a href="https://twitter.com/jplambeck" target=_blank">@jplambeck</a> on Twitter.', 'shariff' );
 	echo '</p>';
 	echo '<p>';
-		echo __( 'If you contact us about a problem with the share counts, please <u>always</u> include the information provided on the <a href="options-general.php?page=shariff3uu&tab=status">status tab</a>! ', 'shariff3UU' );
-		echo ' ' . __( 'This will help to speed up the process.', 'shariff3UU' );
+		echo __( 'If you contact us about a problem with the share counts, please <u>always</u> include the information provided on the <a href="options-general.php?page=shariff3uu&tab=status">status tab</a>! ', 'shariff' );
+		echo ' ' . __( 'This will help to speed up the process.', 'shariff' );
 	echo '</p>';
 	echo '<p>';
-		echo __( 'If you enjoy our plugin, please consider writing a review about it on <a href="https://wordpress.org/support/view/plugin-reviews/shariff" target="_blank">wordpress.org</a>. ', 'shariff3UU' );
-		echo ' ' . __( 'If you want to support us financially, you can donate via <a href="http://folge.link/?bitcoin=1Ritz1iUaLaxuYcXhUCoFhkVRH6GWiMTP" target="_blank">Bitcoin</a> and <a href="https://www.paypal.me/jplambeck" target="_blanK">PayPal</a>. ', 'shariff3UU' );
-		echo ' ' . __( 'Thank you!', 'shariff3UU' );
+		echo __( 'If you enjoy our plugin, please consider writing a review about it on <a href="https://wordpress.org/support/view/plugin-reviews/shariff" target="_blank">wordpress.org</a>. ', 'shariff' );
+		echo ' ' . __( 'If you want to support us financially, you can donate via <a href="http://folge.link/?bitcoin=1Ritz1iUaLaxuYcXhUCoFhkVRH6GWiMTP" target="_blank">Bitcoin</a> and <a href="https://www.paypal.me/jplambeck" target="_blanK">PayPal</a>. ', 'shariff' );
+		echo ' ' . __( 'Thank you!', 'shariff' );
 	echo '</p>';
 	echo '<p>';
-		echo __( 'This is a list of all available options for the <code>[shariff]</code> shortcode:', 'shariff3UU' );
+		echo __( 'This is a list of all available options for the <code>[shariff]</code> shortcode:', 'shariff' );
 	echo '</p>';
 	// shortcode table
 	echo '<div class="shariff_shortcode_table">';
 		// head
 		echo '<div class="shariff_shortcode_row_head">';
-			echo '<div class="shariff_shortcode_cell_name-option">' . __( 'Name', 'shariff3UU' ) . '</div>';
-			echo '<div class="shariff_shortcode_cell_name-option">' . __( 'Options', 'shariff3UU' ) . '</div>';
-			echo '<div class="shariff_shortcode_cell_default">' . __( 'Default', 'shariff3UU' ) . '</div>';
-			echo '<div class="shariff_shortcode_cell_example">' . __( 'Example', 'shariff3UU' ) . '</div>';
-			echo '<div class="shariff_shortcode_cell_description">' . __( 'Description', 'shariff3UU' ) . '</div>';
+			echo '<div class="shariff_shortcode_cell_name-option">' . __( 'Name', 'shariff' ) . '</div>';
+			echo '<div class="shariff_shortcode_cell_name-option">' . __( 'Options', 'shariff' ) . '</div>';
+			echo '<div class="shariff_shortcode_cell_default">' . __( 'Default', 'shariff' ) . '</div>';
+			echo '<div class="shariff_shortcode_cell_example">' . __( 'Example', 'shariff' ) . '</div>';
+			echo '<div class="shariff_shortcode_cell_description">' . __( 'Description', 'shariff' ) . '</div>';
 		echo '</div>';
 		// services
 		echo '<div class="shariff_shortcode_row">';
@@ -1027,7 +1027,7 @@ function shariff3UU_help_section_callback() {
 			echo '<div class="shariff_shortcode_cell">facebook<br>twitter<br>googleplus<br>whatsapp<br>threema<br>pinterest<br>linkedin<br>xing<br>reddit<br>stumbleupon<br>tumblr<br>vk<br>diaspora<br>addthis<br>flattr<br>patreon<br>paypal<br>paypalme<br>bitcoin<br>mailform<br>mailto<br>printer<br>info<br>rss</div>';
 			echo '<div class="shariff_shortcode_cell">twitter|facebook|googleplus|info</div>';
 			echo '<div class="shariff_shortcode_cell">[shariff services="facebook|twitter|mailform"]</div>';
-			echo '<div class="shariff_shortcode_cell">' . __( 'Determines which buttons to show and in which order.', 'shariff3UU' ) . '</div>';
+			echo '<div class="shariff_shortcode_cell">' . __( 'Determines which buttons to show and in which order.', 'shariff' ) . '</div>';
 		echo '</div>';
 		// backend
 		echo '<div class="shariff_shortcode_row">';
@@ -1035,7 +1035,7 @@ function shariff3UU_help_section_callback() {
 			echo '<div class="shariff_shortcode_cell">on<br>off</div>';
 			echo '<div class="shariff_shortcode_cell">off</div>';
 			echo '<div class="shariff_shortcode_cell">[shariff backend="on"]</div>';
-			echo '<div class="shariff_shortcode_cell">' . __( 'Enables share counts on the buttons.', 'shariff3UU' ) . '</div>';
+			echo '<div class="shariff_shortcode_cell">' . __( 'Enables share counts on the buttons.', 'shariff' ) . '</div>';
 		echo '</div>';
 		// theme
 		echo '<div class="shariff_shortcode_row">';
@@ -1043,7 +1043,7 @@ function shariff3UU_help_section_callback() {
 			echo '<div class="shariff_shortcode_cell">default<br>color<br>grey<br>white<br>round</div>';
 			echo '<div class="shariff_shortcode_cell">default</div>';
 			echo '<div class="shariff_shortcode_cell">[shariff theme="round"]</div>';
-			echo '<div class="shariff_shortcode_cell">' . __( 'Determines the main design of the buttons.', 'shariff3UU' ) . '</div>';
+			echo '<div class="shariff_shortcode_cell">' . __( 'Determines the main design of the buttons.', 'shariff' ) . '</div>';
 		echo '</div>';
 		// button size
 		echo '<div class="shariff_shortcode_row">';
@@ -1051,7 +1051,7 @@ function shariff3UU_help_section_callback() {
 			echo '<div class="shariff_shortcode_cell">big<br>small</div>';
 			echo '<div class="shariff_shortcode_cell">big</div>';
 			echo '<div class="shariff_shortcode_cell">[shariff buttonsize="small"]</div>';
-			echo '<div class="shariff_shortcode_cell">' . __( 'Small reduces the size of all buttons by 30%, regardless of theme.', 'shariff3UU' ) . '</div>';
+			echo '<div class="shariff_shortcode_cell">' . __( 'Small reduces the size of all buttons by 30%, regardless of theme.', 'shariff' ) . '</div>';
 		echo '</div>';
 		// buttonstretch
 		echo '<div class="shariff_shortcode_row">';
@@ -1059,7 +1059,7 @@ function shariff3UU_help_section_callback() {
 			echo '<div class="shariff_shortcode_cell">0<br>1</div>';
 			echo '<div class="shariff_shortcode_cell">0</div>';
 			echo '<div class="shariff_shortcode_cell">[shariff buttonstretch="1"]</div>';
-			echo '<div class="shariff_shortcode_cell">' . __( 'Stretch buttons horizontally to full width.', 'shariff3UU' ) . '</div>';
+			echo '<div class="shariff_shortcode_cell">' . __( 'Stretch buttons horizontally to full width.', 'shariff' ) . '</div>';
 		echo '</div>';
 		// orientation
 		echo '<div class="shariff_shortcode_row">';
@@ -1067,7 +1067,7 @@ function shariff3UU_help_section_callback() {
 			echo '<div class="shariff_shortcode_cell">horizontal<br>vertical</div>';
 			echo '<div class="shariff_shortcode_cell">horizontal</div>';
 			echo '<div class="shariff_shortcode_cell">[shariff orientation="vertical"]</div>';
-			echo '<div class="shariff_shortcode_cell">' . __( 'Changes the orientation of the buttons.', 'shariff3UU' ) . '</div>';
+			echo '<div class="shariff_shortcode_cell">' . __( 'Changes the orientation of the buttons.', 'shariff' ) . '</div>';
 		echo '</div>';
 		// alignment
 		echo '<div class="shariff_shortcode_row">';
@@ -1075,23 +1075,23 @@ function shariff3UU_help_section_callback() {
 			echo '<div class="shariff_shortcode_cell">flex-start<br>center<br>flex-end</div>';
 			echo '<div class="shariff_shortcode_cell">flex-start</div>';
 			echo '<div class="shariff_shortcode_cell">[shariff align="center"]</div>';
-			echo '<div class="shariff_shortcode_cell">' . __( 'Changes the horizontal alignment of the buttons. flex-start means left, center is obvious and flex-end means right.', 'shariff3UU' ) . '</div>';
+			echo '<div class="shariff_shortcode_cell">' . __( 'Changes the horizontal alignment of the buttons. flex-start means left, center is obvious and flex-end means right.', 'shariff' ) . '</div>';
 		echo '</div>';
 		// language
 		echo '<div class="shariff_shortcode_row">';
 			echo '<div class="shariff_shortcode_cell">language</div>';
 			echo '<div class="shariff_shortcode_cell">da, de, en, es, fi, fr, hr, hu, it, ja, ko, nl, no, pl, pt, ro, ru, sk, sl, sr, sv, tr, zh</div>';
-			echo '<div class="shariff_shortcode_cell">' . __( 'Automatically selected by browser.', 'shariff3UU' ) . '</div>';
+			echo '<div class="shariff_shortcode_cell">' . __( 'Automatically selected by browser.', 'shariff' ) . '</div>';
 			echo '<div class="shariff_shortcode_cell">[shariff lang="de"]</div>';
-			echo '<div class="shariff_shortcode_cell">' . __( 'Changes the language of the share buttons.', 'shariff3UU' ) . '</div>';
+			echo '<div class="shariff_shortcode_cell">' . __( 'Changes the language of the share buttons.', 'shariff' ) . '</div>';
 		echo '</div>';
 		// headline
 		echo '<div class="shariff_shortcode_row">';
 			echo '<div class="shariff_shortcode_cell">headline</div>';
 			echo '<div class="shariff_shortcode_cell"></div>';
 			echo '<div class="shariff_shortcode_cell"></div>';
-			echo '<div class="shariff_shortcode_cell">[shariff headline="&lt;hr style=\'margin:20px 0\'&gt;&lt;p&gt;' . __( 'Please share this post:', 'shariff3UU' ) . '&lt;/p&gt;"]</div>';
-			echo '<div class="shariff_shortcode_cell">' . __( 'Adds a headline above the Shariff buttons. Basic HTML as well as style and class attributes can be used. To remove a headline set on the plugins options page use headline="".', 'shariff3UU' ) . '</div>';
+			echo '<div class="shariff_shortcode_cell">[shariff headline="&lt;hr style=\'margin:20px 0\'&gt;&lt;p&gt;' . __( 'Please share this post:', 'shariff' ) . '&lt;/p&gt;"]</div>';
+			echo '<div class="shariff_shortcode_cell">' . __( 'Adds a headline above the Shariff buttons. Basic HTML as well as style and class attributes can be used. To remove a headline set on the plugins options page use headline="".', 'shariff' ) . '</div>';
 		echo '</div>';
 		// twitter_via
 		echo '<div class="shariff_shortcode_row">';
@@ -1099,7 +1099,7 @@ function shariff3UU_help_section_callback() {
 			echo '<div class="shariff_shortcode_cell"></div>';
 			echo '<div class="shariff_shortcode_cell"></div>';
 			echo '<div class="shariff_shortcode_cell">[shariff twitter_via="your_twittername"]</div>';
-			echo '<div class="shariff_shortcode_cell">' . __( 'Sets the Twitter via tag.', 'shariff3UU' ) . '</div>';
+			echo '<div class="shariff_shortcode_cell">' . __( 'Sets the Twitter via tag.', 'shariff' ) . '</div>';
 		echo '</div>';
 		// flattruser
 		echo '<div class="shariff_shortcode_row">';
@@ -1107,7 +1107,7 @@ function shariff3UU_help_section_callback() {
 			echo '<div class="shariff_shortcode_cell"></div>';
 			echo '<div class="shariff_shortcode_cell"></div>';
 			echo '<div class="shariff_shortcode_cell">[shariff flattruser="your_username"]</div>';
-			echo '<div class="shariff_shortcode_cell">' . __( 'Sets the Flattr username.', 'shariff3UU' ) . '</div>';
+			echo '<div class="shariff_shortcode_cell">' . __( 'Sets the Flattr username.', 'shariff' ) . '</div>';
 		echo '</div>';
 		// patreonid
 		echo '<div class="shariff_shortcode_row">';
@@ -1115,7 +1115,7 @@ function shariff3UU_help_section_callback() {
 			echo '<div class="shariff_shortcode_cell"></div>';
 			echo '<div class="shariff_shortcode_cell"></div>';
 			echo '<div class="shariff_shortcode_cell">[shariff patreonid="your_username"]</div>';
-			echo '<div class="shariff_shortcode_cell">' . __( 'Sets the Patreon username.', 'shariff3UU' ) . '</div>';
+			echo '<div class="shariff_shortcode_cell">' . __( 'Sets the Patreon username.', 'shariff' ) . '</div>';
 		echo '</div>';
 		// paypalbuttonid
 		echo '<div class="shariff_shortcode_row">';
@@ -1123,7 +1123,7 @@ function shariff3UU_help_section_callback() {
 			echo '<div class="shariff_shortcode_cell"></div>';
 			echo '<div class="shariff_shortcode_cell"></div>';
 			echo '<div class="shariff_shortcode_cell">[shariff paypalbuttonid="hosted_button_id"]</div>';
-			echo '<div class="shariff_shortcode_cell">' . __( 'Sets the PayPal hosted button ID.', 'shariff3UU' ) . '</div>';
+			echo '<div class="shariff_shortcode_cell">' . __( 'Sets the PayPal hosted button ID.', 'shariff' ) . '</div>';
 		echo '</div>';
 		// paypalmeid
 		echo '<div class="shariff_shortcode_row">';
@@ -1131,7 +1131,7 @@ function shariff3UU_help_section_callback() {
 			echo '<div class="shariff_shortcode_cell"></div>';
 			echo '<div class="shariff_shortcode_cell"></div>';
 			echo '<div class="shariff_shortcode_cell">[shariff paypalmeid="name"]</div>';
-			echo '<div class="shariff_shortcode_cell">' . __( 'Sets the PayPal.Me ID. Default amount can be added with a / e.g. name/25.', 'shariff3UU' ) . '</div>';
+			echo '<div class="shariff_shortcode_cell">' . __( 'Sets the PayPal.Me ID. Default amount can be added with a / e.g. name/25.', 'shariff' ) . '</div>';
 		echo '</div>';
 		// bitcoinaddress
 		echo '<div class="shariff_shortcode_row">';
@@ -1139,15 +1139,15 @@ function shariff3UU_help_section_callback() {
 			echo '<div class="shariff_shortcode_cell"></div>';
 			echo '<div class="shariff_shortcode_cell"></div>';
 			echo '<div class="shariff_shortcode_cell">[shariff bitcoinaddress="bitcoin_address"]</div>';
-			echo '<div class="shariff_shortcode_cell">' . __( 'Sets the bitcoin address.', 'shariff3UU' ) . '</div>';
+			echo '<div class="shariff_shortcode_cell">' . __( 'Sets the bitcoin address.', 'shariff' ) . '</div>';
 		echo '</div>';
 		// media
 		echo '<div class="shariff_shortcode_row">';
 			echo '<div class="shariff_shortcode_cell">media</div>';
 			echo '<div class="shariff_shortcode_cell"></div>';
-			echo '<div class="shariff_shortcode_cell">' . __( 'The post featured image or the first image of the post.</div>', 'shariff3UU' );
+			echo '<div class="shariff_shortcode_cell">' . __( 'The post featured image or the first image of the post.</div>', 'shariff' );
 			echo '<div class="shariff_shortcode_cell">[shariff media="http://www.mydomain.com/image.jpg"]</div>';
-			echo '<div class="shariff_shortcode_cell">' . __( 'Determines the default image to share for Pinterest, if no other usable image is found.', 'shariff3UU' ) . '</div>';
+			echo '<div class="shariff_shortcode_cell">' . __( 'Determines the default image to share for Pinterest, if no other usable image is found.', 'shariff' ) . '</div>';
 		echo '</div>';
 		// info_url
 		echo '<div class="shariff_shortcode_row">';
@@ -1155,23 +1155,23 @@ function shariff3UU_help_section_callback() {
 			echo '<div class="shariff_shortcode_cell"></div>';
 			echo '<div class="shariff_shortcode_cell">http://ct.de/-2467514</div>';
 			echo '<div class="shariff_shortcode_cell">[shariff info_url="http://www.mydomain.com/shariff-buttons"]</div>';
-			echo '<div class="shariff_shortcode_cell">' . __( 'Sets a custom link for the info button.', 'shariff3UU' ) . '</div>';
+			echo '<div class="shariff_shortcode_cell">' . __( 'Sets a custom link for the info button.', 'shariff' ) . '</div>';
 		echo '</div>';
 		// url
 		echo '<div class="shariff_shortcode_row">';
 			echo '<div class="shariff_shortcode_cell">url</div>';
 			echo '<div class="shariff_shortcode_cell"></div>';
-			echo '<div class="shariff_shortcode_cell">' . __( 'The url of the current post or page.</div>', 'shariff3UU' );
+			echo '<div class="shariff_shortcode_cell">' . __( 'The url of the current post or page.</div>', 'shariff' );
 			echo '<div class="shariff_shortcode_cell">[shariff url="http://www.mydomain.com/somepost"]</div>';
-			echo '<div class="shariff_shortcode_cell">' . __( 'Changes the url to share. Only for special use cases.', 'shariff3UU' ) . '</div>';
+			echo '<div class="shariff_shortcode_cell">' . __( 'Changes the url to share. Only for special use cases.', 'shariff' ) . '</div>';
 		echo '</div>';
 		// title
 		echo '<div class="shariff_shortcode_row">';
 			echo '<div class="shariff_shortcode_cell">title</div>';
 			echo '<div class="shariff_shortcode_cell"></div>';
-			echo '<div class="shariff_shortcode_cell">' . __( 'The title of the current post or page.</div>', 'shariff3UU' );
-			echo '<div class="shariff_shortcode_cell">[shariff title="' . __( 'My Post Title', 'shariff3UU' ) . '"]</div>';
-			echo '<div class="shariff_shortcode_cell">' . __( 'Changes the title to share. Only for special use cases.', 'shariff3UU' ) . '</div>';
+			echo '<div class="shariff_shortcode_cell">' . __( 'The title of the current post or page.</div>', 'shariff' );
+			echo '<div class="shariff_shortcode_cell">[shariff title="' . __( 'My Post Title', 'shariff' ) . '"]</div>';
+			echo '<div class="shariff_shortcode_cell">' . __( 'Changes the title to share. Only for special use cases.', 'shariff' ) . '</div>';
 		echo '</div>';
 		// rssfeed
 		echo '<div class="shariff_shortcode_row">';
@@ -1179,7 +1179,7 @@ function shariff3UU_help_section_callback() {
 			echo '<div class="shariff_shortcode_cell"></div>';
 			echo '<div class="shariff_shortcode_cell">http://www.mydomain.com/feed/rss/</div>';
 			echo '<div class="shariff_shortcode_cell">[shariff rssfeed="http://www.mydomain.com/feed/rss2/"]</div>';
-			echo '<div class="shariff_shortcode_cell">' . __( 'Changes the rss feed url to another feed.', 'shariff3UU' ) . '</div>';
+			echo '<div class="shariff_shortcode_cell">' . __( 'Changes the rss feed url to another feed.', 'shariff' ) . '</div>';
 		echo '</div>';
 
 	echo '</div>';
@@ -1196,13 +1196,13 @@ function shariff3UU_status_section_callback() {
 
 	// statistic row
 	echo '<div class="shariff_status-row">';
-	echo '<div class="shariff_status-first-cell">' . __( 'Statistic:', 'shariff3UU' ) . '</div>';
+	echo '<div class="shariff_status-first-cell">' . __( 'Statistic:', 'shariff' ) . '</div>';
 
 	// check if statistic is enabled
 	if ( ! isset( $shariff3UU['backend'] ) ) {
 		// statistic disabled message
 		echo '<div class="shariff_status-table">';
-		echo '<div class="shariff_status-row"><div class="shariff_status-cell"><span class="shariff_status-disabled">' . __( 'Disabled', 'shariff3UU' ) . '</span></div></div>';
+		echo '<div class="shariff_status-row"><div class="shariff_status-cell"><span class="shariff_status-disabled">' . __( 'Disabled', 'shariff' ) . '</span></div></div>';
 		echo '</div>';
 		// end statistic row, if statistic is disabled
 		echo '</div>';
@@ -1236,16 +1236,16 @@ function shariff3UU_status_section_callback() {
 		echo '<div class="shariff_status-cell">';
 			echo '<div class="shariff_status-table">';
 			if ( empty( $service_errors ) ) {
-				echo '<div class="shariff_status-row"><div class="shariff_status-cell"><span class="shariff_status-ok">' . __( 'OK', 'shariff3UU' ) . '</span></div></div>';
-				echo '<div class="shariff_status-row"><div class="shariff_status-cell">' . __( 'No error messages.', 'shariff3UU' ) . '</div></div>';
+				echo '<div class="shariff_status-row"><div class="shariff_status-cell"><span class="shariff_status-ok">' . __( 'OK', 'shariff' ) . '</span></div></div>';
+				echo '<div class="shariff_status-row"><div class="shariff_status-cell">' . __( 'No error messages.', 'shariff' ) . '</div></div>';
 			}
 			elseif ( array_filter( $service_errors ) ) {
-				echo '<div class="shariff_status-row"><div class="shariff_status-cell"><span class="shariff_status-error">' . __( 'Error', 'shariff3UU' ) . '</span></div></div>';
-				echo '<div class="shariff_status-row"><div class="shariff_status-cell">' . __( 'One or more services reported an error.', 'shariff3UU' ) . '</div></div>';				
+				echo '<div class="shariff_status-row"><div class="shariff_status-cell"><span class="shariff_status-error">' . __( 'Error', 'shariff' ) . '</span></div></div>';
+				echo '<div class="shariff_status-row"><div class="shariff_status-cell">' . __( 'One or more services reported an error.', 'shariff' ) . '</div></div>';				
 			}
 			else {
-				echo '<div class="shariff_status-row"><div class="shariff_status-cell"><span class="shariff_status-timeout">' . __( 'Timeout', 'shariff3UU' ) . '</span></div></div>';
-				echo '<div class="shariff_status-row"><div class="shariff_status-cell">' . __( 'One or more services didn\'t respond in less than five seconds.', 'shariff3UU' ) . '</div></div>';
+				echo '<div class="shariff_status-row"><div class="shariff_status-cell"><span class="shariff_status-timeout">' . __( 'Timeout', 'shariff' ) . '</span></div></div>';
+				echo '<div class="shariff_status-row"><div class="shariff_status-cell">' . __( 'One or more services didn\'t respond in less than five seconds.', 'shariff' ) . '</div></div>';
 			}
 			echo '<div class="shariff_status-row"><div class="shariff_status-cell">' . '</div></div>';
 			echo '</div>';
@@ -1262,20 +1262,20 @@ function shariff3UU_status_section_callback() {
 				echo '<div class="shariff_status-cell">';
 					echo '<div class="shariff_status-table">';
 					if ( isset ( $shariff3UU["disable"][$service] ) && $shariff3UU["disable"][$service] == '1' ) {
-						echo '<div class="shariff_status-row"><div class="shariff_status-cell"><span class="shariff_status-disabled">' . __( 'Disabled', 'shariff3UU' ) . '</span></div></div>';
+						echo '<div class="shariff_status-row"><div class="shariff_status-cell"><span class="shariff_status-disabled">' . __( 'Disabled', 'shariff' ) . '</span></div></div>';
 					}
 					elseif ( ! array_key_exists( $service, $service_errors ) ) {
-						echo '<div class="shariff_status-row"><div class="shariff_status-cell"><span class="shariff_status-ok">' . __( 'OK', 'shariff3UU' ) . '</span></div></div>';
-						echo '<div class="shariff_status-row"><div class="shariff_status-cell">' . __( 'Share Count:', 'shariff3UU' ) . ' ' . $share_counts[$service] . '</div></div>';
+						echo '<div class="shariff_status-row"><div class="shariff_status-cell"><span class="shariff_status-ok">' . __( 'OK', 'shariff' ) . '</span></div></div>';
+						echo '<div class="shariff_status-row"><div class="shariff_status-cell">' . __( 'Share Count:', 'shariff' ) . ' ' . $share_counts[$service] . '</div></div>';
 					}
 					elseif ( empty( $service_errors[$service] ) ) {
-						echo '<div class="shariff_status-row"><div class="shariff_status-cell"><span class="shariff_status-timeout">' . __( 'Timeout', 'shariff3UU' ) . '</span></div></div>';
+						echo '<div class="shariff_status-row"><div class="shariff_status-cell"><span class="shariff_status-timeout">' . __( 'Timeout', 'shariff' ) . '</span></div></div>';
 						echo '<div class="shariff_status-row"><div class="shariff_status-cell">';
-							echo __( 'Service didn\'t respond in less than five seconds.', 'shariff3UU' );
+							echo __( 'Service didn\'t respond in less than five seconds.', 'shariff' );
 						echo '</div></div>';
 					}
 					else {
-						echo '<div class="shariff_status-row"><div class="shariff_status-cell"><span class="shariff_status-error">' . __( 'Error', 'shariff3UU' ) . '</span></div></div>';
+						echo '<div class="shariff_status-row"><div class="shariff_status-cell"><span class="shariff_status-error">' . __( 'Error', 'shariff' ) . '</span></div></div>';
 						echo '<div class="shariff_status-row"><div class="shariff_status-cell">';
 							echo $service_errors[$service];
 						echo '</div></div>';
@@ -1289,13 +1289,13 @@ function shariff3UU_status_section_callback() {
 
 	// GD needed for QR codes of the Bitcoin links
 	echo '<div class="shariff_status-row">';
-	echo '<div class="shariff_status-cell">' . __( 'GD Library:', 'shariff3UU' ) . '</div>';
+	echo '<div class="shariff_status-cell">' . __( 'GD Library:', 'shariff' ) . '</div>';
 	// working message
 	if ( function_exists( 'gd_info' ) ) {
 		$tmpGDinfo = gd_info();
 		echo '<div class="shariff_status-cell">';
 			echo '<div style="display: table">';
-				echo '<div class="shariff_status-row"><div class="shariff_status-cell"><span class="shariff_status-ok">' . __( 'OK', 'shariff3UU' ) . '</span></div></div>';
+				echo '<div class="shariff_status-row"><div class="shariff_status-cell"><span class="shariff_status-ok">' . __( 'OK', 'shariff' ) . '</span></div></div>';
 				echo '<div class="shariff_status-row"><div class="shariff_status-cell">Version: ' . $tmpGDinfo["GD Version"] . '</div></div>';
 			echo '</div>';
 		echo '</div>';
@@ -1303,8 +1303,8 @@ function shariff3UU_status_section_callback() {
 	else {
 		echo '<div class="shariff_status-cell">';
 			echo '<div style="display: table">';
-				echo '<div class="shariff_status-row"><div class="shariff_status-cell"><span class="shariff_status-error">' . __( 'Error', 'shariff3UU' ) . '</span></div></div>';
-				echo '<div class="shariff_status-row"><div class="shariff_status-cell">' . __( 'The GD Library is not installed on this server. This is only needed for the QR codes, if your are using the bitcoin button.', 'shariff3UU' ) . '</div></div>';
+				echo '<div class="shariff_status-row"><div class="shariff_status-cell"><span class="shariff_status-error">' . __( 'Error', 'shariff' ) . '</span></div></div>';
+				echo '<div class="shariff_status-row"><div class="shariff_status-cell">' . __( 'The GD Library is not installed on this server. This is only needed for the QR codes, if your are using the bitcoin button.', 'shariff' ) . '</div></div>';
 			echo '</div>';
 		echo '</div>';
 	}
@@ -1362,16 +1362,16 @@ function shariff3UU_ranking_section_callback() {
 
 	// intro
 	echo '<p>';
-		echo __( 'The following table shows the ranking of your last 100 posts in descending order by total share counts. To prevent slow loading times only cached data is being used. Therefore, you may see blank entries for posts that have not been visited by anyone since the last update or activation of Shariff Wrapper. You can simply visit the respective post yourself in order to have the share counts fetched.', 'shariff3UU' );
+		echo __( 'The following table shows the ranking of your last 100 posts in descending order by total share counts. To prevent slow loading times only cached data is being used. Therefore, you may see blank entries for posts that have not been visited by anyone since the last update or activation of Shariff Wrapper. You can simply visit the respective post yourself in order to have the share counts fetched.', 'shariff' );
 	echo '</p>';
 
 	// warning if statistic has been disabled
 	if ( ! isset( $GLOBALS["shariff3UU"]["backend"] ) ) {
 		echo '<p>';
 			echo '<span style="color: red; font-weight: bold;">';
-				echo __( 'Warning:', 'shariff3UU' );
+				echo __( 'Warning:', 'shariff' );
 			echo '</span> ';
-			echo __( 'The statistic option has been disabled on the statistic tab. Share counts will not get updated!', 'shariff3UU' );
+			echo __( 'The statistic option has been disabled on the statistic tab. Share counts will not get updated!', 'shariff' );
 		echo '</p>';
 	}
 	
@@ -1379,12 +1379,12 @@ function shariff3UU_ranking_section_callback() {
 	echo '<div class="shariff_shortcode_table">';
 		// head
 		echo '<div class="shariff_shortcode_row_head">';
-			echo '<div class="shariff_shortcode_cell_description">' . __( 'Rank', 'shariff3UU' ) . '</div>';
-			echo '<div class="shariff_shortcode_cell_description">' . __( 'Post', 'shariff3UU' ) . '</div>';
-			echo '<div class="shariff_shortcode_cell_description" style="text-align:center;">' . __( 'Date', 'shariff3UU' ) . '</div>';
-			echo '<div class="shariff_shortcode_cell_description" style="text-align:center;">' . __( 'Time', 'shariff3UU' ) . '</div>';
+			echo '<div class="shariff_shortcode_cell_description">' . __( 'Rank', 'shariff' ) . '</div>';
+			echo '<div class="shariff_shortcode_cell_description">' . __( 'Post', 'shariff' ) . '</div>';
+			echo '<div class="shariff_shortcode_cell_description" style="text-align:center;">' . __( 'Date', 'shariff' ) . '</div>';
+			echo '<div class="shariff_shortcode_cell_description" style="text-align:center;">' . __( 'Time', 'shariff' ) . '</div>';
 			foreach( $services as $service => $nothing ) echo '<div class="shariff_shortcode_cell_description" style="text-align:center;">' . ucfirst( $service ) . '</div>';
-			echo '<div class="shariff_shortcode_cell_description">' . __( 'Total', 'shariff3UU' ) . '</div>';
+			echo '<div class="shariff_shortcode_cell_description">' . __( 'Total', 'shariff' ) . '</div>';
 		echo '</div>';
 		// posts
 		$rank = '0';
@@ -1436,35 +1436,35 @@ function shariff3UU_options_page() {
 		// basic
 		echo '<a href="?page=shariff3uu&tab=basic" class="nav-tab ';
 		if ( $active_tab == 'basic' ) echo 'nav-tab-active';
-		echo '">' . __( 'Basic', 'shariff3UU' ) . '</a>';
+		echo '">' . __( 'Basic', 'shariff' ) . '</a>';
 		// design
 		echo '<a href="?page=shariff3uu&tab=design" class="nav-tab ';
 		if ( $active_tab == 'design' ) echo 'nav-tab-active';
-		echo '">' . __( 'Design', 'shariff3UU' ) . '</a>';
+		echo '">' . __( 'Design', 'shariff' ) . '</a>';
 		// advanced
 		echo '<a href="?page=shariff3uu&tab=advanced" class="nav-tab ';
 		if ( $active_tab == 'advanced' ) echo 'nav-tab-active';
-		echo '">' . __( 'Advanced', 'shariff3UU' ) . '</a>';
+		echo '">' . __( 'Advanced', 'shariff' ) . '</a>';
 		// mailform
 		echo '<a href="?page=shariff3uu&tab=mailform" class="nav-tab ';
 		if ( $active_tab == 'mailform' ) echo 'nav-tab-active';
-		echo '">' . __( 'Mail Form', 'shariff3UU' ) . '</a>';
+		echo '">' . __( 'Mail Form', 'shariff' ) . '</a>';
 		// statistic
 		echo '<a href="?page=shariff3uu&tab=statistic" class="nav-tab ';
 		if ( $active_tab == 'statistic' ) echo 'nav-tab-active';
-		echo '">' . __( 'Statistic', 'shariff3UU' ) . '</a>';
+		echo '">' . __( 'Statistic', 'shariff' ) . '</a>';
 		// help
 		echo '<a href="?page=shariff3uu&tab=help" class="nav-tab ';
 		if ( $active_tab == 'help' ) echo 'nav-tab-active';
-		echo '">' . __( 'Help', 'shariff3UU' ) . '</a>';
+		echo '">' . __( 'Help', 'shariff' ) . '</a>';
 		// status
 		echo '<a href="?page=shariff3uu&tab=status" class="nav-tab ';
 		if ( $active_tab == 'status' ) echo 'nav-tab-active';
-		echo '">' . __( 'Status', 'shariff3UU' ) . '</a>';
+		echo '">' . __( 'Status', 'shariff' ) . '</a>';
 		// ranking
 		echo '<a href="?page=shariff3uu&tab=ranking" class="nav-tab ';
 		if ( $active_tab == 'ranking' ) echo 'nav-tab-active';
-		echo '">' . __( 'Ranking', 'shariff3UU' ) . '</a>';
+		echo '">' . __( 'Ranking', 'shariff' ) . '</a>';
 	echo '</h2>';
 
 	// content of tabs
