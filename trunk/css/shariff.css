@@ -21,6 +21,7 @@
   position: relative;
   display: block;
   height: 35px;
+  padding: 0;
   box-sizing: border-box;
   border: 0;
   color: #fff !important;
@@ -273,6 +274,7 @@
   border: 1px solid #ddd;
   width: 35px;
 }
+.shariff-button.info { background-color: transparent !important; }
 .shariff .buttonsize-small .info a { width: 25px; }
 .shariff .info a:hover { background-color: #efefef !important; }
 .shariff .theme-grey .info a:hover { background-color: #666 !important; }

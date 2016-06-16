@@ -3,7 +3,7 @@ Contributors: 3UU, starguide
 Tags: Shariff, Facebook, Twitter, VKontakte, VK, GooglePlus, WhatsApp, share buttons, sharing, privacy, social
 Requires at least: 4.4
 Tested up to: 4.5
-Stable tag: 4.0.1
+Stable tag: 4.0.2
 License: MIT
 License URI: http://opensource.org/licenses/MIT
 Donate link: http://folge.link/?bitcoin=1Ritz1iUaLaxuYcXhUCoFhkVRH6GWiMTP
@@ -171,6 +171,10 @@ fixed in the future - if we have time to spend or you provide us with a lot of "
   rendered.
 
 == Changelog ==
+
+= 4.0.2 =
+- added minor css resets to prevent influence of theme css
+- fixed LinkedIn share link
 
 = 4.0.1 =
 - prevent php warning messages on unsuccessful includes while WP_DEBUG is active
