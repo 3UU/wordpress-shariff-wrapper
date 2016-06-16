@@ -277,7 +277,11 @@
   border: 1px solid #ddd;
   width: 35px;
 }
-.shariff-button.info { background-color: transparent !important; }
+.shariff .shariff-button.info {
+  width: 35px;
+  background-color: transparent !important;
+}
+.shariff .buttonsize-small .shariff-button.info { width: 25px; }
 .shariff .buttonsize-small .info a { width: 25px; }
 .shariff .info a:hover { background-color: #efefef !important; }
 .shariff .theme-grey .info a:hover { background-color: #666 !important; }
@@ -300,7 +304,7 @@
   .shariff .orientation-horizontal li .shariff-text { display: block; }
   .shariff .orientation-horizontal li .shariff-count { display: block; }
 }
-@media only screen and (min-width: 1025px) {
+@media only screen and (min-width: 1281px) {
   .shariff .shariff-mobile { display: none; }
   .shariff .orientation-horizontal li { width: 130px; }
   .shariff .orientation-horizontal.buttonsize-small li { width: 105px; }

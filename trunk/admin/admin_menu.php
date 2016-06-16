@@ -407,27 +407,27 @@ function shariff3UU_multiplecheckbox_add_after_render() {
 	// add after all posts
 	echo '<p><input type="checkbox" name="shariff3UU_basic[add_after][posts]" ';
 	if ( isset( $GLOBALS['shariff3UU_basic']['add_after']['posts'] ) ) echo checked( $GLOBALS['shariff3UU_basic']['add_after']['posts'], 1, 0 );
-	echo ' value="1">' . __('Posts', 'shariff3UU') . '</p>';
+	echo ' value="1">' . __('Posts', 'shariff') . '</p>';
 
 	// add after all posts (blog page)
 	echo '<p><input type="checkbox" name="shariff3UU_basic[add_after][posts_blogpage]" ';
 	if ( isset( $GLOBALS["shariff3UU_basic"]["add_after"]["posts_blogpage"] ) ) echo checked( $GLOBALS["shariff3UU_basic"]["add_after"]["posts_blogpage"], 1, 0 );
-	echo ' value="1">' . __('Posts (blog page)', 'shariff3UU') . '</p>';
+	echo ' value="1">' . __('Posts (blog page)', 'shariff') . '</p>';
 
 	// add after all pages
 	echo '<p><input type="checkbox" name="shariff3UU_basic[add_after][pages]" ';
 	if ( isset( $GLOBALS["shariff3UU_basic"]["add_after"]["pages"] ) ) echo checked( $GLOBALS["shariff3UU_basic"]["add_after"]["pages"], 1, 0 );
-	echo ' value="1">' . __('Pages', 'shariff3UU') . '</p>';
+	echo ' value="1">' . __('Pages', 'shariff') . '</p>';
 
 	// add after all bbpress replies
 	echo '<p><input type="checkbox" name="shariff3UU_basic[add_after][bbp_reply]" ';
 	if ( isset( $GLOBALS["shariff3UU_basic"]["add_after"]["bbp_reply"] ) ) echo checked( $GLOBALS["shariff3UU_basic"]["add_after"]["bbp_reply"], 1, 0 );
-	echo ' value="1">' . __('bbPress replies', 'shariff3UU') . '</p>';
+	echo ' value="1">' . __('bbPress replies', 'shariff') . '</p>';
 
 	// add after all excerpts
 	echo '<p><input type="checkbox" name="shariff3UU_basic[add_after][excerpt]" ';
 	if ( isset( $GLOBALS["shariff3UU_basic"]["add_after"]["excerpt"] ) ) echo checked( $GLOBALS["shariff3UU_basic"]["add_after"]["excerpt"], 1, 0 );
-	echo ' value="1">' . __('Excerpt', 'shariff3UU') . '</p>';
+	echo ' value="1">' . __('Excerpt', 'shariff') . '</p>';
 
 	// add after custom post types - choose after which to add
 	$post_types = get_post_types( array( '_builtin' => FALSE ) );
@@ -451,22 +451,22 @@ function shariff3UU_multiplecheckbox_add_before_render() {
 	// Add before all posts
 	echo '<p><input type="checkbox" name="shariff3UU_basic[add_before][posts]" ';
 	if ( isset( $GLOBALS['shariff3UU_basic']['add_before']['posts'] ) ) echo checked( $GLOBALS['shariff3UU_basic']['add_before']['posts'], 1, 0 );
-	echo ' value="1">' . __('Posts', 'shariff3UU') . '</p>';
+	echo ' value="1">' . __('Posts', 'shariff') . '</p>';
 
 	// Add before all posts (blog page)
 	echo '<p><input type="checkbox" name="shariff3UU_basic[add_before][posts_blogpage]" ';
 	if ( isset( $GLOBALS["shariff3UU_basic"]["add_before"]["posts_blogpage"] ) ) echo checked( $GLOBALS["shariff3UU_basic"]["add_before"]["posts_blogpage"], 1, 0 );
-	echo ' value="1">' . __('Posts (blog page)', 'shariff3UU') . '</p>';
+	echo ' value="1">' . __('Posts (blog page)', 'shariff') . '</p>';
 
 	// Add before all pages
 	echo '<p><input type="checkbox" name="shariff3UU_basic[add_before][pages]" ';
 	if ( isset( $GLOBALS["shariff3UU_basic"]["add_before"]["pages"] ) ) echo checked( $GLOBALS["shariff3UU_basic"]["add_before"]["pages"], 1, 0 );
-	echo ' value="1">' . __('Pages', 'shariff3UU') . '</p>';
+	echo ' value="1">' . __('Pages', 'shariff') . '</p>';
 
 	// Add before all excerpts
 	echo '<p><input type="checkbox" name="shariff3UU_basic[add_before][excerpt]" ';
 	if ( isset( $GLOBALS["shariff3UU_basic"]["add_before"]["excerpt"] ) ) echo checked( $GLOBALS["shariff3UU_basic"]["add_before"]["excerpt"], 1, 0 );
-	echo ' value="1">' . __('Excerpt', 'shariff3UU') . '</p>';
+	echo ' value="1">' . __('Excerpt', 'shariff') . '</p>';
 }
 
 // disable on password protected posts
@@ -838,10 +838,10 @@ function shariff3UU_statistic_section_callback(){
 function shariff3UU_checkbox_backend_render() {
 	// check PHP version
 	if ( version_compare( PHP_VERSION, '5.4.0' ) < 1 ) {
-		echo __( 'PHP-Version 5.4 or better is required to enable the statistic / share count functionality.', 'shariff3UU');
+		echo __( 'PHP-Version 5.4 or better is required to enable the statistic / share count functionality.', 'shariff');
 	}
 	elseif ( version_compare( get_bloginfo('version'), '4.4.0' ) < 1 ) {
-		echo __( 'WordPress-Version 4.4 or better is required to enable the statistic / share count functionality.', 'shariff3UU');
+		echo __( 'WordPress-Version 4.4 or better is required to enable the statistic / share count functionality.', 'shariff');
 	}
 	else {
 		echo '<input type="checkbox" name="shariff3UU_statistic[backend]" ';
@@ -856,7 +856,7 @@ function shariff3UU_checkbox_backend_render() {
 function shariff3UU_checkbox_sharecounts_render() {
 	// check PHP version
 	if ( version_compare( PHP_VERSION, '5.4.0' ) < 1 ) {
-		echo __( 'PHP-Version 5.4 or better is needed to enable the statistic / share count functionality.', 'shariff3UU');
+		echo __( 'PHP-Version 5.4 or better is needed to enable the statistic / share count functionality.', 'shariff');
 	}
 	else {
 		echo '<input type="checkbox" name="shariff3UU_statistic[sharecounts]" ';

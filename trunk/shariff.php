@@ -3,7 +3,7 @@
  * Plugin Name: Shariff Wrapper
  * Plugin URI: https://de.wordpress.org/plugins/shariff/
  * Description: The Shariff Wrapper provides share buttons that respect the privacy of your visitors and are compliant to the German data protection laws.
- * Version: 4.0.3
+ * Version: 4.0.4
  * Author: Jan-Peter Lambeck & 3UU
  * Author URI: https://de.wordpress.org/plugins/shariff/
  * License: MIT
@@ -26,7 +26,7 @@ $shariff3UU = array_merge( $shariff3UU_basic, $shariff3UU_design, $shariff3UU_ad
 // update function to perform tasks _once_ after an update, based on version number to work for automatic as well as manual updates
 function shariff3UU_update() {
 	/******************** ADJUST VERSION ********************/
-	$code_version = "4.0.3"; // set code version - needs to be adjusted for every new version!
+	$code_version = "4.0.4"; // set code version - needs to be adjusted for every new version!
 	/******************** ADJUST VERSION ********************/
 
 	// get options
@@ -132,7 +132,7 @@ function shariff3UU_share_counts( WP_REST_Request $request ) {
 	// set transient name
 	// transient names can only contain 40 characters, therefore we use a hash (md5 always creeates a 32 character hash)
 	// we need a prefix so we can clean up on deinstallation and updates
-	$post_hash = 'shariff' . hash( "md5", $url );
+	$post_hash = 'shariff' . hash( "md5", $post_url );
 
 	// check for ttl option, must be between 60 and 7200 seconds
 	if ( isset( $shariff3UU['ttl'] ) ) {
@@ -273,9 +273,6 @@ function shariff3UU_share_counts( WP_REST_Request $request ) {
 	// return results, if we have some or an error message if not
 	if ( isset( $share_counts ) && $share_counts != null ) {
 		return $share_counts;
-	}
-	elseif ( $services != 'totalnumber' ) {
-		return new WP_Error( 'nodata', 'Could not retrieve any data for the specified services! This could also mean that the specified services do not exist or are misspelled. ' . $response, array( 'status' => 404 ) );
 	}
 }
 
@@ -585,7 +582,7 @@ function shariff3UU_render( $atts, $content = null ) {
 
 	// migrate 2.3.0 mail to mailform
 	$service_array = preg_replace( '/\bmail\b/', 'mailform', $service_array );
-		
+
 	// loop through all desired services
 	foreach ( $service_array as $service ) {
 		// check if necessary usernames are set and display warning to admins, if needed
@@ -674,23 +671,23 @@ function shariff3UU_render( $atts, $content = null ) {
 
 	// display warning to admins if flattr is set, but no flattr username is provided
 	if ( $flattr_error == '1' && current_user_can( 'manage_options' ) ) {
-		$output .= '<div class="shariff-warning">' . __('Username for Flattr is missing!', 'shariff3UU') . '</div>';
+		$output .= '<div class="shariff-warning">' . __('Username for Flattr is missing!', 'shariff') . '</div>';
 	}
 	// display warning to admins if patreon is set, but no patreon username is provided
 	if ( $patreon_error == '1' && current_user_can( 'manage_options' ) ) {
-		$output .= '<div class="shariff-warning">' . __('Username for patreon is missing!', 'shariff3UU') . '</div>';
+		$output .= '<div class="shariff-warning">' . __('Username for patreon is missing!', 'shariff') . '</div>';
 	}
 	// display warning to admins if paypal is set, but no paypal button id is provided
 	if ( $paypal_error == '1' && current_user_can( 'manage_options' ) ) {
-		$output .= '<div class="shariff-warning">' . __('Button ID for PayPal is missing!', 'shariff3UU') . '</div>';
+		$output .= '<div class="shariff-warning">' . __('Button ID for PayPal is missing!', 'shariff') . '</div>';
 	}
 	// display warning to admins if paypalme is set, but no paypalme id is provided
 	if ( $paypalme_error == '1' && current_user_can( 'manage_options' ) ) {
-		$output .= '<div class="shariff-warning">' . __('PayPal.Me ID is missing!', 'shariff3UU') . '</div>';
+		$output .= '<div class="shariff-warning">' . __('PayPal.Me ID is missing!', 'shariff') . '</div>';
 	}
 	// display warning to admins if bitcoin is set, but no bitcoin address is provided
 	if ( $bitcoin_error == '1' && current_user_can( 'manage_options' ) ) {
-		$output .= '<div class="shariff-warning">' . __('Address for Bitcoin is missing!', 'shariff3UU') . '</div>';
+		$output .= '<div class="shariff-warning">' . __('Address for Bitcoin is missing!', 'shariff') . '</div>';
 	}
 
 	// if the service totalnumber is set, just output the total share count
@@ -1075,11 +1072,11 @@ function shariff3UU_limitRemoteUser() {
 class ShariffWidget extends WP_Widget {
 	public function __construct() {
 		// translations
-		if ( function_exists('load_plugin_textdomain') ) { load_plugin_textdomain('shariff3UU', false, dirname(plugin_basename(__FILE__)).'/locale' ); }
+		if ( function_exists('load_plugin_textdomain') ) { load_plugin_textdomain( 'shariff' ); }
 
 		$widget_options = array(
 			'classname' => 'Shariff',
-			'description' => __('Add Shariff as configured on the plugin options page.', 'shariff3UU'),
+			'description' => __('Add Shariff as configured on the plugin options page.', 'shariff'),
 			'customize_selective_refresh' => true,
 			);
 
@@ -1095,7 +1092,7 @@ class ShariffWidget extends WP_Widget {
 								 'shariff-tag' => '[shariff]',
 							 ));
 		// set title
-		echo '<p style="border-bottom: 1px solid #DFDFDF;"><strong>' . __('Title', 'shariff3UU') . '</strong></p>';
+		echo '<p style="border-bottom: 1px solid #DFDFDF;"><strong>' . __( 'Title', 'shariff' ) . '</strong></p>';
 		// set title
 		echo '<p><input id="'. $this->get_field_id('shariff-title') .'" name="'. $this->get_field_name('shariff-title')
 		.'" type="text" value="'. $instance['shariff-title'] .'" />(optional)</p>';
