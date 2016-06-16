@@ -3,13 +3,12 @@
  * Plugin Name: Shariff Wrapper
  * Plugin URI: https://de.wordpress.org/plugins/shariff/
  * Description: The Shariff Wrapper provides share buttons that respect the privacy of your visitors and are compliant to the German data protection laws.
- * Version: 4.0.2
+ * Version: 4.0.3
  * Author: Jan-Peter Lambeck & 3UU
  * Author URI: https://de.wordpress.org/plugins/shariff/
  * License: MIT
  * License URI: http://opensource.org/licenses/MIT
  * Donate link: http://folge.link/?bitcoin:1Ritz1iUaLaxuYcXhUCoFhkVRH6GWiMTP
- * Domain Path: /locale/
  * Text Domain: shariff
  */
 
@@ -27,7 +26,7 @@ $shariff3UU = array_merge( $shariff3UU_basic, $shariff3UU_design, $shariff3UU_ad
 // update function to perform tasks _once_ after an update, based on version number to work for automatic as well as manual updates
 function shariff3UU_update() {
 	/******************** ADJUST VERSION ********************/
-	$code_version = "4.0.2"; // set code version - needs to be adjusted for every new version!
+	$code_version = "4.0.3"; // set code version - needs to be adjusted for every new version!
 	/******************** ADJUST VERSION ********************/
 
 	// get options
@@ -87,7 +86,7 @@ add_filter( 'plugin_row_meta', 'shariff3UU_meta_links', 10, 2 );
 // translations
 function shariff_init_locale() {
 	if ( function_exists( 'load_plugin_textdomain' ) ) {
-		load_plugin_textdomain( 'shariff', false, dirname( plugin_basename( __FILE__ ) ) . '/locale' );
+		load_plugin_textdomain( 'shariff' );
 	}
 }
 
@@ -97,7 +96,7 @@ function shariff3UU_share_counts( WP_REST_Request $request ) {
 	$shariff3UU = $GLOBALS["shariff3UU"];
 
 	// parameters
-	$url = urldecode( $request['url'] );
+	$url = urldecode( preg_replace('#^https?://#', '', $request['url'] ) );
 	$services = $request['services'];
 	$timestamp = $request['timestamp'];
 	
@@ -112,8 +111,8 @@ function shariff3UU_share_counts( WP_REST_Request $request ) {
 	}
 
 	// make sure that the provided url matches the WordPress domain
-	$get_url = parse_url( esc_url( $url ) );
-	$wp_url = parse_url( esc_url( get_bloginfo('url') ) );
+	$get_url = parse_url( $url );
+	$wp_url = parse_url( get_bloginfo('url') );
 	// on an external backend check allowed hosts
 	if ( defined( 'SHARIFF_FRONTENDS' ) ) {
 		$shariff_frontends = array_flip( explode( '|', SHARIFF_FRONTENDS ) );
@@ -123,7 +122,7 @@ function shariff3UU_share_counts( WP_REST_Request $request ) {
 	}
 	// else compare that domain is equal 
 	elseif ( $get_url['host'] != $wp_url['host'] ) {
-		return new WP_Error( 'domainnotallowed', 'Domain not allowed by this server!', array( 'status' => 400 ) );
+		return new WP_Error( 'domainnotallowed', 'Domain not allowed by this server!' . $get_url['host'], array( 'status' => 400 ) );
 	}
 
 	// encode shareurl
@@ -455,12 +454,12 @@ function shariff3UU_render( $atts, $content = null ) {
 	}
 
 	// share url
-	if ( array_key_exists( 'url', $atts ) ) $share_url = esc_url( $atts['url'] );
-	else $share_url = esc_url( get_permalink() );
+	if ( array_key_exists( 'url', $atts ) ) $share_url = urlencode( $atts['url'] );
+	else $share_url = urlencode( get_permalink() );
 
 	// share title
-	if ( array_key_exists( 'title', $atts ) ) $share_title = esc_html( $atts['title'] );
-	else $share_title = strip_tags( get_the_title() );
+	if ( array_key_exists( 'title', $atts ) ) $share_title = urlencode( $atts['title'] );
+	else $share_title = urlencode( strip_tags( get_the_title() ) );
 
 	// set transient name
 	$post_hash = 'shariff' . hash( "md5", $share_url );
@@ -540,9 +539,13 @@ function shariff3UU_render( $atts, $content = null ) {
 			$output .= ' data-url="' . urlencode( $share_url ) . '"';
 			// timestamp for cache
 			$output .= ' data-timestamp="' . absint( get_the_modified_date( 'U', true ) ) . '"';
-			// add external api
+			// add external api if entered
 			if ( isset( $shariff3UU["external_host"] ) && ! empty( $shariff3UU["external_host"] ) && isset( $shariff3UU["external_direct"] ) ) {
 				$output .= ' data-backendurl="' . $shariff3UU["external_host"] . '"';
+			}
+			// else build the correct endpoint URL for the share count request just in case WordPress is installed in a subfolder
+			else {
+				$output .= ' data-backendurl="' . get_bloginfo( 'wpurl' ) . '/wp-json/shariff/v1/share_counts' . '"';
 			}
 		}
 	$output .= '>';
@@ -555,7 +558,7 @@ function shariff3UU_render( $atts, $content = null ) {
 	}
 
 	// start ul list with design classes
-	$output .= '<ul class="';
+	$output .= '<ul class="shariff-buttons ';
 		// theme
 		if ( array_key_exists( 'theme', $atts ) )       $output .= 'theme-' . esc_html( $atts['theme'] ) . ' ';
 		else $output .= 'theme-default ';
@@ -623,7 +626,7 @@ function shariff3UU_render( $atts, $content = null ) {
 				$button_text_array = '';
 
 				// build the actual button
-				$output .= '<a href="' . $button_url . '" title="' . $button_title . '" aria-label="' . $button_title . '" role="button" rel="nofollow" ';
+				$output .= '<a href="' . $button_url . '" title="' . $button_title . '" aria-label="' . $button_title . '" role="button" rel="nofollow" class="shariff-link" ';
 					// same window?
 					if ( ! isset( $same_window ) || isset( $same_window ) && $same_window != '1' ) $output .= 'target="_blank" ';
 					$output .= 'style="background-color:' . $main_color;

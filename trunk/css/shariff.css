@@ -58,6 +58,9 @@
   box-sizing: content-box;
   fill: #fff;
 }
+.shariff-button::before {
+  content: none !important;
+}
 /* theme color */
 .shariff .theme-color .shariff-count {
   background-color: transparent !important;
@@ -297,7 +300,7 @@
   .shariff .orientation-horizontal li .shariff-text { display: block; }
   .shariff .orientation-horizontal li .shariff-count { display: block; }
 }
-@media only screen and (min-width: 768px) {
+@media only screen and (min-width: 1025px) {
   .shariff .shariff-mobile { display: none; }
   .shariff .orientation-horizontal li { width: 130px; }
   .shariff .orientation-horizontal.buttonsize-small li { width: 105px; }

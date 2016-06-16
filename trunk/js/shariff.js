@@ -11,12 +11,12 @@ function shariff_share_counts() {
         var share_url = containers[c].dataset.url;
         var services = containers[c].dataset.services;
         var timestamp = containers[c].dataset.timestamp;
-		// check if an external share count api is set
-		var api = containers[c].dataset.backendurl;
-		if ( typeof api === "undefined" ) {
-			api = '/wp-json/shariff/v1/share_counts';
-		}
-		// build request url
+        // check if an external share count api is set
+        var api = containers[c].dataset.backendurl;
+        if ( typeof api === "undefined" ) {
+            api = '/wp-json/shariff/v1/share_counts';
+        }
+        // build request url
         var request_url = api + '?url=' + share_url + '&services=' + services + '&timestamp=' + timestamp;
         // check if we have backend services at all
         if ( typeof services !== "undefined" ) {
@@ -70,17 +70,17 @@ function shariff_add_share_counts( share_url, data, containers ) {
     for ( var d = 0; containers[d]; d++ ) {
         // check if it is the corresponding button set
         if ( containers[d].dataset.url == share_url ) {
-			// update total in total number spans
-			var shariff_totalnumber = containers[d].getElementsByClassName("shariff-totalnumber");
+            // update total in total number spans
+            var shariff_totalnumber = containers[d].getElementsByClassName("shariff-totalnumber");
             for ( var n = 0; shariff_totalnumber[n]; n++ ) {
-                if ( typeof data.total !== 'undefined' ) {
+                if ( data !== null && typeof data.total !== 'undefined' ) {
                     shariff_totalnumber[n].innerHTML = data.total;
                 }
             }
             // update total in shariff headline
             var shariff_total = containers[d].getElementsByClassName("shariff-total");
             for ( var t = 0; shariff_total[t]; t++ ) {
-                if ( typeof data.total !== 'undefined' ) {
+                if ( data !== null && typeof data.total !== 'undefined' ) {
                     shariff_total[t].innerHTML = data.total;
                 }
             }
@@ -88,7 +88,7 @@ function shariff_add_share_counts( share_url, data, containers ) {
             var shariff_count = containers[d].getElementsByClassName("shariff-count");
             for ( var s = 0; shariff_count[s]; s++ ) {
                 // add share count, if we have one, and make it visible
-                if ( typeof data[shariff_count[s].dataset.service] !== 'undefined' ) {
+                if ( data !== null && typeof data[shariff_count[s].dataset.service] !== 'undefined' ) {
                     shariff_count[s].innerHTML = data[shariff_count[s].dataset.service];
                     shariff_count[s].style.opacity = '1';
                 }
