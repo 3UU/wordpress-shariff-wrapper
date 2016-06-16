@@ -1,5 +1,5 @@
 <?php
-// Mailto
+// Printer
 
 // prevent direct calls
 if ( ! class_exists('WP') ) { die(); }
