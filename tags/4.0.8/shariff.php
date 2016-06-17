@@ -282,18 +282,13 @@ function shariff3UU_sanitize_api () {
 		'methods' => 'GET',
 		'callback' => 'shariff3UU_share_counts',
 		'args' => array(
-			'url' => array( 'sanitize_callback' => shariff3UU_sanitize_url( $param, $request, $key ) ),
-			'services' => array( 'sanitize_callback' => shariff3UU_sanitize_url( $param, $request, $key ) ),
-			'timestamp' => array( 'sanitize_callback' => shariff3UU_sanitize_url( $param, $request, $key ) ),
+			'url' => array( 'sanitize_callback' => 'esc_url' ),
+			'services' => array( 'sanitize_callback' => 'sanitize_text_field' ),
+			'timestamp' => array( 'sanitize_callback' => 'absint' ),
 		),
 	) );
 }
 add_action( 'rest_api_init', 'shariff3UU_sanitize_api' );
-
-// helper functions bc of very old PHP versions
-function shariff3UU_sanitize_url( $param, $request, $key ) { return esc_url( $param ); }
-function shariff3UU_sanitize_services( $param, $request, $key ) { return sanitize_text_field( $param ); }
-function shariff3UU_sanitize_timestamp( $param, $request, $key ) { return absint( $param ); }
 
 // add shorttag to posts
 function shariff3UU_posts( $content ) {
