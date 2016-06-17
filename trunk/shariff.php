@@ -3,7 +3,7 @@
  * Plugin Name: Shariff Wrapper
  * Plugin URI: https://de.wordpress.org/plugins/shariff/
  * Description: The Shariff Wrapper provides share buttons that respect the privacy of your visitors and are compliant to the German data protection laws.
- * Version: 4.0.7
+ * Version: 4.0.8
  * Author: Jan-Peter Lambeck & 3UU
  * Author URI: https://de.wordpress.org/plugins/shariff/
  * License: MIT
@@ -26,7 +26,7 @@ $shariff3UU = array_merge( $shariff3UU_basic, $shariff3UU_design, $shariff3UU_ad
 // update function to perform tasks _once_ after an update, based on version number to work for automatic as well as manual updates
 function shariff3UU_update() {
 	/******************** ADJUST VERSION ********************/
-	$code_version = "4.0.7"; // set code version - needs to be adjusted for every new version!
+	$code_version = "4.0.8"; // set code version - needs to be adjusted for every new version!
 	/******************** ADJUST VERSION ********************/
 
 	// get options
@@ -282,22 +282,18 @@ function shariff3UU_sanitize_api () {
 		'methods' => 'GET',
 		'callback' => 'shariff3UU_share_counts',
 		'args' => array(
-			'url' => array( 'sanitize_callback' => function( $param, $request, $key ) {
-					return esc_url( $param );
-				}
-			),
-			'services' => array( 'sanitize_callback' => function( $param, $request, $key ) {
-					return sanitize_text_field( $param );
-				}
-			),
-			'timestamp' => array( 'sanitize_callback' => function( $param, $request, $key ) {
-					return absint( $param );
-				}
-			),
+			'url' => array( 'sanitize_callback' => shariff3UU_sanitize_url( $param, $request, $key ) ),
+			'services' => array( 'sanitize_callback' => shariff3UU_sanitize_url( $param, $request, $key ) ),
+			'timestamp' => array( 'sanitize_callback' => shariff3UU_sanitize_url( $param, $request, $key ) ),
 		),
 	) );
 }
 add_action( 'rest_api_init', 'shariff3UU_sanitize_api' );
+
+// helper functions bc of very old PHP versions
+function shariff3UU_sanitize_url( $param, $request, $key ) { return esc_url( $param ); }
+function shariff3UU_sanitize_services( $param, $request, $key ) { return sanitize_text_field( $param ); }
+function shariff3UU_sanitize_timestamp( $param, $request, $key ) { return absint( $param ); }
 
 // add shorttag to posts
 function shariff3UU_posts( $content ) {
