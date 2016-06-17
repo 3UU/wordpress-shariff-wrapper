@@ -240,7 +240,11 @@ function shariff3UU_options_init(){
 		
 	// request external api directly from js
 	add_settings_field( 'shariff3UU_checkbox_external_direct', '<div class="shariff_status-col">' . __( 'Request external API directly.', 'shariff' ) .'</div>',
-		'shariff3UU_text_external_direct_render', 'statistic', 'shariff3UU_statistic_section' );
+		'shariff3UU_checkbox_external_direct_render', 'statistic', 'shariff3UU_statistic_section' );
+
+	// wp in subfolder and api only reachable there?
+	add_settings_field( 'shariff3UU_checkbox_subapi', '<div class="shariff_status-col">' . __( 'Local API not reachable in root.', 'shariff' ) .'</div>',
+		'shariff3UU_checkbox_subapi_render', 'statistic', 'shariff3UU_statistic_section' );
 
 	// sixth tab - help
 
@@ -352,6 +356,7 @@ function shariff3UU_statistic_sanitize( $input ) {
 	if ( isset( $input["disable"] ) )          $valid["disable"]        = sani_arrays( $input["disable"] );
 	if ( isset( $input["external_host"] ) )    $valid["external_host"]  = str_replace( ' ', '', rtrim( esc_url_raw( $input["external_host"], "/" ) ) );
 	if ( isset( $input["external_direct"] ) )  $valid["external_direct"] = absint( $input["external_direct"] );
+	if ( isset( $input["subapi"] ) )           $valid["subapi"]         = absint( $input["subapi"] );
 
 	// protect users from themselfs
 	if ( isset( $valid["ttl"] ) && $valid["ttl"] < '60' ) $valid["ttl"] = '';
@@ -981,13 +986,22 @@ function shariff3UU_text_external_host_render(){
 }
 
 // direct external api call from JS
-function shariff3UU_text_external_direct_render(){
+function shariff3UU_checkbox_external_direct_render(){
 	echo '<input type="checkbox" name="shariff3UU_statistic[external_direct]" ';
 		if ( isset( $GLOBALS['shariff3UU_statistic']['external_direct'] ) ) {
 			echo checked( $GLOBALS['shariff3UU_statistic']['external_direct'], 1, 0 );
 		}
 	echo ' value="1">';
 	echo '<p>' . __( 'Please check, if you have correctly set the Access-Control-Allow-Origin header!', 'shariff' ) . '</p>';
+}
+
+// local API only reachable in subfolder
+function shariff3UU_checkbox_subapi_render(){
+	echo '<input type="checkbox" name="shariff3UU_statistic[subapi]" ';
+		if ( isset( $GLOBALS['shariff3UU_statistic']['subapi'] ) ) {
+			echo checked( $GLOBALS['shariff3UU_statistic']['subapi'], 1, 0 );
+		}
+	echo ' value="1">';
 }
 
 // help section

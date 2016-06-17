@@ -3,7 +3,7 @@
  * Plugin Name: Shariff Wrapper
  * Plugin URI: https://de.wordpress.org/plugins/shariff/
  * Description: The Shariff Wrapper provides share buttons that respect the privacy of your visitors and are compliant to the German data protection laws.
- * Version: 4.0.6
+ * Version: 4.0.7
  * Author: Jan-Peter Lambeck & 3UU
  * Author URI: https://de.wordpress.org/plugins/shariff/
  * License: MIT
@@ -26,7 +26,7 @@ $shariff3UU = array_merge( $shariff3UU_basic, $shariff3UU_design, $shariff3UU_ad
 // update function to perform tasks _once_ after an update, based on version number to work for automatic as well as manual updates
 function shariff3UU_update() {
 	/******************** ADJUST VERSION ********************/
-	$code_version = "4.0.6"; // set code version - needs to be adjusted for every new version!
+	$code_version = "4.0.7"; // set code version - needs to be adjusted for every new version!
 	/******************** ADJUST VERSION ********************/
 
 	// get options
@@ -541,8 +541,8 @@ function shariff3UU_render( $atts, $content = null ) {
 			if ( isset( $shariff3UU["external_host"] ) && ! empty( $shariff3UU["external_host"] ) && isset( $shariff3UU["external_direct"] ) ) {
 				$output .= ' data-backendurl="' . $shariff3UU["external_host"] . '"';
 			}
-			// else build the correct endpoint URL for the share count request just in case WordPress is installed in a subfolder
-			else {
+			// elseif WP is installed in a subdirectory and the api is only reachable in there -> adjust path
+			elseif ( isset( $shariff3UU["subapi"] ) &&  $shariff3UU["subapi"] == '1' ) {
 				$output .= ' data-backendurl="' . get_bloginfo( 'wpurl' ) . '/wp-json/shariff/v1/share_counts' . '"';
 			}
 		}
