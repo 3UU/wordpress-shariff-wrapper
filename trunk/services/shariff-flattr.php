@@ -64,5 +64,3 @@ elseif ( isset( $backend ) && $backend == '1' ) {
 		$service_errors['flattr'] = $flattr;
 	}
 }
-
-?>

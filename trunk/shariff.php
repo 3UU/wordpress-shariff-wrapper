@@ -3,7 +3,7 @@
  * Plugin Name: Shariff Wrapper
  * Plugin URI: https://de.wordpress.org/plugins/shariff/
  * Description: The Shariff Wrapper provides share buttons that respect the privacy of your visitors and are compliant to the German data protection laws.
- * Version: 4.0.5
+ * Version: 4.0.6
  * Author: Jan-Peter Lambeck & 3UU
  * Author URI: https://de.wordpress.org/plugins/shariff/
  * License: MIT
@@ -26,7 +26,7 @@ $shariff3UU = array_merge( $shariff3UU_basic, $shariff3UU_design, $shariff3UU_ad
 // update function to perform tasks _once_ after an update, based on version number to work for automatic as well as manual updates
 function shariff3UU_update() {
 	/******************** ADJUST VERSION ********************/
-	$code_version = "4.0.5"; // set code version - needs to be adjusted for every new version!
+	$code_version = "4.0.6"; // set code version - needs to be adjusted for every new version!
 	/******************** ADJUST VERSION ********************/
 
 	// get options
@@ -277,7 +277,7 @@ function shariff3UU_share_counts( WP_REST_Request $request ) {
 }
 
 // register route and sanitize input
-add_action( 'rest_api_init', function () {
+function shariff3UU_sanitize_api () {
 	register_rest_route( 'shariff/v1', '/share_counts', array(
 		'methods' => 'GET',
 		'callback' => 'shariff3UU_share_counts',
@@ -296,10 +296,8 @@ add_action( 'rest_api_init', function () {
 			),
 		),
 	) );
-} );
-
-// register shortcode
-add_shortcode( 'shariff', 'shariff3UU_render' );
+}
+add_action( 'rest_api_init', 'shariff3UU_sanitize_api' );
 
 // add shorttag to posts
 function shariff3UU_posts( $content ) {
@@ -402,9 +400,12 @@ add_action( 'bbp_theme_after_reply_content', 'bbp_add_mailform_to_bbpress_replie
 function bbp_add_shariff_after_replies() {
 	// get options
 	$shariff3UU = $GLOBALS["shariff3UU"];
-	if( isset( $shariff3UU["add_after"]["bbp_reply"] ) && $shariff3UU["add_after"]["bbp_reply"] == '1') echo Render3UUShariff( '' );
+	if( isset( $shariff3UU["add_after"]["bbp_reply"] ) && $shariff3UU["add_after"]["bbp_reply"] == '1') echo shariff3UU_render( '' );
 }
 add_action( 'bbp_theme_after_reply_content', 'bbp_add_shariff_after_replies' );
+
+// register shortcode
+add_shortcode( 'shariff', 'shariff3UU_render' );
 
 // render the shorttag to the HTML shorttag of Shariff
 function shariff3UU_render( $atts, $content = null ) {

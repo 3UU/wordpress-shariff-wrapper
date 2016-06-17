@@ -50,5 +50,3 @@ if ( isset( $frontend ) && $frontend == '1' ) {
 		'zh' => '在Threema上分享'
 	);
 }
-
-?>

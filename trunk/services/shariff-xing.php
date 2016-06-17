@@ -81,5 +81,3 @@ elseif ( isset( $backend ) && $backend == '1' ) {
 		$service_errors['xing'] = $xing;
 	}
 }
-
-?>

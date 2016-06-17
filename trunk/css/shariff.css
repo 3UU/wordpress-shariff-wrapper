@@ -304,9 +304,11 @@
   .shariff .orientation-horizontal li .shariff-text { display: block; }
   .shariff .orientation-horizontal li .shariff-count { display: block; }
 }
-@media only screen and (min-width: 1281px) {
-  .shariff .shariff-mobile { display: none; }
+@media only screen and (min-width: 768px) {
   .shariff .orientation-horizontal li { width: 130px; }
   .shariff .orientation-horizontal.buttonsize-small li { width: 105px; }
   .shariff .orientation-horizontal li .shariff-text { display: inline; }
+}
+@media only screen and (min-device-width: 1025px) {
+  .shariff .shariff-mobile { display: none !important; }
 }

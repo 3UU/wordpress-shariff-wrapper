@@ -85,5 +85,3 @@ elseif ( isset( $backend ) && $backend == '1' ) {
 		$service_errors['pinterest'] = $pinterest;
 	}
 }
-
-?>

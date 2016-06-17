@@ -37,5 +37,3 @@ if ( isset( $frontend ) && $frontend == '1' ) {
 		'fr' => 'Devenez un patron!',
 	);
 }
-
-?>

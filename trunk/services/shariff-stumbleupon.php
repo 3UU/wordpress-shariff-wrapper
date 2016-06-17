@@ -53,5 +53,3 @@ elseif ( isset( $backend ) && $backend == '1' ) {
 		$service_errors['stumbleupon'] = $stumbleupon;
 	}
 }
-
-?>

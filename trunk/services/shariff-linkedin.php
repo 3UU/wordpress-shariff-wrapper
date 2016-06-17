@@ -91,5 +91,3 @@ elseif ( isset( $backend ) && $backend == '1' ) {
 		$service_errors['linkedin'] = $linkedin;
 	}
 }
-
-?>

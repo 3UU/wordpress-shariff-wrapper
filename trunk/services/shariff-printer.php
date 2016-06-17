@@ -42,5 +42,3 @@ if ( isset( $frontend ) && $frontend == '1' ) {
 		'nl' => 'drukken'
 	);
 }
-
-?>

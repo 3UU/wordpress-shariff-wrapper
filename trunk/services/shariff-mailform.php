@@ -76,5 +76,3 @@ if ( isset( $frontend ) && $frontend == '1' ) {
 		'zh' => '通过电子邮件传送'
 	);
 }
-
-?>

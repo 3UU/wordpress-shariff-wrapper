@@ -65,5 +65,3 @@ elseif ( isset( $backend ) && $backend == '1' ) {
 		$service_errors['addthis'] = $addthis;
 	}
 }
-
-?>

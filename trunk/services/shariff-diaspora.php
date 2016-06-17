@@ -25,5 +25,3 @@ if ( isset( $frontend ) && $frontend == '1' ) {
 		'en' => 'Share on Diaspora',
 	);
 }
-
-?>

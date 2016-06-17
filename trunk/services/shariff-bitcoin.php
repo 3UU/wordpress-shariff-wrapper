@@ -39,5 +39,3 @@ if ( isset( $frontend ) && $frontend == '1' ) {
 		'es' => 'Donar via Bitcoin'
 	);
 }
-
-?>

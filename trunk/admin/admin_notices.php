@@ -78,5 +78,3 @@ function shariff3UU_mail_notice() {
 	}
 }
 add_action( 'admin_notices', 'shariff3UU_mail_notice' );
-
-?>

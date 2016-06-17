@@ -1330,8 +1330,9 @@ function shariff3UU_ranking_section_callback() {
 		foreach( $recent_posts as $recent ) {
 			// get url
 			$url = get_permalink( $recent["ID"] );
+			$post_url = urlencode( get_permalink( $recent["ID"] ) );
 			// set transient name
-			$post_hash = 'shariff' . hash( "md5", $url );
+			$post_hash = 'shariff' . hash( "md5", $post_url );
 			// get share counts from cache
 			if ( get_transient( $post_hash ) !== false ) {
 				$share_counts = get_transient( $post_hash );
@@ -1509,5 +1510,3 @@ function shariff3UU_options_page() {
 	// end of form
 	echo '</form>';
 } // end of plugin option page
-
-?>

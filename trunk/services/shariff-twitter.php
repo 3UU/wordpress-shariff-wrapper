@@ -75,5 +75,3 @@ elseif ( isset( $backend ) && $backend == '1' ) {
 		$service_errors['twitter'] = $twitter;
 	}
 }
-
-?>
