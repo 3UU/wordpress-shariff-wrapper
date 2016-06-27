@@ -1,3 +1,0 @@
-20160124ritze: nur nen paar Schnipsel, die nix mit der Produktionsversion zu
-tun haben. Schlicht nen Reminder fuer mich, falls ich doch mal die Services
-aus den JS-Files nach PHP fuer die HTML-Variante holen will...
