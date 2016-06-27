@@ -19,6 +19,19 @@ If you need any help or have specific questions regarding development and contri
 
 ## Changelog
 
+= 4.1.0 =
+- new design option to set a custom button color for all buttons
+- new design option to set a border radius for the round theme (up to a square)
+- new design option to hide all buttons until the page is fully loaded
+- new mailform option to use a html anchor (again)
+- new statistic option to fill the cache automatically
+- new statistic option to set the amount of posts for the ranking tab
+- new statistic option to use share counts with PHP < 5.4
+- fix preventing buttons from beeing added to excerpts under certain conditions
+- fix urlencoding of share count requests
+- improved handling of wrong or mistyped service entries
+- minor bug fixes
+
 = 4.0.8 =
 - new workaround for sites running PHP 5.2 and older
 

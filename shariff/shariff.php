@@ -3,7 +3,7 @@
  * Plugin Name: Shariff Wrapper
  * Plugin URI: https://de.wordpress.org/plugins/shariff/
  * Description: The Shariff Wrapper provides share buttons that respect the privacy of your visitors and are compliant to the German data protection laws.
- * Version: 4.0.8
+ * Version: 4.1.0
  * Author: Jan-Peter Lambeck & 3UU
  * Author URI: https://de.wordpress.org/plugins/shariff/
  * License: MIT
@@ -26,7 +26,7 @@ $shariff3UU = array_merge( $shariff3UU_basic, $shariff3UU_design, $shariff3UU_ad
 // update function to perform tasks _once_ after an update, based on version number to work for automatic as well as manual updates
 function shariff3UU_update() {
 	/******************** ADJUST VERSION ********************/
-	$code_version = "4.0.8"; // set code version - needs to be adjusted for every new version!
+	$code_version = "4.1.0"; // set code version - needs to be adjusted for every new version!
 	/******************** ADJUST VERSION ********************/
 
 	// get options
@@ -90,6 +90,20 @@ function shariff_init_locale() {
 	}
 }
 
+// register wp rest api route and sanitize input
+function shariff3UU_sanitize_api() {
+	register_rest_route( 'shariff/v1', '/share_counts', array(
+		'methods' => 'GET',
+		'callback' => 'shariff3UU_share_counts',
+		'args' => array(
+			'url' => array( 'sanitize_callback' => 'esc_url' ),
+			'services' => array( 'sanitize_callback' => 'sanitize_text_field' ),
+			'timestamp' => array( 'sanitize_callback' => 'absint' ),
+		),
+	) );
+}
+add_action( 'rest_api_init', 'shariff3UU_sanitize_api' );
+
 // provide share counts via the wp rest api
 function shariff3UU_share_counts( WP_REST_Request $request ) {
 	// get options
@@ -116,13 +130,13 @@ function shariff3UU_share_counts( WP_REST_Request $request ) {
 	// on an external backend check allowed hosts
 	if ( defined( 'SHARIFF_FRONTENDS' ) ) {
 		$shariff_frontends = array_flip( explode( '|', SHARIFF_FRONTENDS ) );
-		if ( ! array_key_exists( $get_url['host'], $shariff_frontends ) ) {
-			return new WP_Error( 'externaldomainnotallowed', 'External domain not allowed by this server!', array( 'status' => 400 ) );
+		if ( ! isset( $get_url['host'] ) || ! array_key_exists( $get_url['host'], $shariff_frontends ) ) {
+			return new WP_Error( 'externaldomainnotallowed', 'External domain not allowed by this server: ' . esc_html( $get_url['host'] ), array( 'status' => 400 ) );
 		}
 	}
 	// else compare that domain is equal 
-	elseif ( $get_url['host'] != $wp_url['host'] ) {
-		return new WP_Error( 'domainnotallowed', 'Domain not allowed by this server!' . $get_url['host'], array( 'status' => 400 ) );
+	elseif ( ! isset( $get_url['host'] ) || $get_url['host'] != $wp_url['host'] ) {
+		return new WP_Error( 'domainnotallowed', 'Domain not allowed by this server: ' . esc_html( $get_url['host'] ), array( 'status' => 400 ) );
 	}
 
 	// encode shareurl
@@ -225,49 +239,7 @@ function shariff3UU_share_counts( WP_REST_Request $request ) {
 	}
 	// else we fetch new counts ourselfs
 	else {
-		// we only need the backend part from the service phps
-		$backend = '1';
-
-		// prevent php notices
-		$total_count = '0';
-				
-		// loop through all desired services
-		foreach ( $service_array as $service ) {
-			// only include services that are not disabled
-			if ( ! empty( $service ) && ( ! isset( $shariff3UU["disable"][ $service ] ) || ( isset( $shariff3UU["disable"][ $service ] ) && $shariff3UU["disable"][ $service ] == 0 ) ) ) {
-				// determine path
-				$path_service_file = plugin_dir_path( __FILE__ ) . 'services/shariff-' . $service . '.php';
-				// include service files
-				if ( file_exists( $path_service_file ) ) include( $path_service_file );
-				// if we have an error (e.g. a timeout) and we have an old share count for this service, keep it!
-				if ( array_key_exists( $service, $old_share_counts ) && ( ! array_key_exists( $service, $share_counts ) || empty( $share_counts[ $service ] ) ) ) {
-					$share_counts[ $service ] = $old_share_counts[ $service ];
-				}
-			}
-			// calculate total share count
-			if ( isset( $share_counts[ $service ] ) ) $total_count = $total_count + $share_counts[ $service ];
-		}
-
-		// add total count
-		if ( $total_count != '0' ) $share_counts[ 'total' ] = $total_count;
-
-		// save transient, if we have counts
-		if ( isset( $share_counts ) && $share_counts != null ) {
-			// add current timestamp and url
-			$share_counts['timestamp'] = current_time( 'timestamp', true );
-			$share_counts['url'] = $post_url2;
-			// combine different set of services
-			if ( get_transient( $post_hash ) !== false ) {
-				$other_request = get_transient( $post_hash );
-				$share_counts = array_merge( $other_request, $share_counts );
-			}
-			// save transient
-			set_transient( $post_hash, $share_counts, '604800' );
-			// offer a hook to work with the share counts
-			do_action( 'shariff_share_counts', $share_counts );
-			// update info
-			$share_counts['updated'] = '1';
-		}
+		$share_counts = shariff3UU_fetch_sharecounts( $service_array, $old_share_counts, $post_hash, $post_url, $post_url2 );
 	}
 
 	// return results, if we have some or an error message if not
@@ -276,22 +248,136 @@ function shariff3UU_share_counts( WP_REST_Request $request ) {
 	}
 }
 
-// register route and sanitize input
-function shariff3UU_sanitize_api () {
-	register_rest_route( 'shariff/v1', '/share_counts', array(
-		'methods' => 'GET',
-		'callback' => 'shariff3UU_share_counts',
-		'args' => array(
-			'url' => array( 'sanitize_callback' => 'esc_url' ),
-			'services' => array( 'sanitize_callback' => 'sanitize_text_field' ),
-			'timestamp' => array( 'sanitize_callback' => 'absint' ),
-		),
-	) );
+// fetch share counts
+function shariff3UU_fetch_sharecounts( $service_array, $old_share_counts, $post_hash, $post_url, $post_url2 ) {
+	// we only need the backend part from the service phps
+	$backend = '1';
+
+	// prevent php notices
+	$total_count = '0';
+			
+	// loop through all desired services
+	foreach ( $service_array as $service ) {
+		// only include services that are not disabled
+		if ( ! empty( $service ) && ( ! isset( $shariff3UU["disable"][ $service ] ) || ( isset( $shariff3UU["disable"][ $service ] ) && $shariff3UU["disable"][ $service ] == 0 ) ) ) {
+			// determine path
+			$path_service_file = plugin_dir_path( __FILE__ ) . 'services/shariff-' . $service . '.php';
+			// include service files
+			if ( file_exists( $path_service_file ) ) include( $path_service_file );
+			// if we have an error (e.g. a timeout) and we have an old share count for this service, keep it!
+			if ( array_key_exists( $service, $old_share_counts ) && ( ! array_key_exists( $service, $share_counts ) || empty( $share_counts[ $service ] ) ) ) {
+				$share_counts[ $service ] = $old_share_counts[ $service ];
+			}
+		}
+		// calculate total share count
+		if ( isset( $share_counts[ $service ] ) ) $total_count = $total_count + $share_counts[ $service ];
+	}
+
+	// add total count
+	if ( $total_count != '0' ) $share_counts[ 'total' ] = $total_count;
+
+	// save transient, if we have counts
+	if ( isset( $share_counts ) ) {
+		// add current timestamp and url
+		$share_counts['timestamp'] = current_time( 'timestamp', true );
+		$share_counts['url'] = $post_url2;
+		// combine different set of services
+		if ( get_transient( $post_hash ) !== false ) {
+			$other_request = get_transient( $post_hash );
+			$share_counts = array_merge( $other_request, $share_counts );
+		}
+		// save transient
+		set_transient( $post_hash, $share_counts, '604800' );
+		// offer a hook to work with the share counts
+		do_action( 'shariff_share_counts', $share_counts );
+		// update info
+		$share_counts['updated'] = '1';
+	}
+	elseif ( isset( $old_share_counts ) ) {
+		$share_counts = $old_share_counts;
+		// update info
+		$share_counts['updated'] = '0';
+	}
+
+	// return share counts
+	return $share_counts;
 }
-add_action( 'rest_api_init', 'shariff3UU_sanitize_api' );
+
+// fill cache automatically
+function shariff3UU_fill_cache() {
+	// amount of posts - set to 100 if not set
+	if ( isset( $GLOBALS["shariff3UU"]["ranking"] ) && absint( $GLOBALS["shariff3UU"]["ranking"] ) > '0' ) {
+		$numberposts = absint( $GLOBALS["shariff3UU"]["ranking"] );
+	}
+	else {
+		$numberposts = '100';
+	}
+
+	// avoid errors if no services are given - instead use the default set of services
+	if ( empty( $GLOBALS["shariff3UU"]["services"] ) ) $services = "twitter|facebook|googleplus";
+	else $services = $GLOBALS["shariff3UU"]["services"];
+
+	// explode services
+	$service_array = explode( '|', $services );
+	
+	// catch last 100 posts or whatever number is set for it
+	$args = array( 'numberposts' => $numberposts, 'orderby' => 'post_date', 'order' => 'DESC', 'post_status' => 'publish' );
+	$recent_posts = wp_get_recent_posts( $args );
+	if ( $recent_posts ) {
+		foreach( $recent_posts as $recent ) {
+			// get url
+			$url = get_permalink( $recent["ID"] );
+			$post_url = urlencode( $url );
+			// set transient name
+			$post_hash = 'shariff' . hash( "md5", $post_url );
+			// get old share counts
+			if ( get_transient( $post_hash ) !== false ) $old_share_counts = get_transient( $post_hash );
+			else $old_share_counts = array();
+			// fetch share counts and save same
+			shariff3UU_fetch_sharecounts( $service_array, $old_share_counts, $post_hash, $post_url, $url );
+		}
+	}
+}
+add_action( 'shariff3UU_fill_cache', 'shariff3UU_fill_cache' );
+
+// add schedule event in order to fill cache automatically
+function shariff3UU_fill_cache_schedule() {
+	// get options manually bc of start on activation
+	$shariff3UU_statistic = (array) get_option( 'shariff3UU_statistic' );
+	// check if option is set
+	if ( isset( $shariff3UU_statistic["automaticcache"] ) && $shariff3UU_statistic["automaticcache"] == '1' ) {
+		// check if job is already scheduled
+		if ( ! wp_next_scheduled( 'shariff3UU_fill_cache' ) ) {
+			// add cron job
+			wp_schedule_event( time(), 'weekly', 'shariff3UU_fill_cache' );
+		}
+	}
+	// else option is not set therefore remove cron job if scheduled
+	else {
+		if ( wp_next_scheduled( 'shariff3UU_fill_cache' ) ) {
+			// remove cron job
+			wp_clear_scheduled_hook( 'shariff3UU_fill_cache' );
+		}
+	}
+}
+add_action( 'shariff3UU_save_statistic_options', 'shariff3UU_fill_cache_schedule' );
+
+// custom weekly cron recurrences
+function shariff3UU_fill_cache_schedule_custom_recurrence( $schedules ) {
+	$schedules['weekly'] = array(
+		'display' => __( 'Once weekly', 'shariff' ),
+		'interval' => '804600',
+	);
+	return $schedules;
+}
+add_filter( 'cron_schedules', 'shariff3UU_fill_cache_schedule_custom_recurrence' );
 
 // add shorttag to posts
 function shariff3UU_posts( $content ) {
+
+	// do not add Shariff to excerpts
+	if ( in_array( 'get_the_excerpt', $GLOBALS['wp_current_filter'] ) ) return $content;
+
 	// get options
 	$shariff3UU = $GLOBALS["shariff3UU"];
 
@@ -371,7 +457,7 @@ function shariff3UU_excerpt( $content ) {
 	}
 	return $content;
 }
-add_filter( 'get_the_excerpt', 'shariff3UU_excerpt' );
+add_filter( 'the_excerpt', 'shariff3UU_excerpt' );
 
 // add mailform to bbpress_replies
 function bbp_add_mailform_to_bbpress_replies() {
@@ -417,6 +503,9 @@ function shariff3UU_render( $atts, $content = null ) {
 	// remove empty elements
 	$atts = array_filter( $atts );
 
+	// clean up services (remove leading or trailing |, spaces, etc.)
+	$atts['services'] = trim( preg_replace( "/[^A-Za-z|]/", '', $atts['services'] ), '|' );
+
 	// clean up headline in case it was used in a shorttag
 	if ( array_key_exists( 'headline', $atts ) ) {
 		$atts['headline'] = wp_kses( $atts['headline'], $GLOBALS["allowed_tags"] );
@@ -461,7 +550,7 @@ function shariff3UU_render( $atts, $content = null ) {
 		$share_counts = get_transient( $post_hash );
 	}
 
-	// prevent an error notice while debug mode is on, because of "undefined variable" when using .=
+	// prevent info notices in case debug mode is on
 	$output = '';
 
 	// if we have a style attribute add ShariffSC container including these styles
@@ -508,7 +597,7 @@ function shariff3UU_render( $atts, $content = null ) {
 	if ( array_key_exists( 'timestamp', $atts ) )   $output .= ' data-timestamp="' . absint( get_the_modified_date( 'U', true ) ) . '"';
 
 	// start output of actual Shariff buttons
-	$output .= '<div class="shariff';
+	$output .= '<div class="shariff shariff-main';
 		// alignment
 		if ( array_key_exists( 'align', $atts ) && $atts['align'] != 'none' ) {
 			$output .= ' shariff-align-' . $atts["align"];
@@ -521,7 +610,8 @@ function shariff3UU_render( $atts, $content = null ) {
 		if ( array_key_exists( 'buttonstretch', $atts ) && $atts['buttonstretch'] == '1' ) {
 			$output .= ' shariff-buttonstretch';
 		}
-		$output .= '"';
+		// hide buttons until css is loaded
+		if ( array_key_exists( 'hideuntilcss', $atts ) && $atts['hideuntilcss'] == '1' ) $output .= '" style="display:none"';
 		// add information for share count request
 		if ( array_key_exists( 'backend', $atts ) && $atts['backend'] == "on" ) {
 			// share url
@@ -585,74 +675,102 @@ function shariff3UU_render( $atts, $content = null ) {
 		elseif ( $service == 'patreon' && ! array_key_exists( 'patreonid', $atts ) ) $patreon_error = '1';
 		// start render button
 		elseif ( $service != 'total' && $service != 'totalnumber' ) {
+			
 			// include service parameters
 			$frontend = '1';
 
 			// determine path to service phps
 			$path_service_file = plugin_dir_path( __FILE__ ) . 'services/shariff-' . $service . '.php';
 
-			// include service files
-			if ( file_exists( $path_service_file ) ) include( $path_service_file );
+			// check if service file exists
+			if ( file_exists( $path_service_file ) ) {
 
-			// start li
-			$output .= '<li class="shariff-button ' . $service;
-				// mobile only
-				if ( $mobile_only == '1') $output .= ' shariff-mobile';
-			$output .=  '" style="background-color:' . $secondary_color . '">';
-				
-				// use default button share text, if $button_text_array is empty
-				if ( empty( $button_text_array ) ) $button_text_array = $default_button_text_array;
+				// include service file
+				include( $path_service_file );
 
-				// set button text in desired language, fallback is English
-				if ( array_key_exists( 'lang', $atts ) && array_key_exists( $atts['lang'], $button_text_array ) ) $button_text = $button_text_array[ $atts['lang'] ];
-				else $button_text = $button_text_array['en'];
+				// overwrite service specific colors, if custom colors are set
+				if ( array_key_exists( 'maincolor', $atts ) ) {
+					$main_color = $atts['maincolor'];
+				}
+				if ( array_key_exists( 'secondarycolor', $atts ) ) {
+					$secondary_color = $atts['secondarycolor'];
+				}
 
-				// set button title / label in desired language, fallback is English
-				if ( array_key_exists( 'lang', $atts ) && array_key_exists( $atts['lang'], $button_title_array ) ) $button_title = $button_title_array[ $atts['lang'] ];
-				else $button_title = $button_title_array['en'];
+				// set border radius for round theme
+				if ( array_key_exists( 'borderradius', $atts ) && array_key_exists( 'theme', $atts ) && $atts['theme'] == "round" ) {
+					$border_radius = '; border-radius:' . $atts['borderradius'] . '%';
+				}
+				else {
+					$border_radius = '';
+				}
 
-				// reset $button_text_array
-				$button_text_array = '';
+				// info button for default theme
+				if ( ! array_key_exists( 'maincolor', $atts ) && $service == 'info' && ( ( array_key_exists( 'theme', $atts ) && $atts['theme'] == "default" || $atts['theme'] == "round" ) || ! array_key_exists( 'theme', $atts ) ) ) {
+					$main_color = '#fff';
+					$secondary_color = "#eee";
+				}
 
-				// build the actual button
-				$output .= '<a href="' . $button_url . '" title="' . $button_title . '" aria-label="' . $button_title . '" role="button" rel="nofollow" class="shariff-link" ';
-					// same window?
-					if ( ! isset( $same_window ) || isset( $same_window ) && $same_window != '1' ) $output .= 'target="_blank" ';
-					$output .= 'style="background-color:' . $main_color;
-					// theme white?
-					if ( isset( $atts['theme'] ) && $atts['theme'] == "white" ) $output .= '; color:' . $main_color . ' !important';
-				$output .= '">';
-					$output .= '<span class="shariff-icon"';
+				// start li
+				$output .= '<li class="shariff-button ' . $service;
+					// mobile only
+					if ( $mobile_only == '1') $output .= ' shariff-mobile';
+				$output .=  '" style="background-color:' . $secondary_color . $border_radius . '">';
+					
+					// use default button share text, if $button_text_array is empty
+					if ( empty( $button_text_array ) ) $button_text_array = $default_button_text_array;
+
+					// set button text in desired language, fallback is English
+					if ( array_key_exists( 'lang', $atts ) && array_key_exists( $atts['lang'], $button_text_array ) ) $button_text = $button_text_array[ $atts['lang'] ];
+					else $button_text = $button_text_array['en'];
+
+					// set button title / label in desired language, fallback is English
+					if ( array_key_exists( 'lang', $atts ) && array_key_exists( $atts['lang'], $button_title_array ) ) $button_title = $button_title_array[ $atts['lang'] ];
+					else $button_title = $button_title_array['en'];
+
+					// reset $button_text_array
+					$button_text_array = '';
+
+					// build the actual button
+					$output .= '<a href="' . $button_url . '" title="' . $button_title . '" aria-label="' . $button_title . '" role="button" rel="nofollow" class="shariff-link" ';
+						// same window?
+						if ( ! isset( $same_window ) || isset( $same_window ) && $same_window != '1' ) $output .= 'target="_blank" ';
+						$output .= 'style="background-color:' . $main_color . $border_radius;
 						// theme white?
-						if ( isset( $atts['theme'] ) && $atts['theme'] == "white" ) $output .= ' style="fill:' . $main_color . '"';
-					$output .= '>' . $svg_icon . '</span>';
-					$output .= '<span class="shariff-text">' . $button_text . '</span>&nbsp;';
-					// share counts?
-					if ( array_key_exists( 'sharecounts', $atts ) && $atts['sharecounts'] == "1" && $backend_available == '1' && ! isset ( $shariff3UU["disable"][ $service ] ) ) {
-						$output .= '<span class="shariff-count" data-service="' . $service . '" style="color:' . $main_color;
-						if ( array_key_exists( $service, $share_counts ) === true && $share_counts[ $service ] !== null && $share_counts[ $service ] !== '-1' ) {
-							$output .= '">' . $share_counts[ $service ];
+						if ( isset( $atts['theme'] ) && $atts['theme'] == "white" ) $output .= '; color:' . $main_color;
+						else $output .= '; color:#fff';
+					$output .= '">';
+						$output .= '<span class="shariff-icon"';
+							// theme white?
+							if ( isset( $atts['theme'] ) && $atts['theme'] == "white" ) $output .= ' style="fill:' . $main_color . '"';
+						$output .= '>' . $svg_icon . '</span>';
+						$output .= '<span class="shariff-text">' . $button_text . '</span>&nbsp;';
+						// share counts?
+						if ( array_key_exists( 'sharecounts', $atts ) && $atts['sharecounts'] == "1" && $backend_available == '1' && ! isset ( $shariff3UU["disable"][ $service ] ) ) {
+							$output .= '<span class="shariff-count" data-service="' . $service . '" style="color:' . $main_color;
+							if ( array_key_exists( $service, $share_counts ) === true && $share_counts[ $service ] !== null && $share_counts[ $service ] !== '-1' ) {
+								$output .= '">' . $share_counts[ $service ];
+							}
+							else $output .= ';opacity:0">';
+							$output .= '</span>&nbsp;';
 						}
-						else $output .= ';opacity:0">';
-						$output .= '</span>&nbsp;';
-					}
-				$output .= '</a>';
-			$output .= '</li>';
+					$output .= '</a>';
+				$output .= '</li>';
 
-			// add service to backend service, if available
-			if ( $backend_available == '1' && ! isset ( $shariff3UU["disable"][ $service ] ) ) $backend_service_array[] = $service;
+				// add service to backend service, if available
+				if ( $backend_available == '1' && ! isset ( $shariff3UU["disable"][ $service ] ) ) $backend_service_array[] = $service;
 
-			// reset $backend_available, $mobile_only, $same_window
-			$backend_available = '';
-			$mobile_only = '';
-			$same_window = '';
+				// reset $backend_available, $mobile_only, $same_window
+				$backend_available = '';
+				$mobile_only = '';
+				$same_window = '';
+			}
 		}
 	}
 
 	// add the list of backend services
 	if ( ! empty( $backend_service_array ) ) {
 		$backend_services = implode( '|', $backend_service_array );
-		$output = str_replace( 'data-url=', 'data-services="' . $backend_services . '" data-url=', $output );
+		$output = str_replace( 'data-url=', 'data-services="' . urlencode( $backend_services ) . '" data-url=', $output );
 	}
 
 	// close ul and the main shariff div
@@ -780,6 +898,11 @@ function shariff3UU_addMailForm( $content, $error ) {
 
 		// use wp_nonce_url / wp_verify_nonce to prevent automated spam by url
 		$submit_link = wp_nonce_url( get_permalink(), 'shariff3UU_send_mail', 'shariff_mf_nonce' );
+
+		// add anchor if option is set
+		if ( isset( $shariff3UU["mailform_anchor"] ) && $shariff3UU["mailform_anchor"] == '1' ) {
+			$submit_link .= '#shariff_mailform';
+		}
 
 		// sender address optional?
 		$mf_optional_text = '';
@@ -1219,6 +1342,8 @@ function shariff3UU_deactivate() {
 				switch_to_blog( $blog['blog_id'] );
 				// purge transients
 				shariff3UU_purge_transients_deactivation();
+				// remove cron job
+				wp_clear_scheduled_hook( 'shariff3UU_fill_cache' );
 				// switch back to main
 				restore_current_blog();
 			}
@@ -1227,9 +1352,14 @@ function shariff3UU_deactivate() {
 	else {
 		// purge transients
 		shariff3UU_purge_transients_deactivation();
+		// remove cron job
+		wp_clear_scheduled_hook( 'shariff3UU_fill_cache' );
 	}
 }
 register_deactivation_hook( __FILE__, 'shariff3UU_deactivate' );
+
+// activation hook to start cron job after update
+register_activation_hook( __FILE__, 'shariff3UU_fill_cache_schedule' );
 
 // purge all the transients associated with our plugin
 function shariff3UU_purge_transients_deactivation() {
