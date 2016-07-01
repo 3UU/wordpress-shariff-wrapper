@@ -612,11 +612,11 @@ function shariff3UU_render( $atts, $content = null ) {
 		}
 		$output .= '"';
 		// hide buttons until css is loaded
-		if ( array_key_exists( 'hideuntilcss', $atts ) && $atts['hideuntilcss'] == '1' ) $output .= '" style="display:none"';
+		if ( array_key_exists( 'hideuntilcss', $atts ) && $atts['hideuntilcss'] == '1' ) $output .= ' style="display:none"';
 		// add information for share count request
 		if ( array_key_exists( 'backend', $atts ) && $atts['backend'] == "on" ) {
 			// share url
-			$output .= ' data-url="' . urlencode( $share_url ) . '"';
+			$output .= ' data-url="' . esc_url( urlencode( $share_url ) ) . '"';
 			// timestamp for cache
 			$output .= ' data-timestamp="' . absint( get_the_modified_date( 'U', true ) ) . '"';
 			// add external api if entered
@@ -771,7 +771,7 @@ function shariff3UU_render( $atts, $content = null ) {
 	// add the list of backend services
 	if ( ! empty( $backend_service_array ) ) {
 		$backend_services = implode( '|', $backend_service_array );
-		$output = str_replace( 'data-url=', 'data-services="' . urlencode( $backend_services ) . '" data-url=', $output );
+		$output = str_replace( 'data-url=', 'data-services="' . esc_html( urlencode( $backend_services ) ) . '" data-url=', $output );
 	}
 
 	// close ul and the main shariff div
