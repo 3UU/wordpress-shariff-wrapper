@@ -610,6 +610,7 @@ function shariff3UU_render( $atts, $content = null ) {
 		if ( array_key_exists( 'buttonstretch', $atts ) && $atts['buttonstretch'] == '1' ) {
 			$output .= ' shariff-buttonstretch';
 		}
+		$output .= '"';
 		// hide buttons until css is loaded
 		if ( array_key_exists( 'hideuntilcss', $atts ) && $atts['hideuntilcss'] == '1' ) $output .= '" style="display:none"';
 		// add information for share count request
