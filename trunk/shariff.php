@@ -131,12 +131,12 @@ function shariff3UU_share_counts( WP_REST_Request $request ) {
 	if ( defined( 'SHARIFF_FRONTENDS' ) ) {
 		$shariff_frontends = array_flip( explode( '|', SHARIFF_FRONTENDS ) );
 		if ( ! isset( $get_url['host'] ) || ! array_key_exists( $get_url['host'], $shariff_frontends ) ) {
-			return new WP_Error( 'externaldomainnotallowed', 'External domain not allowed by this server: ' . esc_html( $get_url['host'] ), array( 'status' => 400 ) );
+			return new WP_Error( 'externaldomainnotallowed', 'External domain not allowed by this server!', array( 'status' => 400 ) );
 		}
 	}
 	// else compare that domain is equal 
 	elseif ( ! isset( $get_url['host'] ) || $get_url['host'] != $wp_url['host'] ) {
-		return new WP_Error( 'domainnotallowed', 'Domain not allowed by this server: ' . esc_html( $get_url['host'] ), array( 'status' => 400 ) );
+		return new WP_Error( 'domainnotallowed', 'Domain not allowed by this server!', array( 'status' => 400 ) );
 	}
 
 	// encode shareurl
