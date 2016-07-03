@@ -255,6 +255,7 @@ function shariff3UU_fetch_sharecounts( $service_array, $old_share_counts, $post_
 
 	// prevent php notices
 	$total_count = '0';
+	$share_counts = array();
 			
 	// loop through all desired services
 	foreach ( $service_array as $service ) {
