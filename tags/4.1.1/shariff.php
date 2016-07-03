@@ -366,12 +366,6 @@ function shariff3UU_fill_cache_schedule() {
 }
 add_action( 'shariff3UU_save_statistic_options', 'shariff3UU_fill_cache_schedule' );
 
-add_filter( 'http_request_timeout', 'wp_smushit_filter_timeout_time');
-function wp_smushit_filter_timeout_time($time) {
-	$time = 25; //new number of seconds
-	return $time;
-}
-
 // custom weekly cron recurrences
 function shariff3UU_fill_cache_schedule_custom_recurrence( $schedules ) {
 	$schedules['weekly'] = array(
