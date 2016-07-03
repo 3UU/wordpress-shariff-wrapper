@@ -255,6 +255,7 @@ function shariff3UU_fetch_sharecounts( $service_array, $old_share_counts, $post_
 
 	// prevent php notices
 	$total_count = '0';
+	$share_counts = array();
 			
 	// loop through all desired services
 	foreach ( $service_array as $service ) {
@@ -361,6 +362,12 @@ function shariff3UU_fill_cache_schedule() {
 	}
 }
 add_action( 'shariff3UU_save_statistic_options', 'shariff3UU_fill_cache_schedule' );
+
+add_filter( 'http_request_timeout', 'wp_smushit_filter_timeout_time');
+function wp_smushit_filter_timeout_time($time) {
+	$time = 25; //new number of seconds
+	return $time;
+}
 
 // custom weekly cron recurrences
 function shariff3UU_fill_cache_schedule_custom_recurrence( $schedules ) {
@@ -706,7 +713,7 @@ function shariff3UU_render( $atts, $content = null ) {
 				}
 
 				// info button for default theme
-				if ( ! array_key_exists( 'maincolor', $atts ) && $service == 'info' && ( ( array_key_exists( 'theme', $atts ) && $atts['theme'] == "default" || $atts['theme'] == "round" ) || ! array_key_exists( 'theme', $atts ) ) ) {
+				if ( ! array_key_exists( 'maincolor', $atts ) && $service == 'info' && ( ( array_key_exists( 'theme', $atts ) && $atts['theme'] == "default" || ( array_key_exists( 'theme', $atts ) && $atts['theme'] == "round" ) ) || ! array_key_exists( 'theme', $atts ) ) ) {
 					$main_color = '#fff';
 					$secondary_color = "#eee";
 				}
