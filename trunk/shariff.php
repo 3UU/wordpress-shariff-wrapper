@@ -3,7 +3,7 @@
  * Plugin Name: Shariff Wrapper
  * Plugin URI: https://de.wordpress.org/plugins/shariff/
  * Description: The Shariff Wrapper provides share buttons that respect the privacy of your visitors and are compliant to the German data protection laws.
- * Version: 4.1.0
+ * Version: 4.1.1
  * Author: Jan-Peter Lambeck & 3UU
  * Author URI: https://de.wordpress.org/plugins/shariff/
  * License: MIT
@@ -26,7 +26,7 @@ $shariff3UU = array_merge( $shariff3UU_basic, $shariff3UU_design, $shariff3UU_ad
 // update function to perform tasks _once_ after an update, based on version number to work for automatic as well as manual updates
 function shariff3UU_update() {
 	/******************** ADJUST VERSION ********************/
-	$code_version = "4.1.0"; // set code version - needs to be adjusted for every new version!
+	$code_version = "4.1.1"; // set code version - needs to be adjusted for every new version!
 	/******************** ADJUST VERSION ********************/
 
 	// get options
@@ -253,6 +253,9 @@ function shariff3UU_fetch_sharecounts( $service_array, $old_share_counts, $post_
 	// we only need the backend part from the service phps
 	$backend = '1';
 
+	// get options
+	$shariff3UU = $GLOBALS["shariff3UU"];
+
 	// prevent php notices
 	$total_count = '0';
 	$share_counts = array();
@@ -382,11 +385,13 @@ add_filter( 'cron_schedules', 'shariff3UU_fill_cache_schedule_custom_recurrence'
 // add shorttag to posts
 function shariff3UU_posts( $content ) {
 
-	// do not add Shariff to excerpts
-	if ( in_array( 'get_the_excerpt', $GLOBALS['wp_current_filter'] ) ) return $content;
-
 	// get options
 	$shariff3UU = $GLOBALS["shariff3UU"];
+
+	// do not add Shariff to excerpts or outside the loop, if option is checked
+	if ( in_array( 'get_the_excerpt', $GLOBALS['wp_current_filter'] ) || ( ! in_the_loop() && isset( $shariff3UU["disable_outside_loop"] ) && $shariff3UU["disable_outside_loop"] == '1' ) ) {
+		return $content;
+	}
 
 	// disable share buttons on password protected posts if configured in the admin menu
 	if ( ( post_password_required( get_the_ID() ) == '1' || ! empty( $GLOBALS["post"]->post_password ) ) && isset( $shariff3UU["disable_on_protected"] ) && $shariff3UU["disable_on_protected"] == '1') {
@@ -623,7 +628,7 @@ function shariff3UU_render( $atts, $content = null ) {
 		// add information for share count request
 		if ( array_key_exists( 'backend', $atts ) && $atts['backend'] == "on" ) {
 			// share url
-			$output .= ' data-url="' . esc_url( urlencode( $share_url ) ) . '"';
+			$output .= ' data-url="' . esc_html( urlencode( $share_url ) ) . '"';
 			// timestamp for cache
 			$output .= ' data-timestamp="' . absint( get_the_modified_date( 'U', true ) ) . '"';
 			// add external api if entered

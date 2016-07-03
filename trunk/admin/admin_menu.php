@@ -60,6 +60,10 @@ function shariff3UU_options_init(){
 	add_settings_field( 'shariff3UU_checkbox_disable_on_protected', __( 'Disable the Shariff buttons on password protected posts.', 'shariff' ),
 		'shariff3UU_checkbox_disable_on_protected_render', 'basic', 'shariff3UU_basic_section' );
 
+	// disable outside of loop
+	add_settings_field( 'shariff3UU_checkbox_disable_outside_loop', __( 'Disable the Shariff buttons outside of the main loop.', 'shariff' ),
+		'shariff3UU_checkbox_disable_outside_loop_render', 'basic', 'shariff3UU_basic_section' );
+
 	// second tab - design
 
 	// register second tab (design) settings and call sanitize function
@@ -304,6 +308,7 @@ function shariff3UU_basic_sanitize( $input ) {
 	if ( isset( $input["add_after"] ) )				$valid["add_after"]				= sani_arrays( $input["add_after"] );
 	if ( isset( $input["add_before"] ) )			$valid["add_before"]			= sani_arrays( $input["add_before"] );
 	if ( isset( $input["disable_on_protected"] ) )	$valid["disable_on_protected"]	= absint( $input["disable_on_protected"] );
+	if ( isset( $input["disable_outside_loop"] ) )	$valid["disable_outside_loop"]	= absint( $input["disable_outside_loop"] );
 
 	// remove empty elements
 	$valid = array_filter( $valid );
@@ -514,6 +519,13 @@ function shariff3UU_multiplecheckbox_add_before_render() {
 function shariff3UU_checkbox_disable_on_protected_render() {
 	echo '<input type="checkbox" name="shariff3UU_basic[disable_on_protected]" ';
 	if ( isset( $GLOBALS["shariff3UU_basic"]["disable_on_protected"] ) ) echo checked( $GLOBALS["shariff3UU_basic"]["disable_on_protected"], 1, 0 );
+	echo ' value="1">';
+}
+
+// disable outside loop
+function shariff3UU_checkbox_disable_outside_loop_render() {
+	echo '<input type="checkbox" name="shariff3UU_basic[disable_outside_loop]" ';
+	if ( isset( $GLOBALS["shariff3UU_basic"]["disable_outside_loop"] ) ) echo checked( $GLOBALS["shariff3UU_basic"]["disable_outside_loop"], 1, 0 );
 	echo ' value="1">';
 }
 
