@@ -19,6 +19,11 @@ If you need any help or have specific questions regarding development and contri
 
 ## Changelog
 
+= 4.1.1 =
+- new option to disable the Shariff buttons outside of the main loop
+- fix Facebook App ID request
+- minor css fix
+
 = 4.1.0 =
 - new design option to set a custom button color for all buttons
 - new design option to set a border radius for the round theme (up to a square)

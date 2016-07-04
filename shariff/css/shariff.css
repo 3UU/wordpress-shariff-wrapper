@@ -280,6 +280,7 @@
 }
 .shariff .shariff-button.info {
   width: 35px;
+  flex: 0 0 auto !important;
 }
 .shariff .buttonsize-small .shariff-button.info { width: 25px; }
 .shariff .buttonsize-small .info a { width: 25px; }
