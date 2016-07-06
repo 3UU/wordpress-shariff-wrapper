@@ -3,7 +3,7 @@
  * Plugin Name: Shariff Wrapper
  * Plugin URI: https://de.wordpress.org/plugins/shariff/
  * Description: The Shariff Wrapper provides share buttons that respect the privacy of your visitors and are compliant to the German data protection laws.
- * Version: 4.1.1
+ * Version: 4.1.2
  * Author: Jan-Peter Lambeck & 3UU
  * Author URI: https://de.wordpress.org/plugins/shariff/
  * License: MIT
@@ -26,7 +26,7 @@ $shariff3UU = array_merge( $shariff3UU_basic, $shariff3UU_design, $shariff3UU_ad
 // update function to perform tasks _once_ after an update, based on version number to work for automatic as well as manual updates
 function shariff3UU_update() {
 	/******************** ADJUST VERSION ********************/
-	$code_version = "4.1.1"; // set code version - needs to be adjusted for every new version!
+	$code_version = "4.1.2"; // set code version - needs to be adjusted for every new version!
 	/******************** ADJUST VERSION ********************/
 
 	// get options
@@ -194,6 +194,9 @@ function shariff3UU_share_counts( WP_REST_Request $request ) {
 
 	// explode services
 	$service_array = explode( '|', $real_services );
+	
+	// remove duplicated entries
+	$service_array = array_unique( $service_array );
 
 	// get old share counts
 	if ( get_transient( $post_hash ) !== false ) $old_share_counts = get_transient( $post_hash );
@@ -506,6 +509,9 @@ function shariff3UU_render( $atts, $content = null ) {
 	if ( empty( $atts ) ) $atts = $backend_options;
 	else $atts = array_merge( $backend_options, $atts );
 
+	// Ov3rfly: make atts configurable from outside, e.g. for language etc.
+	$atts = apply_filters( 'shariff3UU_render_atts', $atts );
+
 	// remove empty elements
 	$atts = array_filter( $atts );
 
@@ -542,8 +548,8 @@ function shariff3UU_render( $atts, $content = null ) {
 	else $share_url = urlencode( get_permalink() );
 
 	// share title
-	if ( array_key_exists( 'title', $atts ) ) $share_title = urlencode( $atts['title'] );
-	else $share_title = urlencode( strip_tags( get_the_title() ) );
+	if ( array_key_exists( 'title', $atts ) ) $share_title = urlencode( html_entity_decode( get_the_title(), ENT_COMPAT, 'UTF-8' ) );
+	else $share_title = urlencode( html_entity_decode( get_the_title(), ENT_COMPAT, 'UTF-8' ) );
 
 	// set transient name
 	$post_hash = 'shariff' . hash( "md5", $share_url );
@@ -631,7 +637,11 @@ function shariff3UU_render( $atts, $content = null ) {
 			}
 			// elseif WP is installed in a subdirectory and the api is only reachable in there -> adjust path
 			elseif ( isset( $shariff3UU["subapi"] ) &&  $shariff3UU["subapi"] == '1' ) {
-				$output .= ' data-backendurl="' . get_bloginfo( 'wpurl' ) . '/wp-json/shariff/v1/share_counts' . '"';
+				$output .= ' data-backendurl="' . get_bloginfo( 'wpurl' ) . '/wp-json/shariff/v1/share_counts?' . '"';
+			}
+			// elseif pretty permalinks are not activated fall back to manual rest route
+			elseif ( ! get_option('permalink_structure') ) {
+				$output .= ' data-backendurl="?rest_route=/shariff/v1/share_counts&"';
 			}
 		}
 	$output .= '>';
@@ -1067,7 +1077,7 @@ function sharif3UU_procSentMail( $content ) {
 			// include selected language
 			include( plugin_dir_path( __FILE__ ) . '/locale/mailform-' . $lang . '.php' );
 
-			$subject = html_entity_decode( get_the_title() );
+			$subject = html_entity_decode( get_the_title(), ENT_COMPAT, 'UTF-8' );
 
 			// The following post was suggested to you by
 			$message[ $lang ] = $mf_mailbody1[ $lang ];

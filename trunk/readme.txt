@@ -172,6 +172,13 @@ fixed in the future - if we have time to spend or you provide us with a lot of "
 
 == Changelog ==
 
+= 4.1.2 =
+- new fallback for share count requests in case pretty permalinks are disabled
+- new filter shariff3UU_render_atts to change options on the fly (thx Ov3rfly)
+- fix share title in cases with html encoded characters
+- fix double counting on ranking tab under certain conditions
+- fix php info notice in admin notices
+
 = 4.1.1 =
 - new option to disable the Shariff buttons outside of the main loop
 - fix Facebook App ID request
