@@ -19,6 +19,16 @@ If you need any help or have specific questions regarding development and contri
 
 ## Changelog
 
+= 4.2.0 =
+- new option to set the rate limit for sending mails using the mail form
+- added home url as fallback for share count requests
+- added further anti-spam prevention mechanics
+- added noopener and noreferrer to share links
+- fixed double encoding of share count request links
+- updated media uploader request for translation
+- updated handling of admin notices following WordPress core
+- tested and optimized for WordPress 4.6
+
 = 4.1.2 =
 - new fallback for share count requests in case pretty permalinks are disabled
 - new filter shariff3UU_render_atts to change options on the fly (thx Ov3rfly)
