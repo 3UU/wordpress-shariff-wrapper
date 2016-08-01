@@ -116,7 +116,7 @@ function shariff3UU_share_counts( WP_REST_Request $request ) {
 	$shariff3UU = $GLOBALS["shariff3UU"];
 
 	// parameters
-	$url = urldecode( preg_replace('#^https?://#', '', $request['url'] ) );
+	$url = urldecode( $request['url'] );
 	$services = $request['services'];
 	$timestamp = $request['timestamp'];
 	
