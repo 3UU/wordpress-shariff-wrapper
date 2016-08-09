@@ -19,6 +19,23 @@ If you need any help or have specific questions regarding development and contri
 
 ## Changelog
 
+= 4.2.0 =
+- new option to set the rate limit for sending mails using the mail form
+- added home url as fallback for share count requests
+- added further anti-spam prevention mechanics
+- added noopener and noreferrer to share links
+- fixed double encoding of share count request links
+- updated media uploader request for translation
+- updated handling of admin notices following WordPress core
+- tested and optimized for WordPress 4.6
+
+= 4.1.2 =
+- new fallback for share count requests in case pretty permalinks are disabled
+- new filter shariff3UU_render_atts to change options on the fly (thx Ov3rfly)
+- fix share title in cases with html encoded characters
+- fix double counting on ranking tab under certain conditions
+- fix php info notice in admin notices
+
 = 4.1.1 =
 - new option to disable the Shariff buttons outside of the main loop
 - fix Facebook App ID request
