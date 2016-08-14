@@ -1,9 +1,9 @@
-=== Shariff Wrapper ===
+﻿=== Shariff Wrapper ===
 Contributors: 3UU, starguide
 Tags: Shariff, Facebook, Twitter, VKontakte, VK, GooglePlus, WhatsApp, share buttons, sharing, privacy, social
 Requires at least: 4.4
 Tested up to: 4.6
-Stable tag: 4.1.2
+Stable tag: 4.2.0
 License: MIT
 License URI: http://opensource.org/licenses/MIT
 Donate link: http://folge.link/?bitcoin=1Ritz1iUaLaxuYcXhUCoFhkVRH6GWiMTP
