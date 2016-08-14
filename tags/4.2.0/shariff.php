@@ -474,6 +474,16 @@ function shariff3UU_excerpt( $content ) {
 }
 add_filter( 'the_excerpt', 'shariff3UU_excerpt' );
 
+// remove hideshariff from content in cases of excerpts or other plain text usages
+function shariff3UU_hideshariff( $content ) {
+	if ( ( strpos( $content, 'hideshariff' ) == true ) ) {
+		// remove the sign
+		$content = str_replace( "hideshariff", "", $content );
+	}
+	return $content;
+}
+add_filter( 'the_content', 'shariff3UU_hideshariff', 999 );
+
 // add mailform to bbpress_replies
 function bbp_add_mailform_to_bbpress_replies() {
 	$content = '';
