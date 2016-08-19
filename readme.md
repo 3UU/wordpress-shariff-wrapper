@@ -19,6 +19,11 @@ If you need any help or have specific questions regarding development and contri
 
 ## Changelog
 
+= 4.2.1 =
+- fix WhatsApp button on Android when using Chrome
+- fix Shariff being added to RSS feeds under certain conditions
+- update to latest Facebook Graph API for share count requests
+
 = 4.2.0 =
 - new option to set the rate limit for sending mails using the mail form
 - added home url as fallback for share count requests
