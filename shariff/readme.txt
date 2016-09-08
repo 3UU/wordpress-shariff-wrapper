@@ -278,3 +278,5 @@ fixed in the future - if we have time to spend or you provide us with a lot of "
 - updated help section
 - minor bug fixes
 - code cleanup
+
+For the complete changelog, check out the [GitHub repository](https://github.com/3UU/wordpress-shariff-wrapper/tree/master/shariff).
