@@ -5,7 +5,7 @@ Requires at least: 4.4
 Tested up to: 4.6
 Stable tag: 4.2.1
 License: MIT
-License URI: http://opensource.org/licenses/MIT
+License URI: http://opensource.org/licenses/mit
 Donate link: http://folge.link/?bitcoin=1Ritz1iUaLaxuYcXhUCoFhkVRH6GWiMTP
 
 The Shariff Wrapper provides share buttons that respect the privacy of your visitors and are compliant to German data protection laws.
@@ -172,10 +172,29 @@ fixed in the future - if we have time to spend or you provide us with a lot of "
 
 == Changelog ==
 
+= 4.3.0 =
+- new service Odnoklassniki (thanks to rockhit)
+- new meta box allows for individual settings per post or page
+- new option to hide share counts that are zero
+- new option to disable dynamic cache lifespan (not recommended)
+- new option to set the button size to small, medium or large
+- new option to add a custom class to the container around Shariff
+- new option to open links in a popup (thanks to jackennils)
+- new option to use NewShareCount instead of OpenShareCount (Twitter)
+- added timestamp variable to be accessible via shortcode
+- fixed post timestamp for caching under certain conditions
+- fixed Facebook share count error for never crawled pages
+- fixed empty tab after sharing on certain mobile devices
+- fixed custom title attribute (thanks to kschlager)
+- updated Flattr user id for the future (thanks to poetaster)
+- reduced changelog on wordpress.org (thanks to timse201)
+- minor css improvements
+- updated help section
+
 = 4.2.1 =
-- fix WhatsApp button on Android when using Chrome
-- fix Shariff being added to RSS feeds under certain conditions
-- update to latest Facebook Graph API for share count requests
+- fixed WhatsApp button on Android when using Chrome
+- fixed Shariff being added to RSS feeds under certain conditions
+- updated to latest Facebook Graph API for share count requests
 
 = 4.2.0 =
 - new option to set the rate limit for sending mails using the mail form
@@ -190,13 +209,13 @@ fixed in the future - if we have time to spend or you provide us with a lot of "
 = 4.1.2 =
 - new fallback for share count requests in case pretty permalinks are disabled
 - new filter shariff3UU_render_atts to change options on the fly (thx Ov3rfly)
-- fix share title in cases with html encoded characters
-- fix double counting on ranking tab under certain conditions
-- fix php info notice in admin notices
+- fixed share title in cases with html encoded characters
+- fixed double counting on ranking tab under certain conditions
+- fixed php info notice in admin notices
 
 = 4.1.1 =
 - new option to disable the Shariff buttons outside of the main loop
-- fix Facebook App ID request
+- fixed Facebook App ID request
 - minor css fix
 
 = 4.1.0 =
@@ -207,8 +226,8 @@ fixed in the future - if we have time to spend or you provide us with a lot of "
 - new statistic option to fill the cache automatically
 - new statistic option to set the amount of posts for the ranking tab
 - new statistic option to use share counts with PHP < 5.4
-- fix preventing buttons from beeing added to excerpts under certain conditions
-- fix urlencoding of share count requests
+- fixed preventing buttons from beeing added to excerpts under certain conditions
+- fixed urlencoding of share count requests
 - improved handling of wrong or mistyped service entries
 - minor bug fixes
 
@@ -219,25 +238,25 @@ fixed in the future - if we have time to spend or you provide us with a lot of "
 - new option for WordPress installations with REST API not reachable in root
 
 = 4.0.6 =
-- fix error in combination with bbpress
-- fix error on very old PHP versions
-- fix ranking tab
+- fixed an error in combination with bbpress
+- fixed ab error on very old PHP versions
+- fixed ranking tab
 - minor css improvements
 
 = 4.0.5 =
-- fix mail form link
-- fix xmlns for w3c
+- fixed mail form link
+- fixed xmlns for w3c
 
 = 4.0.4 =
 - removed some remaining wrong text domains for translations
 - minor css fixes
 
 = 4.0.3 =
-- fix mobile services not showing on certain tablets
-- fix type error on totalnumber when cache is empty
-- fix share count requests when WordPress is installed in a subdirectory
-- fix urlencoding of share url, title and media
-- add width and height to SVGs to prevent large initial icons prior to css
+- fixed mobile services not showing on certain tablets
+- fixed type error on totalnumber when cache is empty
+- fixed share count requests when WordPress is installed in a subdirectory
+- fixed urlencoding of share url, title and media
+- added width and height to SVGs to prevent large initial icons prior to css
 - new classes shariff-buttons and shariff-link added
 - removed local translation files due to switching to wordpress.org language packs
 - minor css resets added
@@ -279,4 +298,4 @@ fixed in the future - if we have time to spend or you provide us with a lot of "
 - minor bug fixes
 - code cleanup
 
-For the complete changelog, check out the [GitHub repository](https://github.com/3UU/wordpress-shariff-wrapper/tree/master/shariff).
+The complete changelog can be found here: https://plugins.svn.wordpress.org/shariff/trunk/changelog.txt

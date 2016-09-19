@@ -1,23 +1,6 @@
-# Shariff Wrapper
+=== Shariff Wrapper ===
 
-This is the development repository for the WordPress plugin Shariff Wrapper (https://wordpress.org/plugins/shariff/), which has been developed by Jan-Peter Lambeck (https://www.jplambeck.de) and 3UU (https://datenverwurstungszentrale.com).
-
-/shariff/ = The actual WordPress plugin.  
-/assets/ = Files used on the wordpress.org plugin page.  
-
-license.txt = The license file (MIT).  
-readme.md = This file.  
-shariff-example-service.php = Example file for new services.
-
-## Contribute
-
-Pull requests are more than welcome, especially for new services. You can use the shariff-example-service.php to get started. All service specific elements need to be included in this file. Please always create a separate pull request for each service, feature or bug fix.
-
-Please follow the WordPress Coding Standards (https://make.wordpress.org/core/handbook/best-practices/coding-standards/) in general for ALL pull requests and especially the PHP Coding Standards (https://make.wordpress.org/core/handbook/best-practices/coding-standards/php/).
-
-If you need any help or have specific questions regarding development and contribution, simply open up an issue and we will try to help you. For support requests about the plugin itself please use the WordPress Support Forum (https://wordpress.org/support/plugin/shariff).
-
-## Changelog
+== Changelog ==
 
 = 4.3.0 =
 - new service Odnoklassniki (thanks to rockhit)
@@ -39,9 +22,9 @@ If you need any help or have specific questions regarding development and contri
 - updated help section
 
 = 4.2.1 =
-- fix WhatsApp button on Android when using Chrome
-- fix Shariff being added to RSS feeds under certain conditions
-- update to latest Facebook Graph API for share count requests
+- fixed WhatsApp button on Android when using Chrome
+- fixed Shariff being added to RSS feeds under certain conditions
+- updated to latest Facebook Graph API for share count requests
 
 = 4.2.0 =
 - new option to set the rate limit for sending mails using the mail form
@@ -56,13 +39,13 @@ If you need any help or have specific questions regarding development and contri
 = 4.1.2 =
 - new fallback for share count requests in case pretty permalinks are disabled
 - new filter shariff3UU_render_atts to change options on the fly (thx Ov3rfly)
-- fix share title in cases with html encoded characters
-- fix double counting on ranking tab under certain conditions
-- fix php info notice in admin notices
+- fixed share title in cases with html encoded characters
+- fixed double counting on ranking tab under certain conditions
+- fixed php info notice in admin notices
 
 = 4.1.1 =
 - new option to disable the Shariff buttons outside of the main loop
-- fix Facebook App ID request
+- fixed Facebook App ID request
 - minor css fix
 
 = 4.1.0 =
@@ -73,8 +56,8 @@ If you need any help or have specific questions regarding development and contri
 - new statistic option to fill the cache automatically
 - new statistic option to set the amount of posts for the ranking tab
 - new statistic option to use share counts with PHP < 5.4
-- fix preventing buttons from beeing added to excerpts under certain conditions
-- fix urlencoding of share count requests
+- fixed preventing buttons from beeing added to excerpts under certain conditions
+- fixed urlencoding of share count requests
 - improved handling of wrong or mistyped service entries
 - minor bug fixes
 
@@ -85,25 +68,25 @@ If you need any help or have specific questions regarding development and contri
 - new option for WordPress installations with REST API not reachable in root
 
 = 4.0.6 =
-- fix error in combination with bbpress
-- fix error on very old PHP versions
-- fix ranking tab
+- fixed an error in combination with bbpress
+- fixed ab error on very old PHP versions
+- fixed ranking tab
 - minor css improvements
 
 = 4.0.5 =
-- fix mail form link
-- fix xmlns for w3c
+- fixed mail form link
+- fixed xmlns for w3c
 
 = 4.0.4 =
 - removed some remaining wrong text domains for translations
 - minor css fixes
 
 = 4.0.3 =
-- fix mobile services not showing on certain tablets
-- fix type error on totalnumber when cache is empty
-- fix share count requests when WordPress is installed in a subdirectory
-- fix urlencoding of share url, title and media
-- add width and height to SVGs to prevent large initial icons prior to css
+- fixed mobile services not showing on certain tablets
+- fixed type error on totalnumber when cache is empty
+- fixed share count requests when WordPress is installed in a subdirectory
+- fixed urlencoding of share url, title and media
+- added width and height to SVGs to prevent large initial icons prior to css
 - new classes shariff-buttons and shariff-link added
 - removed local translation files due to switching to wordpress.org language packs
 - minor css resets added
