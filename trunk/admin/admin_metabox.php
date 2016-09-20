@@ -60,7 +60,7 @@ function shariff3uu_build_metabox() {
 	echo '<input type="checkbox" name="shariff_metabox_ignore_widget"';
 	if ( isset( $shariff_metabox_ignore_widget ) ) echo checked( $shariff_metabox_ignore_widget, 1, 0 );
 	echo '>';
-	echo '<label for="shariff_metabox_ignore_widget">' . __( 'Do not affect widgets.', 'shariff' ) . '</label></p>';
+	echo '<label for="shariff_metabox_ignore_widget">' . __( 'Do not affect buttons in widgets.', 'shariff' ) . '</label></p>';
 }
 
 // save meta data

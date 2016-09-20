@@ -62,7 +62,7 @@ WARNING: This hook will get called A LOT. So be sure you know what you are doing
 A: It uses the same options that have been configured on the plugin options page. However, you can put in a shorttag that overwrites the default options. It has the same format as you use in posts. Take a look at the help section of the plugin options page for more information.
 
 = Q: Can I change the options on a single post? =
-A: Yes. If the [shariff] shortcut is found in a post, it has priority over all settings from the plugin options page.
+A: Yes. You can change all options using the shorttag in the Shariff meta box on the right side of the post edit screen.
 
 = Q: Why are shares not listed? =
 A: Shariff tries to protect the privacy of your visitors. In order to do this, the statistics have to be requested by your server, so social networks only see a request of your server and not from your visitor. However, we do not know, if you want this. Therefore it is not enabled by default.
@@ -71,15 +71,15 @@ A: Shariff tries to protect the privacy of your visitors. In order to do this, t
 A: Enable it on the plugin options page in general or add `backend="on"` to the shariff shorttag in your post.
 
 = Q: I still do not see share counts =
-A: Please have a look at the status tab on the plugin options page. It states wether share counts are enabled and if there is a problem with a service. Please also keep in mind that the plugin has a minimum refresh time of 60 seconds and the each service has their own cache as well.
+A: Please have a look at the status tab on the plugin options page. It states wether share counts are enabled and if there is a problem with a service. Please also keep in mind that the plugin has a minimum refresh time of 60 seconds and that each service has their own cache as well.
 
 = Q: Why can't I change the TTL to a smaller / bigger value? =
 A: The time to live (TTL) value determines, if a share count of a post or page gets refreshed when someone visits this specific page / post of your blog. Too small values create too much useless traffic, too high values negate the goal of motivating visitors to also share a post. The value can be adjusted between 60 and 7200 seconds. Keep in mind, the actual lifespan depends on the age of the post as well.
 
-= Q: I get the Facebook API error message "request limit reached" =
+= Q: I get the Facebook API error message "request limit reached"! =
 A: Facebook has a rate limit of 600 requests per 600 seconds per IP address. Especially in shared hosting environments many domains share the same IP address and therefore the same limit. To avoid this you can try to raise the TTL value or provide a Facebook App ID and Secret. Google "facebook app id secret" will provide many guides on how to get these.
 
-= Q: How can I change the position of all buttons =
+= Q: How can I change the position of all buttons? =
 A: Have a look at the alignment options in the admin menu or checkout the 
 style option.
 
@@ -88,7 +88,7 @@ A: Have a look at the parameters "theme", "orientation" and "buttonsize". They w
 overview. But please be warned: This is a test page! It is possible that you find features that are only provided in the development version. Use it only to get an impression of the design options.
 
 = Q: How can I change the design of a single button? =
-A: If you are a CSS guru please feel free to modify the css file. But of course this is a bad idea, because all changes will be destroyed with the next update! Instead take a look at the style attribute of the shorttag. If you put in any value it will create a DIV container with the ID "ShariffSC" around the buttons. If you are really a CSS guru you will know what does the magic from here on out. ;-)
+A: If you are a CSS guru please feel free to modify the css file. But of course this is a bad idea, because all changes will be destroyed with the next update! Instead take a look at the style and class attribute of the shorttag. If you put in any value it will create a DIV container with the ID "ShariffSC" around the buttons. If you are really a CSS guru you will know what does the magic from here on out. ;-)
 
 = Q: I want the buttons to stay fixed while scrolling! =
 A: No problem. Just use the style attribute to add some CSS to the shorttag. For example in a widget (adjust the width as needed):
@@ -105,18 +105,18 @@ A: Use the headline attribute to add or remove it. For example, you can use the 
 Of course you can use all other options in that shorttag as well.
 
 = Q: Can I add [shariff] on all posts? =
-A: Yes, check out the plugin options page. 
+A: Yes, check out the plugin options. 
 
 = Q: But I want to hide it on a single post! =
-A: Do you really know what you want? ;-) However, it is possible. Write anywhere in your post "hideshariff". It will be removed and Shariff will not be added. This will make it compatible with the other plugin "Shariff for Wordpress". You can also use "/hideshariff" to write "hideshariff" in your post.
+A: Do you really know what you want? ;-) However, it is possible. Write anywhere in your post "hideshariff". It will be removed and Shariff will not be added. You can also use "/hideshariff" to write "hideshariff" in your post. You might also want to take a look at the Shariff meta box on the right side of your post edit screen.
 
-= Q: What are the differences between these two plugins? =
+= Q: What are the differences between the two Shariff plugins? =
 A: One is developed by us, one by someone else. ;-) The main difference is that this plugin has a few more options and a great support. :-) Neither of the plugins are "official" or directly developed by Heise.
 
 = Q: Does it work with a CDN? =
 A: Yes.
 
-= Q: Pinterest does not show an image =
+= Q: Pinterest does not show an image! =
 A: You can add media="http://wwww.example.com/yourImage.png"
 within the [shariff] shorttag or add it in on the plugin options page - of course with the link to your image.
 
@@ -136,6 +136,9 @@ A: Yes, take a look at the Mail Form tab on the plugin options page.
 
 = Q: What happened to the Twitter share counts and what is OpenShareCount? =
 A: Please read: https://www.jplambeck.de/twitter-saveoursharecounts/
+
+= Q: The buttons are not correctly beeing shown on my custom theme! =
+A: Please make sure that wp_footer(); has been added to your theme. For more information please visit: https://codex.wordpress.org/Function_Reference/wp_footer
 
 = EXPERIMENTAL FEATURES =
 
