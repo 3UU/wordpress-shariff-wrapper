@@ -558,7 +558,7 @@ function shariff3UU_render( $atts, $content = null ) {
 		$shariff3UU_metabox = get_post_meta( get_the_ID(), 'shariff_metabox', true );
 		
 		// replace shariff with shariffmeta
-		$shariff3UU_metabox = str_replace( 'shariff', 'shariffmeta', $shariff3UU_metabox );
+		$shariff3UU_metabox = str_replace( '[shariff ', '[shariffmeta ', $shariff3UU_metabox );
 		
 		// get meta box atts
 		do_shortcode( $shariff3UU_metabox );
