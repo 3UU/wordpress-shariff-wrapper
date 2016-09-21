@@ -270,7 +270,7 @@ fixed in the future - if we have time to spend or you provide us with a lot of "
 
 = 4.0.1 =
 - prevent php warning messages on unsuccessful includes while WP_DEBUG is active
-- change text domain to match plugin slug
+- changed text domain to match plugin slug
 
 = 4.0.0 =
 - complete overhaul of the plugin core
