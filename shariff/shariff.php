@@ -431,23 +431,27 @@ function shariff3UU_posts( $content ) {
 
 	// type of current post
 	$current_post_type = get_post_type();
-	if ($current_post_type === 'post') $current_post_type = 'posts';
+	if ( $current_post_type === 'post' ) $current_post_type = 'posts';
+	
+	// prevent php warnings in debug mode
+	$add_before = '';
+	$add_after = '';
 
-	// now add shariff
+	// check if shariff should be added automatically (plugin options)
 	if ( ! is_singular() ) {
 		// on blog page
-		if ( isset( $shariff3UU["add_before"]["posts_blogpage"] ) && $shariff3UU["add_before"]["posts_blogpage"] == '1') $content = '[shariff]' . $content;
-		if ( isset( $shariff3UU["add_after"]["posts_blogpage"] ) && $shariff3UU["add_after"]["posts_blogpage"] == '1' ) $content .= '[shariff]';
+		if ( isset( $shariff3UU["add_before"]["posts_blogpage"] ) && $shariff3UU["add_before"]["posts_blogpage"] == '1') $add_before = '1';
+		if ( isset( $shariff3UU["add_after"]["posts_blogpage"] ) && $shariff3UU["add_after"]["posts_blogpage"] == '1' ) $add_after = '1';
 	}
 	elseif ( is_singular( 'post' ) ) {
 		// on single post
-		if ( isset( $shariff3UU["add_before"][$current_post_type] ) && $shariff3UU["add_before"][$current_post_type] == '1' ) $content = '[shariff]' . $content;
-		if ( isset( $shariff3UU["add_after"][$current_post_type] ) && $shariff3UU["add_after"][$current_post_type] == '1' ) $content .= '[shariff]';
+		if ( isset( $shariff3UU["add_before"][$current_post_type] ) && $shariff3UU["add_before"][$current_post_type] == '1' ) $add_before = '1';
+		if ( isset( $shariff3UU["add_after"][$current_post_type] ) && $shariff3UU["add_after"][$current_post_type] == '1' ) $add_after = '1';
 	}
 	elseif ( is_singular( 'page' ) ) {
 		// on pages
-		if ( isset( $shariff3UU["add_before"]["pages"] ) && $shariff3UU["add_before"]["pages"] == '1' ) $content = '[shariff]' . $content;
-		if ( isset( $shariff3UU["add_after"]["pages"] ) && $shariff3UU["add_after"]["pages"] == '1' ) $content .= '[shariff]';
+		if ( isset( $shariff3UU["add_before"]["pages"] ) && $shariff3UU["add_before"]["pages"] == '1' ) $add_before = '1';
+		if ( isset( $shariff3UU["add_after"]["pages"] ) && $shariff3UU["add_after"]["pages"] == '1' ) $add_after = '1';
 	}
 	else {
 		// on custom_post_types
@@ -455,10 +459,19 @@ function shariff3UU_posts( $content ) {
 		if ( is_array( $all_custom_post_types ) ) {
 			$custom_types = array_keys( $all_custom_post_types );
 			// add shariff, if custom type and option checked in the admin menu
-			if ( isset( $shariff3UU['add_after'][$current_post_type] ) && $shariff3UU['add_after'][$current_post_type] == '1' ) $content .= '[shariff]';
+			if ( isset( $shariff3UU['add_after'][$current_post_type] ) && $shariff3UU['add_after'][$current_post_type] == '1' ) $add_after = '1';
 		}
 	}
-
+	
+	// check if buttons are enabled on a single post or page via the meta box
+	if ( get_post_meta( get_the_ID(), 'shariff_metabox_before', true ) ) $add_before = '1';
+	if ( get_post_meta( get_the_ID(), 'shariff_metabox_after', true ) ) $add_after = '1';
+	
+	// add shariff
+	if ( $add_before === '1' ) $content = '[shariff]' . $content;
+	if ( $add_after === '1' ) $content .= '[shariff]';
+	
+	// return content
 	return $content;
 }
 if ( ! isset( $GLOBALS["shariff3UU"]["shortcodeprio"] ) ) $GLOBALS["shariff3UU"]["shortcodeprio"] = '10';
@@ -558,7 +571,7 @@ function shariff3UU_render( $atts, $content = null ) {
 		$shariff3UU_metabox = get_post_meta( get_the_ID(), 'shariff_metabox', true );
 		
 		// replace shariff with shariffmeta
-		$shariff3UU_metabox = str_replace( 'shariff', 'shariffmeta', $shariff3UU_metabox );
+		$shariff3UU_metabox = str_replace( '[shariff ', '[shariffmeta ', $shariff3UU_metabox );
 		
 		// get meta box atts
 		do_shortcode( $shariff3UU_metabox );
