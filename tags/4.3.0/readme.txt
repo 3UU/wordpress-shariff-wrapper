@@ -1,4 +1,4 @@
-﻿=== Shariff Wrapper ===
+=== Shariff Wrapper ===
 Contributors: 3UU, starguide
 Tags: Shariff, Facebook, Twitter, VKontakte, VK, GooglePlus, WhatsApp, share buttons, sharing, privacy, social
 Requires at least: 4.4
