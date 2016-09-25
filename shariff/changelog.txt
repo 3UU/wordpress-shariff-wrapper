@@ -69,7 +69,7 @@
 
 = 4.0.6 =
 - fixed an error in combination with bbpress
-- fixed ab error on very old PHP versions
+- fixed an error on very old PHP versions
 - fixed ranking tab
 - minor css improvements
 
