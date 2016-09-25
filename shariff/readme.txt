@@ -242,7 +242,7 @@ fixed in the future - if we have time to spend or you provide us with a lot of "
 
 = 4.0.6 =
 - fixed an error in combination with bbpress
-- fixed ab error on very old PHP versions
+- fixed an error on very old PHP versions
 - fixed ranking tab
 - minor css improvements
 
