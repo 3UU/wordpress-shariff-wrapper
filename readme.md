@@ -74,7 +74,7 @@ If you need any help or have specific questions regarding development and contri
 - new statistic option to set the amount of posts for the ranking tab
 - new statistic option to use share counts with PHP < 5.4
 - fix preventing buttons from beeing added to excerpts under certain conditions
-- fix urlencoding of share count requests
+- fix url encoding of share count requests
 - improved handling of wrong or mistyped service entries
 - minor bug fixes
 
