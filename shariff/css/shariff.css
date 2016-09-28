@@ -124,6 +124,8 @@
 .shariff .buttonsize-small a { height: 25px !important; }
 .shariff .buttonsize-small.orientation-vertical li { width: 115px; }
 .shariff .theme-round.buttonsize-small.orientation-horizontal li { margin: 5px 7px }
+.shariff .theme-round.buttonsize-small.orientation-horizontal li:first-child { margin-left: 5px }
+.shariff .theme-round.buttonsize-small.orientation-horizontal li:last-child { margin-right: 5px }
 .shariff .buttonsize-small .shariff-icon svg {
     width: 22px;
     height: 15px;
