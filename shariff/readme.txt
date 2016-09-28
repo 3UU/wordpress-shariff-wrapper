@@ -302,3 +302,9 @@ fixed in the future - if we have time to spend or you provide us with a lot of "
 - code cleanup
 
 The complete changelog can be found here: https://plugins.svn.wordpress.org/shariff/trunk/changelog.txt
+
+== Upgrade Notice ==
+
+= 4.3.0 =
+
+new service Odnoklassniki (thanks to rockhit), many new options and fixes
