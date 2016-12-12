@@ -2,7 +2,7 @@
 Contributors: 3UU, starguide
 Tags: Shariff, Facebook, Twitter, VKontakte, VK, GooglePlus, WhatsApp, share buttons, sharing, privacy, social
 Requires at least: 4.4
-Tested up to: 4.6
+Tested up to: 4.7
 Stable tag: 4.3.0
 License: MIT
 License URI: http://opensource.org/licenses/mit
