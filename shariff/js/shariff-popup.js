@@ -17,7 +17,7 @@ function shariff_popup( evt ) {
 	var r = screen.height/2-250;
 	var l = t.length;
 	// open popup if not one of the special services
-	if ( t.substring( 0, 7 ) != "mailto:" && t.substring( l-9 ) != "view=mail" && t != "javascript:window.print()" && t != "http://ct.de/-2467514" ) {
+	if ( t.substring( 0, 7 ) != "mailto:" && t.substring( 0, 9 ) != "whatsapp:" && t.substring( l-9 ) != "view=mail" && t != "javascript:window.print()" && t != "http://ct.de/-2467514" ) {
 		// prevent default action
 		evt.preventDefault();
 		// open popup
