@@ -16,12 +16,12 @@
 if ( ! class_exists('WP') ) { die(); }
 
 // get options (needed for front- and backend)
-$shariff3UU_basic = (array) get_option( 'shariff3UU_basic' );
-$shariff3UU_design = (array) get_option( 'shariff3UU_design' );
-$shariff3UU_advanced = (array) get_option( 'shariff3UU_advanced' );
-$shariff3UU_mailform = (array) get_option( 'shariff3UU_mailform' );
-$shariff3UU_statistic = (array) get_option( 'shariff3UU_statistic' );
-$shariff3UU = array_merge( $shariff3UU_basic, $shariff3UU_design, $shariff3UU_advanced, $shariff3UU_mailform, $shariff3UU_statistic );
+$GLOBALS["shariff3UU_basic"] = (array) get_option( 'shariff3UU_basic' );
+$GLOBALS["shariff3UU_design"] = (array) get_option( 'shariff3UU_design' );
+$GLOBALS["shariff3UU_advanced"] = (array) get_option( 'shariff3UU_advanced' );
+$GLOBALS["shariff3UU_mailform"] = (array) get_option( 'shariff3UU_mailform' );
+$GLOBALS["shariff3UU_statistic"] = (array) get_option( 'shariff3UU_statistic' );
+$GLOBALS["shariff3UU"] = array_merge( $GLOBALS["shariff3UU_basic"], $GLOBALS["shariff3UU_design"], $GLOBALS["shariff3UU_advanced"], $GLOBALS["shariff3UU_mailform"], $GLOBALS["shariff3UU_statistic"] );
 
 // update function to perform tasks _once_ after an update, based on version number to work for automatic as well as manual updates
 function shariff3UU_update() {
@@ -129,7 +129,7 @@ function shariff3UU_share_counts( WP_REST_Request $request ) {
 	$url = urldecode( $request['url'] );
 	$services = $request['services'];
 	$timestamp = $request['timestamp'];
-	
+
 	// exit if no url is provided
 	if ( empty( $url ) || $url == 'undefined' ) {
 		return new WP_Error( 'nourl', 'No URL provided!', array( 'status' => 400 ) );
@@ -150,7 +150,7 @@ function shariff3UU_share_counts( WP_REST_Request $request ) {
 			return new WP_Error( 'externaldomainnotallowed', 'External domain not allowed by this server!', array( 'status' => 400 ) );
 		}
 	}
-	// else compare that domain is equal 
+	// else compare that domain is equal
 	elseif ( ! isset( $get_url['host'] ) || $get_url['host'] != $wp_url['host'] ) {
 		return new WP_Error( 'domainnotallowed', 'Domain not allowed by this server!', array( 'status' => 400 ) );
 	}
@@ -158,7 +158,7 @@ function shariff3UU_share_counts( WP_REST_Request $request ) {
 	// encode shareurl
 	$post_url  = urlencode( esc_url( $url ) );
 	$post_url2 = $url;
-	
+
 	// set transient name
 	// transient names can only contain 40 characters, therefore we use a hash (md5 always creeates a 32 character hash)
 	// we need a prefix so we can clean up on deinstallation and updates
@@ -210,7 +210,7 @@ function shariff3UU_share_counts( WP_REST_Request $request ) {
 
 	// explode services
 	$service_array = explode( '|', $real_services );
-	
+
 	// remove duplicated entries
 	$service_array = array_unique( $service_array );
 
@@ -232,7 +232,7 @@ function shariff3UU_share_counts( WP_REST_Request $request ) {
 		}
 	}
 	else $need_update = true;
-	
+
 	// prevent php notices
 	$response = '';
 	$share_counts = array();
@@ -278,7 +278,7 @@ function shariff3UU_fetch_sharecounts( $service_array, $old_share_counts, $post_
 	// prevent php notices
 	$total_count = '0';
 	$share_counts = array();
-			
+
 	// loop through all desired services
 	foreach ( $service_array as $service ) {
 		// only include services that are not disabled
@@ -342,7 +342,7 @@ function shariff3UU_fill_cache() {
 
 	// explode services
 	$service_array = explode( '|', $services );
-	
+
 	// catch last 100 posts or whatever number is set for it
 	$args = array( 'numberposts' => $numberposts, 'orderby' => 'post_date', 'order' => 'DESC', 'post_status' => 'publish' );
 	$recent_posts = wp_get_recent_posts( $args );
@@ -432,7 +432,7 @@ function shariff3UU_posts( $content ) {
 	// type of current post
 	$current_post_type = get_post_type();
 	if ( $current_post_type === 'post' ) $current_post_type = 'posts';
-	
+
 	// prevent php warnings in debug mode
 	$add_before = '';
 	$add_after = '';
@@ -462,15 +462,15 @@ function shariff3UU_posts( $content ) {
 			if ( isset( $shariff3UU['add_after'][$current_post_type] ) && $shariff3UU['add_after'][$current_post_type] == '1' ) $add_after = '1';
 		}
 	}
-	
+
 	// check if buttons are enabled on a single post or page via the meta box
 	if ( get_post_meta( get_the_ID(), 'shariff_metabox_before', true ) ) $add_before = '1';
 	if ( get_post_meta( get_the_ID(), 'shariff_metabox_after', true ) ) $add_after = '1';
-	
+
 	// add shariff
 	if ( $add_before === '1' ) $content = '[shariff]' . $content;
 	if ( $add_after === '1' ) $content .= '[shariff]';
-	
+
 	// return content
 	return $content;
 }
@@ -544,7 +544,7 @@ add_shortcode( 'shariff', 'shariff3UU_render' );
 function shariff3UU_render( $atts, $content = null ) {
 	// get options
 	$shariff3UU = $GLOBALS["shariff3UU"];
-	
+
 	// avoid errors if no attributes are given - instead use the old set of services to make it backward compatible
 	if ( empty( $shariff3UU["services"] ) ) $shariff3UU["services"] = "twitter|facebook|googleplus|info";
 
@@ -555,24 +555,24 @@ function shariff3UU_render( $atts, $content = null ) {
 	if ( isset( $shariff3UU["buttonsize"] ) && $shariff3UU["buttonsize"] == '1' ) $backend_options["buttonsize"] = 'small';
 	if ( empty( $atts ) ) $atts = $backend_options;
 	else $atts = array_merge( $backend_options, $atts );
-	
+
 	// get meta box shortcode
 	$shariff_metabox_ignore_widget = get_post_meta( get_the_ID(), 'shariff_metabox_ignore_widget', true );
-	
+
 	// if we are not a widget or if we are a widget and not beeing set to be ignored we add the meta box settings
 	if ( ( ! isset( $atts["widget"] ) || ( isset( $atts["widget"] ) && $atts["widget"] == '1' && $shariff_metabox_ignore_widget != '1' ) ) && $atts["services"] != "total" && $atts["services"] != "totalnumber" ) {
 		// get meta box disable value
 		$shariff3UU_metabox_disable = get_post_meta( get_the_ID(), 'shariff_metabox_disable', true );
-		
+
 		// if the meta box setting is set to diasbled we stop all further actions
 		if ( $shariff3UU_metabox_disable == '1' ) return;
 
 		// get meta box shortcode
 		$shariff3UU_metabox = get_post_meta( get_the_ID(), 'shariff_metabox', true );
-		
+
 		// replace shariff with shariffmeta
 		$shariff3UU_metabox = str_replace( '[shariff ', '[shariffmeta ', $shariff3UU_metabox );
-		
+
 		// get meta box atts
 		do_shortcode( $shariff3UU_metabox );
 		if ( isset( $GLOBALS["shariff3UU"]["metabox"] ) ) {
@@ -581,16 +581,16 @@ function shariff3UU_render( $atts, $content = null ) {
 		else {
 			$metabox = '';
 		}
-		
+
 		// get meta box media attribute
 		$shariff3UU_metabox_media = get_post_meta( get_the_ID(), 'shariff_metabox_media', true );
 		if ( ! empty( $shariff3UU_metabox_media ) ) {
 			$metabox["media"] = $shariff3UU_metabox_media;
 		}
-		
+
 		// merge with atts array (meta box shortcode overrides all others)
 		if ( ! empty( $metabox ) ) $atts = array_merge( $atts, $metabox );
-		
+
 		// clear metabox global
 		$GLOBALS["shariff3UU"]["metabox"] = '';
 	}
@@ -629,7 +629,7 @@ function shariff3UU_render( $atts, $content = null ) {
 			wp_enqueue_script( 'shariffjs', plugins_url( '/js/shariff.min.js', __FILE__ ), '', $shariff3UU["version"], true );
 		}
 	}
-	
+
 	// enqueue popup script (the JS should be loaded at the footer - make sure that wp_footer() is present in your theme!)
 	// if SCRIPT_DEBUG is true, we load the non minified version
 	if ( array_key_exists( 'popup', $atts ) && $atts['popup'] == "1" ) {
@@ -652,7 +652,7 @@ function shariff3UU_render( $atts, $content = null ) {
 
 	// set transient name
 	$post_hash = 'shariff' . hash( "md5", $share_url );
-	
+
 	// prevent php notices
 	$share_counts = array();
 
@@ -672,7 +672,7 @@ function shariff3UU_render( $atts, $content = null ) {
 		if ( array_key_exists( 'style', $atts ) ) $output .= ' style="' . esc_html( $atts['style'] ) . '"';
 		$output .= '>';
 	}
-	
+
 	// if no language is set, try http_negotiate_language
 	if ( ! array_key_exists( 'lang', $atts ) && function_exists('http_negotiate_language') ) {
 		$available_lang = array( 'en', 'de', 'fr', 'es', 'zh', 'hr', 'da', 'nl', 'fi', 'it', 'ja', 'ko', 'no', 'pl', 'pt', 'ro', 'ru', 'sk', 'sl', 'sr', 'sv', 'tr', 'zh' );
@@ -757,7 +757,7 @@ function shariff3UU_render( $atts, $content = null ) {
 			}
 		}
 	$output .= '>';
-	
+
 	// headline
 	if ( array_key_exists( 'headline', $atts ) ) {
 		if ( ! array_key_exists( 'total', $share_counts ) ) $share_counts['total'] = '0';
@@ -804,7 +804,7 @@ function shariff3UU_render( $atts, $content = null ) {
 		elseif ( $service == 'patreon' && ! array_key_exists( 'patreonid', $atts ) ) $patreon_error = '1';
 		// start render button
 		elseif ( $service != 'total' && $service != 'totalnumber' ) {
-			
+
 			// include service parameters
 			$frontend = '1';
 
@@ -844,7 +844,7 @@ function shariff3UU_render( $atts, $content = null ) {
 					// mobile only
 					if ( $mobile_only == '1') $output .= ' shariff-mobile';
 				$output .=  '" style="background-color:' . $secondary_color . $border_radius . '">';
-					
+
 					// use default button share text, if $button_text_array is empty
 					if ( empty( $button_text_array ) ) $button_text_array = $default_button_text_array;
 
@@ -1109,16 +1109,16 @@ function shariff3UU_set_wp_mail_from( $email ) { return sanitize_text_field( $GL
 function sharif3UU_procSentMail( $content ) {
 	// get options
 	$shariff3UU = $GLOBALS["shariff3UU"];
-	
+
 	// honeypot url input
 	$mailform_url_field = sanitize_text_field( $_REQUEST['url'] );
-	
+
 	// check if mailform is disabled
 	if ( isset( $shariff3UU["disable_mailform"] ) && $shariff3UU["disable_mailform"] == '1' ) {
 		return $content;
 	}
 	// check if url field has been filled
-	elseif ( ! empty( $mailform_url_field ) ) { 
+	elseif ( ! empty( $mailform_url_field ) ) {
 		return $content;
 	}
 	else {
@@ -1142,13 +1142,13 @@ function sharif3UU_procSentMail( $content ) {
 		if ( isset( $mf_nonce ) && wp_verify_nonce( $mf_nonce, 'shariff3UU_send_mail' ) ) {
 			// prevent double execution
 			$_REQUEST['shariff_mf_nonce'] = '';
-			
+
 			// field content to prefill forms in case of an error
 			$error['mf_content_mailto']       = $mf_content_mailto;
 			$error['mf_content_from']         = $mf_content_from;
 			$error['mf_content_sender']       = $mf_content_sender;
 			$error['mf_content_mail_comment'] = $mf_comment_content;
-			
+
 			// get min wait time
 			if ( isset( $shariff3UU["mailform_wait"] ) ) {
 				$minwait = $shariff3UU["mailform_wait"];
@@ -1156,31 +1156,31 @@ function sharif3UU_procSentMail( $content ) {
 			else {
 				$minwait = '5';
 			}
-			
+
 			// rate limiter
 			$wait = shariff3UU_limitRemoteUser();
 			if ( $wait > $minwait ) {
 				$error['error'] = '1';
 				$error['wait'] = $wait;
 			}
-			else {		
+			else {
 				// nicer sender name and address
 				if ( ! empty( $mf_content_sender ) ) {
 					add_filter( 'wp_mail_from_name', 'shariff3UU_set_wp_mail_from_name' );
 				}
-				elseif ( ! empty( $mf_content_from ) ) { 
+				elseif ( ! empty( $mf_content_from ) ) {
 					add_filter( 'wp_mail_from_name', 'shariff3UU_set2_wp_mail_from_name' );
-				} 
+				}
 				elseif ( ! empty( $GLOBALS["shariff3UU_mailform"]["mail_sender_name"] ) ) {
 					add_filter( 'wp_mail_from_name', 'shariff3UU_set3_wp_mail_from_name' );
 				}
-				else { 
-					add_filter( 'wp_mail_from_name', 'shariff3UU_set4_wp_mail_from_name' ); 
+				else {
+					add_filter( 'wp_mail_from_name', 'shariff3UU_set4_wp_mail_from_name' );
 				}
 
 				// Achtung: NICHT die Absenderadresse selber umschreiben!
 				// Das fuehrt bei allen sauber aufgesetzten Absender-MTAs zu Problemen mit SPF und/oder DKIM.
-				 
+
 				// default sender address
 				if ( ! empty( $shariff3UU["mail_sender_from"] ) ) {
 					add_filter( 'wp_mail_from', 'shariff3UU_set_wp_mail_from' );
@@ -1299,7 +1299,7 @@ function sharif3UU_procSentMail( $content ) {
 function shariff3UU_limitRemoteUser() {
 	// options
 	$shariff3UU_mailform = $GLOBALS["shariff3UU_mailform"];
-	
+
 	// rtzrtz: umgeschrieben aus dem DOS-Blocker. Nochmal gruebeln, ob wir das ohne memcache mit der Performance schaffen. Daher auch nur Grundfunktionalitaet.
 	if ( ! isset( $shariff3UU_mailform['REMOTEHOSTS'] ) ) {
 		$shariff3UU_mailform['REMOTEHOSTS'] = '';
@@ -1313,14 +1313,14 @@ function shariff3UU_limitRemoteUser() {
 	else {
 		$wait = '5';
 	}
-	
+
 	// calculate current wait time
 	if ( $HOSTS[$_SERVER['REMOTE_ADDR']]-time()+$wait > 0 ) {
 		if ( $HOSTS[$_SERVER['REMOTE_ADDR']]-time() < 86400 ) {
 			$wait = ($HOSTS[$_SERVER['REMOTE_ADDR']]-time()+$wait)*2;
 		}
 	}
-	
+
 	$HOSTS[$_SERVER['REMOTE_ADDR']] = time()+$wait;
 
 	// etwas Muellentsorgung
@@ -1509,7 +1509,7 @@ function shariff3UU_deactivate() {
 				restore_current_blog();
 			}
 		}
-	} 
+	}
 	else {
 		// purge transients
 		shariff3UU_purge_transients_deactivation();
@@ -1534,5 +1534,3 @@ function shariff3UU_purge_transients_deactivation() {
 	// clear object cache
 	wp_cache_flush();
 }
-
-?>
