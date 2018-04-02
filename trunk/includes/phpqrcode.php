@@ -165,7 +165,7 @@
             foreach ($frame as &$frameLine) {
                 
                 for($i=0; $i<$len; $i++) {
-                    $frameLine[$i] = (ord($frameLine[$i])&1)?'1':'0';
+                    $frameLine[$i] = (ord($frameLine[$i])&1)?1:'0';
                 }
             }
             
@@ -196,7 +196,7 @@
             foreach ($qrTab as $line) {
                 $arrAdd = array();
                 foreach(str_split($line) as $char)
-                    $arrAdd[] = ($char=='1')?1:0;
+                    $arrAdd[] = ($char==1)?1:0;
                 $barcode_array['bcode'][] = $arrAdd;
             }
                     
@@ -817,7 +817,7 @@
             
                     foreach ($frame as &$frameLine) {
                         $frameLine = join('<span class="m">&nbsp;&nbsp;</span>', explode('0', $frameLine));
-                        $frameLine = join('&#9608;&#9608;', explode('1', $frameLine));
+                        $frameLine = join('&#9608;&#9608;', explode(1, $frameLine));
                     }
                     
                     ?>
@@ -1017,7 +1017,7 @@
 
             for($y=0; $y<$h; $y++) {
                 for($x=0; $x<$w; $x++) {
-                    if ($frame[$y][$x] == '1') {
+                    if ($frame[$y][$x] == 1) {
                         ImageSetPixel($base_image,$x+$outerFrame,$y+$outerFrame,$col[1]);
                     }
                 }
@@ -3269,7 +3269,7 @@
             
             switch ($level.'') {
                 case '0':
-                case '1':
+                case 1:
                 case '2':
                 case '3':
                         $enc->level = $level;
@@ -3533,7 +3533,7 @@
 
             for($i=0; $i<$h; $i++) {
                 for($j=0; $j<$w; $j++) {
-                    if( $frame[$i][$j] == '1') {
+                    if( $frame[$i][$j] == 1) {
                         $y = $h - 1 - $i;
                         $x = $j;
                         $output .= $x.' '.$y.' 1 1 F'."\n";
@@ -3607,7 +3607,7 @@
 
             for($i=0; $i<$h; $i++) {
                 for($j=0; $j<$w; $j++) {
-                    if( $frame[$i][$j] == '1') {
+                    if( $frame[$i][$j] == 1) {
                         $y = ($i + $outerFrame) * $pixelPerPoint;
                         $x = ($j + $outerFrame) * $pixelPerPoint;
                         $output .= '<use x="'.$x.'" y="'.$y.'" xlink:href="#p" />'."\n";

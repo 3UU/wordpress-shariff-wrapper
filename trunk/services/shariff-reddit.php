@@ -1,54 +1,74 @@
 <?php
-// reddit
+/**
+ * Will be included in the shariff.php only, when Reddit is requested as a service.
+ *
+ * @package Shariff Wrapper
+ */
 
-// prevent direct calls
-if ( ! class_exists('WP') ) { die(); }
+// Prevent direct calls.
+if ( ! class_exists( 'WP' ) ) {
+	die();
+}
 
-// frontend
-if ( isset( $frontend ) && $frontend == '1' ) {
-	// service url
+// Check if we need the frontend or the backend part.
+if ( isset( $frontend ) && 1 === $frontend ) {
+	// Service URL.
 	$service_url = esc_url( 'https://www.reddit.com/submit' );
 
-	// build button url
+	// Build button URL.
 	$button_url = $service_url . '?url=' . $share_url;
 
-	// svg icon
-	$svg_icon = '<svg width="32px" height="20px" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 42 32"><path d="M14.8 17.2q0 1-0.7 1.7t-1.7 0.7q-1 0-1.7-0.7t-0.7-1.7q0-1 0.7-1.8t1.7-0.7 1.7 0.7 0.7 1.8zM23.1 14.7q1 0 1.7 0.7t0.7 1.8q0 1-0.7 1.7t-1.7 0.7q-1 0-1.8-0.7t-0.7-1.7q0-1 0.8-1.8t1.7-0.7zM35.4 14.5q0 1.1-0.5 2t-1.5 1.5q0.1 0.6 0.1 1.1 0 2.1-1.2 4.1t-3.5 3.5q-2.2 1.5-5.1 2.2t-6 0.8q-3.1 0-6-0.8t-5.1-2.2q-2.3-1.5-3.5-3.4t-1.2-4.1q0-0.5 0.1-1.2-0.9-0.5-1.4-1.5t-0.5-2q0-1.7 1.2-2.8t2.8-1.2q1.5 0 2.7 1 4.4-2.8 10.6-2.9l2.4-7.6q0.1-0.3 0.3-0.4t0.5-0.1l6.2 1.5q0.4-0.9 1.2-1.5t1.9-0.5q1.4 0 2.3 1t1 2.4-1 2.3-2.3 1q-1.4 0-2.3-1t-1-2.3l-5.6-1.3-2.1 6.5q5.9 0.3 10 3 1.1-1.1 2.7-1.1 1.7 0 2.8 1.2t1.2 2.8zM29.7 1.4q-0.8 0-1.4 0.6t-0.6 1.4 0.6 1.4 1.4 0.6 1.4-0.6 0.5-1.4-0.5-1.4-1.4-0.6zM1.4 14.5q0 1.2 0.9 2 0.9-2.3 3.2-4.2-0.6-0.4-1.5-0.4-1.1 0-1.9 0.8t-0.8 1.9zM28 25.6q2-1.3 3.1-3t1.1-3.5-1.1-3.5-3.1-3q-2-1.3-4.7-2t-5.6-0.7-5.6 0.7-4.7 2q-2 1.3-3 3t-1.1 3.5 1.1 3.5 3 3q2.1 1.3 4.7 2t5.6 0.7 5.6-0.7 4.7-2zM33 16.6q1-0.8 1-2.1 0-1.1-0.8-1.9t-1.9-0.8q-0.9 0-1.5 0.5 2.3 1.9 3.2 4.3zM22.5 23.2q0.2-0.2 0.5-0.2t0.5 0.2 0.2 0.5-0.2 0.5q-1.8 1.8-5.7 1.8h0q-3.9 0-5.7-1.8-0.2-0.2-0.2-0.5t0.2-0.5 0.5-0.2 0.5 0.2q1.4 1.4 4.7 1.4h0q3.4 0 4.7-1.4z"/></svg>';
-
-	// colors
-	$main_color = '#ff4500';
+	// Colors.
+	$main_color      = '#ff4500';
 	$secondary_color = '#ff5700';
 
-	// backend available?
-	$backend_available = '1';
+	// SVG icon.
+	$svg_icon = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path fill="' . $main_color . '" d="M440.3 203.5c-15 0-28.2 6.2-37.9 15.9-35.7-24.7-83.8-40.6-137.1-42.3L293 52.3l88.2 19.8c0 21.6 17.6 39.2 39.2 39.2 22 0 39.7-18.1 39.7-39.7s-17.6-39.7-39.7-39.7c-15.4 0-28.7 9.3-35.3 22l-97.4-21.6c-4.9-1.3-9.7 2.2-11 7.1L246.3 177c-52.9 2.2-100.5 18.1-136.3 42.8-9.7-10.1-23.4-16.3-38.4-16.3-55.6 0-73.8 74.6-22.9 100.1-1.8 7.9-2.6 16.3-2.6 24.7 0 83.8 94.4 151.7 210.3 151.7 116.4 0 210.8-67.9 210.8-151.7 0-8.4-.9-17.2-3.1-25.1 49.9-25.6 31.5-99.7-23.8-99.7zM129.4 308.9c0-22 17.6-39.7 39.7-39.7 21.6 0 39.2 17.6 39.2 39.7 0 21.6-17.6 39.2-39.2 39.2-22 .1-39.7-17.6-39.7-39.2zm214.3 93.5c-36.4 36.4-139.1 36.4-175.5 0-4-3.5-4-9.7 0-13.7 3.5-3.5 9.7-3.5 13.2 0 27.8 28.5 120 29 149 0 3.5-3.5 9.7-3.5 13.2 0 4.1 4 4.1 10.2.1 13.7zm-.8-54.2c-21.6 0-39.2-17.6-39.2-39.2 0-22 17.6-39.7 39.2-39.7 22 0 39.7 17.6 39.7 39.7-.1 21.5-17.7 39.2-39.7 39.2z"/></svg>';
 
-	// button title / label
+	// Backend available?
+	$backend_available = 1;
+
+	// Button alt label.
 	$button_title_array = array(
+		'bg' => 'Сподели в Reddit',
+		'cs' => 'Sdílet na Redditu',
+		'da' => 'Del på Reddit',
 		'de' => 'Bei Reddit teilen',
 		'en' => 'Share on Reddit',
 		'es' => 'Compartir en Reddit',
+		'fi' => 'Jaa Redditissä',
 		'fr' => 'Partager sur Reddit',
+		'hr' => 'Podijelite na Reddit',
+		'hu' => 'Megosztás Redditen',
 		'it' => 'Condividi su Reddit',
-		'da' => 'Del på Reddit',
-		'nl' => 'Delen op Reddit'
+		'ja' => 'Reddit上で共有',
+		'ko' => 'Reddit에서 공유하기',
+		'nl' => 'Delen op Reddit',
+		'no' => 'Del på Reddit',
+		'pl' => 'Udostępnij przez Reddit',
+		'pt' => 'Compartilhar no Reddit',
+		'ro' => 'Partajează pe Reddit',
+		'ru' => 'Поделиться на Reddit',
+		'sk' => 'Zdieľať na Reddit',
+		'sl' => 'Deli na Reddit',
+		'sr' => 'Podeli na Reddit-u',
+		'sv' => 'Dela på Reddit',
+		'tr' => 'Reddit\'ta paylaş',
+		'zh' => '分享至Reddit',
 	);
-}
-// backend
-elseif ( isset( $backend ) && $backend == '1' ) {
-	// fetch counts
-	$reddit = sanitize_text_field( wp_remote_retrieve_body( wp_remote_get( 'https://www.reddit.com/api/info.json?url=' . $post_url ) ) );
+} elseif ( isset( $backend ) && 1 === $backend ) {
+	// Fetch counts.
+	$reddit      = sanitize_text_field( wp_remote_retrieve_body( wp_remote_get( 'https://www.reddit.com/api/info.json?url=' . $post_url ) ) );
 	$reddit_json = json_decode( $reddit, true );
 
-	// store results, if we have some
+	// Store results, if we have some and record errors, if enabled (e.g. request from the status tab).
 	if ( isset( $reddit_json['data']['children'] ) ) {
 		$count = 0;
 		foreach ( $reddit_json['data']['children'] as $child ) {
 			$count += intval( $child['data']['score'] );
-	    }
+		}
 		$share_counts['reddit'] = $count;
-	}
-	// record errors, if enabled (e.g. request from the status tab)
-	elseif ( isset( $record_errors ) && $record_errors == '1' ) {
+	} elseif ( isset( $record_errors ) && 1 === $record_errors ) {
 		$service_errors['reddit'] = $reddit;
 	}
 }

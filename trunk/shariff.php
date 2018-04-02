@@ -1,688 +1,894 @@
 <?php
-/*
+/**
  * Plugin Name: Shariff Wrapper
- * Plugin URI: https://de.wordpress.org/plugins/shariff/
- * Description: The Shariff Wrapper provides share buttons that respect the privacy of your visitors and are compliant to the German data protection laws.
- * Version: 4.3.0
+ * Plugin URI: https://wordpress.org/plugins-wp/shariff/
+ * Description: The Shariff Wrapper provides share buttons that respect the privacy of your visitors and that are compliant to the General Data Protection Regulation (GDPR) (Regulation (EU) 2016/679).
+ * Version: 4.4.0.RC1
  * Author: Jan-Peter Lambeck & 3UU
- * Author URI: https://de.wordpress.org/plugins/shariff/
+ * Author URI: https://www.jplambeck.de
  * License: MIT
- * License URI: http://opensource.org/licenses/MIT
- * Donate link: http://folge.link/?bitcoin:1Ritz1iUaLaxuYcXhUCoFhkVRH6GWiMTP
+ * License URI: https://opensource.org/licenses/MIT
  * Text Domain: shariff
+ *
+ * @package WordPress
  */
 
-// prevent direct calls to shariff.php
-if ( ! class_exists('WP') ) { die(); }
+// Prevent direct calls to shariff.php.
+if ( ! class_exists( 'WP' ) ) {
+	die();
+}
 
-// get options (needed for front- and backend)
-$shariff3UU_basic = (array) get_option( 'shariff3UU_basic' );
-$shariff3UU_design = (array) get_option( 'shariff3UU_design' );
-$shariff3UU_advanced = (array) get_option( 'shariff3UU_advanced' );
-$shariff3UU_mailform = (array) get_option( 'shariff3UU_mailform' );
-$shariff3UU_statistic = (array) get_option( 'shariff3UU_statistic' );
-$shariff3UU = array_merge( $shariff3UU_basic, $shariff3UU_design, $shariff3UU_advanced, $shariff3UU_mailform, $shariff3UU_statistic );
+// Get options (needed for front- and backend).
+$shariff3uu_basic     = (array) get_option( 'shariff3uu_basic' );
+$shariff3uu_design    = (array) get_option( 'shariff3uu_design' );
+$shariff3uu_advanced  = (array) get_option( 'shariff3uu_advanced' );
+$shariff3uu_statistic = (array) get_option( 'shariff3uu_statistic' );
 
-// update function to perform tasks _once_ after an update, based on version number to work for automatic as well as manual updates
-function shariff3UU_update() {
-	/******************** ADJUST VERSION ********************/
-	$code_version = "4.3.0"; // set code version - needs to be adjusted for every new version!
-	/******************** ADJUST VERSION ********************/
+// Force the creation as a global variable in order to work with WP-CLI.
+global $shariff3uu;
+$shariff3uu = array_merge( $shariff3uu_basic, $shariff3uu_design, $shariff3uu_advanced, $shariff3uu_statistic );
 
-	// get options
-	$shariff3UU = $GLOBALS["shariff3UU"];
+/**
+ * Update function to perform tasks _once_ after an update, based on version number to work for automatic as well as manual updates.
+ */
+function shariff3uu_update() {
+	// Adjust code version.
+	$code_version = '4.4.0.RC1';
 
-	// check if the installed version is older than the code version and include updates.php if neccessary
-	if ( empty( $shariff3UU["version"] ) || ( isset( $shariff3UU["version"] ) && version_compare( $shariff3UU["version"], $code_version ) == '-1' ) ) {
-		// include updates.php
-		include( plugin_dir_path( __FILE__ ) . 'updates.php' );
+	// Get options.
+	$shariff3uu = $GLOBALS['shariff3uu'];
+
+	// Check if the installed version is older than the code version and include updates.php if necessary.
+	if ( empty( $shariff3uu['version'] ) || ( isset( $shariff3uu['version'] ) && version_compare( $shariff3uu['version'], $code_version ) === '-1' ) ) {
+		// Include updates.php.
+		include dirname( __FILE__ ) . '/updates.php';
 	}
 }
-add_action( 'admin_init', 'shariff3UU_update' );
+add_action( 'admin_init', 'shariff3uu_update' );
 
-// allowed tags for headline
+/** Require Shariff Widget. */
+require dirname( __FILE__ ) . '/includes/class-shariff-widget.php';
+
+// Allowed tags for headline.
 $allowed_tags = array(
-	// direct formatting e.g. <strong>
+	// Direct formatting e.g. <strong>.
 	'strong' => array(),
 	'em'     => array(),
 	'b'      => array(),
 	'i'      => array(),
 	'br'     => array(),
-	// elements that can be formatted via CSS
-	'span' => array( 'class' => array(), 'style' => array(), 'id' => array() ),
-	'div'  => array( 'class' => array(), 'style' => array(), 'id' => array() ),
-	'p'    => array( 'class' => array(), 'style' => array(), 'id' => array() ),
-	'h1'   => array( 'class' => array(), 'style' => array(), 'id' => array() ),
-	'h2'   => array( 'class' => array(), 'style' => array(), 'id' => array() ),
-	'h3'   => array( 'class' => array(), 'style' => array(), 'id' => array() ),
-	'h4'   => array( 'class' => array(), 'style' => array(), 'id' => array() ),
-	'h5'   => array( 'class' => array(), 'style' => array(), 'id' => array() ),
-	'h6'   => array( 'class' => array(), 'style' => array(), 'id' => array() ),
-	'hr'   => array( 'class' => array(), 'style' => array(), 'id' => array() ),
+	// Elements that can be formatted via CSS.
+	'span'   => array(
+		'class' => array(),
+		'style' => array(),
+		'id'    => array(),
+	),
+	'div'    => array(
+		'class' => array(),
+		'style' => array(),
+		'id'    => array(),
+	),
+	'p'      => array(
+		'class' => array(),
+		'style' => array(),
+		'id'    => array(),
+	),
+	'h1'     => array(
+		'class' => array(),
+		'style' => array(),
+		'id'    => array(),
+	),
+	'h2'     => array(
+		'class' => array(),
+		'style' => array(),
+		'id'    => array(),
+	),
+	'h3'     => array(
+		'class' => array(),
+		'style' => array(),
+		'id'    => array(),
+	),
+	'h4'     => array(
+		'class' => array(),
+		'style' => array(),
+		'id'    => array(),
+	),
+	'h5'     => array(
+		'class' => array(),
+		'style' => array(),
+		'id'    => array(),
+	),
+	'h6'     => array(
+		'class' => array(),
+		'style' => array(),
+		'id'    => array(),
+	),
+	'hr'     => array(
+		'class' => array(),
+		'style' => array(),
+		'id'    => array(),
+	),
 );
 
-// admin options
+/** Admin options */
 if ( is_admin() ) {
-	// include admin_menu.php
-	include( plugin_dir_path( __FILE__ ) . 'admin/admin_menu.php' );
-	// include admin_notices.php
-	include( plugin_dir_path( __FILE__ ) . 'admin/admin_notices.php' );
+	// Include admin_menu.php.
+	include dirname( __FILE__ ) . '/admin/admin-menu.php';
+	// Include admin_notices.php.
+	include dirname( __FILE__ ) . '/admin/admin-notices.php';
 }
 
-// custom meta box
-function shariff3UU_include_metabox() {
-	// check if user is allowed to publish posts
+/** Custom meta box */
+function shariff3uu_include_metabox() {
+	// Check if user is allowed to publish posts.
 	if ( current_user_can( 'publish_posts' ) ) {
-		// include admin_metabox.php
-		include( plugin_dir_path( __FILE__ ) . 'admin/admin_metabox.php' );
+		// Include admin_metabox.php.
+		include dirname( __FILE__ ) . '/admin/admin-metabox.php';
 	}
 }
-add_action('init','shariff3UU_include_metabox');
-
-// waiting for WordPress core to handle the saving of the dismiss click themself
-function shariff3UU_dismiss_update_notice() {
-	update_option( 'shariff3UU_hide_update_notice', 'hide' );
+// Check if meta box has been disabled in the options, if not add_action.
+if ( ! isset( $shariff3uu['disable_metabox'] ) || isset( $shariff3uu['disable_metabox'] ) && 1 !== $shariff3uu['disable_metabox'] ) {
+	add_action( 'init', 'shariff3uu_include_metabox' );
 }
-add_action( 'wp_ajax_shariffdismiss', 'shariff3UU_dismiss_update_notice' );
 
-// add meta links on plugin page
-function shariff3UU_meta_links( $links, $file ) {
-	$plugin = plugin_basename(__FILE__);
-	// create link
-	if ( $file == $plugin ) {
+/**
+ * Add meta links (settings and support forum) to our entry on the plugin page.
+ *
+ * @param array  $links Array of all current links.
+ * @param string $file Path to plugin of the current element.
+ *
+ * @return array New array including our links to settings and support forum.
+ */
+function shariff3uu_meta_links( $links, $file ) {
+	$plugin = plugin_basename( __FILE__ );
+	// Create link.
+	if ( $file === $plugin ) {
 		return array_merge(
 			$links,
-			array( '<a href="options-general.php?page=shariff3uu">' . __( 'Settings', 'shariff' ) . '</a>', '<a href="https://wordpress.org/support/plugin/shariff" target="_blank">' . __( 'Support Forum', 'shariff' ) . '</a>' )
+			array( '<a href="' . home_url() . '/wp-admin/options-general.php?page=shariff3uu">' . __( 'Settings', 'shariff' ) . '</a>', '<a href="https://wordpress.org/support/plugin/shariff" target="_blank">' . __( 'Support Forum', 'shariff' ) . '</a>' )
 		);
 	}
 	return $links;
 }
-add_filter( 'plugin_row_meta', 'shariff3UU_meta_links', 10, 2 );
+add_filter( 'plugin_row_meta', 'shariff3uu_meta_links', 10, 2 );
 
-// translations
+/** Initialize translations. */
 function shariff_init_locale() {
 	if ( function_exists( 'load_plugin_textdomain' ) ) {
 		load_plugin_textdomain( 'shariff' );
 	}
 }
 
-// register wp rest api route and sanitize input
-function shariff3UU_sanitize_api() {
+/** Register the wp rest api route and sanitize the input */
+function shariff3uu_sanitize_api() {
 	register_rest_route( 'shariff/v1', '/share_counts', array(
-		'methods' => 'GET',
-		'callback' => 'shariff3UU_share_counts',
-		'args' => array(
-			'url' => array( 'sanitize_callback' => 'esc_url' ),
-			'services' => array( 'sanitize_callback' => 'sanitize_text_field' ),
-			'timestamp' => array( 'sanitize_callback' => 'absint' ),
+		'methods'  => 'GET',
+		'callback' => 'shariff3uu_share_counts',
+		'args'     => array(
+			'url'       => array(
+				'sanitize_callback' => 'esc_url',
+				'required'          => true,
+				'description'       => __( 'URL of the post or page to request share counts for.', 'shariff' ),
+			),
+			'services'  => array(
+				'sanitize_callback' => 'sanitize_text_field',
+				'required'          => true,
+				'description'       => __( 'A list of services separated by |. Example: twitter|facebook|xing', 'shariff' ),
+			),
+			'timestamp' => array(
+				'sanitize_callback' => 'absint',
+				'description'       => __( 'Timestamp of the last update of the post. Used for dynamic cache lifespan.', 'shariff' ),
+			),
 		),
 	) );
 }
-add_action( 'rest_api_init', 'shariff3UU_sanitize_api' );
+add_action( 'rest_api_init', 'shariff3uu_sanitize_api' );
 
-// provide share counts via the wp rest api
-function shariff3UU_share_counts( WP_REST_Request $request ) {
-	// get options
-	$shariff3UU = $GLOBALS["shariff3UU"];
+/**
+ * Provide share counts via the wp rest api.
+ *
+ * @param WP_REST_Request $request Incoming request.
+ *
+ * @return string Returns the share counts for all requested services if available or an error message.
+ */
+function shariff3uu_share_counts( WP_REST_Request $request ) {
+	// Get options.
+	$shariff3uu = $GLOBALS['shariff3uu'];
 
-	// parameters
-	$url = urldecode( $request['url'] );
-	$services = $request['services'];
+	// Setup Parameters.
+	$url       = urldecode( $request['url'] );
+	$services  = $request['services'];
 	$timestamp = $request['timestamp'];
-	
-	// exit if no url is provided
-	if ( empty( $url ) || $url == 'undefined' ) {
+
+	// Exit if no url is provided and provide an error message.
+	if ( empty( $url ) || 'undefined' === $url ) {
 		return new WP_Error( 'nourl', 'No URL provided!', array( 'status' => 400 ) );
 	}
 
-	// exit if no services are provided
-	if ( empty( $services ) || $services == 'undefined' ) {
+	// Exit if no services are provided and provide an error message.
+	if ( empty( $services ) || 'undefined' === $services ) {
 		return new WP_Error( 'noservices', 'No services provided!', array( 'status' => 400 ) );
 	}
 
-	// make sure that the provided url matches the WordPress domain
-	$get_url = parse_url( $url );
-	$wp_url = parse_url( get_bloginfo('url') );
-	// on an external backend check allowed hosts
+	// Make sure that the provided url matches the WordPress domain.
+	$get_url = wp_parse_url( $url );
+	$wp_url  = wp_parse_url( get_bloginfo( 'url' ) );
+	// On an external backend check allowed hosts, else compare that domain is equal.
 	if ( defined( 'SHARIFF_FRONTENDS' ) ) {
 		$shariff_frontends = array_flip( explode( '|', SHARIFF_FRONTENDS ) );
 		if ( ! isset( $get_url['host'] ) || ! array_key_exists( $get_url['host'], $shariff_frontends ) ) {
 			return new WP_Error( 'externaldomainnotallowed', 'External domain not allowed by this server!', array( 'status' => 400 ) );
 		}
-	}
-	// else compare that domain is equal 
-	elseif ( ! isset( $get_url['host'] ) || $get_url['host'] != $wp_url['host'] ) {
+	} elseif ( ! isset( $get_url['host'] ) || $get_url['host'] !== $wp_url['host'] ) {
 		return new WP_Error( 'domainnotallowed', 'Domain not allowed by this server!', array( 'status' => 400 ) );
 	}
 
-	// encode shareurl
-	$post_url  = urlencode( esc_url( $url ) );
-	$post_url2 = $url;
-	
-	// set transient name
-	// transient names can only contain 40 characters, therefore we use a hash (md5 always creeates a 32 character hash)
-	// we need a prefix so we can clean up on deinstallation and updates
-	$post_hash = 'shariff' . hash( "md5", $post_url );
+	// Encode the shareurl.
+	$post_url     = rawurlencode( esc_url( $url ) );
+	$post_url_raw = $url;
 
-	// check for ttl option, must be between 60 and 7200 seconds
-	if ( isset( $shariff3UU['ttl'] ) ) {
-		$ttl = absint( $shariff3UU['ttl'] );
-		// make sure ttl is a reasonable number
-		if ( $ttl < '61' ) $ttl = '60';
-		elseif ( $ttl > '7200' ) $ttl = '7200';
-	}
-	// else set it to new default (five minutes)
-	else {
+	// Set transient name.
+	// Transient names can only contain 40 characters, therefore we use a hash (md5 always creates a 32 character hash).
+	// We need a prefix so we can clean up on uninstall and updates.
+	$post_hash = 'shariff' . hash( 'md5', $post_url );
+
+	// Check for ttl option, must be between 60 and 7200 seconds.
+	if ( isset( $shariff3uu['ttl'] ) ) {
+		$ttl = absint( $shariff3uu['ttl'] );
+		// Make sure ttl is a reasonable number.
+		if ( $ttl < '61' ) {
+			$ttl = '60';
+		} elseif ( $ttl > '7200' ) {
+			$ttl = '7200';
+		}
+	} else {
+		// Else set it to new default (five minutes).
 		$ttl = '300';
 	}
 
-	// adjust ttl based on the post age
-	if ( isset ( $timestamp ) && ( ! isset( $shariff3UU["disable_dynamic_cache"] ) || ( isset( $shariff3UU["disable_dynamic_cache"] ) && $shariff3UU["disable_dynamic_cache"] != '1' ) ) ) {
-		// the timestamp represents the last time the post or page was modfied
-		$post_time = intval( $timestamp );
+	// Adjust ttl based on the post age.
+	if ( isset( $timestamp ) && ( ! isset( $shariff3uu['disable_dynamic_cache'] ) || ( isset( $shariff3uu['disable_dynamic_cache'] ) && '-1' !== $shariff3uu['disable_dynamic_cache'] ) ) ) {
+		// The timestamp represents the last time the post or page was modified.
+		$post_time    = intval( $timestamp );
 		$current_time = current_time( 'timestamp', true );
-		$post_age = round( abs( $current_time - $post_time ) );
+		$post_age     = round( abs( $current_time - $post_time ) );
 		if ( $post_age > '0' ) {
 			$post_age_days = round( $post_age / 60 / 60 / 24 );
-			// make sure ttl base is not getting too high
-			if ( $ttl > '300' ) $ttl = '300';
+			// Make sure ttl base is not getting too high.
+			if ( $ttl > '300' ) {
+				$ttl = '300';
+			}
 			$ttl = round( ( $ttl + $post_age_days * 3 ) * ( $post_age_days * 2 ) );
 		}
-		// set minimum ttl to 60 seconds and maxium ttl to one week
+
+		// Set minimum ttl to 60 seconds and maximum ttl to one week.
 		if ( $ttl < '60' ) {
 			$ttl = '60';
-		}
-		elseif ( $ttl > '604800' ) {
+		} elseif ( $ttl > '604800' ) {
 			$ttl = '604800';
 		}
-		// in case we get a timestamp older than 01.01.2000 or for example a 0, use a reasonable default value of five minutes
+
+		// In case we get a timestamp older than 01.01.2000 or for example a 0, use a reasonable default value of five minutes.
 		if ( $post_time < '946684800' ) {
 			$ttl = '300';
 		}
 	}
 
-	// default
+	// Set the default value.
 	$need_update = false;
 
-	// remove totalnumber for array
+	// Remove totalnumber for array.
 	$real_services = str_replace( 'totalnumber|', '', $services );
 	$real_services = str_replace( '|totalnumber', '', $real_services );
 
-	// explode services
+	// Explode services.
 	$service_array = explode( '|', $real_services );
-	
-	// remove duplicated entries
+
+	// Remove duplicated entries.
 	$service_array = array_unique( $service_array );
 
-	// get old share counts
-	if ( get_transient( $post_hash ) !== false ) $old_share_counts = get_transient( $post_hash );
-	else $old_share_counts = array();
-
-	// check if we need to update
+	// Get old share counts.
 	if ( get_transient( $post_hash ) !== false ) {
-		// check timestamp
+		$old_share_counts = get_transient( $post_hash );
+	} else {
+		$old_share_counts = array();
+	}
+
+	// Check if we need to update.
+	if ( get_transient( $post_hash ) !== false ) {
+		// Check timestamp.
 		$diff = current_time( 'timestamp', true ) - $old_share_counts['timestamp'];
-		if ( $diff > $ttl ) $need_update = true;
-		// check if we have a different set of services than stored in the cache
+		if ( $diff > $ttl ) {
+			$need_update = true;
+		}
+		// Check if we have a different set of services than stored in the cache.
 		$diff_array = array_diff_key( array_flip( $service_array ), $old_share_counts );
 		if ( ! empty( $diff_array ) ) {
 			$need_update = true;
-			// we only need to update the missing service
+			// We only need to update the missing service.
 			$service_array = array_flip( $diff_array );
 		}
+	} else {
+		$need_update = true;
 	}
-	else $need_update = true;
-	
-	// prevent php notices
-	$response = '';
+
+	// Prevent php notices if debug mode is enabled.
+	$response     = '';
 	$share_counts = array();
 
-	// if we do not need an update, use stored data
-	if ( $need_update === false ) {
+	// If we do not need an update, use stored data.
+	if ( false === $need_update ) {
 		$share_counts = $old_share_counts;
-		// update info
+		// Provide update info for debugging and support.
 		$share_counts['updated'] = '0';
-	}
-	// if only totalnumber is requested we only use cached data
-	elseif ( $services == 'totalnumber' ) {
+	} elseif ( 'totalnumber' === $services ) {
+		// If only totalnumber is requested we only use cached data.
 		$share_counts = $old_share_counts;
-	}
-	// elseif we want to use an external API
-	elseif ( isset( $shariff3UU["external_host"] ) && ! empty( $shariff3UU["external_host"] ) ) {
-		$response = sanitize_text_field( wp_remote_retrieve_body( wp_remote_get( $shariff3UU["external_host"] . '?url=' . urlencode( $url ) . '&services=' . $services . '&timestamp=' . $timestamp . '"' ) ) );
+	} elseif ( isset( $shariff3uu['external_host'] ) && ! empty( $shariff3uu['external_host'] ) ) {
+		// Check if we want to use an external API.
+		$response = sanitize_text_field( wp_remote_retrieve_body( wp_remote_get( $shariff3uu['external_host'] . '?url=' . rawurlencode( $url ) . '&services=' . $services . '&timestamp=' . $timestamp . '"' ) ) );
+		// Decode response.
 		$share_counts = json_decode( $response, true );
-		// save transient
+		// Save transient.
 		set_transient( $post_hash, $share_counts, '604800' );
-		// offer a hook to work with the share counts
+		// Offer a hook to work with the share counts.
 		do_action( 'shariff_share_counts', $share_counts );
-	}
-	// else we fetch new counts ourselfs
-	else {
-		$share_counts = shariff3UU_fetch_sharecounts( $service_array, $old_share_counts, $post_hash, $post_url, $post_url2 );
+	} else {
+		// Else we fetch new counts ourselves.
+		$share_counts = shariff3uu_fetch_sharecounts( $service_array, $old_share_counts, $post_hash, $post_url_raw );
 	}
 
-	// return results, if we have some or an error message if not
-	if ( isset( $share_counts ) && $share_counts != null ) {
+	// Return results, if we have some or an error message if not.
+	if ( isset( $share_counts ) && null !== $share_counts ) {
 		return $share_counts;
+	} else {
+		return new WP_Error( 'nodata', 'Could not receive any data.', array( 'status' => 400 ) );
 	}
 }
 
-// fetch share counts
-function shariff3UU_fetch_sharecounts( $service_array, $old_share_counts, $post_hash, $post_url, $post_url2 ) {
-	// we only need the backend part from the service phps
-	$backend = '1';
+/**
+ *  Fetch share counts.
+ *
+ * @param array  $service_array Array with the desired services.
+ * @param array  $old_share_counts Array of all already stored share counts.
+ * @param string $post_hash MD5-Hash of the current post.
+ * @param string $post_url_raw Raw URL of the current post.
+ *
+ * @return array Array of all fetched share counts.
+ */
+function shariff3uu_fetch_sharecounts( $service_array, $old_share_counts, $post_hash, $post_url_raw ) {
+	// We only need the backend part from the service phps.
+	$backend = 1;
 
-	// get options
-	$shariff3UU = $GLOBALS["shariff3UU"];
+	// Encode the shareurl.
+	$post_url = rawurlencode( esc_url( $post_url_raw ) );
 
-	// prevent php notices
-	$total_count = '0';
+	// Get options.
+	$shariff3uu = $GLOBALS['shariff3uu'];
+
+	// Prevent php notices.
+	$total_count  = 0;
 	$share_counts = array();
-			
-	// loop through all desired services
+
+	// Loop through all desired services.
 	foreach ( $service_array as $service ) {
-		// only include services that are not disabled
-		if ( ! empty( $service ) && ( ! isset( $shariff3UU["disable"][ $service ] ) || ( isset( $shariff3UU["disable"][ $service ] ) && $shariff3UU["disable"][ $service ] == 0 ) ) ) {
-			// determine path
-			$path_service_file = plugin_dir_path( __FILE__ ) . 'services/shariff-' . $service . '.php';
-			// include service files
-			if ( file_exists( $path_service_file ) ) include( $path_service_file );
+		// Only include services that are not disabled.
+		if ( ! empty( $service ) && ( ! isset( $shariff3uu['disable'][ $service ] ) || ( isset( $shariff3uu['disable'][ $service ] ) && 0 === $shariff3uu['disable'][ $service ] ) ) ) {
+			// Determine path.
+			$path_service_file = dirname( __FILE__ ) . '/services/shariff-' . $service . '.php';
+			// Include service files.
+			if ( file_exists( $path_service_file ) ) {
+				include $path_service_file;
+			}
 			// if we have an error (e.g. a timeout) and we have an old share count for this service, keep it!
 			if ( array_key_exists( $service, $old_share_counts ) && ( ! array_key_exists( $service, $share_counts ) || empty( $share_counts[ $service ] ) ) ) {
 				$share_counts[ $service ] = $old_share_counts[ $service ];
 			}
 		}
-		// calculate total share count
-		if ( isset( $share_counts[ $service ] ) ) $total_count = $total_count + $share_counts[ $service ];
+		// Calculate total share count.
+		if ( isset( $share_counts[ $service ] ) ) {
+			$total_count = $total_count + $share_counts[ $service ];
+		}
 	}
 
-	// add total count
-	if ( $total_count != '0' ) $share_counts[ 'total' ] = $total_count;
+	// Add total count.
+	if ( 0 !== $total_count ) {
+		$share_counts['total'] = $total_count;
+	}
 
-	// save transient, if we have counts
+	// Save transient, if we have counts.
 	if ( isset( $share_counts ) ) {
-		// add current timestamp and url
+		// Add current timestamp and url.
 		$share_counts['timestamp'] = current_time( 'timestamp', true );
-		$share_counts['url'] = $post_url2;
-		// combine different set of services
+		$share_counts['url']       = $post_url_raw;
+		// Combine different set of services.
 		if ( get_transient( $post_hash ) !== false ) {
 			$other_request = get_transient( $post_hash );
-			$share_counts = array_merge( $other_request, $share_counts );
+			$share_counts  = array_merge( $other_request, $share_counts );
 		}
-		// save transient
+		// Save transient.
 		set_transient( $post_hash, $share_counts, '604800' );
-		// offer a hook to work with the share counts
+		// Offer a hook to work with the share counts.
 		do_action( 'shariff_share_counts', $share_counts );
-		// update info
-		$share_counts['updated'] = '1';
-	}
-	elseif ( isset( $old_share_counts ) ) {
+		// Update info.
+		$share_counts['updated'] = 1;
+	} elseif ( isset( $old_share_counts ) ) {
 		$share_counts = $old_share_counts;
-		// update info
+		// Update info.
 		$share_counts['updated'] = '0';
 	}
 
-	// return share counts
+	// Return share counts.
 	return $share_counts;
 }
 
-// fill cache automatically
-function shariff3UU_fill_cache() {
-	// amount of posts - set to 100 if not set
-	if ( isset( $GLOBALS["shariff3UU"]["ranking"] ) && absint( $GLOBALS["shariff3UU"]["ranking"] ) > '0' ) {
-		$numberposts = absint( $GLOBALS["shariff3UU"]["ranking"] );
-	}
-	else {
+/**
+ * Fills cache automatically.
+ */
+function shariff3uu_fill_cache() {
+	// Amount of posts - set to 100 if not set.
+	if ( isset( $GLOBALS['shariff3uu']['ranking'] ) && absint( $GLOBALS['shariff3uu']['ranking'] ) > '0' ) {
+		$numberposts = absint( $GLOBALS['shariff3uu']['ranking'] );
+	} else {
 		$numberposts = '100';
 	}
 
-	// avoid errors if no services are given - instead use the default set of services
-	if ( empty( $GLOBALS["shariff3UU"]["services"] ) ) $services = "twitter|facebook|googleplus";
-	else $services = $GLOBALS["shariff3UU"]["services"];
+	// Avoid errors if no services are given - instead use the default set of services.
+	if ( empty( $GLOBALS['shariff3uu']['services'] ) ) {
+		$services = 'twitter|facebook|googleplus';
+	} else {
+		$services = $GLOBALS['shariff3uu']['services'];
+	}
 
-	// explode services
+	// Explode services.
 	$service_array = explode( '|', $services );
-	
-	// catch last 100 posts or whatever number is set for it
-	$args = array( 'numberposts' => $numberposts, 'orderby' => 'post_date', 'order' => 'DESC', 'post_status' => 'publish' );
+
+	// Arguments for wp_get_recent_posts().
+	$args = array(
+		'numberposts'      => $numberposts,
+		'orderby'          => 'post_date',
+		'order'            => 'DESC',
+		'post_status'      => 'publish',
+		'suppress_filters' => false,
+	);
+
+	// Catch last 100 posts or whatever number is set for it.
 	$recent_posts = wp_get_recent_posts( $args );
 	if ( $recent_posts ) {
-		foreach( $recent_posts as $recent ) {
-			// get url
-			$url = get_permalink( $recent["ID"] );
-			$post_url = urlencode( $url );
-			// set transient name
-			$post_hash = 'shariff' . hash( "md5", $post_url );
-			// get old share counts
-			if ( get_transient( $post_hash ) !== false ) $old_share_counts = get_transient( $post_hash );
-			else $old_share_counts = array();
-			// fetch share counts and save same
-			shariff3UU_fetch_sharecounts( $service_array, $old_share_counts, $post_hash, $post_url, $url );
+		foreach ( $recent_posts as $recent ) {
+			// Get the url.
+			$url      = get_permalink( $recent['ID'] );
+			$post_url = rawurlencode( $url );
+			// Set transient name.
+			$post_hash = 'shariff' . hash( 'md5', $post_url );
+			// Get old share counts.
+			if ( get_transient( $post_hash ) !== false ) {
+				$old_share_counts = get_transient( $post_hash );
+			} else {
+				$old_share_counts = array();
+			}
+			// Fetch share counts and save them.
+			shariff3uu_fetch_sharecounts( $service_array, $old_share_counts, $post_hash, $url );
 		}
 	}
 }
-add_action( 'shariff3UU_fill_cache', 'shariff3UU_fill_cache' );
+add_action( 'shariff3uu_fill_cache', 'shariff3uu_fill_cache' );
 
-// add schedule event in order to fill cache automatically
-function shariff3UU_fill_cache_schedule() {
-	// get options manually bc of start on activation
-	$shariff3UU_statistic = (array) get_option( 'shariff3UU_statistic' );
-	// check if option is set
-	if ( isset( $shariff3UU_statistic["automaticcache"] ) && $shariff3UU_statistic["automaticcache"] == '1' ) {
-		// check if job is already scheduled
-		if ( ! wp_next_scheduled( 'shariff3UU_fill_cache' ) ) {
-			// add cron job
-			wp_schedule_event( time(), 'weekly', 'shariff3UU_fill_cache' );
+/**
+ * Adds schedule event in order to fill cache automatically.
+ */
+function shariff3uu_fill_cache_schedule() {
+	// Get options manually bc of start on activation.
+	$shariff3uu_statistic = (array) get_option( 'shariff3uu_statistic' );
+	// Check if option is set.
+	if ( isset( $shariff3uu_statistic['automaticcache'] ) && 1 === $shariff3uu_statistic['automaticcache'] ) {
+		// Check if job is already scheduled.
+		if ( ! wp_next_scheduled( 'shariff3uu_fill_cache' ) ) {
+			// Add cron job.
+			wp_schedule_event( time(), 'weekly', 'shariff3uu_fill_cache' );
 		}
-	}
-	// else option is not set therefore remove cron job if scheduled
-	else {
-		if ( wp_next_scheduled( 'shariff3UU_fill_cache' ) ) {
-			// remove cron job
-			wp_clear_scheduled_hook( 'shariff3UU_fill_cache' );
+	} else {
+		// Else option is not set therefore remove cron job if scheduled.
+		if ( wp_next_scheduled( 'shariff3uu_fill_cache' ) ) {
+			// Remove cron job.
+			wp_clear_scheduled_hook( 'shariff3uu_fill_cache' );
 		}
 	}
 }
-add_action( 'shariff3UU_save_statistic_options', 'shariff3UU_fill_cache_schedule' );
+add_action( 'shariff3uu_save_statistic_options', 'shariff3uu_fill_cache_schedule' );
 
-// custom weekly cron recurrences
-function shariff3UU_fill_cache_schedule_custom_recurrence( $schedules ) {
+/** Registers activation hook to start cron job after an update. */
+register_activation_hook( __FILE__, 'shariff3uu_fill_cache_schedule' );
+
+/**
+ * Adds custom weekly cron recurrences.
+ *
+ * @param array $schedules Array of existing schedules.
+ *
+ * @return array Updated array including our new schedule.
+ */
+function shariff3uu_fill_cache_schedule_custom_recurrence( $schedules ) {
 	$schedules['weekly'] = array(
-		'display' => __( 'Once weekly', 'shariff' ),
-		'interval' => '804600',
+		'display'  => __( 'Once weekly', 'shariff' ),
+		'interval' => 804600,
 	);
 	return $schedules;
 }
-add_filter( 'cron_schedules', 'shariff3UU_fill_cache_schedule_custom_recurrence' );
+add_filter( 'cron_schedules', 'shariff3uu_fill_cache_schedule_custom_recurrence' );
 
-// add shorttag to posts
-function shariff3UU_posts( $content ) {
+/**
+ * Adds short tag to posts and pages (including custom post types).
+ *
+ * @param string $content The current post content.
+ *
+ * @return string The post content including our short tag.
+ */
+function shariff3uu_posts( $content ) {
+	// Get options.
+	$shariff3uu = $GLOBALS['shariff3uu'];
 
-	// get options
-	$shariff3UU = $GLOBALS["shariff3UU"];
-
-	// do not add Shariff to excerpts or outside the loop, if option is checked
-	if ( in_array( 'get_the_excerpt', $GLOBALS['wp_current_filter'] ) || ( ! in_the_loop() && isset( $shariff3UU["disable_outside_loop"] ) && $shariff3UU["disable_outside_loop"] == '1' ) ) {
+	// Do not add Shariff to excerpts or outside the loop, if option is checked.
+	if ( in_array( 'get_the_excerpt', $GLOBALS['wp_current_filter'], true ) || ( ! in_the_loop() && isset( $shariff3uu['disable_outside_loop'] ) && 1 === $shariff3uu['disable_outside_loop'] ) ) {
 		return $content;
 	}
 
-	// disable share buttons on password protected posts if configured in the admin menu
-	if ( ( post_password_required( get_the_ID() ) == '1' || ! empty( $GLOBALS["post"]->post_password ) ) && isset( $shariff3UU["disable_on_protected"] ) && $shariff3UU["disable_on_protected"] == '1') {
-		$shariff3UU["add_before"]["posts"] = '0';
-		$shariff3UU["add_before"]["posts_blogpage"] = '0';
-		$shariff3UU["add_before"]["pages"] = '0';
-		$shariff3UU["add_after"]["posts"] = '0';
-		$shariff3UU["add_after"]["posts_blogpage"] = '0';
-		$shariff3UU["add_after"]["pages"] = '0';
-		$shariff3UU["add_after"]["custom_type"] = '0';
+	// Disable share buttons on password protected posts if configured in the admin menu.
+	if ( ( 1 === post_password_required( get_the_ID() ) || ! empty( $GLOBALS['post']->post_password ) ) && isset( $shariff3uu['disable_on_protected'] ) && 1 === $shariff3uu['disable_on_protected'] ) {
+		$shariff3uu['add_before']['posts']          = 0;
+		$shariff3uu['add_before']['posts_blogpage'] = 0;
+		$shariff3uu['add_before']['pages']          = 0;
+		$shariff3uu['add_after']['posts']           = 0;
+		$shariff3uu['add_after']['posts_blogpage']  = 0;
+		$shariff3uu['add_after']['pages']           = 0;
+		$shariff3uu['add_after']['custom_type']     = 0;
 	}
 
-	// if we want see it as text - replace the slash
-	if ( strpos( $content,'/hideshariff' ) == true ) {
-		$content = str_replace( "/hideshariff", "hideshariff", $content );
-	}
-	// but not, if the hidshariff sign is in the text |or| if a special formed "[shariff..."  shortcut is found
-	elseif( ( strpos( $content, 'hideshariff' ) == true) ) {
-		// remove the sign
-		$content = str_replace( "hideshariff", "", $content);
-		// and return without adding Shariff
+	// If we want to see it as text - replace the slash.
+	if ( true === strpos( $content, '/hideshariff' ) ) {
+		$content = str_replace( '/hideshariff', 'hideshariff', $content );
+	} elseif ( true === strpos( $content, 'hideshariff' ) ) {
+		// Remove the sign.
+		$content = str_replace( 'hideshariff', '', $content );
+		// Return the content without adding Shariff.
 		return $content;
 	}
 
-	// type of current post
+	// Type of current post.
 	$current_post_type = get_post_type();
-	if ( $current_post_type === 'post' ) $current_post_type = 'posts';
-	
-	// prevent php warnings in debug mode
-	$add_before = '';
-	$add_after = '';
+	if ( 'post' === $current_post_type ) {
+		$current_post_type = 'posts';
+	}
 
-	// check if shariff should be added automatically (plugin options)
+	// Prevent php warnings in debug mode.
+	$add_before = 0;
+	$add_after  = 0;
+
+	// Check if shariff should be added automatically (plugin options).
 	if ( ! is_singular() ) {
-		// on blog page
-		if ( isset( $shariff3UU["add_before"]["posts_blogpage"] ) && $shariff3UU["add_before"]["posts_blogpage"] == '1') $add_before = '1';
-		if ( isset( $shariff3UU["add_after"]["posts_blogpage"] ) && $shariff3UU["add_after"]["posts_blogpage"] == '1' ) $add_after = '1';
-	}
-	elseif ( is_singular( 'post' ) ) {
-		// on single post
-		if ( isset( $shariff3UU["add_before"][$current_post_type] ) && $shariff3UU["add_before"][$current_post_type] == '1' ) $add_before = '1';
-		if ( isset( $shariff3UU["add_after"][$current_post_type] ) && $shariff3UU["add_after"][$current_post_type] == '1' ) $add_after = '1';
-	}
-	elseif ( is_singular( 'page' ) ) {
-		// on pages
-		if ( isset( $shariff3UU["add_before"]["pages"] ) && $shariff3UU["add_before"]["pages"] == '1' ) $add_before = '1';
-		if ( isset( $shariff3UU["add_after"]["pages"] ) && $shariff3UU["add_after"]["pages"] == '1' ) $add_after = '1';
-	}
-	else {
-		// on custom_post_types
-		$all_custom_post_types = get_post_types( array ( '_builtin' => FALSE ) );
+		// On blog page.
+		if ( isset( $shariff3uu['add_before']['posts_blogpage'] ) && 1 === $shariff3uu['add_before']['posts_blogpage'] ) {
+			$add_before = 1;
+		}
+		if ( isset( $shariff3uu['add_after']['posts_blogpage'] ) && 1 === $shariff3uu['add_after']['posts_blogpage'] ) {
+			$add_after = 1;
+		}
+	} elseif ( is_singular( 'post' ) ) {
+		// On single post.
+		if ( isset( $shariff3uu['add_before'][ $current_post_type ] ) && 1 === $shariff3uu['add_before'][ $current_post_type ] ) {
+			$add_before = 1;
+		}
+		if ( isset( $shariff3uu['add_after'][ $current_post_type ] ) && 1 === $shariff3uu['add_after'][ $current_post_type ] ) {
+			$add_after = 1;
+		}
+	} elseif ( is_singular( 'page' ) ) {
+		// On pages.
+		if ( isset( $shariff3uu['add_before']['pages'] ) && 1 === $shariff3uu['add_before']['pages'] ) {
+			$add_before = 1;
+		}
+		if ( isset( $shariff3uu['add_after']['pages'] ) && 1 === $shariff3uu['add_after']['pages'] ) {
+			$add_after = 1;
+		}
+	} else {
+		// On custom_post_types.
+		$all_custom_post_types = get_post_types( array( '_builtin' => false ) );
 		if ( is_array( $all_custom_post_types ) ) {
 			$custom_types = array_keys( $all_custom_post_types );
-			// add shariff, if custom type and option checked in the admin menu
-			if ( isset( $shariff3UU['add_after'][$current_post_type] ) && $shariff3UU['add_after'][$current_post_type] == '1' ) $add_after = '1';
+			// Add shariff, if custom type and option checked in the admin menu.
+			if ( isset( $shariff3uu['add_after'][ $current_post_type ] ) && 1 === $shariff3uu['add_after'][ $current_post_type ] ) {
+				$add_after = 1;
+			}
 		}
 	}
-	
-	// check if buttons are enabled on a single post or page via the meta box
-	if ( get_post_meta( get_the_ID(), 'shariff_metabox_before', true ) ) $add_before = '1';
-	if ( get_post_meta( get_the_ID(), 'shariff_metabox_after', true ) ) $add_after = '1';
-	
-	// add shariff
-	if ( $add_before === '1' ) $content = '[shariff]' . $content;
-	if ( $add_after === '1' ) $content .= '[shariff]';
-	
-	// return content
+
+	// Check if buttons are enabled on a single post or page via the meta box.
+	if ( get_post_meta( get_the_ID(), 'shariff_metabox_before', true ) ) {
+		$add_before = 1;
+	}
+	if ( get_post_meta( get_the_ID(), 'shariff_metabox_after', true ) ) {
+		$add_after = 1;
+	}
+
+	// Add shariff.
+	if ( 1 === $add_before ) {
+		$content = '[shariff]' . $content;
+	}
+	if ( 1 === $add_after ) {
+		$content .= '[shariff]';
+	}
+
+	// Return content.
 	return $content;
 }
-if ( ! isset( $GLOBALS["shariff3UU"]["shortcodeprio"] ) ) $GLOBALS["shariff3UU"]["shortcodeprio"] = '10';
-add_filter( 'the_content', 'shariff3UU_posts', $GLOBALS["shariff3UU"]["shortcodeprio"]  );
+if ( ! isset( $GLOBALS['shariff3uu']['shortcodeprio'] ) ) {
+	$GLOBALS['shariff3uu']['shortcodeprio'] = '10';
+}
+add_filter( 'the_content', 'shariff3uu_posts', $GLOBALS['shariff3uu']['shortcodeprio'] );
 
-// add shorttag to excerpt
-function shariff3UU_excerpt( $content ) {
-	// get options
-	$shariff3UU = $GLOBALS["shariff3UU"];
-	// remove headline in post
-	if ( isset( $shariff3UU["headline"] ) ) {
-		$content = str_replace( strip_tags( $shariff3UU["headline"] ), " ", $content );
+/**
+ * Add shorttag to excerpt.
+ *
+ * @param string $content The current content of the excerpt.
+ *
+ * @return string The new content of the post including the shorttag.
+ */
+function shariff3uu_excerpt( $content ) {
+	// Get options.
+	$shariff3uu = $GLOBALS['shariff3uu'];
+	// Remove headline in post.
+	if ( isset( $shariff3uu['headline'] ) ) {
+		$content = str_replace( strip_tags( $shariff3uu['headline'] ), ' ', $content );
 	}
-	// add shariff before the excerpt, if option checked in the admin menu
-	if ( isset( $shariff3UU["add_before"]["excerpt"] ) && $shariff3UU["add_before"]["excerpt"] == '1' ) {
+	// Add shariff before the excerpt, if option checked in the admin menu.
+	if ( isset( $shariff3uu['add_before']['excerpt'] ) && 1 === $shariff3uu['add_before']['excerpt'] ) {
 		$content = do_shortcode( '[shariff]' ) . $content;
 	}
-	// add shariff after the excerpt, if option checked in the admin menu
-	if ( isset( $shariff3UU["add_after"]["excerpt"] ) && $shariff3UU["add_after"]["excerpt"] == '1' ) {
+	// Add shariff after the excerpt, if option checked in the admin menu.
+	if ( isset( $shariff3uu['add_after']['excerpt'] ) && 1 === $shariff3uu['add_after']['excerpt'] ) {
 		$content .= do_shortcode( '[shariff]' );
 	}
 	return $content;
 }
-add_filter( 'the_excerpt', 'shariff3UU_excerpt' );
+add_filter( 'the_excerpt', 'shariff3uu_excerpt' );
 
-// remove hideshariff from content in cases of excerpts or other plain text usages
-function shariff3UU_hideshariff( $content ) {
-	if ( ( strpos( $content, 'hideshariff' ) == true ) ) {
-		// remove the sign
-		$content = str_replace( "hideshariff", "", $content );
+/**
+ * Removes hideshariff from content in cases of excerpts or other plain text usages.
+ *
+ * @param string $content The current content of the post.
+ *
+ * @return string The modified content without hideshariff.
+ */
+function shariff3uu_hideshariff( $content ) {
+	if ( true === strpos( $content, 'hideshariff' ) ) {
+		$content = str_replace( 'hideshariff', '', $content );
 	}
 	return $content;
 }
-add_filter( 'the_content', 'shariff3UU_hideshariff', 999 );
+add_filter( 'the_content', 'shariff3uu_hideshariff', 999 );
 
-// remove shariff from rss feeds
-function shariff3UU_removefromrss( $content ) {
+/**
+ * Removes shariff from rss feeds.
+ *
+ * @param string $content The current content of the post.
+ *
+ * @return string The modified content without shariff.
+ */
+function shariff3uu_remove_from_rss( $content ) {
 	$content = preg_replace( '/<div class="shariff\b[^>]*>(.*?)<\/div>/i', '', $content );
 	$content = preg_replace( '/<div class="ShariffSC\b[^>]*>(.*?)<\/div>/i', '', $content );
 	return $content;
 }
-add_filter( 'the_content_feed', 'shariff3UU_removefromrss', 999 );
+add_filter( 'the_content_feed', 'shariff3uu_remove_from_rss', 999 );
 
-// add mailform to bbpress_replies
-function bbp_add_mailform_to_bbpress_replies() {
-	$content = '';
-	// prepend the mail form
-	if ( isset( $_REQUEST['view'] ) && $_REQUEST['view'] == 'mail' ) {
-		// only add to single posts view
-		$content = shariff3UU_addMailForm( $content, '0' );
+/**
+ * Adds shariff buttons after bbpress replies.
+ */
+function shariff3uu_bbp_add_shariff_after_replies() {
+	// Get options.
+	$shariff3uu = $GLOBALS['shariff3uu'];
+	if ( isset( $shariff3uu['add_after']['bbp_reply'] ) && 1 === $shariff3uu['add_after']['bbp_reply'] ) {
+		echo esc_html( shariff3uu_render( array() ) );
 	}
-	// send the email
-	if ( isset( $_REQUEST['act'] ) && $_REQUEST['act'] == 'sendMail' ) $content = sharif3UU_procSentMail( $content );
-	echo $content;
 }
-add_action( 'bbp_theme_after_reply_content', 'bbp_add_mailform_to_bbpress_replies' );
+add_action( 'bbp_theme_after_reply_content', 'shariff3uu_bbp_add_shariff_after_replies' );
 
-// add shariff buttons after bbpress replies
-function bbp_add_shariff_after_replies() {
-	// get options
-	$shariff3UU = $GLOBALS["shariff3UU"];
-	if( isset( $shariff3UU["add_after"]["bbp_reply"] ) && $shariff3UU["add_after"]["bbp_reply"] == '1') echo shariff3UU_render( '' );
+/**
+ * Function is called to include the shariff.css in the header of AMP pages.
+ * Currently only called by the amp_post_template_css hook of the AMP plugin by Automatic.
+ * We need to strip out all !important in order to pass AMP test.
+ */
+function shariff3uu_amp_css() {
+	ob_start();
+	include plugins_url( '/css/shariff.css', __FILE__ );
+	$shariff_css = ob_get_clean();
+	if ( false !== $shariff_css ) {
+		echo esc_html( str_replace( '!important', '', $shariff_css ) );
+	} else {
+		include plugins_url( '/css/shariff.css', __FILE__ );
+	}
 }
-add_action( 'bbp_theme_after_reply_content', 'bbp_add_shariff_after_replies' );
 
-// register shortcode
-add_shortcode( 'shariff', 'shariff3UU_render' );
+// Registers the shortcode.
+add_shortcode( 'shariff', 'shariff3uu_render' );
 
-// render the shorttag to the HTML shorttag of Shariff
-function shariff3UU_render( $atts, $content = null ) {
-	// get options
-	$shariff3UU = $GLOBALS["shariff3UU"];
-	
-	// avoid errors if no attributes are given - instead use the old set of services to make it backward compatible
-	if ( empty( $shariff3UU["services"] ) ) $shariff3UU["services"] = "twitter|facebook|googleplus|info";
+/**
+ * Renders the shorttag to the HTML shorttag of Shariff.
+ *
+ * @param array $atts (optional) Array of shariff options provided in the shorttag.
+ *
+ * @return string|null The rendered HTML shorttag or null if a disable condition is met.
+ */
+function shariff3uu_render( $atts ) {
+	// Get options.
+	$shariff3uu = $GLOBALS['shariff3uu'];
 
-	// use the backend option for every option that is not set in the shorttag
-	$backend_options = $shariff3UU;
-	if ( isset( $shariff3UU["vertical"] ) && $shariff3UU["vertical"] == '1' ) $backend_options["orientation"] = 'vertical';
-	if ( isset( $shariff3UU["backend"] ) && $shariff3UU["backend"] == '1' ) $backend_options["backend"] = 'on';
-	if ( isset( $shariff3UU["buttonsize"] ) && $shariff3UU["buttonsize"] == '1' ) $backend_options["buttonsize"] = 'small';
-	if ( empty( $atts ) ) $atts = $backend_options;
-	else $atts = array_merge( $backend_options, $atts );
-	
-	// get meta box shortcode
+	// Stops all further actions if we are on an admin page.
+	if ( is_admin() ) {
+		return null;
+	}
+
+	// Avoids errors if no attributes are given - instead uses the old set of services to make it backward compatible.
+	if ( empty( $shariff3uu['services'] ) ) {
+		$shariff3uu['services'] = 'twitter|facebook|googleplus|info';
+	}
+
+	// Uses the backend option for every option that is not set in the shorttag.
+	$backend_options = $shariff3uu;
+	if ( isset( $shariff3uu['vertical'] ) && 1 === $shariff3uu['vertical'] ) {
+		$backend_options['orientation'] = 'vertical';
+	}
+	if ( isset( $shariff3uu['backend'] ) && 1 === $shariff3uu['backend'] ) {
+		$backend_options['backend'] = 'on';
+	}
+	if ( isset( $shariff3uu['buttonsize'] ) && 1 === $shariff3uu['buttonsize'] ) {
+		$backend_options['buttonsize'] = 'small';
+	}
+	if ( empty( $atts ) ) {
+		$atts = $backend_options;
+	} else {
+		$atts = array_merge( $backend_options, $atts );
+	}
+
+	// Gets the metabox ignore widget value.
 	$shariff_metabox_ignore_widget = get_post_meta( get_the_ID(), 'shariff_metabox_ignore_widget', true );
-	
-	// if we are not a widget or if we are a widget and not beeing set to be ignored we add the meta box settings
-	if ( ( ! isset( $atts["widget"] ) || ( isset( $atts["widget"] ) && $atts["widget"] == '1' && $shariff_metabox_ignore_widget != '1' ) ) && $atts["services"] != "total" && $atts["services"] != "totalnumber" ) {
-		// get meta box disable value
-		$shariff3UU_metabox_disable = get_post_meta( get_the_ID(), 'shariff_metabox_disable', true );
-		
-		// if the meta box setting is set to diasbled we stop all further actions
-		if ( $shariff3UU_metabox_disable == '1' ) return;
 
-		// get meta box shortcode
-		$shariff3UU_metabox = get_post_meta( get_the_ID(), 'shariff_metabox', true );
-		
-		// replace shariff with shariffmeta
-		$shariff3UU_metabox = str_replace( '[shariff ', '[shariffmeta ', $shariff3UU_metabox );
-		
-		// get meta box atts
-		do_shortcode( $shariff3UU_metabox );
-		if ( isset( $GLOBALS["shariff3UU"]["metabox"] ) ) {
-			$metabox = $GLOBALS["shariff3UU"]["metabox"];
-		}
-		else {
-			$metabox = '';
-		}
-		
-		// get meta box media attribute
-		$shariff3UU_metabox_media = get_post_meta( get_the_ID(), 'shariff_metabox_media', true );
-		if ( ! empty( $shariff3UU_metabox_media ) ) {
-			$metabox["media"] = $shariff3UU_metabox_media;
-		}
-		
-		// merge with atts array (meta box shortcode overrides all others)
-		if ( ! empty( $metabox ) ) $atts = array_merge( $atts, $metabox );
-		
-		// clear metabox global
-		$GLOBALS["shariff3UU"]["metabox"] = '';
-	}
+	// Adds the meta box settings if it is not a widget or if it is a widget and not being set to be ignored.
+	if ( ( ! isset( $atts['widget'] ) || ( isset( $atts['widget'] ) && 1 === $atts['widget'] && 1 !== $shariff_metabox_ignore_widget ) ) && 'total' !== $atts['services'] && 'totalnumber' !== $atts['services'] ) {
+		// Gets the meta box disable value.
+		$shariff3uu_metabox_disable = get_post_meta( get_the_ID(), 'shariff_metabox_disable', true );
 
-	// Ov3rfly: make atts configurable from outside, e.g. for language etc.
-	$atts = apply_filters( 'shariff3UU_render_atts', $atts );
+		// Stops all further actions if the meta box setting is set to disabled.
+		if ( '1' === $shariff3uu_metabox_disable ) {
+			return null;
+		}
 
-	// remove empty elements
+		// Gets the meta box shortcode.
+		$shariff3uu_metabox = get_post_meta( get_the_ID(), 'shariff_metabox', true );
+
+		// Replaces shariff with shariffmeta.
+		$shariff3uu_metabox = str_replace( '[shariff ', '[shariffmeta ', $shariff3uu_metabox );
+
+		// Gets the meta box attributes.
+		if ( '[shariff]' !== $shariff3uu_metabox ) {
+			do_shortcode( $shariff3uu_metabox );
+		}
+
+		if ( isset( $GLOBALS['shariff3uu']['metabox'] ) && ! empty( $GLOBALS['shariff3uu']['metabox'] ) ) {
+			$metabox = $GLOBALS['shariff3uu']['metabox'];
+		} else {
+			$metabox = array();
+		}
+
+		// Gets the meta box media attribute.
+		$shariff3uu_metabox_media = get_post_meta( get_the_ID(), 'shariff_metabox_media', true );
+		if ( ! empty( $shariff3uu_metabox_media ) ) {
+			$metabox['media'] = $shariff3uu_metabox_media;
+		}
+
+		// Merges the meta box atts array with the atts array (meta box shortcode overrides all others).
+		if ( ! empty( $metabox ) ) {
+			$atts = array_merge( $atts, $metabox );
+		}
+
+		// Clears the metabox global.
+		$GLOBALS['shariff3uu']['metabox'] = '';
+	} // End meta box if.
+
+	// Ov3rfly: Makes the attributes configurable from outside, e.g. for language etc.
+	$atts = apply_filters( 'shariff3uu_render_atts', $atts );
+
+	// Removes empty elements.
 	$atts = array_filter( $atts );
 
-	// clean up services (remove leading or trailing |, spaces, etc.)
-	$atts['services'] = trim( preg_replace( "/[^A-Za-z|]/", '', $atts['services'] ), '|' );
+	// Cleans up services (remove leading or trailing |, spaces, etc.).
+	$atts['services'] = trim( preg_replace( '/[^A-Za-z|]/', '', $atts['services'] ), '|' );
 
-	// clean up headline in case it was used in a shorttag
+	// Cleans up the headline in case it was used in a shorttag.
 	if ( array_key_exists( 'headline', $atts ) ) {
-		$atts['headline'] = wp_kses( $atts['headline'], $GLOBALS["allowed_tags"] );
+		$atts['headline'] = wp_kses( $atts['headline'], $GLOBALS['allowed_tags'] );
 	}
 
-	// enqueue styles (loading it here makes sure that it is only loaded on pages that acutally contain shariff buttons)
-	// if SCRIPT_DEBUG is true, we load the non minified version
-	if ( defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG === TRUE ) {
-		wp_enqueue_style( 'shariffcss', plugins_url( '/css/shariff.css', __FILE__ ), '', $shariff3UU["version"] );
-	}
-	else {
-		wp_enqueue_style( 'shariffcss', plugins_url( '/css/shariff.min.css', __FILE__ ), '', $shariff3UU["version"] );
+	// Enqueues the stylesheet (loading it here makes sure that it is only loaded on pages that actually contain shariff buttons).
+	// If SCRIPT_DEBUG is set to true, the non minified version will be loaded.
+	if ( defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG === true ) {
+		wp_enqueue_style( 'shariffcss', plugins_url( '/css/shariff.min.css', __FILE__ ), '', $shariff3uu['version'] );
+	} else {
+		wp_enqueue_style( 'shariffcss', plugins_url( '/css/shariff.min.css', __FILE__ ), '', $shariff3uu['version'] );
 	}
 
-	// enqueue share count script (the JS should be loaded at the footer - make sure that wp_footer() is present in your theme!)
-	// if SCRIPT_DEBUG is true, we load the non minified version
-	if ( array_key_exists( 'backend', $atts ) && $atts['backend'] == "on" ) {
-		// if SCRIPT_DEBUG is true, we load the non minified version
-		if ( defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG === TRUE ) {
-			wp_enqueue_script( 'shariffjs', plugins_url( '/js/shariff.js', __FILE__ ), '', $shariff3UU["version"], true );
-		}
-		else {
-			wp_enqueue_script( 'shariffjs', plugins_url( '/js/shariff.min.js', __FILE__ ), '', $shariff3UU["version"], true );
-		}
-	}
-	
-	// enqueue popup script (the JS should be loaded at the footer - make sure that wp_footer() is present in your theme!)
-	// if SCRIPT_DEBUG is true, we load the non minified version
-	if ( array_key_exists( 'popup', $atts ) && $atts['popup'] == "1" ) {
-		// if SCRIPT_DEBUG is true, we load the non minified version
-		if ( defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG === TRUE ) {
-			wp_enqueue_script( 'shariff_popup', plugins_url( '/js/shariff-popup.js', __FILE__ ), '', $shariff3UU["version"], true );
-		}
-		else {
-			wp_enqueue_script( 'shariff_popup', plugins_url( '/js/shariff-popup.min.js', __FILE__ ), '', $shariff3UU["version"], true );
+	// Adds the shariff.css to the header of AMP pages while using the AMP plugin by Automatic.
+	add_action( 'amp_post_template_css', 'shariff3uu_amp_css' );
+
+	// Enqueues the share count script (the JS should be loaded at the footer - make sure that wp_footer() is present in your theme!)
+	// If SCRIPT_DEBUG is set to true, the non minified version will be loaded.
+	if ( array_key_exists( 'backend', $atts ) && 'on' === $atts['backend'] ) {
+		if ( defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG === true ) {
+			wp_enqueue_script( 'shariffjs', plugins_url( '/js/shariff.js', __FILE__ ), '', $shariff3uu['version'], true );
+		} else {
+			wp_enqueue_script( 'shariffjs', plugins_url( '/js/shariff.min.js', __FILE__ ), '', $shariff3uu['version'], true );
 		}
 	}
 
-	// share url
-	if ( array_key_exists( 'url', $atts ) ) $share_url = urlencode( $atts['url'] );
-	else $share_url = urlencode( get_permalink() );
+	// Enqueues the popup script (the JS should be loaded at the footer - make sure that wp_footer() is present in your theme!).
+	// If SCRIPT_DEBUG is set to true, the non minified version will be loaded.
+	if ( array_key_exists( 'popup', $atts ) && 1 === $atts['popup'] ) {
+		if ( defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG === true ) {
+			wp_enqueue_script( 'shariff_popup', plugins_url( '/js/shariff-popup.js', __FILE__ ), '', $shariff3uu['version'], true );
+		} else {
+			wp_enqueue_script( 'shariff_popup', plugins_url( '/js/shariff-popup.min.js', __FILE__ ), '', $shariff3uu['version'], true );
+		}
+	}
 
-	// share title
-	if ( array_key_exists( 'title', $atts ) ) $share_title = urlencode( $atts['title'] );
-	else $share_title = urlencode( html_entity_decode( get_the_title(), ENT_COMPAT, 'UTF-8' ) );
+	// Sets the share url.
+	if ( array_key_exists( 'url', $atts ) ) {
+		$share_url = rawurlencode( $atts['url'] );
+	} else {
+		$share_url = rawurlencode( get_permalink() );
+	}
 
-	// set transient name
-	$post_hash = 'shariff' . hash( "md5", $share_url );
-	
-	// prevent php notices
+	// Sets the share title.
+	if ( array_key_exists( 'title', $atts ) ) {
+		$share_title = rawurlencode( $atts['title'] );
+	} else {
+		$share_title = rawurlencode( html_entity_decode( get_the_title(), ENT_COMPAT, 'UTF-8' ) );
+	}
+
+	// Sets the transient name.
+	$post_hash = 'shariff' . hash( 'md5', $share_url );
+
+	// Prevents php notices.
 	$share_counts = array();
+	$output       = '';
 
-	// get cached share counts
-	if ( array_key_exists( 'backend', $atts ) && $atts['backend'] == "on" && get_transient( $post_hash ) !== false ) {
+	// Gets the cached share counts.
+	if ( array_key_exists( 'backend', $atts ) && 'on' === $atts['backend'] && get_transient( $post_hash ) !== false ) {
 		$share_counts = get_transient( $post_hash );
 	}
 
-	// prevent info notices in case debug mode is on
-	$output = '';
-
-	// if we have a custom style attribute or a class add ShariffSC container including these styles
+	// Adds ShariffSC container including custom styles if a custom style attribute or class exists.
 	if ( array_key_exists( 'style', $atts ) || array_key_exists( 'cssclass', $atts ) ) {
 		$output .= '<div class="ShariffSC';
-		if ( array_key_exists( 'cssclass', $atts ) ) $output .= ' ' . esc_html( $atts['cssclass'] ) . '"';
-		else $output .= '"';
-		if ( array_key_exists( 'style', $atts ) ) $output .= ' style="' . esc_html( $atts['style'] ) . '"';
+		if ( array_key_exists( 'cssclass', $atts ) ) {
+			$output .= ' ' . esc_html( $atts['cssclass'] ) . '"';
+		} else {
+			$output .= '"';
+		}
+		if ( array_key_exists( 'style', $atts ) ) {
+			$output .= ' style="' . esc_html( $atts['style'] ) . '"';
+		}
 		$output .= '>';
 	}
-	
-	// if no language is set, try http_negotiate_language
-	if ( ! array_key_exists( 'lang', $atts ) && function_exists('http_negotiate_language') ) {
+
+	// Tries http_negotiate_language if no language is set.
+	if ( ! array_key_exists( 'lang', $atts ) && function_exists( 'http_negotiate_language' ) ) {
 		$available_lang = array( 'en', 'de', 'fr', 'es', 'zh', 'hr', 'da', 'nl', 'fi', 'it', 'ja', 'ko', 'no', 'pl', 'pt', 'ro', 'ru', 'sk', 'sl', 'sr', 'sv', 'tr', 'zh' );
-		$lang = http_negotiate_language( $available_lang );
-		$atts['lang'] = substr( $lang, 0, 2 );
+		$lang           = http_negotiate_language( $available_lang );
+		$atts['lang']   = substr( $lang, 0, 2 );
 	}
 
-	// default button share text
+	// Sets the default button share text.
 	$default_button_text_array = array(
 		'bg' => 'cподеляне',
+		'cs' => 'sdílet',
 		'da' => 'del',
 		'de' => 'teilen',
 		'en' => 'share',
@@ -708,831 +914,351 @@ function shariff3UU_render( $atts, $content = null ) {
 		'zh' => '分享',
 	);
 
-	// add timestamp for cache
-	if ( array_key_exists( 'timestamp', $atts ) ) $post_timestamp = $atts['timestamp'];
-	else $post_timestamp = absint( get_the_modified_date( 'U' ) );
-
-	// start output of actual Shariff buttons
-	$output .= '<div class="shariff shariff-main';
-		// alignment
-		if ( array_key_exists( 'align', $atts ) && $atts['align'] != 'none' ) {
-			$output .= ' shariff-align-' . $atts["align"];
-		}
-		// alignment widget
-		if ( array_key_exists( 'align_widget', $atts ) && $atts['align_widget'] != 'none' ) {
-			$output .= ' shariff-widget-align-' . $atts["align_widget"];
-		}
-		// alignment widget
-		if ( array_key_exists( 'buttonstretch', $atts ) && $atts['buttonstretch'] == '1' ) {
-			$output .= ' shariff-buttonstretch';
-		}
-		$output .= '"';
-		// hide buttons until css is loaded
-		if ( array_key_exists( 'hideuntilcss', $atts ) && $atts['hideuntilcss'] == '1' ) $output .= ' style="display:none"';
-		// add information for share count request
-		if ( array_key_exists( 'backend', $atts ) && $atts['backend'] == "on" ) {
-			// share url
-			$output .= ' data-url="' . esc_html( $share_url ) . '"';
-			// timestamp for cache
-			$output .= ' data-timestamp="' . $post_timestamp . '"';
-			// hide share counts when zero
-			if ( isset( $atts['hidezero'] ) && $atts['hidezero'] == '1' ) {
-				$output .= ' data-hidezero="1"';
-			}
-			// add external api if entered
-			if ( isset( $shariff3UU["external_host"] ) && ! empty( $shariff3UU["external_host"] ) && isset( $shariff3UU["external_direct"] ) ) {
-				$output .= ' data-backendurl="' . $shariff3UU["external_host"] . '"';
-			}
-			// elseif WP is installed in a subdirectory and the api is only reachable in there -> adjust path
-			elseif ( isset( $shariff3UU["subapi"] ) &&  $shariff3UU["subapi"] == '1' ) {
-				$output .= ' data-backendurl="' . get_bloginfo( 'wpurl' ) . '/wp-json/shariff/v1/share_counts?' . '"';
-			}
-			// elseif pretty permalinks are not activated fall back to manual rest route
-			elseif ( ! get_option('permalink_structure') ) {
-				$output .= ' data-backendurl="?rest_route=/shariff/v1/share_counts&"';
-			}
-			// else use the home url
-			else {
-				$output .= ' data-backendurl="' . rtrim( home_url(), "/" ) . '/wp-json/shariff/v1/share_counts?' . '"';
-			}
-		}
-	$output .= '>';
-	
-	// headline
-	if ( array_key_exists( 'headline', $atts ) ) {
-		if ( ! array_key_exists( 'total', $share_counts ) ) $share_counts['total'] = '0';
-		$atts['headline'] = str_replace( '%total', '<span class="shariff-total">' . absint( $share_counts['total'] ) . '</span>', $atts['headline'] );
-		$output .= '<div class="ShariffHeadline">' . $atts['headline'] . '</div>';
+	// Adds the timestamp for the cache.
+	if ( array_key_exists( 'timestamp', $atts ) ) {
+		$post_timestamp = $atts['timestamp'];
+	} else {
+		$post_timestamp = absint( get_the_modified_date( 'U' ) );
 	}
 
-	// start ul list with design classes
+	// Starts the output of the actual Shariff buttons.
+	$output .= '<div class="shariff';
+	// Alignment.
+	if ( array_key_exists( 'align', $atts ) && 'none' !== $atts['align'] ) {
+		$output .= ' shariff-align-' . $atts['align'];
+	}
+	// Alignment widget.
+	if ( array_key_exists( 'align_widget', $atts ) && 'none' !== $atts['align_widget'] ) {
+		$output .= ' shariff-widget-align-' . $atts['align_widget'];
+	}
+	// Button Stretch.
+	if ( array_key_exists( 'buttonstretch', $atts ) && 1 === $atts['buttonstretch'] ) {
+		$output .= ' shariff-buttonstretch';
+	}
+	$output .= '"';
+	// Hides buttons until css is loaded.
+	if ( array_key_exists( 'hideuntilcss', $atts ) && 1 === $atts['hideuntilcss'] ) {
+		$output .= ' style="display:none"';
+	}
+	// Adds information for share count request.
+	if ( array_key_exists( 'backend', $atts ) && 'on' === $atts['backend'] ) {
+		// Share url.
+		$output .= ' data-url="' . esc_html( $share_url ) . '"';
+		// Timestamp for cache.
+		$output .= ' data-timestamp="' . $post_timestamp . '"';
+		// Hides share counts when they are zero.
+		if ( isset( $atts['hidezero'] ) && 1 === $atts['hidezero'] ) {
+			$output .= ' data-hidezero="1"';
+		}
+		// Adds external api if entered.
+		if ( isset( $shariff3uu['external_host'] ) && ! empty( $shariff3uu['external_host'] ) && isset( $shariff3uu['external_direct'] ) ) {
+			$output .= ' data-backendurl="' . $shariff3uu['external_host'] . '"';
+		} // Elseif test the subapi setting.
+		elseif ( isset( $shariff3uu['subapi'] ) && 1 === $shariff3uu['subapi'] ) {
+			$output .= ' data-backendurl="' . get_bloginfo( 'wpurl' ) . '/wp-json/shariff/v1/share_counts?"';
+		} // Elseif pretty permalinks are not activated fall back to manual rest route.
+		elseif ( ! get_option( 'permalink_structure' ) ) {
+			$output .= ' data-backendurl="?rest_route=/shariff/v1/share_counts&"';
+		} // Else use the home url.
+		else {
+			$output .= ' data-backendurl="' . rtrim( home_url(), '/' ) . '/wp-json/shariff/v1/share_counts?"';
+		}
+	}
+	$output .= '>';
+
+	// Adds the headline.
+	if ( array_key_exists( 'headline', $atts ) ) {
+		if ( ! array_key_exists( 'total', $share_counts ) ) {
+			$share_counts['total'] = '0';
+		}
+		$atts['headline'] = str_replace( '%total', '<span class="shariff-total">' . absint( $share_counts['total'] ) . '</span>', $atts['headline'] );
+		$output          .= '<div class="ShariffHeadline">' . $atts['headline'] . '</div>';
+	}
+
+	// Start the ul list with design classes.
 	$output .= '<ul class="shariff-buttons ';
-		// theme
-		if ( array_key_exists( 'theme', $atts ) )       $output .= 'theme-' . esc_html( $atts['theme'] ) . ' ';
-		else $output .= 'theme-default ';
-		// orientation
-		if ( array_key_exists( 'orientation', $atts ) ) $output .= 'orientation-' . esc_html( $atts['orientation'] ) . ' ';
-		else $output .= 'orientation-horizontal ';
-		// size
-		if ( array_key_exists( 'buttonsize', $atts ) )  $output .= 'buttonsize-' . esc_html( $atts['buttonsize'] );
-		else $output .= 'buttonsize-medium';
+	// Theme.
+	if ( array_key_exists( 'theme', $atts ) ) {
+		$output .= 'theme-' . esc_html( $atts['theme'] ) . ' ';
+	} else {
+		$output .= 'theme-default ';
+	}
+	// Orientation.
+	if ( array_key_exists( 'orientation', $atts ) ) {
+		$output .= 'orientation-' . esc_html( $atts['orientation'] ) . ' ';
+	} else {
+		$output .= 'orientation-horizontal ';
+	}
+	// Size.
+	if ( array_key_exists( 'buttonsize', $atts ) ) {
+		$output .= 'buttonsize-' . esc_html( $atts['buttonsize'] );
+	} else {
+		$output .= 'buttonsize-medium';
+	}
 	$output .= '">';
 
-	// prevent warnings while debug mode is on
-	$flattr_error = '';
-	$paypal_error = '';
-	$paypalme_error = '';
-	$bitcoin_error = '';
-	$patreon_error = '';
+	// Prevents warnings while debug mode is on.
+	$flattr_error      = '';
+	$paypal_error      = '';
+	$paypalme_error    = '';
+	$bitcoin_error     = '';
+	$patreon_error     = '';
 	$button_text_array = '';
 	$backend_available = '';
-	$mobile_only = '';
+	$mobile_only       = '';
+	$button_url        = '';
+	$no_custom_color   = '';
 
-	// explode services
+	// Explodes services.
 	$service_array = explode( '|', $atts['services'] );
 
-	// migrate 2.3.0 mail to mailform
-	$service_array = preg_replace( '/\bmail\b/', 'mailform', $service_array );
+	// Migrates mail to mailto.
+	$service_array = preg_replace( '/\bmail\b/', 'mailto', $service_array );
 
-	// loop through all desired services
+	// Migrates mailform to mailto.
+	$service_array = preg_replace( '/\bmailform\b/', 'mailto', $service_array );
+
+	// Remove duplicated services.
+	$service_array = array_unique( $service_array );
+
+	// Loops through all desired services.
 	foreach ( $service_array as $service ) {
-		// check if necessary usernames are set and display warning to admins, if needed
-		if ( $service == 'flattr' && ! array_key_exists( 'flattruser', $atts ) ) $flattr_error = '1';
-		elseif ( $service == 'paypal' && ! array_key_exists( 'paypalbuttonid', $atts ) ) $paypal_error = '1';
-		elseif ( $service == 'paypalme' && ! array_key_exists( 'paypalmeid', $atts ) ) $paypalme_error = '1';
-		elseif ( $service == 'bitcoin' && ! array_key_exists( 'bitcoinaddress', $atts ) ) $bitcoin_error = '1';
-		elseif ( $service == 'patreon' && ! array_key_exists( 'patreonid', $atts ) ) $patreon_error = '1';
-		// start render button
-		elseif ( $service != 'total' && $service != 'totalnumber' ) {
-			
-			// include service parameters
-			$frontend = '1';
+		// Check if necessary usernames are set and display warning to admins, if needed.
+		if ( 'flattr' === $service && ! array_key_exists( 'flattruser', $atts ) ) {
+			$flattr_error = 1;
+		} elseif ( 'paypal' === $service && ! array_key_exists( 'paypalbuttonid', $atts ) ) {
+			$paypal_error = 1;
+		} elseif ( 'paypalme' === $service && ! array_key_exists( 'paypalmeid', $atts ) ) {
+			$paypalme_error = 1;
+		} elseif ( 'bitcoin' === $service && ! array_key_exists( 'bitcoinaddress', $atts ) ) {
+			$bitcoin_error = 1;
+		} elseif ( 'patreon' === $service && ! array_key_exists( 'patreonid', $atts ) ) {
+			$patreon_error = 1;
+		} elseif ( 'total' !== $service && 'totalnumber' !== $service ) {
 
-			// determine path to service phps
-			$path_service_file = plugin_dir_path( __FILE__ ) . 'services/shariff-' . $service . '.php';
+			// Only the frontend part is needed.
+			$frontend = 1;
 
-			// check if service file exists
+			// Determines the path to the service phps.
+			$path_service_file = dirname( __FILE__ ) . '/services/shariff-' . $service . '.php';
+
+			// Checks if service file exists.
 			if ( file_exists( $path_service_file ) ) {
 
-				// include service file
-				include( $path_service_file );
+				// Includes service file.
+				include $path_service_file;
 
-				// overwrite service specific colors, if custom colors are set
+				// Overwrites service specific colors, if custom colors are set.
 				if ( array_key_exists( 'maincolor', $atts ) ) {
 					$main_color = $atts['maincolor'];
+				} else {
+					$no_custom_color = 'shariff-nocustomcolor ';
 				}
 				if ( array_key_exists( 'secondarycolor', $atts ) ) {
 					$secondary_color = $atts['secondarycolor'];
 				}
 
-				// set border radius for round theme
-				if ( array_key_exists( 'borderradius', $atts ) && array_key_exists( 'theme', $atts ) && $atts['theme'] == "round" ) {
+				// Sets the border radius for the round theme.
+				if ( array_key_exists( 'borderradius', $atts ) && array_key_exists( 'theme', $atts ) && 'round' === $atts['theme'] ) {
 					$border_radius = '; border-radius:' . $atts['borderradius'] . '%';
-				}
-				else {
+				} else {
 					$border_radius = '';
 				}
 
-				// info button for default theme
-				if ( ! array_key_exists( 'maincolor', $atts ) && $service == 'info' && ( ( array_key_exists( 'theme', $atts ) && $atts['theme'] == "default" || ( array_key_exists( 'theme', $atts ) && $atts['theme'] == "round" ) ) || ! array_key_exists( 'theme', $atts ) ) ) {
-					$main_color = '#fff';
-					$secondary_color = "#eee";
+				// Info button for default theme.
+				if ( ! array_key_exists( 'maincolor', $atts ) && 'info' === $service && ( ( array_key_exists( 'theme', $atts ) && 'default' === $atts['theme'] || ( array_key_exists( 'theme', $atts ) && 'round' === $atts['theme'] ) ) || ! array_key_exists( 'theme', $atts ) ) ) {
+					$main_color      = '#fff';
+					$secondary_color = '#eee';
 				}
 
-				// start li
-				$output .= '<li class="shariff-button ' . $service;
-					// mobile only
-					if ( $mobile_only == '1') $output .= ' shariff-mobile';
-				$output .=  '" style="background-color:' . $secondary_color . $border_radius . '">';
-					
-					// use default button share text, if $button_text_array is empty
-					if ( empty( $button_text_array ) ) $button_text_array = $default_button_text_array;
+				// Start li.
+				$output .= '<li class="shariff-button ' . $no_custom_color . $service;
+				// Mobile only.
+				if ( 1 === $mobile_only ) {
+					$output .= ' shariff-mobile';
+				}
+				$output .= '" style="background-color:' . $secondary_color . $border_radius . '">';
 
-					// set button text in desired language, fallback is English
-					if ( array_key_exists( 'lang', $atts ) && array_key_exists( $atts['lang'], $button_text_array ) ) $button_text = $button_text_array[ $atts['lang'] ];
-					else $button_text = $button_text_array['en'];
+				// Uses default button share text, if $button_text_array is empty.
+				if ( empty( $button_text_array ) ) {
+					$button_text_array = $default_button_text_array;
+				}
 
-					// set button title / label in desired language, fallback is English
-					if ( array_key_exists( 'lang', $atts ) && array_key_exists( $atts['lang'], $button_title_array ) ) $button_title = $button_title_array[ $atts['lang'] ];
-					else $button_title = $button_title_array['en'];
+				// Sets button text in desired language; fallback is English.
+				if ( array_key_exists( 'lang', $atts ) && array_key_exists( $atts['lang'], $button_text_array ) ) {
+					$button_text = $button_text_array[ $atts['lang'] ];
+				} else {
+					$button_text = $button_text_array['en'];
+				}
 
-					// reset $button_text_array
-					$button_text_array = '';
+				// Sets the button title / label in desired language; fallback is English.
+				if ( array_key_exists( 'lang', $atts ) && array_key_exists( $atts['lang'], $button_title_array ) ) {
+					$button_title = $button_title_array[ $atts['lang'] ];
+				} else {
+					$button_title = $button_title_array['en'];
+				}
 
-					// build the actual button
-					$output .= '<a href="' . $button_url . '" title="' . $button_title . '" aria-label="' . $button_title . '" role="button" rel="';
-						if ( $mobile_only != '1' ) $output .= 'noopener ';
-						$output .= 'nofollow" class="shariff-link" ';
-						// same window?
-						if ( ! isset( $same_window ) || isset( $same_window ) && $same_window != '1' ) $output .= 'target="_blank" ';
-						$output .= 'style="background-color:' . $main_color . $border_radius;
-						// theme white?
-						if ( isset( $atts['theme'] ) && $atts['theme'] == "white" ) $output .= '; color:' . $main_color;
-						else $output .= '; color:#fff';
-					$output .= '">';
-						$output .= '<span class="shariff-icon"';
-							// theme white?
-							if ( isset( $atts['theme'] ) && $atts['theme'] == "white" ) $output .= ' style="fill:' . $main_color . '"';
-						$output .= '>' . $svg_icon . '</span>';
-						$output .= '<span class="shariff-text">' . $button_text . '</span>&nbsp;';
-						// share counts?
-						if ( array_key_exists( 'sharecounts', $atts ) && $atts['sharecounts'] == "1" && $backend_available == '1' && ! isset ( $shariff3UU["disable"][ $service ] ) ) {
-							$output .= '<span class="shariff-count" data-service="' . $service . '" style="color:' . $main_color;
-							if ( array_key_exists( $service, $share_counts ) === true && $share_counts[ $service ] !== null && $share_counts[ $service ] !== '-1' && ( ! isset( $atts['hidezero'] ) || ( isset( $atts['hidezero'] ) && $atts['hidezero'] != '1' ) || ( isset( $atts['hidezero'] ) && $atts['hidezero'] == '1' && $share_counts[ $service ] > 0 ) ) ) {
-								$output .= '"> ' . $share_counts[ $service ];
-							}
-							else $output .= ';opacity:0">';
-							$output .= '</span>&nbsp;';
-						}
-					$output .= '</a>';
+				// Resets $button_text_array.
+				$button_text_array = '';
+
+				// Build the actual button.
+				$output .= '<a href="' . $button_url . '" title="' . $button_title . '" aria-label="' . $button_title . '" role="button" rel="';
+				if ( 'facebook' !== $service ) {
+					$output .= 'noopener ';
+				}
+				$output .= 'nofollow" class="shariff-link" ';
+				// Same window?
+				if ( ! isset( $same_window ) || isset( $same_window ) && 1 !== $same_window ) {
+					$output .= 'target="_blank" ';
+				}
+				$output .= 'style="background-color:' . $main_color . $border_radius;
+				// Theme white?
+				if ( isset( $atts['theme'] ) && 'white' === $atts['theme'] ) {
+					$output .= '; color:' . $main_color;
+				} else {
+					$output .= '; color:#fff';
+				}
+				$output .= '">';
+				$output .= '<span class="shariff-icon"';
+				// Theme white?
+				if ( isset( $atts['theme'] ) && 'white' === $atts['theme'] ) {
+					$output .= ' style="fill:' . $main_color . '"';
+				}
+				$output .= '>' . $svg_icon . '</span>';
+				$output .= '<span class="shariff-text"';
+				if ( isset( $atts['theme'] ) && 'white' === $atts['theme'] ) {
+					$output .= ' style="color:' . $main_color;
+				}
+				$output .= '">' . $button_text . '</span>&nbsp;';
+				// Share counts?
+				if ( array_key_exists( 'sharecounts', $atts ) && 1 === $atts['sharecounts'] && 1 === $backend_available && ! isset( $shariff3uu['disable'][ $service ] ) ) {
+					$output .= '<span class="shariff-count" data-service="' . $service . '" style="color:' . $main_color;
+					if ( true === array_key_exists( $service, $share_counts ) && null !== $share_counts[ $service ] && '-1' !== $share_counts[ $service ] && ( ! isset( $atts['hidezero'] ) || ( isset( $atts['hidezero'] ) && '-1' !== $atts['hidezero'] ) || ( isset( $atts['hidezero'] ) && 1 === $atts['hidezero'] && $share_counts[ $service ] > 0 ) ) ) {
+						$output .= '"> ' . $share_counts[ $service ];
+					} else {
+						$output .= ';opacity:0">';
+					}
+					$output .= '</span>&nbsp;';
+				}
+				$output .= '</a>';
 				$output .= '</li>';
-
-				// add service to backend service, if available
-				if ( $backend_available == '1' && ! isset ( $shariff3UU["disable"][ $service ] ) ) $backend_service_array[] = $service;
-
-				// reset $backend_available, $mobile_only, $same_window
+				// Adds service to backend service, if available.
+				if ( 1 === $backend_available && ! isset( $shariff3uu['disable'][ $service ] ) ) {
+					$backend_service_array[] = $service;
+				}
+				// Resets the $backend, $mobile_only and $same_window variables.
 				$backend_available = '';
-				$mobile_only = '';
-				$same_window = '';
-			}
-		}
-	}
+				$mobile_only       = '';
+				$same_window       = '';
+			} // End if service file exists.
+		} // End if is real and fully setup service.
+	} // End foreach() loop.
 
-	// add the list of backend services
+	// Adds the list of backend services.
 	if ( ! empty( $backend_service_array ) ) {
 		$backend_services = implode( '|', $backend_service_array );
-		$output = str_replace( 'data-url=', 'data-services="' . esc_html( urlencode( $backend_services ) ) . '" data-url=', $output );
+		$output           = str_replace( 'data-url=', 'data-services="' . esc_html( rawurlencode( $backend_services ) ) . '" data-url=', $output );
 	}
 
-	// close ul and the main shariff div
+	// Closes ul and the main shariff div.
 	$output .= '</ul></div>';
 
-	// if we had a style attribute close that too
-	if ( array_key_exists( 'style', $atts ) ) $output .= '</div>';
-
-	// display warning to admins if flattr is set, but no flattr username is provided
-	if ( $flattr_error == '1' && current_user_can( 'manage_options' ) ) {
-		$output .= '<div class="shariff-warning">' . __('Username for Flattr is missing!', 'shariff') . '</div>';
-	}
-	// display warning to admins if patreon is set, but no patreon username is provided
-	if ( $patreon_error == '1' && current_user_can( 'manage_options' ) ) {
-		$output .= '<div class="shariff-warning">' . __('Username for patreon is missing!', 'shariff') . '</div>';
-	}
-	// display warning to admins if paypal is set, but no paypal button id is provided
-	if ( $paypal_error == '1' && current_user_can( 'manage_options' ) ) {
-		$output .= '<div class="shariff-warning">' . __('Button ID for PayPal is missing!', 'shariff') . '</div>';
-	}
-	// display warning to admins if paypalme is set, but no paypalme id is provided
-	if ( $paypalme_error == '1' && current_user_can( 'manage_options' ) ) {
-		$output .= '<div class="shariff-warning">' . __('PayPal.Me ID is missing!', 'shariff') . '</div>';
-	}
-	// display warning to admins if bitcoin is set, but no bitcoin address is provided
-	if ( $bitcoin_error == '1' && current_user_can( 'manage_options' ) ) {
-		$output .= '<div class="shariff-warning">' . __('Address for Bitcoin is missing!', 'shariff') . '</div>';
+	// Closes the style attribute, if there was one.
+	if ( array_key_exists( 'style', $atts ) || array_key_exists( 'cssclass', $atts ) ) {
+		$output .= '</div>';
 	}
 
-	// if the service totalnumber is set, just output the total share count
-	if ( array_key_exists( '0', $service_array ) && $service_array['0'] == 'totalnumber' ) {
+	// Displays a warning to admins if flattr is set, but no flattr username was provided.
+	if ( 1 === $flattr_error && current_user_can( 'manage_options' ) ) {
+		$output .= '<div class="shariff-warning">' . __( 'Username for Flattr is missing!', 'shariff' ) . '</div>';
+	}
+	// Displays a warning to admins if patreon is set, but no patreon username was provided.
+	if ( 1 === $patreon_error && current_user_can( 'manage_options' ) ) {
+		$output .= '<div class="shariff-warning">' . __( 'Username for patreon is missing!', 'shariff' ) . '</div>';
+	}
+	// Displays a warning to admins if paypal is set, but no paypal button id was provided.
+	if ( 1 === $paypal_error && current_user_can( 'manage_options' ) ) {
+		$output .= '<div class="shariff-warning">' . __( 'Button ID for PayPal is missing!', 'shariff' ) . '</div>';
+	}
+	// Displays a warning to admins if paypalme is set, but no paypalme id was provided.
+	if ( 1 === $paypalme_error && current_user_can( 'manage_options' ) ) {
+		$output .= '<div class="shariff-warning">' . __( 'PayPal.Me ID is missing!', 'shariff' ) . '</div>';
+	}
+	// Displays a warning to admins if bitcoin is set, but no bitcoin address was provided.
+	if ( 1 === $bitcoin_error && current_user_can( 'manage_options' ) ) {
+		$output .= '<div class="shariff-warning">' . __( 'Address for Bitcoin is missing!', 'shariff' ) . '</div>';
+	}
+
+	// If the service totalnumber is set, just output the total share count.
+	if ( array_key_exists( '0', $service_array ) && 'totalnumber' === $service_array['0'] ) {
 		$output = '<span class="shariff" data-services="totalnumber" data-url="' . $share_url . '"';
-			// add external api
-			if ( isset( $shariff3UU["external_host"] ) && ! empty( $shariff3UU["external_host"] ) && isset( $shariff3UU["external_direct"] ) ) {
-				$output .= ' data-backendurl="' . $shariff3UU["external_host"] . '"';
-			}
+		// Adds the external api.
+		if ( isset( $shariff3uu['external_host'] ) && ! empty( $shariff3uu['external_host'] ) && isset( $shariff3uu['external_direct'] ) ) {
+			$output .= ' data-backendurl="' . $shariff3uu['external_host'] . '"';
+		}
 		$output .= '><span class="shariff-totalnumber">' . absint( $share_counts['total'] ) . '</span></span>';
 	}
 
 	return $output;
 }
 
-// register helper shortcode
-add_shortcode( 'shariffmeta', 'shariff3UU_meta' );
+// Registers the helper shortcode.
+add_shortcode( 'shariffmeta', 'shariff3uu_meta' );
 
-// meta box helper function
-function shariff3UU_meta( $atts, $content = null ) {
-	$GLOBALS["shariff3UU"]["metabox"] = $atts;
-	return;
-}
-
-// prepend mailform if view=mail or send mail if act=sendMail
-function shariff3UU_viewmail( $content ) {
-	// prepend the mail form and return content
-	if ( isset( $_REQUEST['view'] ) && $_REQUEST['view'] == 'mail' ) {
-		// only add to single view
-		if ( is_singular() ) {
-			return $content = shariff3UU_addMailForm( $content, '0' );
-		}
-	}
-	// send mail and return content
-	elseif ( isset( $_REQUEST['act'] ) && $_REQUEST['act'] == 'sendMail' ) {
-		// only on single view, main query and in the loop
-		if ( is_singular() && is_main_query() && in_the_loop() ) {
-			return $content = sharif3UU_procSentMail( $content );
-		}
-	}
-	// return content
-	else {
-		return $content;
+/**
+ * Meta box helper function. Creates a global variable with the current meta box attributes.
+ *
+ * @param array $atts List of shariff shortcode attributes.
+ */
+function shariff3uu_meta( $atts ) {
+	if ( ! empty( $atts ) ) {
+		$GLOBALS['shariff3uu']['metabox'] = $atts;
+	} else {
+		$GLOBALS['shariff3uu']['metabox'] = array();
 	}
 }
 
-// only add filter if mailform is not disabled
-if ( ! isset( $shariff3UU["disable_mailform"] ) || ( isset( $shariff3UU["disable_mailform"] ) && $shariff3UU["disable_mailform"] != '1' ) ) {
-	add_filter( 'the_content', 'shariff3UU_viewmail' );
-}
-
-// add mailform
-function shariff3UU_addMailForm( $content, $error ) {
-	// get options
-	$shariff3UU = $GLOBALS["shariff3UU"];
-
-	// check if mailform is disabled
-	if ( isset( $shariff3UU["disable_mailform"] ) && $shariff3UU["disable_mailform"] == '1' ) {
-		echo '<div id="shariff_mailform" class="shariff_mailform"><div class="shariff_mailform_disabled">';
-		echo __( 'Mail form disabled.', 'shariff' );
-		echo '</div></div>';
-		$mailform = '';
-	}
-	else {
-		// set default language to English as fallback
-		$lang = 'EN';
-
-		// available languages
-		$available_lang = array( 'EN', 'DE', 'FR', 'IT' );
-
-		// check plugin options
-		if ( isset( $shariff3UU["mailform_language"] ) && $shariff3UU["mailform_language"] != 'auto' ) {
-			$lang = $shariff3UU["mailform_language"];
-		}
-		// if language is set to automatic try geoip
-		// http://datenverwurstungszentrale.com/stadt-und-land-mittels-geoip-ermitteln-268.htm
-		elseif ( function_exists('geoip_country_code_by_name') ) {
-			switch ( @geoip_country_code_by_name( $_SERVER[REMOTE_ADDR] ) ) {
-				case 'DE': $lang = 'DE';
-				break;
-				case 'AT': $lang = 'DE';
-				break;
-				case 'CH': $lang = 'DE';
-				break;
-				case 'FR': $lang = 'FR';
-				break;
-				case 'IT': $lang = 'IT';
-				break;
-				default: $lang = 'EN';
-			}
-		}
-		// if no geoip try http_negotiate_language
-		elseif ( function_exists('http_negotiate_language') ) {
-			$lang = http_negotiate_language( $available_lang );
-		}
-
-		// include selected language
-		include( plugin_dir_path( __FILE__ ) . '/locale/mailform-' . $lang . '.php' );
-
-		// use wp_nonce_url / wp_verify_nonce to prevent automated spam by url
-		$submit_link = wp_nonce_url( get_permalink(), 'shariff3UU_send_mail', 'shariff_mf_nonce' );
-
-		// add anchor if option is set
-		if ( isset( $shariff3UU["mailform_anchor"] ) && $shariff3UU["mailform_anchor"] == '1' ) {
-			$submit_link .= '#shariff_mailform';
-		}
-
-		// sender address optional?
-		$mf_optional_text = '';
-		$mf_sender_required = '';
-		if ( isset( $shariff3UU["require_sender"] ) && $shariff3UU["require_sender"] == '1' ) {
-			// does not work in Safari, but nice to have in all other cases, because less requests
-			$mf_sender_required = ' required';
-		}
-		else {
-			$mf_optional_text = $mf_optional[$lang];
-		}
-
-		// field content to prefill fields in case of an error
-		if ( isset( $error['mf_content_mailto'] ) ) $mf_content_mailto = $error['mf_content_mailto'];
-		else $mf_content_mailto = '';
-		if ( isset( $error['mf_content_from'] ) ) $mf_content_from = $error['mf_content_from'];
-		else $mf_content_from = '';
-		if ( isset( $error['mf_content_sender'] ) ) $mf_content_sender = $error['mf_content_sender'];
-		else $mf_content_sender = '';
-		if ( isset( $error['mf_content_mail_comment'] ) ) $mf_content_mail_comment = $error['mf_content_mail_comment'];
-		else $mf_content_mail_comment = '';
-
-		// create the form
-		$mailform = '<div id="shariff_mailform" class="shariff_mailform">';
-		// wait error
-		if ( ! empty ( $error['wait'] ) ) {
-			$mailform .= '<div class="shariff_mailform_error">' . sprintf($mf_wait[$lang], $error['wait']) . '</div>';
-		}
-		// no to address error
-		$mf_to_error_html = '';
-		if ( ! empty ( $error['to'] ) && $error['to'] == '1' ) {
-			$mf_to_error_html = '<span class="shariff_mailform_error"> ' . $mf_to_error[$lang] . '</span>';
-		}
-		// no from address error
-		$mf_from_error_html = '';
-		if ( ! empty ( $error['from'] ) && $error['from'] == '1' ) {
-			$mf_from_error_html = '<span class="shariff_mailform_error"> ' . $mf_from_error[$lang] . '</span>';
-		}
-		$mailform .= '<form action="' . $submit_link . '" method="POST">
-						<fieldset>
-							<div class="shariff_mailform_headline"><legend>' . $mf_headline[$lang] . '</legend>
-							<a href="' . get_permalink() . '" class="shariff_closeX"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20"><path d="M10 0c-5.5 0-10 4.5-10 10s4.5 10 10 10 10-4.5 10-10-4.5-10-10-10zM10 18.1c-4.5 0-8.1-3.6-8.1-8.1s3.6-8.1 8.1-8.1 8.1 3.6 8.1 8.1-3.6 8.1-8.1 8.1z"/><path d="M13.1 5l-3.1 3.1-3.1-3.1-1.9 1.9 3.1 3.1-3.1 3.1 1.9 1.9 3.1-3.1 3.1 3.1 1.9-1.9-3.1-3.1 3.1-3.1z"/></svg></a></div>' . $mf_headinfo[$lang] . '
-							<input type="hidden" name="act" value="sendMail">
-							<input type="hidden" name="lang" value="' . $lang . '">
-							<p><label for="mailto">' . $mf_rcpt[$lang] . '</label><br>
-							<input type="text" name="mailto" id="mailto" value="' . $mf_content_mailto . '" size="27" placeholder="' . $mf_rcpt_ph[$lang] . '" required>' . $mf_to_error_html . '</p>
-							<p><label for="from">' . $mf_from[$lang] . $mf_optional_text . '</label><br>
-							<input type="email" name="from" id="from" value="' . $mf_content_from . '" size="27" placeholder="' . $mf_from_ph[$lang] . '" ' . $mf_sender_required .'>' . $mf_from_error_html . '</p>
-							<p><label for="name">' . $mf_name[$lang] . '</label><br>
-							<input type="text" name="sender" id="sender" value="' . $mf_content_sender . '" size="27" placeholder="' . $mf_name_ph[$lang] . '"></p>
-							<p><label for="mail_comment">' . $mf_comment[$lang] . '</label><br>
-							<textarea name="mail_comment" rows="4">' . $mf_content_mail_comment . '</textarea></p>
-							<input type="url" name="url" id="shariff_mailform_url" value="" size="27" placeholder="">
-						</fieldset>
-						<p><input type="submit" class="shariff_mailform_submit" value="' . $mf_send[$lang] . '" /></p>
-						<p>' . $mf_info[$lang] . '</p>
-						</form>
-					</div>';
-	}
-	return $mailform . $content;
-}
-
-// helper functions to make it work with PHP < 5.3
-// better would be: add_filter( 'wp_mail_from_name', function( $name ) { return sanitize_text_field( $_REQUEST['sender'] ); };
-function shariff3UU_set_wp_mail_from_name( $name ) { return sanitize_text_field( $_REQUEST['sender'] ); }
-function shariff3UU_set2_wp_mail_from_name( $name ) { return sanitize_text_field( $_REQUEST['from'] ); }
-function shariff3UU_set3_wp_mail_from_name( $name ) { return sanitize_text_field( $GLOBALS["shariff3UU"]["mail_sender_name"] ); }
-function shariff3UU_set4_wp_mail_from_name( $name ) { return sanitize_text_field( get_bloginfo('name') ); }
-function shariff3UU_set_wp_mail_from( $email ) { return sanitize_text_field( $GLOBALS["shariff3UU"]["mail_sender_from"] ); }
-
-// send mail
-function sharif3UU_procSentMail( $content ) {
-	// get options
-	$shariff3UU = $GLOBALS["shariff3UU"];
-	
-	// honeypot url input
-	$mailform_url_field = sanitize_text_field( $_REQUEST['url'] );
-	
-	// check if mailform is disabled
-	if ( isset( $shariff3UU["disable_mailform"] ) && $shariff3UU["disable_mailform"] == '1' ) {
-		return $content;
-	}
-	// check if url field has been filled
-	elseif ( ! empty( $mailform_url_field ) ) { 
-		return $content;
-	}
-	else {
-		// get vars from form
-		$mf_nonce           = sanitize_text_field( $_REQUEST['shariff_mf_nonce'] );
-		$mf_content_mailto  = sanitize_text_field( $_REQUEST['mailto'] );
-		$mf_content_from    = sanitize_text_field( $_REQUEST['from'] );
-		$mf_content_sender  = sanitize_text_field( $_REQUEST['sender'] );
-		$mf_lang            = sanitize_text_field( $_REQUEST['lang'] );
-
-		// clean up comments
-		$mf_comment_content = $_REQUEST['mail_comment'] ;
-
-		// falls zauberhaft alte Serverkonfiguration, erstmal die Slashes entfernen...
-		if ( get_magic_quotes_gpc() == 1 ) $mf_comment_content = stripslashes( $mf_comment_content );
-
-		// ...denn sonst kan wp_kses den content nicht entschaerfen
-		$mf_comment_content = wp_kses( $mf_comment_content, '', '' );
-
-		// check if nonce is valid
-		if ( isset( $mf_nonce ) && wp_verify_nonce( $mf_nonce, 'shariff3UU_send_mail' ) ) {
-			// prevent double execution
-			$_REQUEST['shariff_mf_nonce'] = '';
-			
-			// field content to prefill forms in case of an error
-			$error['mf_content_mailto']       = $mf_content_mailto;
-			$error['mf_content_from']         = $mf_content_from;
-			$error['mf_content_sender']       = $mf_content_sender;
-			$error['mf_content_mail_comment'] = $mf_comment_content;
-			
-			// get min wait time
-			if ( isset( $shariff3UU["mailform_wait"] ) ) {
-				$minwait = $shariff3UU["mailform_wait"];
-			}
-			else {
-				$minwait = '5';
-			}
-			
-			// rate limiter
-			$wait = shariff3UU_limitRemoteUser();
-			if ( $wait > $minwait ) {
-				$error['error'] = '1';
-				$error['wait'] = $wait;
-			}
-			else {		
-				// nicer sender name and address
-				if ( ! empty( $mf_content_sender ) ) {
-					add_filter( 'wp_mail_from_name', 'shariff3UU_set_wp_mail_from_name' );
-				}
-				elseif ( ! empty( $mf_content_from ) ) { 
-					add_filter( 'wp_mail_from_name', 'shariff3UU_set2_wp_mail_from_name' );
-				} 
-				elseif ( ! empty( $GLOBALS["shariff3UU_mailform"]["mail_sender_name"] ) ) {
-					add_filter( 'wp_mail_from_name', 'shariff3UU_set3_wp_mail_from_name' );
-				}
-				else { 
-					add_filter( 'wp_mail_from_name', 'shariff3UU_set4_wp_mail_from_name' ); 
-				}
-
-				// Achtung: NICHT die Absenderadresse selber umschreiben!
-				// Das fuehrt bei allen sauber aufgesetzten Absender-MTAs zu Problemen mit SPF und/oder DKIM.
-				 
-				// default sender address
-				if ( ! empty( $shariff3UU["mail_sender_from"] ) ) {
-					add_filter( 'wp_mail_from', 'shariff3UU_set_wp_mail_from' );
-				}
-
-				// build the array with recipients
-				$arr = explode( ',', $mf_content_mailto );
-				if ( $arr == FALSE ) $arr = array( $mf_content_mailto );
-				// max 5
-				for ( $i = 0; $i < count($arr); $i++ ) {
-					if ( $i == '5' ) break;
-					$tmp_mail = sanitize_email( $arr[$i] );
-					// no need to add invalid stuff to the array
-					if ( is_email( $tmp_mail ) != false ) {
-						$mailto[] = $tmp_mail;
-					}
-				}
-
-				// set langugage from form
-				if ( ! empty( $mf_lang ) ) {
-					$lang = $mf_lang;
-				}
-				else {
-					$lang ='EN';
-				}
-
-				// fallback to EN if a language is not supported by this plugin translations
-				if ( $lang != 'DE' && $lang != 'FR' && $lang != 'IT' ) { $lang = 'EN'; }
-
-				// include selected language
-				include( plugin_dir_path( __FILE__ ) . '/locale/mailform-' . $lang . '.php' );
-
-				$subject = html_entity_decode( get_the_title(), ENT_COMPAT, 'UTF-8' );
-
-				// The following post was suggested to you by
-				$message[ $lang ] = $mf_mailbody1[ $lang ];
-
-				if ( ! empty( $mf_content_sender ) ) {
-					$message[ $lang ] .= $mf_content_sender;
-				}
-				elseif ( ! empty( $mf_content_from ) ) {
-					$message[ $lang ] .= sanitize_text_field( $mf_content_from );
-				}
-				else {
-					// somebody
-					$message[ $lang ] .= $mf_mailbody2[ $lang ];
-				}
-				// :
-				$message[ $lang ] .= $mf_mailbody3[ $lang ];
-
-				$message[ $lang ] .= " \r\n\r\n";
-				$message[ $lang ] .= get_permalink() . "\r\n\r\n";
-
-				// add comment
-				if ( ! empty( $mf_comment_content ) ) {
-					$message[ $lang ] .= $mf_comment_content . "\r\n\r\n";
-				}
-
-				// post content
-				if ( isset( $shariff3UU["mail_add_post_content"] ) && $shariff3UU["mail_add_post_content"] == '1') {
-					// strip all html tags
-					$post_content = wordwrap( strip_tags( get_the_content() ), 72, "\r\n" );
-					// strip all shortcodes
-					$post_content = strip_shortcodes( $post_content );
-					$message[ $lang ] .= $post_content;
-					$message[ $lang ] .= " \r\n";
-				}
-
-				$message[ $lang ] .= "\r\n-- \r\n";
-
-				// mail footer / disclaimer
-				$message[ $lang ] .= $mf_footer[ $lang ];
-
-				// avoid auto-responder
-				$headers = "Precedence: bulk\r\n";
-
-				// if sender address provided, set as return-path, elseif sender required set error
-				if ( ! empty( $mf_content_from ) && is_email( $mf_content_from ) != false ) {
-					$headers .= "Reply-To: <" . $mf_content_from . ">\r\n";
-				}
-				elseif ( isset( $shariff3UU["require_sender"] ) && $shariff3UU["require_sender"] == '1' ) {
-					$error['error'] = '1';
-					$error['from'] = '1';
-				}
-
-				// set error, if no usuable recipient e-mail
-				if ( empty( $mailto['0'] ) ) {
-					$error['error'] = '1';
-					$error['to'] = '1';
-				}
-			}
-			// if we have errors provide the mailform again with error message
-			if ( isset( $error['error'] ) && $error['error'] == '1' ) {
-				$content = shariff3UU_addMailForm( $content, $error );
-			}
-			// if everything is fine, send the e-mail
-			else {
-				$mailnotice = '<div id="shariff_mailform" class="shariff_mailform">';
-				// The e-mail was successfully send to:
-				$mailnotice .= '<div class="shariff_mailform_headline">' . $mf_mail_send[ $lang ] . '<a href="' . get_permalink() . '" class="shariff_closeX"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20"><path d="M10 0c-5.5 0-10 4.5-10 10s4.5 10 10 10 10-4.5 10-10-4.5-10-10-10zM10 18.1c-4.5 0-8.1-3.6-8.1-8.1s3.6-8.1 8.1-8.1 8.1 3.6 8.1 8.1-3.6 8.1-8.1 8.1z"/><path d="M13.1 5l-3.1 3.1-3.1-3.1-1.9 1.9 3.1 3.1-3.1 3.1 1.9 1.9 3.1-3.1 3.1 3.1 1.9-1.9-3.1-3.1 3.1-3.1z"/></svg></a></div>';
-				// send the mail ($mailto in this function is allways an array)
-				foreach ( $mailto as $rcpt ) {
-					wp_mail( $rcpt, $subject, $message["$lang"], $headers ); // the function is available after the hook 'plugins_loaded'
-					$mailnotice .= $rcpt . '<br>';
-				}
-				$mailnotice .= '</div>';
-				// add to content
-				$content = $mailnotice . $content;
-			}
-		}
-		return $content;
-	}
-}
-
-// set a timeout until new mails are possible
-function shariff3UU_limitRemoteUser() {
-	// options
-	$shariff3UU_mailform = $GLOBALS["shariff3UU_mailform"];
-	
-	// rtzrtz: umgeschrieben aus dem DOS-Blocker. Nochmal gruebeln, ob wir das ohne memcache mit der Performance schaffen. Daher auch nur Grundfunktionalitaet.
-	if ( ! isset( $shariff3UU_mailform['REMOTEHOSTS'] ) ) {
-		$shariff3UU_mailform['REMOTEHOSTS'] = '';
-	}
-	$HOSTS = json_decode( $shariff3UU_mailform['REMOTEHOSTS'], true );
-
-	// get wait time
-	if ( isset( $shariff3UU_mailform["mailform_wait"] ) ) {
-		$wait = $shariff3UU_mailform["mailform_wait"];
-	}
-	else {
-		$wait = '5';
-	}
-	
-	// calculate current wait time
-	if ( $HOSTS[$_SERVER['REMOTE_ADDR']]-time()+$wait > 0 ) {
-		if ( $HOSTS[$_SERVER['REMOTE_ADDR']]-time() < 86400 ) {
-			$wait = ($HOSTS[$_SERVER['REMOTE_ADDR']]-time()+$wait)*2;
-		}
-	}
-	
-	$HOSTS[$_SERVER['REMOTE_ADDR']] = time()+$wait;
-
-	// etwas Muellentsorgung
-	if ( count( $HOSTS )%10 == 0 ) {
-		while ( list( $key, $value ) = each( $HOSTS ) ) {
-			if ( $value-time()+$wait < 0 ) {
-				unset( $HOSTS[$key] );
-				update_option( 'shariff3UU_mailform', $shariff3UU_mailform );
-			}
-		}
-	}
-
-	$REMOTEHOSTS = json_encode( $HOSTS );
-	$shariff3UU_mailform['REMOTEHOSTS'] = $REMOTEHOSTS;
-
-	// update nur, wenn wir nicht unter heftigen DOS liegen
-	if ( $HOSTS[$_SERVER['REMOTE_ADDR']]-time()-$wait < '60' ) {
-		update_option( 'shariff3UU_mailform', $shariff3UU_mailform );
-	}
-
-	return $HOSTS[$_SERVER['REMOTE_ADDR']]-time();
-}
-
-// widget
-class ShariffWidget extends WP_Widget {
-	public function __construct() {
-		// translations
-		if ( function_exists('load_plugin_textdomain') ) { load_plugin_textdomain( 'shariff' ); }
-
-		$widget_options = array(
-			'classname' => 'Shariff',
-			'description' => __('Add Shariff as configured on the plugin options page.', 'shariff'),
-			'customize_selective_refresh' => true,
-			);
-
-		$control_options = array();
-		parent::__construct('Shariff', 'Shariff', $widget_options, $control_options);
-	} // END __construct()
-
-	// widget form - see WP_Widget::form()
-	public function form($instance) {
-		// widgets defaults
-		$instance = wp_parse_args((array) $instance, array(
-								 'shariff-title' => '',
-								 'shariff-tag' => '[shariff]',
-							 ));
-		// set title
-		echo '<p style="border-bottom: 1px solid #DFDFDF;"><strong>' . __( 'Title', 'shariff' ) . '</strong></p>';
-		// set title
-		echo '<p><input id="'. $this->get_field_id('shariff-title') .'" name="'. $this->get_field_name('shariff-title')
-		.'" type="text" value="'. $instance['shariff-title'] .'" />(optional)</p>';
-		// set shorttag
-		echo '<p style="border-bottom: 1px solid #DFDFDF;"><strong>Shorttag</strong></p>';
-		// set shorttag
-		echo '<p><input id="'. $this->get_field_id('shariff-tag') .'" name="' . $this->get_field_name('shariff-tag')
-				 . '" type="text" value=\''. str_replace('\'','"',$instance['shariff-tag']) .'\' size="30" />(optional)</p>';
-
-		echo '<p style="clear:both;"></p>';
-	} // END form($instance)
-
-	// save widget configuration
-	public function update($new_instance, $old_instance) {
-		$instance = $old_instance;
-
-		// widget conf defaults
-		$new_instance = wp_parse_args( (array) $new_instance, array( 'shariff-title' => '', 'shariff-tag' => '[shariff]') );
-
-		// check input values
-		$instance['shariff-title'] = (string) strip_tags( $new_instance['shariff-title'] );
-		$instance['shariff-tag'] = (string) wp_kses( $new_instance['shariff-tag'], $GLOBALS["allowed_tags"] );
-
-		// save config
-		return $instance;
-	}
-
-	// draw widget
-	public function widget( $args, $instance ) {
-		// extract $args
-		extract( $args );
-
-		// get options
-		$shariff3UU = $GLOBALS["shariff3UU"];
-
-		// container
-		echo $before_widget;
-
-		// print title of widget, if provided
-		if ( empty( $instance['shariff-title'] ) ) {
-			$title = '';
-		}
-		else {
-			apply_filters( 'shariff-title', $instance['shariff-title'] );
-			$title = $instance['shariff-title'];
-		}
-		if ( ! empty( $title ) ) {
-			echo $before_title . $title . $after_title;
-		}
-
-		// print shorttag
-
-		// keep original shorttag for further reference
-		$original_shorttag = $instance['shariff-tag'];
-
-		// if nothing is configured, use the global options from admin menu
-		if ( $instance['shariff-tag'] == '[shariff]' ) $shorttag = '[shariff]';
-		else $shorttag = $instance['shariff-tag'];
-
-		// set url to current page to prevent sharing the first or last post on pages with multiple posts e.g. the blog page
-		// ofc only when no manual url is provided in the shorttag
-		$page_url = '';
-		if ( strpos( $original_shorttag, ' url=' ) === false ) {
-			$wpurl = get_bloginfo( 'wpurl' );
-			$siteurl = get_bloginfo( 'url' );
-			// for "normal" installations
-			$page_url = $wpurl . esc_url_raw( $_SERVER['REQUEST_URI'] );
-			// kill ?view=mail etc. if pressed a second time
-			$page_url = strtok($page_url, '?');
-			// if wordpress is installed in a subdirectory, but links are mapped to the main domain
-			if ( $wpurl != $siteurl ) {
-				$subdir = str_replace ( $siteurl , '' , $wpurl );
-				$page_url = str_replace ( $subdir , '' , $page_url );
-			}
-			$page_url = ' url="' . $page_url;
-			$page_url .= '"';
-		}
-
-		// same for title
-		$page_title = '';
-		$wp_title = '';
-		if ( strpos( $original_shorttag, 'title=' ) === false ) {
-			$wp_title = wp_get_document_title();
-			// wp_title for all pages that have it
-			if ( ! empty( $wp_title ) ) $page_title = $wp_title;
-			// just in case
-			else $page_title = get_bloginfo('name');
-			// remove [ and ] with ( and )
-			$page_title = str_replace( '[', '(', $page_title );
-			$page_title = str_replace( ']', ')', $page_title );
-			$page_title = ' title="' . $page_title . '"';
-
-		}
-
-		// same for media
-		$media = '';
-		if ( array_key_exists( 'services', $shariff3UU ) && strstr( $shariff3UU["services"], 'pinterest' ) && ( strpos( $original_shorttag,'media=' ) === false ) ) {
-			if ( isset( $shariff3UU["default_pinterest"] ) ) $media = ' media="' . $shariff3UU["default_pinterest"] . '"';
-			else $media = ' media="' . plugins_url( '/pictos/defaultHint.png', __FILE__ ) . '"';
-		}
-
-		// build shorttag and add url, title and media if necessary as well as the widget attribute
-		$shorttag = substr($shorttag,0,-1) . $page_title . $page_url . $media . ' widget="1"]';
-
-		// replace mailform with mailto if on blog page to avoid broken button
-		if ( ! is_singular() ) {
-			$shorttag = str_replace( 'mailform' , 'mailto' , $shorttag );
-		}
-
-		// process the shortcode
-		// but only if it is not password protected |or| "disable on password protected posts" is not set in the options
-		if ( post_password_required( get_the_ID() ) != '1' || ( isset( $shariff3UU["disable_on_protected"] ) && $shariff3UU["disable_on_protected"] != '1' ) ) {
-			echo do_shortcode( $shorttag );
-		}
-
-		// close Container
-		echo $after_widget;
-	} // END widget( $args, $instance )
-} // END class ShariffWidget
-add_action( 'widgets_init', create_function( '', 'return register_widget("ShariffWidget");' ) );
-
-// clear transients upon deactivation
-function shariff3UU_deactivate() {
+/**
+ * Clears transients and removes cron job upon deactivation.
+ */
+function shariff3uu_deactivate() {
 	global $wpdb;
-	// check for multisite
-	if ( is_multisite() ) {
-		$current_blog_id = get_current_blog_id();
-		$blogs = $wpdb->get_results( "SELECT blog_id FROM {$wpdb->blogs}", ARRAY_A );
-		if ( $blogs ) {
-			foreach ( $blogs as $blog ) {
-				// switch to each blog
-				switch_to_blog( $blog['blog_id'] );
-				// purge transients
-				shariff3UU_purge_transients_deactivation();
-				// remove cron job
-				wp_clear_scheduled_hook( 'shariff3UU_fill_cache' );
-				// switch back to main
-				restore_current_blog();
-			}
+	// Checks for multisite.
+	if ( is_multisite() && function_exists( 'get_sites' ) && class_exists( 'WP_Site_Query' ) ) {
+		$sites = get_sites();
+		foreach ( $sites as $site ) {
+			switch_to_blog( $site->blog_id );
+			// Purges transients.
+			shariff3uu_purge_transients_deactivation();
+			// Removes the cron job.
+			wp_clear_scheduled_hook( 'shariff3uu_fill_cache' );
+			// Switches back to main blog.
+			restore_current_blog();
 		}
-	} 
-	else {
-		// purge transients
-		shariff3UU_purge_transients_deactivation();
-		// remove cron job
-		wp_clear_scheduled_hook( 'shariff3UU_fill_cache' );
+	} else {
+		// Purges transients.
+		shariff3uu_purge_transients_deactivation();
+		// Removes cron job.
+		wp_clear_scheduled_hook( 'shariff3uu_fill_cache' );
 	}
 }
-register_deactivation_hook( __FILE__, 'shariff3UU_deactivate' );
+register_deactivation_hook( __FILE__, 'shariff3uu_deactivate' );
 
-// activation hook to start cron job after update
-register_activation_hook( __FILE__, 'shariff3UU_fill_cache_schedule' );
-
-// purge all the transients associated with our plugin
-function shariff3UU_purge_transients_deactivation() {
-	// make sure we have the $wpdb class ready
-	if ( ! isset( $wpdb ) ) { global $wpdb; }
-	// delete transients
+/**
+ * Purges all the transients associated with our plugin.
+ */
+function shariff3uu_purge_transients_deactivation() {
+	// Makes sure the $wpdb class is ready.
+	if ( ! isset( $wpdb ) ) {
+		global $wpdb;
+	}
+	// Deletes transients.
+	// @codingStandardsIgnoreStart
 	$sql = 'DELETE FROM ' . $wpdb->options . ' WHERE option_name LIKE "_transient_timeout_shariff%"';
-	$wpdb->query($sql);
+	$wpdb->query( $sql );
 	$sql = 'DELETE FROM ' . $wpdb->options . ' WHERE option_name LIKE "_transient_shariff%"';
-	$wpdb->query($sql);
-	// clear object cache
+	$wpdb->query( $sql );
+	// @codingStandardsIgnoreEnd
+	// Clears object cache.
 	wp_cache_flush();
 }
-
-?>

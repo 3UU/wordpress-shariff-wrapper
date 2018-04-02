@@ -1,7 +1,9 @@
 /* Shariff Wrapper */
-.shariff-main { display: block !important; }
+.shariff {
+    display: block !important;
+    clear: both;
+}
 .shariff ul {
-  display: -webkit-flex;
   display: flex;
   flex-direction: row;
   flex-flow: row wrap;
@@ -11,8 +13,7 @@
 .shariff li {
   height: 35px;
   box-sizing: border-box;
-  list-style-type: none !important;
-  list-style-image: none !important;
+  list-style: none !important;
   overflow: hidden !important;
   margin: 5px !important;
   padding: 0 !important;
@@ -26,7 +27,6 @@
   padding: 0;
   box-sizing: border-box;
   border: 0;
-  color: #fff;
   text-decoration: none;
   background-image: none !important;
 }
@@ -35,7 +35,9 @@
   background-color: inherit !important;
   text-decoration: none !important;
 }
-.shariff span { color: inherit; }
+.shariff a:visited {
+  color: inherit;
+}
 .shariff .shariff-count {
   position: absolute;
   height: 33px;
@@ -58,15 +60,24 @@
   height: 20px;
   padding: 7px 1px;
   box-sizing: content-box;
-  fill: #fff;
 }
 .shariff-button::before {
   content: none !important;
+}
+/* theme default */
+.shariff .theme-default a {
+  color: #fff !important;
+}
+.shariff .theme-default .shariff-icon svg path {
+  fill: #fff;
 }
 /* theme color */
 .shariff .theme-color .shariff-count {
   background-color: transparent !important;
   color: #fff !important;
+}
+.shariff .theme-color .shariff-icon svg path {
+  fill: #fff;
 }
 /* theme grey */
 .shariff .theme-grey a { background-color: #b0b0b0 !important; }
@@ -75,20 +86,25 @@
   background-color: transparent;
   color: #fff !important;
 }
-/* theme white */
-.shariff .theme-white a { 
-  background-color: #fff !important;
-  border: 1px solid #ddd; 
+.shariff .theme-grey .shariff-icon svg path {
+  fill: #fff;
 }
-.shariff .theme-white a:hover { background-color: #eee !important; }
-.shariff .theme-white svg { fill: inherit; }
-.shariff .theme-white .shariff-count { 
-  background-color: transparent; 
+/* theme white */
+.shariff .theme-white a {
+  background-color: #fff !important;
+  border: 1px solid #ddd;
+}
+.shariff .theme-white a:hover {
+    background-color: #eee !important;
+    color: inherit;
+}
+.shariff .theme-white svg { fill: currentColor; }
+.shariff .theme-white .shariff-count {
+  background-color: transparent;
   margin: 0;
 }
 /* theme round */
-.shariff .theme-round li {
-  background: none;
+.shariff .shariff-buttons.theme-round li {
   width: 35px !important;
   height: 35px;
   border-radius: 50%;
@@ -118,6 +134,9 @@
 .shariff .theme-round .shariff-count:hover {
   background-color: inherit !important;
   color: #fff !important;
+}
+.shariff .theme-round .shariff-icon svg path {
+  fill: #fff;
 }
 /* buttonsize small */
 .shariff .buttonsize-small li { height: 25px !important; }
@@ -166,31 +185,32 @@
   height: 45px !important;
 }
 /* orientation vertical */
+/*noinspection CssUnusedSymbol*/
 .shariff .orientation-vertical { flex-direction: column; }
 .shariff .orientation-vertical li { width: 135px; }
 /* button alignment */
-.shariff.shariff-align-flex-start ul { 
+.shariff.shariff-align-flex-start ul {
   justify-content: flex-start;
   align-items: flex-start;
 }
-.shariff.shariff-align-center ul { 
+.shariff.shariff-align-center ul {
   justify-content: center;
   align-items: center;
 }
-.shariff.shariff-align-flex-end ul { 
+.shariff.shariff-align-flex-end ul {
   justify-content: flex-end;
   align-items: flex-end;
 }
 /* button alignment widget */
-.widget .shariff.shariff-widget-align-flex-start ul { 
+.widget .shariff.shariff-widget-align-flex-start ul {
   justify-content: flex-start;
   align-items: flex-start;
 }
-.widget .shariff.shariff-widget-align-center ul { 
+.widget .shariff.shariff-widget-align-center ul {
   justify-content: center;
   align-items: center;
 }
-.widget .shariff.shariff-widget-align-flex-end ul { 
+.widget .shariff.shariff-widget-align-flex-end ul {
   justify-content: flex-end;
   align-items: flex-end;
 }
@@ -220,74 +240,6 @@
   color: #fff;
   font-weight: 400;
 }
-/* mailform */
-.shariff_mailform {
-  background: #eee none repeat scroll 0 0;
-  border: 1px solid;
-  margin: 10px;
-  max-width: 750px;
-  padding: 10px 15px;
-}
-.shariff_mailform form { margin: 0 !important; }
-.shariff_mailform fieldset {
-  border: none;
-  margin: 0 !important;
-  padding: 0;
-}
-.shariff_mailform label {
-  margin-left: 3px;
-  display: inline-block;
-}
-.shariff_mailform p { margin: 10px 0 !important; }
-.shariff_mailform textarea {
-  height: auto !important;
-  margin: 0 !important;
-  padding: 0;
-  width: 100%;
-}
-.shariff_mailform input,
-.shariff_mailform select {
-  vertical-align: baseline;
-  height: 2.2rem;
-  padding: 0 10px;
-  width: 100%;
-  margin: 0 !important;
-}
-.shariff_mailform_error {
-  color: red;
-  font-weight: 700;
-  padding: 0 0 5px;
-}
-.shariff_mailform_disabled {
-  color: red;
-  font-weight: 700;
-  padding: 2px 0 0;
-}
-.shariff_mailform_headline {
-  position: relative;
-  padding: 0;
-}
-.shariff_mailform_headline legend {
-  font-weight: 700 !important;
-}
-.shariff_mailform_submit {
-    cursor: pointer;
-}
-.shariff_closeX {
-  position: absolute;
-  right: 0;
-  top: 0;
-  width: 20px;
-  padding: 2px;
-  text-decoration: none;
-  box-shadow: none !important;
-  border: none !important;
-  cursor: pointer;
-}
-.shariff_closeX svg:hover {
-  fill: #c00;
-}
-#shariff_mailform_url { display: none !important; }
 /* missing usernames warning */
 .shariff-warning {
   background-color: red;
@@ -307,6 +259,12 @@
 .shariff .shariff-button.info {
   width: 35px;
   flex: 0 0 auto !important;
+}
+.shariff .theme-default .shariff-button.shariff-nocustomcolor.info svg path {
+  fill: #999;
+}
+.shariff .theme-round .shariff-button.shariff-nocustomcolor.info svg path {
+  fill: #999;
 }
 .shariff .buttonsize-small .shariff-button.info { width: 25px; }
 .shariff .buttonsize-small .info a { width: 25px; }
@@ -336,5 +294,6 @@
   .shariff .orientation-horizontal li .shariff-text { display: inline; }
 }
 @media only screen and (min-device-width: 1025px) {
-  .shariff .shariff-mobile { display: none !important; }
+    /*noinspection CssUnusedSymbol*/
+    .shariff .shariff-mobile { display: none !important; }
 }

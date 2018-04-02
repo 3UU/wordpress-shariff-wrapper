@@ -1,83 +1,86 @@
 <?php
-// Xing
+/**
+ * Will be included in the shariff.php only, when Xing is requested as a service.
+ *
+ * @package Shariff Wrapper
+ */
 
-// prevent direct calls
-if ( ! class_exists('WP') ) { die(); }
+// Prevent direct calls.
+if ( ! class_exists( 'WP' ) ) {
+	die();
+}
 
-// frontend
-if ( isset( $frontend ) && $frontend == '1' ) {
-	// service url
+// Check if we need the frontend or the backend part.
+if ( isset( $frontend ) && 1 === $frontend ) {
+	// Service URL.
 	$service_url = esc_url( 'https://www.xing.com/social_plugins/share' );
 
-	// build button url
+	// Build button URL.
 	$button_url = $service_url . '?url=' . $share_url;
 
-	// svg icon
-	$svg_icon = '<svg width="32px" height="20px" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 25 32"><path d="M10.7 11.9q-0.2 0.3-4.6 8.2-0.5 0.8-1.2 0.8h-4.3q-0.4 0-0.5-0.3t0-0.6l4.5-8q0 0 0 0l-2.9-5q-0.2-0.4 0-0.7 0.2-0.3 0.5-0.3h4.3q0.7 0 1.2 0.8zM25.1 0.4q0.2 0.3 0 0.7l-9.4 16.7 6 11q0.2 0.4 0 0.6-0.2 0.3-0.6 0.3h-4.3q-0.7 0-1.2-0.8l-6-11.1q0.3-0.6 9.5-16.8 0.4-0.8 1.2-0.8h4.3q0.4 0 0.5 0.3z"/></svg>';
-
-	// colors
-	$main_color = '#126567';
+	// Colors.
+	$main_color      = '#126567';
 	$secondary_color = '#29888a';
 
-	// backend available?
-	$backend_available = '1';
+	// SVG icon.
+	$svg_icon = '<svg width="32px" height="20px" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 25 32"><path fill="' . $main_color . '" d="M10.7 11.9q-0.2 0.3-4.6 8.2-0.5 0.8-1.2 0.8h-4.3q-0.4 0-0.5-0.3t0-0.6l4.5-8q0 0 0 0l-2.9-5q-0.2-0.4 0-0.7 0.2-0.3 0.5-0.3h4.3q0.7 0 1.2 0.8zM25.1 0.4q0.2 0.3 0 0.7l-9.4 16.7 6 11q0.2 0.4 0 0.6-0.2 0.3-0.6 0.3h-4.3q-0.7 0-1.2-0.8l-6-11.1q0.3-0.6 9.5-16.8 0.4-0.8 1.2-0.8h4.3q0.4 0 0.5 0.3z"/></svg>';
 
-	// button title / label
+	// Backend available?
+	$backend_available = 1;
+
+	// Button alt label.
 	$button_title_array = array(
-		'bg' => 'Сподели във Xing',
-	    'da' => 'Del på Xing',
-	    'de' => 'Bei Xing teilen',
-	    'en' => 'Share on Xing',
-	    'es' => 'Compartir en Xing',
-	    'fi' => 'Jaa Xingissa',
-	    'fr' => 'Partager sur Xing',
-	    'hr' => 'Podijelite na Xingu',
-	    'hu' => 'Megosztás Xingon',
-	    'it' => 'Condividi su Xing',
-	    'ja' => 'フェイスブック上で共有',
-	    'ko' => '페이스북에서 공유하기',
-	    'nl' => 'Delen op Xing',
-	    'no' => 'Del på Xing',
-	    'pl' => 'Udostępnij na Xingu',
-	    'pt' => 'Compartilhar no Xing',
-	    'ro' => 'Partajează pe Xing',
-	    'ru' => 'Поделиться на Xing',
-	    'sk' => 'Zdieľať na Xingu',
-	    'sl' => 'Deli na Xingu',
-	    'sr' => 'Podeli na Xing-u',
-	    'sv' => 'Dela på Xing',
-	    'tr' => 'Xing\'ta paylaş',
-	    'zh' => '在Xing上分享',
+		'bg' => 'Сподели в XING',
+		'cs' => 'Sdílet na XINGu',
+		'da' => 'Del på XING',
+		'de' => 'Bei XING teilen',
+		'en' => 'Share on XING',
+		'es' => 'Compartir en XING',
+		'fi' => 'Jaa XINGissä',
+		'fr' => 'Partager sur XING',
+		'hr' => 'Podijelite na XING',
+		'hu' => 'Megosztás XINGen',
+		'it' => 'Condividi su XING',
+		'ja' => 'XING上で共有',
+		'ko' => 'XING에서 공유하기',
+		'nl' => 'Delen op XING',
+		'no' => 'Del på XING',
+		'pl' => 'Udostępnij przez XING',
+		'pt' => 'Compartilhar no XING',
+		'ro' => 'Partajează pe XING',
+		'ru' => 'Поделиться на XING',
+		'sk' => 'Zdieľať na XING',
+		'sl' => 'Deli na XING',
+		'sr' => 'Podeli na XING-u',
+		'sv' => 'Dela på XING',
+		'tr' => 'XING\'ta paylaş',
+		'zh' => '分享至XING',
 	);
-}
-// backend
-elseif ( isset( $backend ) && $backend == '1' ) {
-	// set xing options
+} elseif ( isset( $backend ) && 1 === $backend ) {
+	// Set xing options.
 	$xing_json = array(
-		'url' => $post_url2
+		'url' => $post_url_raw,
 	);
 
-	// set post options
+	// Set post options.
 	$xing_post_options = array(
-		'method' => 'POST',
-		'timeout' => 5,
+		'method'      => 'POST',
+		'timeout'     => 5,
 		'redirection' => 5,
 		'httpversion' => '1.0',
-		'blocking' => true,
-		'headers' => array( 'content-type' => 'application/json' ),
-		'body' => json_encode( $xing_json )
+		'blocking'    => true,
+		'headers'     => array( 'content-type' => 'application/json' ),
+		'body'        => wp_json_encode( $xing_json ),
 	);
 
-	// fetch counts
-	$xing = sanitize_text_field( wp_remote_retrieve_body( wp_remote_post( 'https://www.xing-share.com/spi/shares/statistics', $xing_post_options ) ) );
+	// Fetch counts.
+	$xing      = sanitize_text_field( wp_remote_retrieve_body( wp_remote_post( 'https://www.xing-share.com/spi/shares/statistics', $xing_post_options ) ) );
 	$xing_json = json_decode( $xing, true );
 
-	// store results, if we have some
+	// Store results, if we have some and record errors, if enabled (e.g. request from the status tab).
 	if ( isset( $xing_json['share_counter'] ) ) {
 		$share_counts['xing'] = intval( $xing_json['share_counter'] );
-	}
-	// record errors, if enabled (e.g. request from the status tab)
-	elseif ( isset( $record_errors ) && $record_errors == '1' ) {
+	} elseif ( isset( $record_errors ) && 1 === $record_errors ) {
 		$service_errors['xing'] = $xing;
 	}
 }
