@@ -3,7 +3,7 @@
  * Plugin Name: Shariff Wrapper
  * Plugin URI: https://wordpress.org/plugins-wp/shariff/
  * Description: The Shariff Wrapper provides share buttons that respect the privacy of your visitors and that are compliant to the General Data Protection Regulation (GDPR) (Regulation (EU) 2016/679).
- * Version: 4.4.0.RC1
+ * Version: 4.4.0.RC2
  * Author: Jan-Peter Lambeck & 3UU
  * Author URI: https://www.jplambeck.de
  * License: MIT
@@ -33,13 +33,13 @@ $shariff3uu = array_merge( $shariff3uu_basic, $shariff3uu_design, $shariff3uu_ad
  */
 function shariff3uu_update() {
 	// Adjust code version.
-	$code_version = '4.4.0.RC1';
+	$code_version = '4.4.0.RC2';
 
 	// Get options.
 	$shariff3uu = $GLOBALS['shariff3uu'];
 
 	// Check if the installed version is older than the code version and include updates.php if necessary.
-	if ( empty( $shariff3uu['version'] ) || ( isset( $shariff3uu['version'] ) && version_compare( $shariff3uu['version'], $code_version ) === '-1' ) ) {
+	if ( empty( $shariff3uu['version'] ) || ( isset( $shariff3uu['version'] ) && version_compare( $shariff3uu['version'], $code_version ) === -1 ) ) {
 		// Include updates.php.
 		include dirname( __FILE__ ) . '/updates.php';
 	}

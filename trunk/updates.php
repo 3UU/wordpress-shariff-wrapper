@@ -17,7 +17,7 @@ if ( ! class_exists( 'WP' ) ) {
  * Split options in database according to new setting tabs.
  * Delete old cache directory.
  */
-if ( isset( $GLOBALS['shariff3UU']['version'] ) && '-1' === version_compare( $GLOBALS['shariff3UU']['version'], '2.2.5' ) ) {
+if ( isset( $GLOBALS['shariff3UU']['version'] ) && -1 === version_compare( $GLOBALS['shariff3UU']['version'], '2.2.5' ) ) {
 
 	// Basic options.
 	if ( isset( $GLOBALS['shariff3UU']['version'] ) ) {
@@ -116,7 +116,7 @@ if ( isset( $GLOBALS['shariff3UU']['version'] ) && '-1' === version_compare( $GL
  * Update options that were moved.
  * Delete old cache directory and db entry.
  */
-if ( isset( $GLOBALS['shariff3UU']['version'] ) && '-1' === version_compare( $GLOBALS['shariff3UU']['version'], '3.3.0' ) ) {
+if ( isset( $GLOBALS['shariff3UU']['version'] ) && -1 === version_compare( $GLOBALS['shariff3UU']['version'], '3.3.0' ) ) {
 
 	// Update options that were moved.
 	if ( isset( $GLOBALS['shariff3UU']['backend'] ) ) {
@@ -206,7 +206,7 @@ function shariff_removeoldfiles( $directory ) {
 /**
  * Migration < 4.0
  */
-if ( isset( $GLOBALS['shariff3UU']['version'] ) && '-1' === version_compare( $GLOBALS['shariff3UU']['version'], '4.0.0' ) ) {
+if ( isset( $GLOBALS['shariff3UU']['version'] ) && -1 === version_compare( $GLOBALS['shariff3UU']['version'], '4.0.0' ) ) {
 
 	// Set new option share counts, if statistic is enabled.
 	if ( isset( $GLOBALS['shariff3UU_statistic']['backend'] ) ) {
@@ -230,7 +230,7 @@ if ( isset( $GLOBALS['shariff3UU']['version'] ) && '-1' === version_compare( $GL
 /**
  * Migration < 4.2
  */
-if ( isset( $GLOBALS['shariff3UU']['version'] ) && '-1' === version_compare( $GLOBALS['shariff3UU']['version'], '4.2.0' ) ) {
+if ( isset( $GLOBALS['shariff3UU']['version'] ) && -1 === version_compare( $GLOBALS['shariff3UU']['version'], '4.2.0' ) ) {
 	// Make sure we have the $wpdb class ready.
 	global $wpdb;
 
@@ -273,7 +273,7 @@ if ( isset( $GLOBALS['shariff3UU']['version'] ) && '-1' === version_compare( $GL
 /**
  * Migration < 4.4
  */
-if ( isset( $GLOBALS['shariff3UU']['version'] ) && '-1' === version_compare( $GLOBALS['shariff3UU']['version'], '4.4.0' ) ) {
+if ( isset( $GLOBALS['shariff3UU']['version'] ) && -1 === version_compare( $GLOBALS['shariff3UU']['version'], '4.4.0' ) ) {
 	// Remove hide update notice setting.
 	delete_option( 'shariff3UU_hide_update_notice' );
 	// Create new options.
@@ -287,6 +287,8 @@ if ( isset( $GLOBALS['shariff3UU']['version'] ) && '-1' === version_compare( $GL
 	delete_option( 'shariff3UU_advanced' );
 	delete_option( 'shariff3UU_mailform' );
 	delete_option( 'shariff3UU_statistic' );
+	// Update version.
+	$GLOBALS['shariff3UU']['version'] = '4.4.0';
 }
 
 /**
