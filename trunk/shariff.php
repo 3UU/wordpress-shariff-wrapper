@@ -2,7 +2,7 @@
 /**
  * Plugin Name: Shariff Wrapper
  * Plugin URI: https://wordpress.org/plugins-wp/shariff/
- * Description: The Shariff Wrapper provides share buttons that respect the privacy of your visitors and that are compliant to the General Data Protection Regulation (GDPR) (Regulation (EU) 2016/679).
+ * Description: The Shariff Wrapper provides share buttons that respect the privacy of your visitors and are compliant to the General Data Protection Regulation (GDPR).
  * Version: 4.4.0.RC2
  * Author: Jan-Peter Lambeck & 3UU
  * Author URI: https://www.jplambeck.de
