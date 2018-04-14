@@ -8,7 +8,7 @@ Stable tag: 4.3.0
 License: MIT
 License URI: http://opensource.org/licenses/mit
 
-The Shariff Wrapper provides share buttons that respect the privacy of your visitors and are compliant to the General Data Protection Regulation (GDPR).
+Shariff Wrapper provides share buttons that respect the privacy of your visitors and are compliant to the General Data Protection Regulation (GDPR).
 
 == Description ==
 
