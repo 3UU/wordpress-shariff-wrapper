@@ -161,6 +161,9 @@
   padding: 0 !important;
   height: 25px !important;
 }
+.shariff .theme-round.buttonsize-small.orientation-horizontal li { margin: 5px 7px }
+.shariff .theme-round.buttonsize-small.orientation-horizontal li:first-child { margin-left: 5px }
+.shariff .theme-round.buttonsize-small.orientation-horizontal li:last-child { margin-right: 5px }
 /* buttonsize large */
 .shariff .buttonsize-large li { height: 45px !important; }
 .shariff .buttonsize-large a { height: 45px !important; }

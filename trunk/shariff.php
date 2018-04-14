@@ -3,9 +3,9 @@
  * Plugin Name: Shariff Wrapper
  * Plugin URI: https://wordpress.org/plugins-wp/shariff/
  * Description: The Shariff Wrapper provides share buttons that respect the privacy of your visitors and are compliant to the General Data Protection Regulation (GDPR).
- * Version: 4.4.0.RC2
+ * Version: 4.4.0.RC3
  * Author: Jan-Peter Lambeck & 3UU
- * Author URI: https://www.jplambeck.de
+ * Author URI: https://wordpress.org/plugins/shariff/
  * License: MIT
  * License URI: https://opensource.org/licenses/MIT
  * Text Domain: shariff
@@ -33,7 +33,7 @@ $shariff3uu = array_merge( $shariff3uu_basic, $shariff3uu_design, $shariff3uu_ad
  */
 function shariff3uu_update() {
 	// Adjust code version.
-	$code_version = '4.4.0.RC2';
+	$code_version = '4.4.0.RC3';
 
 	// Get options.
 	$shariff3uu = $GLOBALS['shariff3uu'];
@@ -247,7 +247,7 @@ function shariff3uu_share_counts( WP_REST_Request $request ) {
 	}
 
 	// Adjust ttl based on the post age.
-	if ( isset( $timestamp ) && ( ! isset( $shariff3uu['disable_dynamic_cache'] ) || ( isset( $shariff3uu['disable_dynamic_cache'] ) && '-1' !== $shariff3uu['disable_dynamic_cache'] ) ) ) {
+	if ( isset( $timestamp ) && ( ! isset( $shariff3uu['disable_dynamic_cache'] ) || ( isset( $shariff3uu['disable_dynamic_cache'] ) && 1 !== $shariff3uu['disable_dynamic_cache'] ) ) ) {
 		// The timestamp represents the last time the post or page was modified.
 		$post_time    = intval( $timestamp );
 		$current_time = current_time( 'timestamp', true );
@@ -594,6 +594,9 @@ function shariff3uu_posts( $content ) {
 		if ( is_array( $all_custom_post_types ) ) {
 			$custom_types = array_keys( $all_custom_post_types );
 			// Add shariff, if custom type and option checked in the admin menu.
+			if ( isset( $shariff3uu['add_before'][ $current_post_type ] ) && 1 === $shariff3uu['add_before'][ $current_post_type ] ) {
+				$add_before = 1;
+			}
 			if ( isset( $shariff3uu['add_after'][ $current_post_type ] ) && 1 === $shariff3uu['add_after'][ $current_post_type ] ) {
 				$add_after = 1;
 			}

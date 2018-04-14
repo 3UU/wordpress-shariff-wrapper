@@ -179,6 +179,8 @@ These are bugs or unexpected glitches that we know of, but that do not have an i
 - new support of the "AMP for WordPress" plugin by Automattic
 - new option to set a custom text for the info button
 - new option to disable the metabox
+- new option to add shariff to CPTs before the content
+- new ranking table now also shows pages
 - new fix to prevent Shariff buttons from being displayed on admin pages
 - new fix to support WP-CLI (thanks to Daniel Jagszent, @d--j)
 - fixed HTML errors regarding self closing tags (thanks to Tooni, @tooni)

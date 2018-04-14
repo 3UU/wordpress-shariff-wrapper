@@ -13,6 +13,8 @@
 - new support of the "AMP for WordPress" plugin by Automattic
 - new option to set a custom text for the info button
 - new option to disable the metabox
+- new option to add shariff to CPTs before the content
+- new ranking table now also shows pages
 - new fix to prevent Shariff buttons from being displayed on admin pages
 - new fix to support WP-CLI (thanks to Daniel Jagszent, @d--j)
 - fixed HTML errors regarding self closing tags (thanks to Tooni, @tooni)
@@ -85,7 +87,7 @@
 - new statistic option to set the amount of posts for the ranking tab
 - new statistic option to use share counts with PHP < 5.4
 - fixed preventing buttons from beeing added to excerpts under certain conditions
-- fixed urlencoding of share count requests
+- fixed url encoding of share count requests
 - improved handling of wrong or mistyped service entries
 - minor bug fixes
 

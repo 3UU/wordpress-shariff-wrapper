@@ -609,7 +609,7 @@ function shariff3uu_multiplecheckbox_add_after_render() {
 	echo ' value="1">' . esc_html__( 'Excerpts', 'shariff' ) . '</p>';
 
 	// Add after custom post types - choose after which to add.
-	$post_types = get_post_types( array( 'builtin' => false ) );
+	$post_types = get_post_types( array( '_builtin' => false ) );
 	if ( isset( $post_types ) && is_array( $post_types ) && ! empty( $post_types ) ) {
 		echo '<p>Custom Post Types:</p>';
 	};
@@ -657,6 +657,23 @@ function shariff3uu_multiplecheckbox_add_before_render() {
 		echo checked( $GLOBALS['shariff3uu_basic']['add_before']['excerpt'], 1, 0 );
 	}
 	echo ' value="1">' . esc_html__( 'Excerpts', 'shariff' ) . '</p>';
+
+	// Add before custom post types - choose before which to add.
+	$post_types = get_post_types( array( '_builtin' => false ) );
+	if ( isset( $post_types ) && is_array( $post_types ) && ! empty( $post_types ) ) {
+		echo '<p>Custom Post Types:</p>';
+	};
+
+	foreach ( $post_types as $post_type ) {
+		$object = get_post_type_object( $post_type );
+		printf(
+			'<p><input type="checkbox" name="shariff3uu_basic[add_before][%s]" %s value="1">%s</p>',
+			$post_type,
+			isset( $GLOBALS['shariff3uu_basic']['add_before'][ $post_type ] ) ? checked( $GLOBALS['shariff3uu_basic']['add_before'][ $post_type ], 1, 0 ) : '',
+			// The following should already be localized <- not always, but there is no way to know, so we have to accept the language mix up.
+			esc_html( $object->labels->singular_name )
+		);
+	}
 }
 
 /**
@@ -1287,7 +1304,14 @@ function shariff3uu_text_external_host_render() {
 		$external_host = '';
 	}
 	echo '<input type="text" name="shariff3uu_statistic[external_host]" value="' . esc_html( $external_host ) . '" size="50" placeholder="' . esc_url( get_bloginfo( 'url' ) ) . '/wp-json/shariff/v1/share_counts">';
-	echo '<p>' . esc_html__( 'Warning: This is an <strong>experimental</strong> feature. Please read the <a href="https://wordpress.org/plugins/shariff/faq/" target="_blank">Frequently Asked Questions (FAQ)</a>.', 'shariff' ) . '</p>';
+	echo '<p>' . wp_kses( __( 'Warning: This is an experimental feature. Please read the <a href="https://wordpress.org/plugins/shariff/faq/" target="_blank">Frequently Asked Questions (FAQ)</a>.', 'shariff' ),
+		array(
+			'a' => array(
+				'href'   => true,
+				'target' => true,
+			),
+		)
+	) . '</p>';
 	echo '<p>' . esc_html__( 'Please check, if you have to add this domain to the array $SHARIFF_FRONTENDS on the external server.', 'shariff' ) . '</p>';
 }
 
@@ -1728,10 +1752,8 @@ function shariff3uu_status_section_callback() {
  * Ranking section.
  */
 function shariff3uu_ranking_section_callback() {
-	// Post array.
-	$posts = array();
-
-	// Services.
+	// Post and service array.
+	$posts    = array();
 	$services = array();
 
 	// Amount of posts - set to 100 if not set.
@@ -1801,7 +1823,7 @@ function shariff3uu_ranking_section_callback() {
 
 	// Intro text.
 	echo '<p>';
-		echo esc_html__( 'The following table shows the ranking of your last 100 posts in descending order by total share counts. To prevent slow loading times only cached data is being used. Therefore, you may see blank entries for posts that have not been visited by anyone since the last update or activation of Shariff Wrapper. You can simply visit the respective post yourself in order to have the share counts fetched.', 'shariff' );
+		echo esc_html__( 'The following tables shows the ranking of your last 100 posts and pages in descending order by total share counts. To prevent slow loading times only cached data is being used. Therefore, you may see blank entries for posts that have not been visited by anyone since the last update or activation of Shariff Wrapper. You can simply visit the respective post yourself in order to have the share counts fetched.', 'shariff' );
 	echo '</p>';
 
 	// Warning if statistic has been disabled.
@@ -1828,6 +1850,121 @@ function shariff3uu_ranking_section_callback() {
 	echo '<div style="display:table-cell;border:1px solid;padding:10px;font-weight:bold">' . esc_html__( 'Total', 'shariff' ) . '</div>';
 	echo '</div>';
 	// Posts.
+	$rank = '0';
+	foreach ( $posts as $post => $value ) {
+		$rank++;
+		echo '<div style="display:table-row">';
+		echo '<div style="display:table-cell;border:1px solid;padding:10px;text-align:center">' . absint( $rank ) . '</div>';
+		echo '<div style="display:table-cell;border:1px solid;padding:10px"><a href="' . esc_url( $value['url'] ) . '" target="_blank">' . esc_html( $value['title'] ) . '</a></div>';
+		echo '<div style="display:table-cell;border:1px solid;padding:10px">' . esc_html( mysql2date( 'd.m.Y', $value['post_date'] ) ) . '</div>';
+		echo '<div style="display:table-cell;border:1px solid;padding:10px">' . esc_html( mysql2date( 'H:i', $value['post_date'] ) ) . '</div>';
+		// Share counts.
+		foreach ( $services as $service => $nothing ) {
+			echo '<div style="display:table-cell;border:1px solid;padding:10px;text-align:center">';
+			if ( isset( $value['share_counts'][ $service ] ) ) {
+				echo absint( $value['share_counts'][ $service ] );
+			}
+			echo '</div>';
+		}
+		echo '<div style="display:table-cell;border:1px solid;padding:10px;text-align:center">';
+		if ( isset( $value['share_counts']['total'] ) ) {
+			echo absint( $value['share_counts']['total'] );
+		}
+		echo '</div>';
+		echo '</div>';
+	}
+	echo '</div>';
+
+	// Clear  arrays.
+	$posts    = array();
+	$services = array();
+
+	// Set arguments for wp_get_recent_posts().
+	$args = array(
+		'numberposts' => $numberposts,
+		'orderby'     => 'post_date',
+		'order'       => 'DESC',
+		'post_status' => 'publish',
+		'post_type'   => 'page',
+	);
+
+	// Catch last 100 pages or whatever number is set for it.
+	$recent_posts = wp_get_recent_posts( $args );
+	if ( $recent_posts ) {
+		foreach ( $recent_posts as $recent ) {
+			// Get URL.
+			$url      = get_permalink( $recent['ID'] );
+			$post_url = rawurlencode( $url );
+			// Set transient name.
+			$post_hash = 'shariff' . hash( 'md5', $post_url );
+			// Get share counts from cache.
+			if ( get_transient( $post_hash ) !== false ) {
+				$share_counts = get_transient( $post_hash );
+				$services     = array_merge( $services, $share_counts );
+				if ( isset( $share_counts['total'] ) ) {
+					$total = $share_counts['total'];
+				} else {
+					$total = '0';
+				}
+			} else {
+				$share_counts = array();
+				$total        = '';
+			}
+			// Add to array.
+			$posts[ $post_hash ] = array(
+				'url'                => $url,
+				'title'              => $recent['post_title'],
+				'post_date'          => $recent['post_date'],
+				'share_counts'       => $share_counts,
+				'total_share_counts' => $total,
+			);
+		}
+	}
+
+	// Clean up services.
+	unset( $services['total'] );
+	unset( $services['timestamp'] );
+	unset( $services['url'] );
+	ksort( $services );
+
+	// Sort array: first descending using total share counts then descending using post date.
+	$tmp  = array();
+	$tmp2 = array();
+	foreach ( $posts as &$ma ) {
+		$tmp[] = &$ma['total_share_counts'];
+	}
+	foreach ( $posts as &$ma2 ) {
+		$tmp2[] = &$ma2['post_date'];
+	}
+	array_multisort( $tmp, SORT_DESC, $tmp2, SORT_DESC, $posts );
+
+	// Intro text.
+	echo '<p></p>';
+
+	// Warning if statistic has been disabled.
+	if ( ! isset( $GLOBALS['shariff3uu']['backend'] ) ) {
+		echo '<p>';
+		echo '<span style="color: red; font-weight: bold;">';
+		echo esc_html__( 'Warning:', 'shariff' );
+		echo '</span> ';
+		echo esc_html__( 'The statistic option has been disabled on the statistic tab. Share counts will not get updated!', 'shariff' );
+		echo '</p>';
+	}
+
+	// Begin ranking table.
+	echo '<div style="display:table;background-color:#fff">';
+	// Head.
+	echo '<div style="display:table-row">';
+	echo '<div style="display:table-cell;font-weight:bold;border:1px solid;padding:10px">' . esc_html__( 'Rank', 'shariff' ) . '</div>';
+	echo '<div style="display:table-cell;font-weight:bold;border:1px solid;padding:10px">' . esc_html__( 'Page', 'shariff' ) . '</div>';
+	echo '<div style="display:table-cell;font-weight:bold;border:1px solid;padding:10px;text-align:center">' . esc_html__( 'Date', 'shariff' ) . '</div>';
+	echo '<div style="display:table-cell;font-weight:bold;border:1px solid;padding:10px;text-align:center">' . esc_html__( 'Time', 'shariff' ) . '</div>';
+	foreach ( $services as $service => $nothing ) {
+		echo '<div style="display:table-cell;font-weight:bold;border:1px solid;padding:10px;text-align:center;">' . esc_html( ucfirst( $service ) ) . '</div>';
+	}
+	echo '<div style="display:table-cell;border:1px solid;padding:10px;font-weight:bold">' . esc_html__( 'Total', 'shariff' ) . '</div>';
+	echo '</div>';
+	// Pages.
 	$rank = '0';
 	foreach ( $posts as $post => $value ) {
 		$rank++;
