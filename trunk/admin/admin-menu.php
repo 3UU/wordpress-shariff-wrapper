@@ -1501,7 +1501,7 @@ function shariff3uu_help_section_callback() {
 			echo '<div style="display:table-cell;border:1px solid;padding:10px">headline</div>';
 			echo '<div style="display:table-cell;border:1px solid;padding:10px"></div>';
 			echo '<div style="display:table-cell;border:1px solid;padding:10px"></div>';
-			echo '<div style="display:table-cell;border:1px solid;padding:10px">[shariff headline="&lt;hr style=\'margin:20px 0\'&gt;&lt;p&gt;' . esc_html__( 'Please share this post:', 'shariff' ) . '&lt;/p&gt;"]</div>';
+			echo '<div style="display:table-cell;border:1px solid;padding:10px">[shariff headline="&lt;hr style=\'margin:20px 0\'&gt;&lt;p&gt;' . esc_html__( 'Please share this post', 'shariff' ) . '&lt;/p&gt;"]</div>';
 			echo '<div style="display:table-cell;border:1px solid;padding:10px">' . esc_html__( 'Adds a headline above the Shariff buttons. Basic HTML as well as style and class attributes can be used. To remove a headline set on the plugins options page use headline="".', 'shariff' ) . '</div>';
 		echo '</div>';
 		// Style.
