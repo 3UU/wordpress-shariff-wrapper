@@ -99,7 +99,7 @@
 
 = 4.0.6 =
 - fixed an error in combination with bbpress
-- fixed ab error on very old PHP versions
+- fixed an error on very old PHP versions
 - fixed ranking tab
 - minor css improvements
 
@@ -115,7 +115,7 @@
 - fixed mobile services not showing on certain tablets
 - fixed type error on totalnumber when cache is empty
 - fixed share count requests when WordPress is installed in a subdirectory
-- fixed urlencoding of share url, title and media
+- fixed url encoding of share url, title and media
 - added width and height to SVGs to prevent large initial icons prior to css
 - new classes shariff-buttons and shariff-link added
 - removed local translation files due to switching to wordpress.org language packs
