@@ -4,7 +4,7 @@ Tags: Shariff, share buttons, Facebook, Twitter, WhatsApp, sharing, privacy, GDP
 Requires at least: 4.9
 Requires PHP: 5.6
 Tested up to: 4.9
-Stable tag: 4.3.0
+Stable tag: 4.4.0
 License: MIT
 License URI: http://opensource.org/licenses/mit
 
