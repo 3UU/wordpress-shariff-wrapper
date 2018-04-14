@@ -186,7 +186,6 @@ These are bugs or unexpected glitches that we know of, but that do not have an i
 - fixed HTML errors regarding self closing tags (thanks to Tooni, @tooni)
 - fixed a missing closing tag under certain conditions (thanks to Pat, @fortythousandmiles)
 - removed GooglePlus share counts due to Google removing the API
-- removed the mail form due to technical and legal due diligence
 - added Czech translation of the buttons
 - updated a lot of button translations
 - updated to Facebook Graph API 2.12
@@ -197,6 +196,9 @@ These are bugs or unexpected glitches that we know of, but that do not have an i
 - major improvements in regards to code quality
 - minor css improvements
 - minor security improvements
+- removed the mail form due to technical and legal due diligence
+- if you need the mail form functionality, please stick to version 4.3
+- https://downloads.wordpress.org/plugin/shariff.4.3.0.zip
 
 = 4.3.0 =
 - new service Odnoklassniki (thanks to rockhit)
