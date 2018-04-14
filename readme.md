@@ -19,6 +19,36 @@ If you need any help or have specific questions regarding development and contri
 
 ## Changelog
 
+= 4.4.0 =
+- new service Telegram (thanks to Daniel Sturm, @dcsturm)
+- new service Flipboard (thanks to csigncsign, @csigncsign)
+- new service Mastodon (thanks to scroom, @scroom)
+- new service Qzone
+- new service Weibo
+- new service TencentWeibo
+- new service SMS (will work on iOS, might not work on other phones)
+- new support of the "AMP for WordPress" plugin by Automattic
+- new option to set a custom text for the info button
+- new option to disable the metabox
+- new option to add shariff to CPTs before the content
+- new ranking table now also shows pages
+- new fix to prevent Shariff buttons from being displayed on admin pages
+- new fix to support WP-CLI (thanks to Daniel Jagszent, @d--j)
+- fixed HTML errors regarding self closing tags (thanks to Tooni, @tooni)
+- fixed a missing closing tag under certain conditions (thanks to Pat, @fortythousandmiles)
+- removed GooglePlus share counts due to Google removing the API
+- removed the mail form due to technical and legal due diligence
+- added Czech translation of the buttons
+- updated a lot of button translations
+- updated to Facebook Graph API 2.12
+- updated a lot of strings to allow for easier translation
+- updated the reddit icon
+- updated help section
+- improved documentation of the REST API endpoint for share counts (thanks to David)
+- major improvements in regards to code quality
+- minor css improvements
+- minor security improvements
+
 = 4.3.0 =
 - new service Odnoklassniki (thanks to rockhit)
 - new meta box allows for individual settings per post or page
@@ -74,7 +104,7 @@ If you need any help or have specific questions regarding development and contri
 - new statistic option to set the amount of posts for the ranking tab
 - new statistic option to use share counts with PHP < 5.4
 - fix preventing buttons from beeing added to excerpts under certain conditions
-- fix urlencoding of share count requests
+- fix url encoding of share count requests
 - improved handling of wrong or mistyped service entries
 - minor bug fixes
 

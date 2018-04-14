@@ -27,7 +27,7 @@ function shariff_share_counts() {
                 // remove duplicates
                 var service_array = services.split("|");
                 service_array = service_array.filter( function( elem, pos, arr ) {
-                    return arr.indexOf( elem ) == pos;
+                    return arr.indexOf( elem ) === pos;
                 });
                 services = service_array.join('|');
                 // update request url
@@ -69,7 +69,7 @@ function shariff_add_share_counts( share_url, data, containers ) {
     // add share counts to buttons
     for ( var d = 0; containers[d]; d++ ) {
         // check if it is the corresponding button set
-        if ( containers[d].dataset.url == share_url ) {
+        if ( containers[d].dataset.url === share_url ) {
             // update total in total number spans
             var shariff_totalnumber = containers[d].getElementsByClassName("shariff-totalnumber");
             for ( var n = 0; shariff_totalnumber[n]; n++ ) {
@@ -88,13 +88,13 @@ function shariff_add_share_counts( share_url, data, containers ) {
             var shariff_count = containers[d].getElementsByClassName("shariff-count");
             for ( var s = 0; shariff_count[s]; s++ ) {
                 // add share count, if we have one, and make it visible
-                if ( data !== null && typeof data[shariff_count[s].dataset.service] !== 'undefined' && ( typeof containers[d].dataset.hidezero === 'undefined' || ( containers[d].dataset.hidezero == '1' && data[shariff_count[s].dataset.service] > 0 ) ) ) {
+                if ( data !== null && typeof data[shariff_count[s].dataset.service] !== 'undefined' && ( typeof containers[d].dataset.hidezero === 'undefined' || ( containers[d].dataset.hidezero === '1' && data[shariff_count[s].dataset.service] > 0 ) ) ) {
                     shariff_count[s].innerHTML = data[shariff_count[s].dataset.service];
-                    shariff_count[s].style.opacity = '1';
+                    shariff_count[s].style.opacity = 1;
                 }
             }
         }
     }
 }
 // add event listener to call main shariff function after DOM
-document.addEventListener( "DOMContentLoaded", shariff_share_counts, false );
+document.addEventListener( 'DOMContentLoaded', shariff_share_counts, false );
