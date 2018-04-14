@@ -850,9 +850,9 @@ function shariff3uu_render( $atts ) {
 
 	// Sets the share title.
 	if ( array_key_exists( 'title', $atts ) ) {
-		$share_title = rawurlencode( $atts['title'] );
+		$share_title = rawurlencode( wp_strip_all_tags( $atts['title'] ) );
 	} else {
-		$share_title = rawurlencode( html_entity_decode( get_the_title(), ENT_COMPAT, 'UTF-8' ) );
+		$share_title = rawurlencode( html_entity_decode( wp_strip_all_tags( get_the_title() ), ENT_COMPAT, 'UTF-8' ) );
 	}
 
 	// Sets the transient name.

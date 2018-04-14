@@ -15,7 +15,6 @@ function shariff_popup( evt ) {
 	var t = this.getAttribute( 'href' );
 	var o = screen.width/2-350;
 	var r = screen.height/2-250;
-	var l = t.length;
 	// open popup if not one of the special services
 	if ( t.substring( 0, 7 ) !== 'mailto:' && t.substring( 0, 9 ) !== "whatsapp:" && t !== 'javascript:window.print()' && t !== 'http://ct.de/-2467514' ) {
 		// prevent default action
