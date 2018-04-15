@@ -1510,7 +1510,7 @@ function shariff3uu_help_section_callback() {
 			echo '<div style="display:table-cell;border:1px solid;padding:10px"></div>';
 			echo '<div style="display:table-cell;border:1px solid;padding:10px"></div>';
 			echo '<div style="display:table-cell;border:1px solid;padding:10px">[shariff style="margin:20px;"]</div>';
-			echo '<div style="display:table-cell;border:1px solid;padding:10px">' . esc_html__( 'Adds custom <u>style</u> attributes to the container <u>around</u> Shariff.', 'shariff' ) . '</div>';
+			echo '<div style="display:table-cell;border:1px solid;padding:10px">' . esc_html__( 'Adds custom style attributes to the container around Shariff.', 'shariff' ) . '</div>';
 		echo '</div>';
 		// CSS class.
 		echo '<div style="display:table-row">';
@@ -1518,7 +1518,7 @@ function shariff3uu_help_section_callback() {
 			echo '<div style="display:table-cell;border:1px solid;padding:10px"></div>';
 			echo '<div style="display:table-cell;border:1px solid;padding:10px"></div>';
 			echo '<div style="display:table-cell;border:1px solid;padding:10px">[shariff class="classname"]</div>';
-			echo '<div style="display:table-cell;border:1px solid;padding:10px">' . esc_html__( 'Adds a custom <u>class</u> to the container <u>around</u> Shariff.', 'shariff' ) . '</div>';
+			echo '<div style="display:table-cell;border:1px solid;padding:10px">' . esc_html__( 'Adds a custom class to the container around Shariff.', 'shariff' ) . '</div>';
 		echo '</div>';
 		// Twitter_via.
 		echo '<div style="display:table-row">';
