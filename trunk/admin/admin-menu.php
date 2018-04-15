@@ -1855,7 +1855,7 @@ function shariff3uu_ranking_section_callback() {
 		$rank++;
 		echo '<div style="display:table-row">';
 		echo '<div style="display:table-cell;border:1px solid;padding:10px;text-align:center">' . absint( $rank ) . '</div>';
-		echo '<div style="display:table-cell;border:1px solid;padding:10px"><a href="' . esc_url( $value['url'] ) . '" target="_blank">' . esc_html( $value['title'] ) . '</a></div>';
+		echo '<div style="display:table-cell;border:1px solid;padding:10px"><a href="' . esc_url( $value['url'] ) . '" target="_blank">' . esc_html( wp_strip_all_tags( $value['title'] ) ) . '</a></div>';
 		echo '<div style="display:table-cell;border:1px solid;padding:10px">' . esc_html( mysql2date( 'd.m.Y', $value['post_date'] ) ) . '</div>';
 		echo '<div style="display:table-cell;border:1px solid;padding:10px">' . esc_html( mysql2date( 'H:i', $value['post_date'] ) ) . '</div>';
 		// Share counts.
