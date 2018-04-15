@@ -1,29 +1,38 @@
 <?php
-// LinkedIn
+/**
+ * Will be included in the shariff.php only, when LinedIn is requested as a service.
+ *
+ * @package Shariff Wrapper
+ */
 
-// prevent direct calls
-if ( ! class_exists('WP') ) { die(); }
+// Prevent direct calls.
+if ( ! class_exists( 'WP' ) ) {
+	die();
+}
 
-// frontend
-if ( isset( $frontend ) && $frontend == '1' ) {
-	// service url
+// Check if we need the frontend or the backend part.
+if ( isset( $frontend ) && 1 === $frontend ) {
+	// Service URL.
 	$service_url = esc_url( 'https://www.linkedin.com/shareArticle?mini=true' );
 
-	// build button url
+	// Build button URL.
 	$button_url = $service_url . '&url=' . $share_url . '&title=' . $share_title;
 
-	// svg icon
-	$svg_icon = '<svg width="32px" height="20px" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 27 32"><path d="M6.2 11.2v17.7h-5.9v-17.7h5.9zM6.6 5.7q0 1.3-0.9 2.2t-2.4 0.9h0q-1.5 0-2.4-0.9t-0.9-2.2 0.9-2.2 2.4-0.9 2.4 0.9 0.9 2.2zM27.4 18.7v10.1h-5.9v-9.5q0-1.9-0.7-2.9t-2.3-1.1q-1.1 0-1.9 0.6t-1.2 1.5q-0.2 0.5-0.2 1.4v9.9h-5.9q0-7.1 0-11.6t0-5.3l0-0.9h5.9v2.6h0q0.4-0.6 0.7-1t1-0.9 1.6-0.8 2-0.3q3 0 4.9 2t1.9 6z"/></svg>';
-
-	// colors
-	$main_color = '#0077b5';
+	// Colors.
+	$main_color      = '#0077b5';
 	$secondary_color = '#1488bf';
 
-	// backend available?
-	$backend_available = '1';
+	// SVG icon.
+	$svg_icon = '<svg width="32px" height="20px" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 27 32"><path fill="' . $main_color . '" d="M6.2 11.2v17.7h-5.9v-17.7h5.9zM6.6 5.7q0 1.3-0.9 2.2t-2.4 0.9h0q-1.5 0-2.4-0.9t-0.9-2.2 0.9-2.2 2.4-0.9 2.4 0.9 0.9 2.2zM27.4 18.7v10.1h-5.9v-9.5q0-1.9-0.7-2.9t-2.3-1.1q-1.1 0-1.9 0.6t-1.2 1.5q-0.2 0.5-0.2 1.4v9.9h-5.9q0-7.1 0-11.6t0-5.3l0-0.9h5.9v2.6h0q0.4-0.6 0.7-1t1-0.9 1.6-0.8 2-0.3q3 0 4.9 2t1.9 6z"/></svg>';
 
-	// button share text
+	// Backend available?
+	$backend_available = 1;
+
+	// Button text label.
 	$button_text_array = array(
+		'bg' => 'cподеляне',
+		'cs' => 'sdílet',
+		'da' => 'del',
 		'de' => 'mitteilen',
 		'en' => 'share',
 		'es' => 'compartir',
@@ -45,12 +54,12 @@ if ( isset( $frontend ) && $frontend == '1' ) {
 		'sr' => 'podeli',
 		'sv' => 'dela',
 		'tr' => 'paylaş',
-		'zh' => '分享'
+		'zh' => '分享',
 	);
-
-	// button title / label
+	// Button alt label.
 	$button_title_array = array(
 		'bg' => 'Сподели в LinkedIn',
+		'cs' => 'Sdílet na LinkedIn',
 		'da' => 'Del på LinkedIn',
 		'de' => 'Bei LinkedIn teilen',
 		'en' => 'Share on LinkedIn',
@@ -73,21 +82,16 @@ if ( isset( $frontend ) && $frontend == '1' ) {
 		'sr' => 'Podeli na LinkedIn-u',
 		'sv' => 'Dela på LinkedIn',
 		'tr' => 'LinkedIn\'ta paylaş',
-		'zh' => '在LinkedIn上分享'
+		'zh' => '在LinkedIn上分享',
 	);
-}
-// backend
-elseif ( isset( $backend ) && $backend == '1' ) {
-	// fetch counts
-	$linkedin = sanitize_text_field( wp_remote_retrieve_body( wp_remote_get( 'https://www.linkedin.com/countserv/count/share?url=' . $post_url . '&lang=de_DE&format=json' ) ) );
+} elseif ( isset( $backend ) && 1 === $backend ) {
+	// Fetch counts.
+	$linkedin      = sanitize_text_field( wp_remote_retrieve_body( wp_remote_get( 'https://www.linkedin.com/countserv/count/share?url=' . $post_url . '&format=json' ) ) );
 	$linkedin_json = json_decode( $linkedin, true );
-
-	// store results, if we have some
+	// Store results, if we have some and record errors, if enabled (e.g. request from the status tab).
 	if ( isset( $linkedin_json['count'] ) ) {
 		$share_counts['linkedin'] = intval( $linkedin_json['count'] );
-	}
-	// record errors, if enabled (e.g. request from the status tab)
-	elseif ( isset( $record_errors ) && $record_errors == '1' ) {
+	} elseif ( isset( $record_errors ) && 1 === $record_errors ) {
 		$service_errors['linkedin'] = $linkedin;
 	}
 }

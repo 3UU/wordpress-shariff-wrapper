@@ -1,20 +1,20 @@
 === Shariff Wrapper ===
-Contributors: 3UU, starguide
-Tags: Shariff, Facebook, Twitter, VKontakte, VK, GooglePlus, WhatsApp, share buttons, sharing, privacy, social
-Requires at least: 4.4
-Tested up to: 4.6
-Stable tag: 4.3.0
+Contributors: starguide, 3UU
+Tags: Shariff, share buttons, Facebook, Twitter, WhatsApp, sharing, privacy, GDPR, DSGVO
+Requires at least: 4.9
+Requires PHP: 5.6
+Tested up to: 4.9
+Stable tag: 4.4.0
 License: MIT
 License URI: http://opensource.org/licenses/mit
-Donate link: http://folge.link/?bitcoin=1Ritz1iUaLaxuYcXhUCoFhkVRH6GWiMTP
 
-The Shariff Wrapper provides share buttons that respect the privacy of your visitors and are compliant to German data protection laws.
+Shariff Wrapper provides share buttons that respect the privacy of your visitors and are compliant to the General Data Protection Regulation (GDPR).
 
 == Description ==
 
-The "original" share buttons automatically transmit data of your visitors to the social network sites as soon as they visit your website. They do not need to click on a share button for this and therefore have no choice, if they want their data to be send. The German computer magazin CT has developed "Shariff" `(/ˈʃɛɹɪf/)` that fullfills the strict data protection laws in Germany. This plugin adapts the Shariff concept and provides an easy to use solution for WordPress. We currently support 22 services like Facebook, Twitter, GooglePlus, Xing, LinkedIn and many more.
+The "original" share buttons automatically transmit data of your visitors to the social network sites as soon as they visit your website. They do not need to click on a share button for this and therefore have no choice, if they want their data to be send. The German computer magazine CT has developed "Shariff" `(/ˈʃɛɹɪf/)` that is compliant to the General Data Protection Regulation (GDPR - Regulation (EU) 2016/679). This plugin adapts the Shariff concept and provides an easy to use solution for WordPress. We currently support 30 services: Facebook, Twitter, GooglePlus, WhatsApp, SMS, Threema, Telegram, Pinterest, Xing, LinkedIn, Reddit, VK, Odnoklassniki, Diaspora, Stumbleupon, Tumblr, AddThis, Pocket, Flipboard, Flattr, Patreon, PayPal, PayPal.me, Qzone, Weibo, TencentWeibo, Bitcoin, mailto, Printer, RSS.
 
-For more informations about the Shariff project check out the original [GitHub project](https://github.com/heiseonline/shariff) and read about the project itself [c’t information page](http://ct.de/shariff) (in German).
+For more information about the Shariff project check out the original [GitHub project](https://github.com/heiseonline/shariff) and read about the project itself [c’t information page](http://ct.de/shariff) (in German).
 
 You can automatically add share buttons to posts, pages, the main blog page, product sites and many more as well as use it as a widget or add the shortcode `[shariff]` manually to your pages or themes.
 
@@ -22,7 +22,7 @@ You can automatically add share buttons to posts, pages, the main blog page, pro
 
 1. Upload everything to the `/wp-content/plugins/` directory
 2. Activate the plugin using the plugins menu in WordPress
-3. Use <code>[shariff]</code> anywhere in your post and/or use the Shariff settings menu. 
+3. Use <code>[shariff]</code> anywhere on your site and/or use the Shariff settings menu.
 
 To enable it for all posts please check the options in the plugin settings.
 
@@ -40,14 +40,11 @@ To enable it for all posts please check the options in the plugin settings.
 == Frequently Asked Questions ==
 
 = Q: Can I use the Shariff buttons in my theme? =
-A: Yes.
-`<?=do_shortcode('[shariff]')?>` 
+A: Yes. Simply use the shortcode function `do_shortcode('[shariff]')`.
 You can use all options of the shorttag as described on the help tab in the plugin settings.
 
 = Q: Can I use the total amount of shares in my theme? =
-A: Yes. You can use
-`<?=do_shortcode('[shariff services="totalnumber"]')?>` 
-to simply output the total amount of shares for a post in the loop. It will return the number itself wrapped in a `<span class="shariff-totalnumber"></span>` in order for the shariff.js to update the count. Also only cached data is used, in order to not slow down your site.
+A: Yes. You can use `do_shortcode('[shariff services="totalnumber"]')` to simply output the total amount of shares for a post in the loop. It will return the number itself wrapped in a `<span class="shariff-totalnumber"></span>` in order for the shariff.js to update the count. Also only cached data is used, in order to not slow down your site.
 
 = Q: Is there an action hook to use the share counts every time they get updated? =
 A: Yes. You can use
@@ -71,7 +68,7 @@ A: Shariff tries to protect the privacy of your visitors. In order to do this, t
 A: Enable it on the plugin options page in general or add `backend="on"` to the shariff shorttag in your post.
 
 = Q: I still do not see share counts =
-A: Please have a look at the status tab on the plugin options page. It states wether share counts are enabled and if there is a problem with a service. Please also keep in mind that the plugin has a minimum refresh time of 60 seconds and that each service has their own cache as well.
+A: Please have a look at the status tab on the plugin options page. It states whether share counts are enabled and if there is a problem with a service. Please also keep in mind that the plugin has a minimum refresh time of 60 seconds and that each service has their own cache as well.
 
 = Q: Why can't I change the TTL to a smaller / bigger value? =
 A: The time to live (TTL) value determines, if a share count of a post or page gets refreshed when someone visits this specific page / post of your blog. Too small values create too much useless traffic, too high values negate the goal of motivating visitors to also share a post. The value can be adjusted between 60 and 7200 seconds. Keep in mind, the actual lifespan depends on the age of the post as well.
@@ -125,7 +122,7 @@ A: You can use the "url" parameter within the shortcode
 `[shariff url="http://www.example.com/"]`
 This is also available within widgets. However, it is not a good idea to manipulate the URI, because it could mislead your visitors. So you should only use it, if this is really needed and you do really know what you are doing. Therefore it is not available on the plugin options page in general. 
 
-= Q: What is the differenz between the services `mailform` and `mailto´? =
+= Q: What is the difference between the services `mailform` and `mailto´? =
 A: mailform will provide an e-mail form on top of the post or page and mailto will draw a link with the mailto-protocol to open the default e-mail application of the client.
 
 = Q: What happened to `mail`? =
@@ -137,7 +134,7 @@ A: Yes, take a look at the Mail Form tab on the plugin options page.
 = Q: What happened to the Twitter share counts and what is OpenShareCount? =
 A: Please read: https://www.jplambeck.de/twitter-saveoursharecounts/
 
-= Q: The buttons are not correctly beeing shown on my custom theme! =
+= Q: The buttons are not correctly being shown on my custom theme! =
 A: Please make sure that wp_footer(); has been added to your theme. For more information please visit: https://codex.wordpress.org/Function_Reference/wp_footer
 
 = EXPERIMENTAL FEATURES =
@@ -165,15 +162,43 @@ A: By default, the browser request the share counts from the server your site is
 
 = KNOWN BUGS =
 
-These are bugs or unexpected glitches that we know of, but that do not
-have an impact on the majority of users, are not security relevant and will perhaps be
-fixed in the future - if we have time to spend or you provide us with a lot of "K&#xF6;lsch" ;-)
+These are bugs or unexpected glitches that we know of, but that do not have an impact on the majority of users, are not security relevant and will perhaps be fixed in the future - if we have time to spend or you provide us with a lot of "K&#xF6;lsch" ;-)
 
-- If the first post on the start page is password protected and Shariff is
-  disabled on protected posts, a widget at the end of the loop will not be
-  rendered.
+- If the first post on the start page is password protected and Shariff is disabled on protected posts, a widget at the end of the loop will not be rendered.
 
 == Changelog ==
+
+= 4.4.0 =
+- new service Telegram (thanks to Daniel Sturm, @dcsturm)
+- new service Flipboard (thanks to csigncsign, @csigncsign)
+- new service Mastodon (thanks to scroom, @scroom)
+- new service Qzone
+- new service Weibo
+- new service TencentWeibo
+- new service SMS (will work on iOS, might not work on other phones)
+- new support of the "AMP for WordPress" plugin by Automattic
+- new option to set a custom text for the info button
+- new option to disable the metabox
+- new option to add shariff to CPTs before the content
+- new ranking table now also shows pages
+- new fix to prevent Shariff buttons from being displayed on admin pages
+- new fix to support WP-CLI (thanks to Daniel Jagszent, @d--j)
+- fixed HTML errors regarding self closing tags (thanks to Tooni, @tooni)
+- fixed a missing closing tag under certain conditions (thanks to Pat, @fortythousandmiles)
+- removed GooglePlus share counts due to Google removing the API
+- added Czech translation of the buttons
+- updated a lot of button translations
+- updated to Facebook Graph API 2.12
+- updated a lot of strings to allow for easier translation
+- updated the reddit icon
+- updated help section
+- improved documentation of the REST API endpoint for share counts (thanks to David)
+- major improvements in regards to code quality
+- minor css improvements
+- minor security improvements
+- removed the mail form due to technical and legal due diligence
+- if you need the mail form functionality, please stick to version 4.3
+- https://downloads.wordpress.org/plugin/shariff.4.3.0.zip
 
 = 4.3.0 =
 - new service Odnoklassniki (thanks to rockhit)
@@ -229,8 +254,8 @@ fixed in the future - if we have time to spend or you provide us with a lot of "
 - new statistic option to fill the cache automatically
 - new statistic option to set the amount of posts for the ranking tab
 - new statistic option to use share counts with PHP < 5.4
-- fixed preventing buttons from beeing added to excerpts under certain conditions
-- fixed urlencoding of share count requests
+- fixed preventing buttons from being added to excerpts under certain conditions
+- fixed url encoding of share count requests
 - improved handling of wrong or mistyped service entries
 - minor bug fixes
 
@@ -258,7 +283,7 @@ fixed in the future - if we have time to spend or you provide us with a lot of "
 - fixed mobile services not showing on certain tablets
 - fixed type error on totalnumber when cache is empty
 - fixed share count requests when WordPress is installed in a subdirectory
-- fixed urlencoding of share url, title and media
+- fixed url encoding of share url, title and media
 - added width and height to SVGs to prevent large initial icons prior to css
 - new classes shariff-buttons and shariff-link added
 - removed local translation files due to switching to wordpress.org language packs

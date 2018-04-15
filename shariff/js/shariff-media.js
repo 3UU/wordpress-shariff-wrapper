@@ -6,7 +6,7 @@ jQuery(document).ready(function($){
 			title: shariff_media.choose_image,
 			multiple: false
 		}).open()
-		.on("select", function(e){
+		.on("select", function(){
 			// this will return the selected image from the media uploader, the result is an object
 			var uploaded_image = image.state().get("selection").first();
 			// output to the console uploaded_image
