@@ -1,6 +1,6 @@
 === Shariff Wrapper ===
 Contributors: starguide, 3UU
-Tags: Shariff, share buttons, Facebook, Twitter, WhatsApp, VK, sharing, privacy, GDPR, DSGVO
+Tags: Shariff, GDPR, DSGVO, share buttons, sharing
 Requires at least: 4.9
 Requires PHP: 5.6
 Tested up to: 4.9
@@ -8,7 +8,7 @@ Stable tag: 4.4.0
 License: MIT
 License URI: http://opensource.org/licenses/mit
 
-Shariff Wrapper provides share buttons that respect the privacy of your visitors and are compliant to the General Data Protection Regulation (GDPR).
+Shariff provides share buttons that respect the privacy of your visitors and are compliant to the General Data Protection Regulation (GDPR).
 
 == Description ==
 
@@ -40,7 +40,7 @@ To enable it for all posts please check the options in the plugin settings.
 == Frequently Asked Questions ==
 
 = Q: Can I use the Shariff buttons in my theme? =
-A: Yes. Simply use the shortcode function `do_shortcode('[shariff]')`.
+A: Yes. Simply use the shortcode function `do_shortcode(\'[shariff]')`.
 You can use all options of the shorttag as described on the help tab in the plugin settings.
 
 = Q: Can I use the total amount of shares in my theme? =
