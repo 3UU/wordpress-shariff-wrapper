@@ -196,7 +196,7 @@ These are bugs or unexpected glitches that we know of, but that do not have an i
 - major improvements in regards to code quality
 - minor css improvements
 - minor security improvements
-- removed the mail form due to technical and legal due diligence
+- removed the mail form for the time being due to technical and legal due diligence
 - if you need the mail form functionality, please stick to version 4.3
 - https://downloads.wordpress.org/plugin/shariff.4.3.0.zip
 
