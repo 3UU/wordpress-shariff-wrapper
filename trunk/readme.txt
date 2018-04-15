@@ -1,6 +1,6 @@
 === Shariff Wrapper ===
 Contributors: starguide, 3UU
-Tags: Shariff, share buttons, Facebook, Twitter, WhatsApp, sharing, privacy, GDPR, DSGVO
+Tags: Shariff, share buttons, Facebook, Twitter, WhatsApp, VK, sharing, privacy, GDPR, DSGVO
 Requires at least: 4.9
 Requires PHP: 5.6
 Tested up to: 4.9
