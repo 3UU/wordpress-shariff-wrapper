@@ -4,7 +4,7 @@ Tags: Shariff, GDPR, DSGVO, share buttons, sharing
 Requires at least: 4.9
 Requires PHP: 5.6
 Tested up to: 4.9
-Stable tag: 4.4.0
+Stable tag: 4.4.1
 License: MIT
 License URI: http://opensource.org/licenses/mit
 
@@ -12,7 +12,7 @@ Shariff provides share buttons that respect the privacy of your visitors and are
 
 == Description ==
 
-The "original" share buttons automatically transmit data of your visitors to the social network sites as soon as they visit your website. They do not need to click on a share button for this and therefore have no choice, if they want their data to be send. The German computer magazine CT has developed "Shariff" `(/ˈʃɛɹɪf/)` that is compliant to the General Data Protection Regulation (GDPR - Regulation (EU) 2016/679). This plugin adapts the Shariff concept and provides an easy to use solution for WordPress. We currently support 31 services: AddThis, Bitcoin, Diaspora, Facebook, Flattr, Flipboard, GooglePlus, LinkedIn, mailto, Mastodon, Odnoklassniki, Patreon, PayPal, PayPal.me, Pinterest, Pocket, Printer, Qzone, Reddit, RSS, SMS, Stumbleupon, Telegram, TencentWeibo, Threema, Tumblr, Twitter, VK, Weibo, WhatsApp, Xing.
+The "original" share buttons automatically transmit data of your visitors to the social network sites as soon as they visit your website. They do not need to click on a share button for this and therefore have no choice, if they want their data to be send. The German computer magazine CT has developed "Shariff" `(/ˈʃɛɹɪf/)` that is compliant to the General Data Protection Regulation (GDPR - Regulation (EU) 2016/679). This plugin adapts the Shariff concept and provides an easy to use solution for WordPress. We currently support 32 services: AddThis, Bitcoin, Diaspora, Facebook, Flattr, Flipboard, GooglePlus, LinkedIn, mailto, Mastodon, Odnoklassniki, Patreon, PayPal, PayPal.me, Pinterest, Pocket, Printer, Qzone, Reddit, RSS, SMS, Stumbleupon, Telegram, TencentWeibo, Threema, Tumblr, Twitter, VK, Wallabag, Weibo, WhatsApp, Xing.
 
 For more information about the Shariff project check out the original [GitHub project](https://github.com/heiseonline/shariff) and read about the project itself [c’t information page](http://ct.de/shariff) (in German).
 
@@ -40,7 +40,7 @@ To enable it for all posts please check the options in the plugin settings.
 == Frequently Asked Questions ==
 
 = Q: Can I use the Shariff buttons in my theme? =
-A: Yes. Simply use the shortcode function `do_shortcode(\'[shariff]')`.
+A: Yes. Simply use the shortcode function `do_shortcode(\'[shariff]\')`.
 You can use all options of the shorttag as described on the help tab in the plugin settings.
 
 = Q: Can I use the total amount of shares in my theme? =
@@ -167,6 +167,11 @@ These are bugs or unexpected glitches that we know of, but that do not have an i
 - If the first post on the start page is password protected and Shariff is disabled on protected posts, a widget at the end of the loop will not be rendered.
 
 == Changelog ==
+
+= 4.4.1 =
+- new service wallabag (thanks to Torsten, @knodderdachs)
+- minor bug fixes
+- updated help section
 
 = 4.4.0 =
 - new service Telegram (thanks to Daniel Sturm, @dcsturm)
