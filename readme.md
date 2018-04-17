@@ -19,6 +19,11 @@ If you need any help or have specific questions regarding development and contri
 
 ## Changelog
 
+= 4.4.1 =
+- new service wallabag (thanks to Torsten, @knodderdachs)
+- minor bug fixes
+- updated help section
+
 = 4.4.0 =
 - new service Telegram (thanks to Daniel Sturm, @dcsturm)
 - new service Flipboard (thanks to csigncsign, @csigncsign)

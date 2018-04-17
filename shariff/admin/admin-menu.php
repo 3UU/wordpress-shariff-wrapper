@@ -26,8 +26,6 @@ add_action( 'init', 'shariff_init_locale' );
  * @param string $hook The calling hook.
  */
 function shariff3uu_admin_style( $hook ) {
-	// js for admin notice - needed on _ALL_ admin pages (as long as WordPress does not handle dismiss clicks).
-	wp_enqueue_script( 'shariff_notice', plugins_url( '../js/shariff-notice.js', __FILE__ ), array( 'jquery' ), '1.0', true );
 	// Scripts only needed on our plugin options page - no need to load them on _ALL_ admin pages.
 	if ( 'settings_page_shariff3uu' === $hook ) {
 		// Scripts for pinterest default image media uploader.
@@ -564,8 +562,8 @@ function shariff3uu_text_services_render() {
 		$services = '';
 	}
 	echo '<input type="text" name="shariff3uu_basic[services]" value="' . esc_html( $services ) . '" size="75" placeholder="twitter|facebook|googleplus|info">';
-	echo '<p><code>facebook|twitter|googleplus|whatsapp|threema|telegram|pinterest|xing|linkedin|reddit|vk|odnoklassniki|diaspora|sms</code></p>';
-	echo '<p><code>stumbleupon|tumblr|addthis|pocket|flipboard|qzone|weibo|tencentweibo|flattr|patreon|paypal|paypalme|bitcoin|mailto|printer|rss|info</code></p>';
+	echo '<p><code>addthis|bitcoin|diaspora|facebook|flattr|flipboard|googleplus|linkedin|mailto|mastodon|odnoklassniki|patreon|paypal|paypalme</code></p>';
+	echo '<p><code>pinterest|pocket|printer|qzone|reddit|rss|sms|stumbleupon|telegram|tencentweibo|threema|tumblr|twitter|vk|wallabag|weibo|whatsapp|xing</code></p>';
 	echo '<p>' . esc_html__( 'Use the pipe sign | (Alt Gr + &lt; or &#8997; + 7) between two or more services.', 'shariff' ) . '</p>';
 }
 
@@ -1411,7 +1409,7 @@ function shariff3uu_help_section_callback() {
 		// Services.
 		echo '<div style="display:table-row">';
 			echo '<div style="display:table-cell;border:1px solid;padding:10px">services</div>';
-			echo '<div style="display:table-cell;border:1px solid;padding:10px">facebook<br>twitter<br>googleplus<br>whatsapp<br>threema<br>telegram<br>pinterest<br>linkedin<br>xing<br>reddit<br>stumbleupon<br>tumblr<br>vk<br>diaspora<br>addthis<br>flattr<br>patreon<br>paypal<br>paypalme<br>bitcoin<br>mailto<br>printer<br>info<br>rss</div>';
+			echo '<div style="display:table-cell;border:1px solid;padding:10px">addthis<br>bitcoin<br>diaspora<br>facebook<br>flattr<br>flipboard<br>googleplus<br>linkedin<br>mailto<br>mastodon<br>odnoklassniki<br>patreon<br>paypal<br>paypalme<br>pinterest<br>pocket<br>printer<br>qzone<br>reddit<br>rss<br>sms<br>stumbleupon<br>telegram<br>tencentweibo<br>threema<br>tumblr<br>twitter<br>vk<br>wallabag<br>weibo<br>whatsapp<br>xing</div>';
 			echo '<div style="display:table-cell;border:1px solid;padding:10px">twitter|facebook|googleplus|info</div>';
 			echo '<div style="display:table-cell;border:1px solid;padding:10px">[shariff services="facebook|twitter|mailto"]</div>';
 			echo '<div style="display:table-cell;border:1px solid;padding:10px">' . esc_html__( 'Determines which buttons to show and in which order.', 'shariff' ) . '</div>';
@@ -1510,7 +1508,7 @@ function shariff3uu_help_section_callback() {
 			echo '<div style="display:table-cell;border:1px solid;padding:10px"></div>';
 			echo '<div style="display:table-cell;border:1px solid;padding:10px"></div>';
 			echo '<div style="display:table-cell;border:1px solid;padding:10px">[shariff style="margin:20px;"]</div>';
-			echo '<div style="display:table-cell;border:1px solid;padding:10px">' . esc_html__( 'Adds custom <u>style</u> attributes to the container <u>around</u> Shariff.', 'shariff' ) . '</div>';
+			echo '<div style="display:table-cell;border:1px solid;padding:10px">' . esc_html__( 'Adds custom style attributes to the container around Shariff.', 'shariff' ) . '</div>';
 		echo '</div>';
 		// CSS class.
 		echo '<div style="display:table-row">';
@@ -1518,7 +1516,7 @@ function shariff3uu_help_section_callback() {
 			echo '<div style="display:table-cell;border:1px solid;padding:10px"></div>';
 			echo '<div style="display:table-cell;border:1px solid;padding:10px"></div>';
 			echo '<div style="display:table-cell;border:1px solid;padding:10px">[shariff class="classname"]</div>';
-			echo '<div style="display:table-cell;border:1px solid;padding:10px">' . esc_html__( 'Adds a custom <u>class</u> to the container <u>around</u> Shariff.', 'shariff' ) . '</div>';
+			echo '<div style="display:table-cell;border:1px solid;padding:10px">' . esc_html__( 'Adds a custom class to the container around Shariff.', 'shariff' ) . '</div>';
 		echo '</div>';
 		// Twitter_via.
 		echo '<div style="display:table-row">';
@@ -1855,7 +1853,7 @@ function shariff3uu_ranking_section_callback() {
 		$rank++;
 		echo '<div style="display:table-row">';
 		echo '<div style="display:table-cell;border:1px solid;padding:10px;text-align:center">' . absint( $rank ) . '</div>';
-		echo '<div style="display:table-cell;border:1px solid;padding:10px"><a href="' . esc_url( $value['url'] ) . '" target="_blank">' . esc_html( $value['title'] ) . '</a></div>';
+		echo '<div style="display:table-cell;border:1px solid;padding:10px"><a href="' . esc_url( $value['url'] ) . '" target="_blank">' . esc_html( wp_strip_all_tags( $value['title'] ) ) . '</a></div>';
 		echo '<div style="display:table-cell;border:1px solid;padding:10px">' . esc_html( mysql2date( 'd.m.Y', $value['post_date'] ) ) . '</div>';
 		echo '<div style="display:table-cell;border:1px solid;padding:10px">' . esc_html( mysql2date( 'H:i', $value['post_date'] ) ) . '</div>';
 		// Share counts.
