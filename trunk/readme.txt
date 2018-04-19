@@ -168,6 +168,12 @@ These are bugs or unexpected glitches that we know of, but that do not have an i
 
 == Changelog ==
 
+= 4.4.2 =
+- new support for the "AMP for WP" plugin by Ahmed and Mohammed Kaludi
+- improved support for the "AMP for WordPress" plugin by Automattic
+- new additional workaround for servers without $_SERVER for category pages
+- minor bug fixes
+
 = 4.4.1 =
 - new service wallabag (thanks to Torsten, @knodderdachs)
 - minor bug fixes

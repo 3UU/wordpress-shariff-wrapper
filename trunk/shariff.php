@@ -3,7 +3,7 @@
  * Plugin Name: Shariff Wrapper
  * Plugin URI: https://wordpress.org/plugins-wp/shariff/
  * Description: Shariff provides share buttons that respect the privacy of your visitors and follow the General Data Protection Regulation (GDPR).
- * Version: 4.4.1
+ * Version: 4.4.2
  * Author: Jan-Peter Lambeck & 3UU
  * Author URI: https://wordpress.org/plugins/shariff/
  * License: MIT
@@ -33,7 +33,7 @@ $shariff3uu = array_merge( $shariff3uu_basic, $shariff3uu_design, $shariff3uu_ad
  */
 function shariff3uu_update() {
 	// Adjust code version.
-	$code_version = '4.4.1';
+	$code_version = '4.4.2';
 
 	// Get options.
 	$shariff3uu = $GLOBALS['shariff3uu'];
@@ -696,19 +696,23 @@ add_action( 'bbp_theme_after_reply_content', 'shariff3uu_bbp_add_shariff_after_r
 
 /**
  * Function is called to include the shariff.css in the header of AMP pages.
- * Currently only called by the amp_post_template_css hook of the AMP plugin by Automatic.
+ * Currently only called by the amp_post_template_css hook.
+ * Supports the AMP plugin by Automatic and the AMP for WP plugin by Ahmed and Mohammed Kaludi.
  * We need to strip out all !important in order to pass AMP test.
  */
 function shariff3uu_amp_css() {
 	ob_start();
-	include plugins_url( '/css/shariff.css', __FILE__ );
+	include plugins_url( '/css/shariff.min.css', __FILE__ );
 	$shariff_css = ob_get_clean();
 	if ( false !== $shariff_css ) {
 		echo esc_html( str_replace( '!important', '', $shariff_css ) );
 	} else {
-		include plugins_url( '/css/shariff.css', __FILE__ );
+		include plugins_url( '/css/shariff.min.css', __FILE__ );
 	}
+	// Hide print button on AMP pages.
+	echo '.shariff .printer { display: none };';
 }
+add_action( 'amp_post_template_css', 'shariff3uu_amp_css' );
 
 // Registers the shortcode.
 add_shortcode( 'shariff', 'shariff3uu_render' );
@@ -817,9 +821,6 @@ function shariff3uu_render( $atts ) {
 	} else {
 		wp_enqueue_style( 'shariffcss', plugins_url( '/css/shariff.min.css', __FILE__ ), '', $shariff3uu['version'] );
 	}
-
-	// Adds the shariff.css to the header of AMP pages while using the AMP plugin by Automatic.
-	add_action( 'amp_post_template_css', 'shariff3uu_amp_css' );
 
 	// Enqueues the share count script (the JS should be loaded at the footer - make sure that wp_footer() is present in your theme!)
 	// If SCRIPT_DEBUG is set to true, the non minified version will be loaded.
