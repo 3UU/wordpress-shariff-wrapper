@@ -124,20 +124,13 @@ class Shariff_Widget extends WP_Widget {
 		// For example the blog page. Of course only if no manual url is provided in the shorttag.
 		$page_url = '';
 		if ( strpos( $original_shorttag, ' url=' ) === false ) {
-			$wpurl   = get_bloginfo( 'wpurl' );
-			$siteurl = get_bloginfo( 'url' );
+			$wpurl = get_bloginfo( 'wpurl' );
+			$wpurl = str_replace( wp_make_link_relative( $wpurl ), '', $wpurl );
 			if ( isset( $_SERVER['REQUEST_URI'] ) ) {
-				// For "normal" installations.
-				$page_url = $wpurl . esc_url_raw( wp_unslash( $_SERVER['REQUEST_URI'] ) );
-				// Kill ?view=mail etc. if pressed a second time.
-				$page_url = strtok( $page_url, '?' );
-				// If WordPress is installed in a subdirectory, but links are mapped to the main domain.
-				if ( $wpurl !== $siteurl ) {
-					$subdir   = str_replace( $siteurl, '', $wpurl );
-					$page_url = str_replace( $subdir, '', $page_url );
-				}
-				$page_url  = ' url="' . $page_url;
-				$page_url .= '"';
+				$page_url = ' url="' . $wpurl . esc_url_raw( wp_unslash( $_SERVER['REQUEST_URI'] ) ) . '"';
+			} else {
+				global $wp;
+				$page_url = ' url="' . home_url( add_query_arg( array(), $wp->request ) ) . '"';
 			}
 		}
 
