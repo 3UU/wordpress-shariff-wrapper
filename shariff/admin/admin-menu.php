@@ -562,7 +562,7 @@ function shariff3uu_text_services_render() {
 		$services = '';
 	}
 	echo '<input type="text" name="shariff3uu_basic[services]" value="' . esc_html( $services ) . '" size="75" placeholder="twitter|facebook|googleplus|info">';
-	echo '<p><code>addthis|bitcoin|diaspora|facebook|flattr|flipboard|googleplus|linkedin|mailto|mastodon|odnoklassniki|patreon|paypal|paypalme</code></p>';
+	echo '<p><code>addthis|bitcoin|diaspora|facebook|flattr|flipboard|googleplus|info|linkedin|mailto|mastodon|odnoklassniki|patreon|paypal|paypalme</code></p>';
 	echo '<p><code>pinterest|pocket|printer|qzone|reddit|rss|sms|stumbleupon|telegram|tencentweibo|threema|tumblr|twitter|vk|wallabag|weibo|whatsapp|xing</code></p>';
 	echo '<p>' . esc_html__( 'Use the pipe sign | (Alt Gr + &lt; or &#8997; + 7) between two or more services.', 'shariff' ) . '</p>';
 }
@@ -1409,7 +1409,7 @@ function shariff3uu_help_section_callback() {
 		// Services.
 		echo '<div style="display:table-row">';
 			echo '<div style="display:table-cell;border:1px solid;padding:10px">services</div>';
-			echo '<div style="display:table-cell;border:1px solid;padding:10px">addthis<br>bitcoin<br>diaspora<br>facebook<br>flattr<br>flipboard<br>googleplus<br>linkedin<br>mailto<br>mastodon<br>odnoklassniki<br>patreon<br>paypal<br>paypalme<br>pinterest<br>pocket<br>printer<br>qzone<br>reddit<br>rss<br>sms<br>stumbleupon<br>telegram<br>tencentweibo<br>threema<br>tumblr<br>twitter<br>vk<br>wallabag<br>weibo<br>whatsapp<br>xing</div>';
+			echo '<div style="display:table-cell;border:1px solid;padding:10px">addthis<br>bitcoin<br>diaspora<br>facebook<br>flattr<br>flipboard<br>googleplus<br>info<br>linkedin<br>mailto<br>mastodon<br>odnoklassniki<br>patreon<br>paypal<br>paypalme<br>pinterest<br>pocket<br>printer<br>qzone<br>reddit<br>rss<br>sms<br>stumbleupon<br>telegram<br>tencentweibo<br>threema<br>tumblr<br>twitter<br>vk<br>wallabag<br>weibo<br>whatsapp<br>xing</div>';
 			echo '<div style="display:table-cell;border:1px solid;padding:10px">twitter|facebook|googleplus|info</div>';
 			echo '<div style="display:table-cell;border:1px solid;padding:10px">[shariff services="facebook|twitter|mailto"]</div>';
 			echo '<div style="display:table-cell;border:1px solid;padding:10px">' . esc_html__( 'Determines which buttons to show and in which order.', 'shariff' ) . '</div>';
