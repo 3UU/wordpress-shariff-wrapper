@@ -77,7 +77,7 @@ if ( isset( $frontend ) && 1 === $frontend ) {
 } elseif ( isset( $backend ) && 1 === $backend ) {
 	// Fetch counts.
 	if ( isset( $shariff3uu['newsharecount'] ) && 1 === $shariff3uu['newsharecount'] ) {
-		$twitter = sanitize_text_field( wp_remote_retrieve_body( wp_remote_get( 'http://public.newsharecounts.com/count.json?url=' . $post_url ) ) );
+		$twitter = sanitize_text_field( wp_remote_retrieve_body( wp_remote_get( 'https://public.newsharecounts.com/count.json?url=' . $post_url ) ) );
 	} else {
 		$twitter = sanitize_text_field( wp_remote_retrieve_body( wp_remote_get( 'http://opensharecount.com/count.json?url=' . $post_url ) ) );
 	}
