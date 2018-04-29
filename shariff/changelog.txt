@@ -2,6 +2,13 @@
 
 == Changelog ==
 
+= 4.4.3 =
+- new support for additional manual AMP integrations
+- new support for the print button on AMP pages
+- fixed a php error on certain server configurations
+- fixed a markup typo
+- minor css improvements
+
 = 4.4.2 =
 - new support for the "AMP for WP" plugin by Ahmed and Mohammed Kaludi
 - improved support for the "AMP for WordPress" plugin by Automattic

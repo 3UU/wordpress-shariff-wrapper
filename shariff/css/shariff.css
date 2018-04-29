@@ -31,6 +31,8 @@
     text-decoration: none;
     background-image: none !important;
     text-align: left;
+    box-shadow: none;
+    cursor: pointer;
 }
 .shariff a:hover {
     color: #fff;
@@ -67,6 +69,12 @@
 }
 .shariff-button::before {
     content: none !important;
+}
+.shariff .shariff-buttons .shariff-text-white {
+    color: #fff;
+}
+.shariff .shariff-buttons .shariff-hidezero {
+    opacity: 0;
 }
 /* theme default */
 .shariff .theme-default a {
@@ -151,47 +159,47 @@
     fill: #fff;
 }
 /* buttonsize small */
-.shariff .buttonsize-small li {
+.shariff .shariff-buttons.buttonsize-small li {
     height: 25px !important;
 }
-.shariff .buttonsize-small a {
+.shariff .shariff-buttons.buttonsize-small a {
     height: 25px !important;
 }
-.shariff .buttonsize-small.orientation-vertical li {
+.shariff .shariff-buttons.buttonsize-small.orientation-vertical li {
     width: 115px;
 }
-.shariff .buttonsize-small .shariff-icon svg {
+.shariff .shariff-buttons.buttonsize-small .shariff-icon svg {
     width: 22px;
     height: 15px;
     padding: 5px 1px;
 }
-.shariff .buttonsize-small .shariff-text,
-.shariff .buttonsize-small .shariff-count {
+.shariff .shariff-buttons.buttonsize-small .shariff-text,
+.shariff .shariff-buttons.buttonsize-small .shariff-count {
     font-size: 11px;
     line-height: 25px;
     padding: 0 5px;
     height: 23px;
 }
-.shariff .buttonsize-small .shariff-text {
+.shariff .shariff-buttons.buttonsize-small .shariff-text {
     padding-left: 1px !important;
 }
-.shariff .buttonsize-small.theme-round li {
+.shariff .shariff-buttons.buttonsize-small.theme-round li {
     width: 25px !important;
 }
-.shariff .buttonsize-small.theme-round a {
+.shariff .shariff-buttons.buttonsize-small.theme-round a {
     width: 25px !important;
 }
-.shariff .buttonsize-small.theme-round .shariff-count {
+.shariff .shariff-buttons.buttonsize-small.theme-round .shariff-count {
     padding: 0 !important;
     height: 25px !important;
 }
-.shariff .theme-round.buttonsize-small.orientation-horizontal li {
+.shariff .shariff-buttons.theme-round.buttonsize-small.orientation-horizontal li {
     margin: 5px 7px
 }
-.shariff .theme-round.buttonsize-small.orientation-horizontal li:first-child {
+.shariff .shariff-buttons.theme-round.buttonsize-small.orientation-horizontal li:first-child {
     margin-left: 5px
 }
-.shariff .theme-round.buttonsize-small.orientation-horizontal li:last-child {
+.shariff .shariff-buttons.theme-round.buttonsize-small.orientation-horizontal li:last-child {
     margin-right: 5px
 }
 /* buttonsize large */
@@ -219,8 +227,9 @@
 .shariff .buttonsize-large .shariff-text {
     padding-left: 1px !important;
 }
-.shariff .buttonsize-large.theme-round li {
+.shariff .shariff-buttons.buttonsize-large.theme-round li {
     width: 45px !important;
+    height: 45px !important;
 }
 .shariff .buttonsize-large.theme-round a {
     width: 45px !important;
@@ -230,7 +239,6 @@
     height: 45px !important;
 }
 /* orientation vertical */
-/*noinspection CssUnusedSymbol*/
 .shariff .orientation-vertical {
     flex-direction: column;
 }
@@ -271,11 +279,8 @@
     width: 100% !important;
 }
 /* widget */
-.widget .shariff .theme-default li,
-.widget .shariff .theme-color li,
-.widget .shariff .theme-grey li,
-.widget .shariff .theme-round li {
-    border: medium none;
+.widget .shariff li {
+    border: none;
     font-weight: 400;
 }
 .widget .shariff .theme-default a,
@@ -337,22 +342,22 @@
 }
 /* media queries */
 @media only screen and (max-width: 360px) {
-    .shariff .orientation-horizontal li { width: 35px; }
-    .shariff .orientation-horizontal.buttonsize-small li { width: 25px; }
-    .shariff .orientation-horizontal.buttonsize-large li { width: 45px; }
-    .shariff .orientation-horizontal .shariff-icon svg { display: block; margin: auto; }
-    .shariff .orientation-horizontal .shariff-count { display: none; }
+    .shariff .shariff-buttons li { width: 35px; }
+    .shariff .shariff-buttons.buttonsize-small li { width: 25px; }
+    .shariff .shariff-buttons.buttonsize-large li { width: 45px; }
+    .shariff .shariff-buttons .shariff-icon svg { display: block; margin: auto; }
+    .shariff .shariff-buttons .shariff-count { display: none; }
+    .shariff .shariff-buttons .shariff-text { display: none; }
 }
 @media only screen and (min-width: 361px) {
-    .shariff .orientation-horizontal li { width: 80px; }
-    .shariff .orientation-horizontal li .shariff-text { display: block; }
-    .shariff .orientation-horizontal li .shariff-count { display: block; }
+    .shariff .shariff-buttons li { width: 90px; }
+    .shariff .shariff-buttons.buttonsize-large li { width: 130px; }
 }
 @media only screen and (min-width: 768px) {
-    .shariff .orientation-horizontal li { width: 130px; }
-    .shariff .orientation-horizontal.buttonsize-small li { width: 105px; }
-    .shariff .orientation-horizontal.buttonsize-large li { width: 155px; }
-    .shariff .orientation-horizontal li .shariff-text { display: inline; }
+    .shariff .shariff-buttons li { width: 130px; }
+    .shariff .shariff-buttons.buttonsize-small li { width: 105px; }
+    .shariff .shariff-buttons.buttonsize-large li { width: 155px; }
+    .shariff .shariff-buttons li .shariff-text { display: inline; }
 }
 @media only screen and (min-device-width: 1025px) {
     /*noinspection CssUnusedSymbol*/
