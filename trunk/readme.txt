@@ -4,7 +4,7 @@ Tags: Shariff, GDPR, DSGVO, share buttons, sharing
 Requires at least: 4.9
 Requires PHP: 5.6
 Tested up to: 4.9
-Stable tag: 4.4.2
+Stable tag: 4.4.3
 License: MIT
 License URI: http://opensource.org/licenses/mit
 
@@ -167,6 +167,13 @@ These are bugs or unexpected glitches that we know of, but that do not have an i
 - If the first post on the start page is password protected and Shariff is disabled on protected posts, a widget at the end of the loop will not be rendered.
 
 == Changelog ==
+
+= 4.4.3 =
+- new support for additional manual AMP integrations
+- fixed a PHP error on certain server configurations
+- new support for the print button on AMP pages
+- fixed a markup typo
+- minor css improvements
 
 = 4.4.2 =
 - new support for the "AMP for WP" plugin by Ahmed and Mohammed Kaludi
