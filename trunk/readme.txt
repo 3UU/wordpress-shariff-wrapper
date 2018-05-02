@@ -1,7 +1,7 @@
 === Shariff Wrapper ===
 Contributors: starguide, 3UU
 Tags: Shariff, GDPR, DSGVO, share buttons, sharing
-Requires at least: 4.9
+Requires at least: 4.7
 Requires PHP: 5.6
 Tested up to: 4.9
 Stable tag: 4.4.3
