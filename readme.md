@@ -19,6 +19,10 @@ If you need any help or have specific questions regarding development and contri
 
 ## Changelog
 
+= 4.4.4 =
+- add support for automatic addition to bbpress forums, topics and replies
+- fix a bug that caused "hideshariff" to not function properly
+
 = 4.4.3 =
 - new support for additional manual AMP integrations
 - fixed a PHP error on certain server configurations

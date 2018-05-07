@@ -2,6 +2,10 @@
 
 == Changelog ==
 
+= 4.4.4 =
+- add support for automatic addition to bbpress forums, topics and replies
+- fix a bug that caused "hideshariff" to not function properly
+
 = 4.4.3 =
 - new support for additional manual AMP integrations
 - new support for the print button on AMP pages
