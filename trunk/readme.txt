@@ -1,10 +1,10 @@
 === Shariff Wrapper ===
 Contributors: starguide, 3UU
 Tags: Shariff, GDPR, DSGVO, share buttons, sharing
-Requires at least: 4.7
+Requires at least: 4.9
 Requires PHP: 5.6
 Tested up to: 4.9
-Stable tag: 4.4.3
+Stable tag: 4.4.4
 License: MIT
 License URI: http://opensource.org/licenses/mit
 
@@ -167,6 +167,10 @@ These are bugs or unexpected glitches that we know of, but that do not have an i
 - If the first post on the start page is password protected and Shariff is disabled on protected posts, a widget at the end of the loop will not be rendered.
 
 == Changelog ==
+
+= 4.4.4 =
+- add support for automatic addition to bbpress forums, topics and replies
+- fix a bug that caused "hideshariff" to not function properly
 
 = 4.4.3 =
 - new support for additional manual AMP integrations

@@ -592,13 +592,6 @@ function shariff3uu_multiplecheckbox_add_after_render() {
 	}
 	echo ' value="1">' . esc_html__( 'Pages', 'shariff' ) . '</p>';
 
-	// Add after all bbpress replies.
-	echo '<p><input type="checkbox" name="shariff3uu_basic[add_after][bbp_reply]" ';
-	if ( isset( $GLOBALS['shariff3uu_basic']['add_after']['bbp_reply'] ) ) {
-		echo checked( $GLOBALS['shariff3uu_basic']['add_after']['bbp_reply'], 1, 0 );
-	}
-	echo ' value="1">' . esc_html__( 'bbPress replies', 'shariff' ) . '</p>';
-
 	// Add after all excerpts.
 	echo '<p><input type="checkbox" name="shariff3uu_basic[add_after][excerpt]" ';
 	if ( isset( $GLOBALS['shariff3uu_basic']['add_after']['excerpt'] ) ) {
