@@ -3,7 +3,7 @@
  * Plugin Name: Shariff Wrapper
  * Plugin URI: https://wordpress.org/plugins-wp/shariff/
  * Description: Shariff provides share buttons that respect the privacy of your visitors and follow the General Data Protection Regulation (GDPR).
- * Version: 4.4.3
+ * Version: 4.4.4
  * Author: Jan-Peter Lambeck & 3UU
  * Author URI: https://wordpress.org/plugins/shariff/
  * License: MIT
@@ -33,7 +33,7 @@ $shariff3uu = array_merge( $shariff3uu_basic, $shariff3uu_design, $shariff3uu_ad
  */
 function shariff3uu_update() {
 	// Adjust code version.
-	$code_version = '4.4.3';
+	$code_version = '4.4.4';
 
 	// Get options.
 	$shariff3uu = $GLOBALS['shariff3uu'];
@@ -544,9 +544,9 @@ function shariff3uu_posts( $content ) {
 	}
 
 	// If we want to see it as text - replace the slash.
-	if ( true === strpos( $content, '/hideshariff' ) ) {
+	if ( false !== strpos( $content, '/hideshariff' ) ) {
 		$content = str_replace( '/hideshariff', 'hideshariff', $content );
-	} elseif ( true === strpos( $content, 'hideshariff' ) ) {
+	} elseif ( false !== strpos( $content, 'hideshariff' ) ) {
 		// Remove the sign.
 		$content = str_replace( 'hideshariff', '', $content );
 		// Return the content without adding Shariff.
@@ -683,16 +683,82 @@ function shariff3uu_remove_from_rss( $content ) {
 add_filter( 'the_content_feed', 'shariff3uu_remove_from_rss', 999 );
 
 /**
- * Adds shariff buttons after bbpress replies.
+ * Adds shariff buttons after bbpress forums.
  */
-function shariff3uu_bbp_add_shariff_after_replies() {
+function shariff3uu_bbp_add_shariff_after_forum() {
 	// Get options.
 	$shariff3uu = $GLOBALS['shariff3uu'];
-	if ( isset( $shariff3uu['add_after']['bbp_reply'] ) && 1 === $shariff3uu['add_after']['bbp_reply'] ) {
-		echo esc_html( shariff3uu_render( array() ) );
+	if ( isset( $shariff3uu['add_after']['forum'] ) && 1 === $shariff3uu['add_after']['forum'] ) {
+		// phpcs:ignore
+		echo shariff3uu_render( array() );
 	}
 }
-add_action( 'bbp_theme_after_reply_content', 'shariff3uu_bbp_add_shariff_after_replies' );
+add_action( 'bbp_template_after_forums_loop', 'shariff3uu_bbp_add_shariff_after_forum' );
+
+/**
+ * Adds shariff buttons after bbpress topics.
+ */
+function shariff3uu_bbp_add_shariff_after_topic() {
+	// Get options.
+	$shariff3uu = $GLOBALS['shariff3uu'];
+	if ( isset( $shariff3uu['add_after']['topic'] ) && 1 === $shariff3uu['add_after']['topic'] ) {
+		// phpcs:ignore
+		echo shariff3uu_render( array() );
+	}
+}
+add_action( 'bbp_template_after_topics_loop', 'shariff3uu_bbp_add_shariff_after_topic' );
+
+/**
+ * Adds shariff buttons after bbpress replies.
+ */
+function shariff3uu_bbp_add_shariff_after_reply() {
+	// Get options.
+	$shariff3uu = $GLOBALS['shariff3uu'];
+	if ( isset( $shariff3uu['add_after']['reply'] ) && 1 === $shariff3uu['add_after']['reply'] ) {
+		// phpcs:ignore
+		echo shariff3uu_render( array() );
+	}
+}
+add_action( 'bbp_theme_after_reply_content', 'shariff3uu_bbp_add_shariff_after_reply' );
+
+/**
+ * Adds shariff buttons before bbpress forums.
+ */
+function shariff3uu_bbp_add_shariff_before_forum() {
+	// Get options.
+	$shariff3uu = $GLOBALS['shariff3uu'];
+	if ( isset( $shariff3uu['add_before']['forum'] ) && 1 === $shariff3uu['add_before']['forum'] ) {
+		// phpcs:ignore
+		echo shariff3uu_render( array() );
+	}
+}
+add_action( 'bbp_template_before_forums_loop', 'shariff3uu_bbp_add_shariff_before_forum' );
+
+/**
+ * Adds shariff buttons before bbpress topics.
+ */
+function shariff3uu_bbp_add_shariff_before_topic() {
+	// Get options.
+	$shariff3uu = $GLOBALS['shariff3uu'];
+	if ( isset( $shariff3uu['add_before']['topic'] ) && 1 === $shariff3uu['add_before']['topic'] ) {
+		// phpcs:ignore
+		echo shariff3uu_render( array() );
+	}
+}
+add_action( 'bbp_template_before_topics_loop', 'shariff3uu_bbp_add_shariff_before_topic' );
+
+/**
+ * Adds shariff buttons before bbpress replies.
+ */
+function shariff3uu_bbp_add_shariff_before_reply() {
+	// Get options.
+	$shariff3uu = $GLOBALS['shariff3uu'];
+	if ( isset( $shariff3uu['add_before']['reply'] ) && 1 === $shariff3uu['add_before']['reply'] ) {
+		// phpcs:ignore
+		echo shariff3uu_render( array() );
+	}
+}
+add_action( 'bbp_theme_before_reply_content', 'shariff3uu_bbp_add_shariff_before_reply' );
 
 /**
  * Function is called to include the shariff.css in the header of AMP pages.

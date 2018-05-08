@@ -352,6 +352,7 @@
 @media only screen and (min-width: 361px) {
     .shariff .shariff-buttons li { width: 90px; }
     .shariff .shariff-buttons.buttonsize-large li { width: 130px; }
+    .shariff .shariff-buttons .shariff-count { display: none; }
 }
 @media only screen and (min-width: 768px) {
     .shariff .shariff-buttons li { width: 130px; }
