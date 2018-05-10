@@ -346,12 +346,13 @@
     .shariff .shariff-buttons.buttonsize-small li { width: 25px; }
     .shariff .shariff-buttons.buttonsize-large li { width: 45px; }
     .shariff .shariff-buttons .shariff-icon svg { display: block; margin: auto; }
-    .shariff .shariff-buttons .shariff-count { display: none; }
     .shariff .shariff-buttons .shariff-text { display: none; }
 }
 @media only screen and (min-width: 361px) {
     .shariff .shariff-buttons li { width: 90px; }
     .shariff .shariff-buttons.buttonsize-large li { width: 130px; }
+}
+@media only screen and (max-width: 768px) {
     .shariff .shariff-buttons .shariff-count { display: none; }
 }
 @media only screen and (min-width: 768px) {
