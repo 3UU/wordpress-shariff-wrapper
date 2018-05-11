@@ -4,7 +4,7 @@ Tags: Shariff, GDPR, DSGVO, share buttons, sharing
 Requires at least: 4.9
 Requires PHP: 5.6
 Tested up to: 4.9
-Stable tag: 4.4.4
+Stable tag: 4.5.0
 License: MIT
 License URI: http://opensource.org/licenses/mit
 
@@ -168,9 +168,17 @@ These are bugs or unexpected glitches that we know of, but that do not have an i
 
 == Changelog ==
 
+= 4.5.0 =
+- new option to add Shariff to custom WordPress hooks
+- new option to support multilingual sites using WPML and other plugins
+- new support for WooCommerce products on the ranking table
+- new option to show different headlines based on share counts
+- updated button languages, now supporting 25 languages
+- fixed a bug causing share counts to not being displayed properly
+
 = 4.4.4 =
-- add support for automatic addition to bbpress forums, topics and replies
-- fix a bug that caused "hideshariff" to not function properly
+- added support for automatic addition to bbpress forums, topics and replies
+- fixed a bug that caused "hideshariff" to not function properly
 
 = 4.4.3 =
 - new support for additional manual AMP integrations

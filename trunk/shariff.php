@@ -3,7 +3,7 @@
  * Plugin Name: Shariff Wrapper
  * Plugin URI: https://wordpress.org/plugins-wp/shariff/
  * Description: Shariff provides share buttons that respect the privacy of your visitors and follow the General Data Protection Regulation (GDPR).
- * Version: 4.4.4
+ * Version: 4.5.0
  * Author: Jan-Peter Lambeck & 3UU
  * Author URI: https://wordpress.org/plugins/shariff/
  * License: MIT
@@ -33,7 +33,7 @@ $shariff3uu = array_merge( $shariff3uu_basic, $shariff3uu_design, $shariff3uu_ad
  */
 function shariff3uu_update() {
 	// Adjust code version.
-	$code_version = '4.4.4';
+	$code_version = '4.5.0';
 
 	// Get options.
 	$shariff3uu = $GLOBALS['shariff3uu'];
@@ -510,7 +510,7 @@ register_activation_hook( __FILE__, 'shariff3uu_fill_cache_schedule' );
 function shariff3uu_fill_cache_schedule_custom_recurrence( $schedules ) {
 	$schedules['weekly'] = array(
 		'display'  => __( 'Once weekly', 'shariff' ),
-		'interval' => 804600,
+		'interval' => 604800,
 	);
 	return $schedules;
 }
@@ -761,6 +761,51 @@ function shariff3uu_bbp_add_shariff_before_reply() {
 add_action( 'bbp_theme_before_reply_content', 'shariff3uu_bbp_add_shariff_before_reply' );
 
 /**
+ * Adds shariff to custom hooks.
+ */
+function shariff3uu_add_shariff_custom_hooks() {
+	// Get options.
+	$shariff3uu = $GLOBALS['shariff3uu'];
+
+	if ( isset( $shariff3uu['custom_hooks_shortcode'] ) && ! empty( $shariff3uu['custom_hooks_shortcode'] ) ) {
+		// Replaces shariff with shariffmeta.
+		$shariff3uu_custom_hooks_shortcode = str_replace( '[shariff ', '[shariffmeta ', $shariff3uu['custom_hooks_shortcode'] );
+
+		// Extracts attributes.
+		if ( '[shariffmeta]' !== $shariff3uu_custom_hooks_shortcode ) {
+			do_shortcode( $shariff3uu_custom_hooks_shortcode );
+		}
+
+		if ( isset( $GLOBALS['shariff3uu']['metabox'] ) && ! empty( $GLOBALS['shariff3uu']['metabox'] ) ) {
+			$shariff3uu_custom_hooks_shortcode = $GLOBALS['shariff3uu']['metabox'];
+		} else {
+			$shariff3uu_custom_hooks_shortcode = array();
+		}
+
+		// Clears the metabox global.
+		$GLOBALS['shariff3uu']['metabox'] = '';
+
+		// phpcs:ignore
+		echo shariff3uu_render( $shariff3uu_custom_hooks_shortcode );
+	} else {
+		// phpcs:ignore
+		echo shariff3uu_render( array() );
+	}
+}
+if ( isset( $shariff3uu['custom_hooks'] ) && ! empty( $shariff3uu['custom_hooks'] ) ) {
+	// Explodes hooks.
+	$hook_array = explode( '|', $shariff3uu['custom_hooks'] );
+
+	// Remove duplicated hooks.
+	$hook_array = array_unique( $hook_array );
+
+	// Loops through all desired hooks.
+	foreach ( $hook_array as $hook ) {
+		add_action( esc_html( $hook ), 'shariff3uu_add_shariff_custom_hooks' );
+	}
+}
+
+/**
  * Function is called to include the shariff.css in the header of AMP pages.
  * Currently only called by the amp_post_template_css hook.
  * Supports the AMP plugin by Automatic and the AMP for WP plugin by Ahmed and Mohammed Kaludi.
@@ -850,7 +895,7 @@ function shariff3uu_render( $atts ) {
 		$shariff3uu_metabox = str_replace( '[shariff ', '[shariffmeta ', $shariff3uu_metabox );
 
 		// Gets the meta box attributes.
-		if ( '[shariff]' !== $shariff3uu_metabox ) {
+		if ( '[shariffmeta]' !== $shariff3uu_metabox ) {
 			do_shortcode( $shariff3uu_metabox );
 		}
 
@@ -887,6 +932,11 @@ function shariff3uu_render( $atts ) {
 	// Cleans up the headline in case it was used in a shorttag.
 	if ( array_key_exists( 'headline', $atts ) ) {
 		$atts['headline'] = wp_kses( $atts['headline'], $GLOBALS['allowed_tags'] );
+	}
+
+	// Cleans up the alternative headline in case it was used in a shorttag.
+	if ( array_key_exists( 'headline_zero', $atts ) ) {
+		$atts['headline_zero'] = wp_kses( $atts['headline_zero'], $GLOBALS['allowed_tags'] );
 	}
 
 	// Remove previous added inline styles to prevent duplications.
@@ -962,11 +1012,9 @@ function shariff3uu_render( $atts ) {
 		$output .= '>';
 	}
 
-	// Tries http_negotiate_language if no language is set.
-	if ( ! array_key_exists( 'lang', $atts ) && function_exists( 'http_negotiate_language' ) ) {
-		$available_lang = array( 'en', 'de', 'fr', 'es', 'zh', 'hr', 'da', 'nl', 'fi', 'it', 'ja', 'ko', 'no', 'pl', 'pt', 'ro', 'ru', 'sk', 'sl', 'sr', 'sv', 'tr', 'zh' );
-		$lang           = http_negotiate_language( $available_lang );
-		$atts['lang']   = substr( $lang, 0, 2 );
+	// Sets the language using get_locale(), if no language is set or if automatic language selection is set as an option.
+	if ( ! array_key_exists( 'lang', $atts ) || ( array_key_exists( 'autolang', $atts ) && 1 === $atts['autolang'] ) ) {
+		$atts['lang'] = substr( get_locale(), 0, 2 );
 	}
 
 	// Sets the default button share text.
@@ -1016,7 +1064,8 @@ function shariff3uu_render( $atts ) {
 		$output .= ' shariff-widget-align-' . $atts['align_widget'];
 	}
 	// Button Stretch.
-	if ( array_key_exists( 'buttonstretch', $atts ) && 1 === $atts['buttonstretch'] ) {
+	// phpcs:ignore
+	if ( array_key_exists( 'buttonstretch', $atts ) && 1 == $atts['buttonstretch'] ) {
 		$output .= ' shariff-buttonstretch';
 	}
 	$output .= '"';
@@ -1054,10 +1103,15 @@ function shariff3uu_render( $atts ) {
 	// Adds the headline.
 	if ( array_key_exists( 'headline', $atts ) ) {
 		if ( ! array_key_exists( 'total', $share_counts ) ) {
-			$share_counts['total'] = '0';
+			$share_counts['total'] = 0;
 		}
-		$atts['headline'] = str_replace( '%total', '<span class="shariff-total">' . absint( $share_counts['total'] ) . '</span>', $atts['headline'] );
-		$output          .= '<div class="ShariffHeadline">' . $atts['headline'] . '</div>';
+		if ( 0 === $share_counts['total'] && array_key_exists( 'headline_zero', $atts ) && ! empty( $atts['headline_zero'] ) ) {
+			$atts['headline_zero'] = str_replace( '%total', '<span class="shariff-total">' . absint( $share_counts['total'] ) . '</span>', $atts['headline_zero'] );
+			$output .= '<div class="ShariffHeadline">' . $atts['headline_zero'] . '</div>';
+		} else {
+			$atts['headline'] = str_replace( '%total', '<span class="shariff-total">' . absint( $share_counts['total'] ) . '</span>', $atts['headline'] );
+			$output          .= '<div class="ShariffHeadline">' . $atts['headline'] . '</div>';
+		}
 	}
 
 	// Start the ul list with design classes.
@@ -1196,9 +1250,11 @@ function shariff3uu_render( $atts ) {
 					$button_text_array = $default_button_text_array;
 				}
 
-				// Sets button text in desired language; fallback is English.
+				// Sets button text in desired language, first fallback is default language set in options, second one is English.
 				if ( array_key_exists( 'lang', $atts ) && array_key_exists( $atts['lang'], $button_text_array ) ) {
 					$button_text = $button_text_array[ $atts['lang'] ];
+				} elseif ( isset( $shariff3uu['lang'] ) && ! empty( $shariff3uu['lang'] ) && array_key_exists( $shariff3uu['lang'], $button_text_array ) ) {
+					$button_text = $button_text_array[ $shariff3uu['lang'] ];
 				} else {
 					$button_text = $button_text_array['en'];
 				}

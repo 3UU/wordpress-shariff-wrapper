@@ -292,6 +292,19 @@ if ( isset( $GLOBALS['shariff3UU']['version'] ) && -1 === version_compare( $GLOB
 }
 
 /**
+ * Migration < 4.5
+ */
+if ( isset( $GLOBALS['shariff3UU']['version'] ) && -1 === version_compare( $GLOBALS['shariff3UU']['version'], '4.5.0' ) ) {
+	// Update language settings.
+	if ( ! isset( $GLOBALS['shariff3UU_design']['lang'] ) ) {
+		$GLOBALS['shariff3UU_design']['autolang'] = 1;
+		$GLOBALS['shariff3UU_design']['lang']     = substr( get_locale(), 0, 2 );
+	}
+	// Update version.
+	$GLOBALS['shariff3UU']['version'] = '4.5.0';
+}
+
+/**
  * General tasks we do on every update, like clean up transients and so on.
  */
 
