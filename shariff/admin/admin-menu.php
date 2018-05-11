@@ -62,8 +62,7 @@ function shariff3uu_options_init() {
 	'shariff3uu_basic_section_callback', 'basic' );
 
 	// Services.
-	add_settings_field( 'shariff3uu_text_services', '<div style="width:450px">' . esc_html__( 'Enable the following services in the provided order:', 'shariff' ) . '</div>',
-	'shariff3uu_text_services_render', 'basic', 'shariff3uu_basic_section' );
+	add_settings_field( 'shariff3uu_text_services', '<div style="width:450px">' . __( 'Enable the following services in the provided order:', 'shariff' ) . '</div>', 'shariff3uu_text_services_render', 'basic', 'shariff3uu_basic_section' );
 
 	// Add after.
 	add_settings_field( 'shariff3uu_multiplecheckbox_add_after', __( 'Add the Shariff buttons <u>after</u> all:', 'shariff' ),
@@ -81,18 +80,27 @@ function shariff3uu_options_init() {
 	add_settings_field( 'shariff3uu_checkbox_disable_outside_loop', __( 'Disable the Shariff buttons outside of the main loop.', 'shariff' ),
 	'shariff3uu_checkbox_disable_outside_loop_render', 'basic', 'shariff3uu_basic_section' );
 
+	// Add to custom WordPress hooks.
+	add_settings_field( 'shariff3uu_text_custom_hooks', __( 'Add Shariff to the following custom WordPress hooks:', 'shariff' ), 'shariff3uu_text_custom_hooks_render', 'basic', 'shariff3uu_basic_section' );
+
+	// Shortcode to use for custom hook.
+	add_settings_field( 'shariff3uu_text_custom_hooks_shortcode', __( 'Use the following shortcode for the custom hooks:', 'shariff' ), 'shariff3uu_text_custom_hooks_shortcode_render', 'basic', 'shariff3uu_basic_section' );
+
 	/** Second tab - design */
 
 	// Registers second tab (design) settings and calls sanitize function.
 	register_setting( 'design', 'shariff3uu_design', 'shariff3uu_design_sanitize' );
 
 	// Second tab - design options.
-	add_settings_section( 'shariff3uu_design_section', __( 'Design options', 'shariff' ),
-	'shariff3uu_design_section_callback', 'design' );
+	add_settings_section( 'shariff3uu_design_section', __( 'Design options', 'shariff' ), 'shariff3uu_design_section_callback', 'design' );
 
 	// Button language.
-	add_settings_field( 'shariff3uu_select_language', '<div style="width:450px">' . esc_html__( 'Shariff button language:', 'shariff' ) . '</div>',
+	add_settings_field( 'shariff3uu_select_language', '<div style="width:450px">' . esc_html__( 'Default button language:', 'shariff' ) . '</div>',
 	'shariff3uu_select_language_render', 'design', 'shariff3uu_design_section' );
+
+	// Automatic button language for multilingual sites.
+	add_settings_field( 'shariff3uu_checkbox_autolang', __( 'Automatically set button language based on locale (e.g. set by WPML).', 'shariff' ),
+	'shariff3uu_checkbox_autolang_render', 'design', 'shariff3uu_design_section' );
 
 	// Theme.
 	add_settings_field( 'shariff3uu_radio_theme', __( 'Shariff button design:', 'shariff' ),
@@ -134,6 +142,10 @@ function shariff3uu_options_init() {
 	add_settings_field( 'shariff3uu_text_headline', __( 'Headline above all Shariff buttons:', 'shariff' ),
 	'shariff3uu_text_headline_render', 'design', 'shariff3uu_design_section' );
 
+	// Alternative headline if share counts are zero.
+	add_settings_field( 'shariff3uu_text_headline_zero', __( 'Alternative headline, if share counts are zero:', 'shariff' ),
+	'shariff3uu_text_headline_zero_render', 'design', 'shariff3uu_design_section' );
+
 	// Custom css.
 	add_settings_field( 'shariff3uu_text_style', __( 'Custom CSS <u>attributes</u> for the container <u>around</u> Shariff:', 'shariff' ),
 	'shariff3uu_text_style_render', 'design', 'shariff3uu_design_section' );
@@ -161,12 +173,12 @@ function shariff3uu_options_init() {
 
 	// Info url.
 	add_settings_field(
-		'shariff3uu_text_info_url', '<div style="width:450px">' . esc_html__( 'Custom link for the info button:', 'shariff' ) . '</div>',
+		'shariff3uu_text_info_url', '<div style="width:450px">' . __( 'Custom link for the info button:', 'shariff' ) . '</div>',
 	'shariff3uu_text_info_url_render', 'advanced', 'shariff3uu_advanced_section' );
 
 	// Info text.
 	add_settings_field(
-		'shariff3uu_text_info_text', '<div style="width:450px">' . esc_html__( 'Custom text for the info button:', 'shariff' ) . '</div>',
+		'shariff3uu_text_info_text', __( 'Custom text for the info button:', 'shariff' ),
 	'shariff3uu_text_info_text_render', 'advanced', 'shariff3uu_advanced_section' );
 
 	// Twitter via.
@@ -226,7 +238,7 @@ function shariff3uu_options_init() {
 	'shariff3uu_statistic_section_callback', 'statistic' );
 
 	// Statistic.
-	add_settings_field( 'shariff3uu_checkbox_backend', '<div style="width:450px">' . esc_html__( 'Enable statistic.', 'shariff' ) . '</div>',
+	add_settings_field( 'shariff3uu_checkbox_backend', '<div style="width:450px">' . __( 'Enable statistic.', 'shariff' ) . '</div>',
 	'shariff3uu_checkbox_backend_render', 'statistic', 'shariff3uu_statistic_section' );
 
 	// Share counts.
@@ -329,6 +341,12 @@ function shariff3uu_basic_sanitize( $input ) {
 	if ( isset( $input['disable_outside_loop'] ) ) {
 		$valid['disable_outside_loop'] = absint( $input['disable_outside_loop'] );
 	}
+	if ( isset( $input['custom_hooks'] ) ) {
+		$valid['custom_hooks'] = sanitize_text_field( $input['custom_hooks'] );
+	}
+	if ( isset( $input['custom_hooks_shortcode'] ) ) {
+		$valid['custom_hooks_shortcode'] = sanitize_text_field( $input['custom_hooks_shortcode'] );
+	}
 
 	// Remove empty elements.
 	$valid = array_filter( $valid );
@@ -349,6 +367,9 @@ function shariff3uu_design_sanitize( $input ) {
 
 	if ( isset( $input['lang'] ) ) {
 		$valid['lang'] = sanitize_text_field( $input['lang'] );
+	}
+	if ( isset( $input['autolang'] ) ) {
+		$valid['autolang'] = absint( $input['autolang'] );
 	}
 	if ( isset( $input['theme'] ) ) {
 		$valid['theme'] = sanitize_text_field( $input['theme'] );
@@ -384,6 +405,9 @@ function shariff3uu_design_sanitize( $input ) {
 	}
 	if ( isset( $input['headline'] ) ) {
 		$valid['headline'] = wp_kses( $input['headline'], $GLOBALS['allowed_tags'] );
+	}
+	if ( isset( $input['headline_zero'] ) ) {
+		$valid['headline_zero'] = wp_kses( $input['headline_zero'], $GLOBALS['allowed_tags'] );
 	}
 	if ( isset( $input['hideuntilcss'] ) ) {
 		$valid['hideuntilcss'] = absint( $input['hideuntilcss'] );
@@ -561,9 +585,11 @@ function shariff3uu_text_services_render() {
 	} else {
 		$services = '';
 	}
-	echo '<input type="text" name="shariff3uu_basic[services]" value="' . esc_html( $services ) . '" size="75" placeholder="twitter|facebook|googleplus|info">';
-	echo '<p><code>addthis|bitcoin|diaspora|facebook|flattr|flipboard|googleplus|info|linkedin|mailto|mastodon|odnoklassniki|patreon|paypal|paypalme</code></p>';
-	echo '<p><code>pinterest|pocket|printer|qzone|reddit|rss|sms|stumbleupon|telegram|tencentweibo|threema|tumblr|twitter|vk|wallabag|weibo|whatsapp|xing</code></p>';
+	echo '<input type="text" name="shariff3uu_basic[services]" value="' . esc_html( $services ) . '" size="90" placeholder="twitter|facebook|googleplus|info">';
+	echo '<p><code>addthis|bitcoin|diaspora|facebook|flattr|flipboard|googleplus|info|linkedin|mailto</code></p>';
+	echo '<p><code>mastodon|odnoklassniki|patreon|paypal|paypalme|pinterest|pocket|printer|qzone|reddit</code></p>';
+	echo '<p><code>rss|sms|stumbleupon|telegram|tencentweibo|threema|tumblr|twitter|vk|wallabag|weibo</code></p>';
+	echo '<p><code>whatsapp|xing</code></p>';
 	echo '<p>' . esc_html__( 'Use the pipe sign | (Alt Gr + &lt; or &#8997; + 7) between two or more services.', 'shariff' ) . '</p>';
 }
 
@@ -689,6 +715,31 @@ function shariff3uu_checkbox_disable_outside_loop_render() {
 	echo ' value="1">';
 }
 
+/**
+ * Custom hooks.
+ */
+function shariff3uu_text_custom_hooks_render() {
+	if ( isset( $GLOBALS['shariff3uu_basic']['custom_hooks'] ) ) {
+		$custom_hooks = $GLOBALS['shariff3uu_basic']['custom_hooks'];
+	} else {
+		$custom_hooks = '';
+	}
+	echo '<input type="text" name="shariff3uu_basic[custom_hooks]" value="' . esc_html( $custom_hooks ) . '" size="90" placeholder="' . esc_html__( 'some_custom_wordpress_hook|some_other_custom_wordpress_hook', 'shariff' ) . '">';
+	echo '<p>' . esc_html__( 'Use the pipe sign | (Alt Gr + &lt; or &#8997; + 7) between two or more hooks.', 'shariff' ) . '</p>';
+}
+
+/**
+ * Custom hooks shortcode.
+ */
+function shariff3uu_text_custom_hooks_shortcode_render() {
+	if ( isset( $GLOBALS['shariff3uu_basic']['custom_hooks_shortcode'] ) ) {
+		$custom_hooks_shortcode = $GLOBALS['shariff3uu_basic']['custom_hooks_shortcode'];
+	} else {
+		$custom_hooks_shortcode = '';
+	}
+	echo '<input type="text" name="shariff3uu_basic[custom_hooks_shortcode]" value="' . esc_html( $custom_hooks_shortcode ) . '" size="90" placeholder="[shariff]">';
+}
+
 /** Design options */
 
 /**
@@ -716,33 +767,46 @@ function shariff3uu_design_section_callback() {
 function shariff3uu_select_language_render() {
 	$options = $GLOBALS['shariff3uu_design'];
 	if ( ! isset( $options['lang'] ) ) {
-		$options['lang'] = '';
+		$options['lang'] = substr( get_locale(), 0, 2 );
 	}
 	echo '<select name="shariff3uu_design[lang]">
-	<option value="" ' . selected( $options['lang'], '', 0 ) . '>' . esc_html__( 'auto', 'shariff3uu' ) . '</option>
-	<option value="en" ' . selected( $options['lang'], 'en', 0 ) . '>English</option>
+	<option value="bg" ' . selected( $options['lang'], 'bg', 0 ) . '>български</option>
+	<option value="cs" ' . selected( $options['lang'], 'cs', 0 ) . '>český</option>
+	<option value="da" ' . selected( $options['lang'], 'da', 0 ) . '>Dansk</option>
 	<option value="de" ' . selected( $options['lang'], 'de', 0 ) . '>Deutsch</option>
-	<option value="fr" ' . selected( $options['lang'], 'fr', 0 ) . '>Français</option>
+	<option value="en" ' . selected( $options['lang'], 'en', 0 ) . '>English</option>
 	<option value="es" ' . selected( $options['lang'], 'es', 0 ) . '>Español</option>
-	<option value="zh" ' . selected( $options['lang'], 'zh', 0 ) . '>Chinese</option>
-	<option value="hr" ' . selected( $options['lang'], 'hr', 0 ) . '>Croatian</option>
-	<option value="da" ' . selected( $options['lang'], 'da', 0 ) . '>Danish</option>
-	<option value="nl" ' . selected( $options['lang'], 'nl', 0 ) . '>Dutch</option>
 	<option value="fi" ' . selected( $options['lang'], 'fi', 0 ) . '>Finnish</option>
+	<option value="fr" ' . selected( $options['lang'], 'fr', 0 ) . '>Français</option>
+	<option value="hr" ' . selected( $options['lang'], 'hr', 0 ) . '>Croatian</option>
+	<option value="hu" ' . selected( $options['lang'], 'hu', 0 ) . '>Magyar</option>
 	<option value="it" ' . selected( $options['lang'], 'it', 0 ) . '>Italiano</option>
-	<option value="ja" ' . selected( $options['lang'], 'ja', 0 ) . '>Japanese</option>
-	<option value="ko" ' . selected( $options['lang'], 'ko', 0 ) . '>Korean</option>
-	<option value="no" ' . selected( $options['lang'], 'no', 0 ) . '>Norwegian</option>
-	<option value="pl" ' . selected( $options['lang'], 'pl', 0 ) . '>Polish</option>
-	<option value="pt" ' . selected( $options['lang'], 'pt', 0 ) . '>Portuguese</option>
-	<option value="ro" ' . selected( $options['lang'], 'ro', 0 ) . '>Romanian</option>
-	<option value="ru" ' . selected( $options['lang'], 'ru', 0 ) . '>Russian</option>
-	<option value="sk" ' . selected( $options['lang'], 'sk', 0 ) . '>Slovak</option>
-	<option value="sl" ' . selected( $options['lang'], 'sl', 0 ) . '>Slovene</option>
-	<option value="sr" ' . selected( $options['lang'], 'sr', 0 ) . '>Serbian</option>
-	<option value="sv" ' . selected( $options['lang'], 'sv', 0 ) . '>Swedish</option>
-	<option value="tr" ' . selected( $options['lang'], 'tr', 0 ) . '>Turkish</option>
+	<option value="ja" ' . selected( $options['lang'], 'ja', 0 ) . '>日本語</option>
+	<option value="ko" ' . selected( $options['lang'], 'ko', 0 ) . '>한국어</option>
+	<option value="nl" ' . selected( $options['lang'], 'nl', 0 ) . '>Nederlands</option>
+	<option value="no" ' . selected( $options['lang'], 'no', 0 ) . '>Norsk</option>
+	<option value="pl" ' . selected( $options['lang'], 'pl', 0 ) . '>Polskie</option>
+	<option value="pt" ' . selected( $options['lang'], 'pt', 0 ) . '>Português</option>
+	<option value="ro" ' . selected( $options['lang'], 'ro', 0 ) . '>Română</option>
+	<option value="ru" ' . selected( $options['lang'], 'ru', 0 ) . '>Pусский</option>
+	<option value="sk" ' . selected( $options['lang'], 'sk', 0 ) . '>Slovenský</option>
+	<option value="sl" ' . selected( $options['lang'], 'sl', 0 ) . '>Slovenščina</option>
+	<option value="sr" ' . selected( $options['lang'], 'sr', 0 ) . '>Српски</option>
+	<option value="sv" ' . selected( $options['lang'], 'sv', 0 ) . '>Svenska</option>
+	<option value="tr" ' . selected( $options['lang'], 'tr', 0 ) . '>Türk</option>
+	<option value="zh" ' . selected( $options['lang'], 'zh', 0 ) . '>中文</option>
 	</select>';
+}
+
+/**
+ * Automatic button language.
+ */
+function shariff3uu_checkbox_autolang_render() {
+	echo '<input type="checkbox" name="shariff3uu_design[autolang]" ';
+	if ( isset( $GLOBALS['shariff3uu_design']['autolang'] ) ) {
+		echo checked( $GLOBALS['shariff3uu_design']['autolang'], 1, 0 );
+	}
+	echo ' value="1">';
 }
 
 /**
@@ -815,7 +879,6 @@ function shariff3uu_checkbox_buttonsize_render() {
  * Button stretch.
  */
 function shariff3uu_checkbox_buttonstretch_render() {
-	$plugins_url = plugins_url();
 	echo '<input type="checkbox" name="shariff3uu_design[buttonstretch]" ';
 	if ( isset( $GLOBALS['shariff3uu_design']['buttonstretch'] ) ) {
 		echo checked( $GLOBALS['shariff3uu_design']['buttonstretch'], 1, 0 );
@@ -913,9 +976,24 @@ function shariff3uu_text_headline_render() {
 	echo esc_html__( 'Basic HTML as well as style and class attributes are allowed. You can use %total to show the total amount of shares.', 'shariff' );
 	echo '<br>';
 	echo esc_html__( 'Example:', 'shariff' );
-	echo '<code>&lt;h3 class="shariff_headline"&gt;';
+	echo ' <code>&lt;h3 class="shariff_headline"&gt;';
 	echo esc_html__( 'Already shared %total times!', 'shariff' );
 	echo '&lt;/h3&gt;</code></p>';
+}
+
+/**
+ * Alternative headline.
+ */
+function shariff3uu_text_headline_zero_render() {
+	if ( isset( $GLOBALS['shariff3uu_design']['headline_zero'] ) ) {
+		$headline_zero = $GLOBALS['shariff3uu_design']['headline_zero'];
+	} else {
+		$headline_zero = '';
+	}
+	echo '<input type="text" name="shariff3uu_design[headline_zero]" value="' . esc_html( $headline_zero ) . '" size="50" placeholder="' . esc_html__( 'Be the first one to share this post!', 'shariff' ) . '">';
+	echo '<p>';
+	echo esc_html__( 'Same rules as for the default headline. Leave empty to keep the same headline in all cases.', 'shariff' );
+	echo '</p>';
 }
 
 /**
@@ -1814,27 +1892,27 @@ function shariff3uu_ranking_section_callback() {
 
 	// Intro text.
 	echo '<p>';
-		echo esc_html__( 'The following tables shows the ranking of your last 100 posts and pages in descending order by total share counts. To prevent slow loading times only cached data is being used. Therefore, you may see blank entries for posts that have not been visited by anyone since the last update or activation of Shariff Wrapper. You can simply visit the respective post yourself in order to have the share counts fetched.', 'shariff' );
+	echo esc_html__( 'The following tables shows the ranking of your last 100 posts, pages and, if applicable, products in descending order by total share counts. To prevent slow loading times only cached data is being used. Therefore, you may see blank entries for posts that have not been visited by anyone since the last update or activation of Shariff Wrapper. You can simply visit the respective post yourself in order to have the share counts fetched.', 'shariff' );
 	echo '</p>';
 
 	// Warning if statistic has been disabled.
 	if ( ! isset( $GLOBALS['shariff3uu']['backend'] ) ) {
 		echo '<p>';
-			echo '<span style="color: red; font-weight: bold;">';
-				echo esc_html__( 'Warning:', 'shariff' );
-			echo '</span> ';
-			echo esc_html__( 'The statistic option has been disabled on the statistic tab. Share counts will not get updated!', 'shariff' );
+		echo '<span style="color: red; font-weight: bold;">';
+		echo esc_html__( 'Warning:', 'shariff' );
+		echo '</span> ';
+		echo esc_html__( 'The statistic option has been disabled on the statistic tab. Share counts will not get updated!', 'shariff' );
 		echo '</p>';
 	}
 
 	// Begin ranking table.
 	echo '<div style="display:table;background-color:#fff">';
-		// Head.
-		echo '<div style="display:table-row">';
-			echo '<div style="display:table-cell;font-weight:bold;border:1px solid;padding:10px">' . esc_html__( 'Rank', 'shariff' ) . '</div>';
-			echo '<div style="display:table-cell;font-weight:bold;border:1px solid;padding:10px">' . esc_html__( 'Post', 'shariff' ) . '</div>';
-			echo '<div style="display:table-cell;font-weight:bold;border:1px solid;padding:10px;text-align:center">' . esc_html__( 'Date', 'shariff' ) . '</div>';
-			echo '<div style="display:table-cell;font-weight:bold;border:1px solid;padding:10px;text-align:center">' . esc_html__( 'Time', 'shariff' ) . '</div>';
+	// Head.
+	echo '<div style="display:table-row">';
+	echo '<div style="display:table-cell;font-weight:bold;border:1px solid;padding:10px">' . esc_html__( 'Rank', 'shariff' ) . '</div>';
+	echo '<div style="display:table-cell;font-weight:bold;border:1px solid;padding:10px">' . esc_html__( 'Post', 'shariff' ) . '</div>';
+	echo '<div style="display:table-cell;font-weight:bold;border:1px solid;padding:10px;text-align:center">' . esc_html__( 'Date', 'shariff' ) . '</div>';
+	echo '<div style="display:table-cell;font-weight:bold;border:1px solid;padding:10px;text-align:center">' . esc_html__( 'Time', 'shariff' ) . '</div>';
 	foreach ( $services as $service => $nothing ) {
 		echo '<div style="display:table-cell;font-weight:bold;border:1px solid;padding:10px;text-align:center;">' . esc_html( ucfirst( $service ) ) . '</div>';
 	}
@@ -1843,7 +1921,7 @@ function shariff3uu_ranking_section_callback() {
 	// Posts.
 	$rank = '0';
 	foreach ( $posts as $post => $value ) {
-		$rank++;
+		$rank ++;
 		echo '<div style="display:table-row">';
 		echo '<div style="display:table-cell;border:1px solid;padding:10px;text-align:center">' . absint( $rank ) . '</div>';
 		echo '<div style="display:table-cell;border:1px solid;padding:10px"><a href="' . esc_url( $value['url'] ) . '" target="_blank">' . esc_html( wp_strip_all_tags( $value['title'] ) ) . '</a></div>';
@@ -1929,7 +2007,6 @@ function shariff3uu_ranking_section_callback() {
 	}
 	array_multisort( $tmp, SORT_DESC, $tmp2, SORT_DESC, $posts );
 
-	// Intro text.
 	echo '<p></p>';
 
 	// Warning if statistic has been disabled.
@@ -1958,7 +2035,7 @@ function shariff3uu_ranking_section_callback() {
 	// Pages.
 	$rank = '0';
 	foreach ( $posts as $post => $value ) {
-		$rank++;
+		$rank ++;
 		echo '<div style="display:table-row">';
 		echo '<div style="display:table-cell;border:1px solid;padding:10px;text-align:center">' . absint( $rank ) . '</div>';
 		echo '<div style="display:table-cell;border:1px solid;padding:10px"><a href="' . esc_url( $value['url'] ) . '" target="_blank">' . esc_html( $value['title'] ) . '</a></div>';
@@ -1980,6 +2057,122 @@ function shariff3uu_ranking_section_callback() {
 		echo '</div>';
 	}
 	echo '</div>';
+
+	// Clear  arrays.
+	$posts    = array();
+	$services = array();
+
+	// Set arguments for wp_get_recent_posts().
+	$args = array(
+		'numberposts' => $numberposts,
+		'orderby'     => 'post_date',
+		'order'       => 'DESC',
+		'post_status' => 'publish',
+		'post_type'   => 'product',
+	);
+
+	// Catch last 100 pages or whatever number is set for it.
+	$recent_posts = wp_get_recent_posts( $args );
+	if ( $recent_posts ) {
+		foreach ( $recent_posts as $recent ) {
+			// Get URL.
+			$url      = get_permalink( $recent['ID'] );
+			$post_url = rawurlencode( $url );
+			// Set transient name.
+			$post_hash = 'shariff' . hash( 'md5', $post_url );
+			// Get share counts from cache.
+			if ( get_transient( $post_hash ) !== false ) {
+				$share_counts = get_transient( $post_hash );
+				$services     = array_merge( $services, $share_counts );
+				if ( isset( $share_counts['total'] ) ) {
+					$total = $share_counts['total'];
+				} else {
+					$total = '0';
+				}
+			} else {
+				$share_counts = array();
+				$total        = '';
+			}
+			// Add to array.
+			$posts[ $post_hash ] = array(
+				'url'                => $url,
+				'title'              => $recent['post_title'],
+				'post_date'          => $recent['post_date'],
+				'share_counts'       => $share_counts,
+				'total_share_counts' => $total,
+			);
+		}
+	}
+
+	// Clean up services.
+	unset( $services['total'] );
+	unset( $services['timestamp'] );
+	unset( $services['url'] );
+	ksort( $services );
+
+	// Sort array: first descending using total share counts then descending using post date.
+	$tmp  = array();
+	$tmp2 = array();
+	foreach ( $posts as &$ma ) {
+		$tmp[] = &$ma['total_share_counts'];
+	}
+	foreach ( $posts as &$ma2 ) {
+		$tmp2[] = &$ma2['post_date'];
+	}
+	array_multisort( $tmp, SORT_DESC, $tmp2, SORT_DESC, $posts );
+
+	echo '<p></p>';
+
+	// Warning if statistic has been disabled.
+	if ( ! isset( $GLOBALS['shariff3uu']['backend'] ) ) {
+		echo '<p>';
+		echo '<span style="color: red; font-weight: bold;">';
+		echo esc_html__( 'Warning:', 'shariff' );
+		echo '</span> ';
+		echo esc_html__( 'The statistic option has been disabled on the statistic tab. Share counts will not get updated!', 'shariff' );
+		echo '</p>';
+	}
+
+	if ( ! empty( $services ) ) {
+		// Begin ranking table.
+		echo '<div style="display:table;background-color:#fff">';
+		// Head.
+		echo '<div style="display:table-row">';
+		echo '<div style="display:table-cell;font-weight:bold;border:1px solid;padding:10px">' . esc_html__( 'Rank', 'shariff' ) . '</div>';
+		echo '<div style="display:table-cell;font-weight:bold;border:1px solid;padding:10px">' . esc_html__( 'Product', 'shariff' ) . '</div>';
+		echo '<div style="display:table-cell;font-weight:bold;border:1px solid;padding:10px;text-align:center">' . esc_html__( 'Date', 'shariff' ) . '</div>';
+		echo '<div style="display:table-cell;font-weight:bold;border:1px solid;padding:10px;text-align:center">' . esc_html__( 'Time', 'shariff' ) . '</div>';
+		foreach ( $services as $service => $nothing ) {
+			echo '<div style="display:table-cell;font-weight:bold;border:1px solid;padding:10px;text-align:center;">' . esc_html( ucfirst( $service ) ) . '</div>';
+		}
+		echo '<div style="display:table-cell;border:1px solid;padding:10px;font-weight:bold">' . esc_html__( 'Total', 'shariff' ) . '</div>';
+		echo '</div>';
+		// Pages.
+		$rank = '0';
+		foreach ( $posts as $post => $value ) {
+			$rank ++;
+			echo '<div style="display:table-row">';
+			echo '<div style="display:table-cell;border:1px solid;padding:10px;text-align:center">' . absint( $rank ) . '</div>';
+			echo '<div style="display:table-cell;border:1px solid;padding:10px"><a href="' . esc_url( $value['url'] ) . '" target="_blank">' . esc_html( $value['title'] ) . '</a></div>';
+			echo '<div style="display:table-cell;border:1px solid;padding:10px">' . esc_html( mysql2date( 'd.m.Y', $value['post_date'] ) ) . '</div>';
+			echo '<div style="display:table-cell;border:1px solid;padding:10px">' . esc_html( mysql2date( 'H:i', $value['post_date'] ) ) . '</div>';
+			// Share counts.
+			foreach ( $services as $service => $nothing ) {
+				echo '<div style="display:table-cell;border:1px solid;padding:10px;text-align:center">';
+				if ( isset( $value['share_counts'][ $service ] ) ) {
+					echo absint( $value['share_counts'][ $service ] );
+				}
+				echo '</div>';
+			}
+			echo '<div style="display:table-cell;border:1px solid;padding:10px;text-align:center">';
+			if ( isset( $value['share_counts']['total'] ) ) {
+				echo absint( $value['share_counts']['total'] );
+			}
+			echo '</div>';
+			echo '</div>';
+		}
+		echo '</div>';
+	}
 }
 
 /**
