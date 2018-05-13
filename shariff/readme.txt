@@ -357,3 +357,9 @@ These are bugs or unexpected glitches that we know of, but that do not have an i
 - code cleanup
 
 The complete changelog can be found here: https://plugins.svn.wordpress.org/shariff/trunk/changelog.txt
+
+== Upgrade Notice ==
+
+= 4.3.0 =
+
+new service Odnoklassniki (thanks to rockhit), many new options and fixes
