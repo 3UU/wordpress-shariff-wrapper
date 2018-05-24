@@ -148,7 +148,7 @@ class Shariff_Widget extends WP_Widget {
 			// Replace brackets [ and ] with ( and ).
 			$page_title = str_replace( '[', '(', $page_title );
 			$page_title = str_replace( ']', ')', $page_title );
-			$page_title = ' title="' . $page_title . '"';
+			$page_title = ' title="' . html_entity_decode( wp_strip_all_tags( $page_title ), ENT_COMPAT, 'UTF-8' ) . '"';
 		}
 
 		// Same for media.
