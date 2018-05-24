@@ -1560,7 +1560,7 @@ function shariff3uu_help_section_callback() {
 		// Language.
 		echo '<div style="display:table-row">';
 			echo '<div style="display:table-cell;border:1px solid;padding:10px">language</div>';
-			echo '<div style="display:table-cell;border:1px solid;padding:10px">da, de, en, es, fi, fr, hr, hu, it, ja, ko, nl, no, pl, pt, ro, ru, sk, sl, sr, sv, tr, zh</div>';
+			echo '<div style="display:table-cell;border:1px solid;padding:10px">bg, cs, da, de, en, es, fi, fr, hr, hu, it, ja, ko, nl, no, pl, pt, ro, ru, sk, sl, sr, sv, tr, zh</div>';
 			echo '<div style="display:table-cell;border:1px solid;padding:10px">' . esc_html__( 'Automatically selected by browser.', 'shariff' ) . '</div>';
 			echo '<div style="display:table-cell;border:1px solid;padding:10px">[shariff lang="de"]</div>';
 			echo '<div style="display:table-cell;border:1px solid;padding:10px">' . esc_html__( 'Changes the language of the share buttons.', 'shariff' ) . '</div>';

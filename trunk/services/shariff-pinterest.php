@@ -11,23 +11,19 @@ if ( ! class_exists( 'WP' ) ) {
 }
 
 // Check if function catch_image exists.
-if ( ! function_exists( 'catch_image' ) ) {
+if ( ! function_exists( 'shariff3uu_catch_image' ) ) {
 	/**
 	 * Helper function to get the first image of a post.
 	 */
-	function catch_image() {
-		// @codingStandardsIgnoreStart
-		$files = get_children( 'post_parent=' . get_the_ID() . '&post_type=attachment&post_mime_type=image' );
-		// @codingStandardsIgnoreEnd
-		if ( $files ) {
-			$keys     = array_reverse( array_keys( $files ) );
-			$num      = $keys[0];
-			$imageurl = wp_get_attachment_url( $num );
-			return $imageurl;
+	function shariff3uu_catch_image() {
+		$result = preg_match_all( '/<img.+src=[\'"]([^\'"]+)[\'"].*>/i', get_post_field( 'post_content', get_the_ID() ), $matches );
+		if ( array_key_exists( 0, $matches[1] ) ) {
+			return $matches[1][0];
+		} else {
+			return '';
 		}
-		return '';
-	}
-}
+	};
+};
 
 // Check if we need the frontend or the backend part.
 if ( isset( $frontend ) && 1 === $frontend ) {
@@ -44,14 +40,14 @@ if ( isset( $frontend ) && 1 === $frontend ) {
 				if ( ! empty( $feat_image ) ) {
 					$share_media = esc_html( $feat_image );
 				} else {
-					$first_image = catch_image();
+					$first_image = shariff3uu_catch_image();
 					if ( ! empty( $first_image ) ) {
 						$share_media = esc_html( $first_image );
 					} else {
 						if ( isset( $shariff3uu['default_pinterest'] ) ) {
 							$share_media = $shariff3uu['default_pinterest'];
 						} else {
-							$share_media = plugins_url( '../pictos/defaultHint.png', __FILE__ );
+							$share_media = plugins_url( '/images/defaultHint.png', dirname( __FILE__ ) );
 						}
 					}
 				}
