@@ -19,6 +19,16 @@ If you need any help or have specific questions regarding development and contri
 
 ## Changelog
 
+= 4.5.2 =
+- added support for share count requests of multilingual sites
+- updated button translations for Twitter and Pinterest (thanks to Jessica, @jess78)
+- updated to Facebook Graph API v3.0
+
+= 4.5.1 =
+- added support for the new WordPress Privacy Policy Guide added in 4.9.6
+- minor css adjustments
+- minor bug fixes
+
 = 4.5.0 =
 - new option to add Shariff to custom WordPress hooks
 - new option to support multilingual sites using WPML and other plugins

@@ -1,10 +1,10 @@
 === Shariff Wrapper ===
 Contributors: starguide, 3UU
 Tags: Shariff, GDPR, DSGVO, share buttons, sharing
-Requires at least: 4.9
+Requires at least: 4.7
 Requires PHP: 5.6
 Tested up to: 4.9
-Stable tag: 4.5.0
+Stable tag: 4.5.2
 License: MIT
 License URI: http://opensource.org/licenses/mit
 
@@ -12,7 +12,7 @@ Shariff provides share buttons that respect the privacy of your visitors and fol
 
 == Description ==
 
-The "original" share buttons automatically transmit data of your visitors to the social network sites as soon as they visit your website. They do not need to click on a share button for this and therefore have no choice, if they want their data to be send. The German computer magazine c't has developed "Shariff" `(ʃɛɹɪf)` that follows the General Data Protection Regulation (GDPR - Regulation (EU) 2016/679). This plugin adapts the Shariff concept and provides an easy to use solution for WordPress. We currently support 32 services: AddThis, Bitcoin, Diaspora, Facebook, Flattr, Flipboard, GooglePlus, LinkedIn, mailto, Mastodon, Odnoklassniki, Patreon, PayPal, PayPal.me, Pinterest, Pocket, Printer, Qzone, Reddit, RSS, SMS, Stumbleupon, Telegram, TencentWeibo, Threema, Tumblr, Twitter, VK, Wallabag, Weibo, WhatsApp, Xing.
+The "original" share buttons automatically transmit data of your visitors to the social network sites as soon as they visit your website. They do not need to click on a share button for this and therefore have no choice, if they want their data to be send. The German computer magazine c't has developed "Shariff" `(ʃɛɹɪf)` that follows the General Data Protection Regulation (GDPR - Regulation (EU) 2016/679). This plugin adapts the Shariff concept and provides an easy to use solution for WordPress. We currently support 32 services in 25 languages: AddThis, Bitcoin, Diaspora, Facebook, Flattr, Flipboard, GooglePlus, LinkedIn, mailto, Mastodon, Odnoklassniki, Patreon, PayPal, PayPal.me, Pinterest, Pocket, Printer, Qzone, Reddit, RSS, SMS, Stumbleupon, Telegram, TencentWeibo, Threema, Tumblr, Twitter, VK, Wallabag, Weibo, WhatsApp, Xing.
 
 For more information about the Shariff project check out the original [GitHub project](https://github.com/heiseonline/shariff) and read about the project itself [c’t information page](http://ct.de/shariff) (in German).
 
@@ -28,14 +28,11 @@ To enable it for all posts please check the options in the plugin settings.
 
 == Screenshots ==
 
-1. Differently styled share buttons (all small).
+1. Differently styled share buttons.
 2. Basic options.
 3. Design options.
 4. Advanced options.
-5. Mail form options.
-6. Help section.
-7. Manual shorttag with options in a post.
-8. Widget menu. Shorttag works like in posts.
+5. Statistic options.
 
 == Frequently Asked Questions ==
 
@@ -122,24 +119,11 @@ A: You can use the "url" parameter within the shortcode
 `[shariff url="http://www.example.com/"]`
 This is also available within widgets. However, it is not a good idea to manipulate the URI, because it could mislead your visitors. So you should only use it, if this is really needed and you do really know what you are doing. Therefore it is not available on the plugin options page in general. 
 
-= Q: What is the difference between the services `mailform` and `mailto´? =
-A: mailform will provide an e-mail form on top of the post or page and mailto will draw a link with the mailto-protocol to open the default e-mail application of the client.
-
-= Q: What happened to `mail`? =
-A: mail was replaced with mailform to provide an easier way of distinguishing between the two types of mail buttons.
-
-= Q: Can I disable the mail form completely? =
-A: Yes, take a look at the Mail Form tab on the plugin options page.
-
 = Q: What happened to the Twitter share counts and what is OpenShareCount? =
 A: Please read: https://www.jplambeck.de/twitter-saveoursharecounts/
 
 = Q: The buttons are not correctly being shown on my custom theme! =
 A: Please make sure that wp_footer(); has been added to your theme. For more information please visit: https://codex.wordpress.org/Function_Reference/wp_footer
-
-= EXPERIMENTAL FEATURES =
-
-Features marked as "experimental" in the admin menu are experimental! This means: We think it is a good extension to our plugin that we would like to include in a future version, but we are not sure yet about the best solution that works for all or most people. So please feel free to use and test it and report back to us about it. Experimental features might be removed in an update, if it does not work out. So please pay close attention to our changelog!
 
 = Q: What is the external API feature? =
 A: First of all: Usually you do not need it! The plugin requests all share counts itself. However, there are some reasons to put the backend on another server:
@@ -157,7 +141,7 @@ But please have in mind that there are also some good reasons not to use externa
 A: In the statistic settings fill in the URL to the API of the external server. For the WordPress installation on the external server you have to create a "constant" called SHARIFF_FRONTENDS to permit other domains to use it. Please have in mind that you have to fill in all subdomains you want to use! The domains must be defined like this:
 `define( 'SHARIFF_FRONTENDS', 'example.com|www.example.com|blog.example.com|another-domain.com' );`
 
-= Q: What does "Request external API directly." means? =
+= Q: What does "Request external API directly." mean? =
 A: By default, the browser request the share counts from the server your site is running on. If you have entered an external API your server will then request the counts from this external API instead of fetching them itself. Therefore, the external server will only see the IP from your server and not the one from your visitors. If you check this option, the browser of your visitors will instead directly request the share counts from the external API and therefore reveal their IP address to them. This might be faster, but it is less secure. Please also make sure to set the Access-Control-Allow-Origin header right. If your site is available using https, your external API will need to be reached by https as well. Otherwise the request will get blocked for security reasons. All options and features (e.g. the ranking tab) regarding the statistic will only work on the external server.
 
 = KNOWN BUGS =
@@ -167,6 +151,16 @@ These are bugs or unexpected glitches that we know of, but that do not have an i
 - If the first post on the start page is password protected and Shariff is disabled on protected posts, a widget at the end of the loop will not be rendered.
 
 == Changelog ==
+
+= 4.5.2 =
+- added support for share count requests of multilingual sites
+- updated button translations for Twitter and Pinterest (thanks to Jessica, @jess78)
+- updated to Facebook Graph API v3.0
+
+= 4.5.1 =
+- added support for the new WordPress Privacy Policy Guide added in 4.9.6
+- minor css adjustments
+- minor bug fixes
 
 = 4.5.0 =
 - new option to add Shariff to custom WordPress hooks
@@ -248,112 +242,5 @@ These are bugs or unexpected glitches that we know of, but that do not have an i
 - reduced changelog on wordpress.org (thanks to timse201)
 - minor css improvements
 - updated help section
-
-= 4.2.1 =
-- fixed WhatsApp button on Android when using Chrome
-- fixed Shariff being added to RSS feeds under certain conditions
-- updated to latest Facebook Graph API for share count requests
-
-= 4.2.0 =
-- new option to set the rate limit for sending mails using the mail form
-- added home url as fallback for share count requests
-- added further anti-spam prevention mechanics
-- added noopener and noreferrer to share links
-- fixed double encoding of share count request links
-- updated media uploader request for translation
-- updated handling of admin notices following WordPress core
-- tested and optimized for WordPress 4.6
-
-= 4.1.2 =
-- new fallback for share count requests in case pretty permalinks are disabled
-- new filter shariff3UU_render_atts to change options on the fly (thx Ov3rfly)
-- fixed share title in cases with html encoded characters
-- fixed double counting on ranking tab under certain conditions
-- fixed php info notice in admin notices
-
-= 4.1.1 =
-- new option to disable the Shariff buttons outside of the main loop
-- fixed Facebook App ID request
-- minor css fix
-
-= 4.1.0 =
-- new design option to set a custom button color for all buttons
-- new design option to set a border radius for the round theme (up to a square)
-- new design option to hide all buttons until the page is fully loaded
-- new mailform option to use a html anchor (again)
-- new statistic option to fill the cache automatically
-- new statistic option to set the amount of posts for the ranking tab
-- new statistic option to use share counts with PHP < 5.4
-- fixed preventing buttons from being added to excerpts under certain conditions
-- fixed url encoding of share count requests
-- improved handling of wrong or mistyped service entries
-- minor bug fixes
-
-= 4.0.8 =
-- new workaround for sites running PHP 5.2 and older
-
-= 4.0.7 =
-- new option for WordPress installations with REST API not reachable in root
-
-= 4.0.6 =
-- fixed an error in combination with bbpress
-- fixed an error on very old PHP versions
-- fixed ranking tab
-- minor css improvements
-
-= 4.0.5 =
-- fixed mail form link
-- fixed xmlns for w3c
-
-= 4.0.4 =
-- removed some remaining wrong text domains for translations
-- minor css fixes
-
-= 4.0.3 =
-- fixed mobile services not showing on certain tablets
-- fixed type error on totalnumber when cache is empty
-- fixed share count requests when WordPress is installed in a subdirectory
-- fixed url encoding of share url, title and media
-- added width and height to SVGs to prevent large initial icons prior to css
-- new classes shariff-buttons and shariff-link added
-- removed local translation files due to switching to wordpress.org language packs
-- minor css resets added
-
-= 4.0.2 =
-- added minor css resets to prevent influence of theme css
-- fixed LinkedIn share link
-
-= 4.0.1 =
-- prevent php warning messages on unsuccessful includes while WP_DEBUG is active
-- changed text domain to match plugin slug
-
-= 4.0.0 =
-- complete overhaul of the plugin core
-- buttons now also work without JavaScript
-- icon font has been removed and replaced with SVGs
-- share counts now use the WP REST API
-- share counts now always show the last cached counts prior to updating them
-- fixed duplicated share count requests
-- new ranking tab shows the shares of your last 100 posts
-- new service pocket
-- new option to show the total amount of shares in the headline with %total
-- new option to use the total amount of shares in your theme (see FAQ)
-- new action hook shariff_share_counts (see FAQ)
-- new option to change the priority of the shortcode filter
-- new support for selective refresh introduced in WP 4.5
-- new external API feature replaces the external host option (experimental, see FAQ)
-- new support for SCRIPT_DEBUG
-- css and js files are now only loaded on pages with Shariff buttons
-- improved compatibility with plugin Autoptimize (force scripts in head)
-- improved compatibility with multiple caching plugins
-- all shortcodes are now being stripped from the mail message body
-- fixed potential double sending of mails
-- removed all jQuery dependencies
-- requires at least WordPress 4.4 (only for share counts)
-- we no longer support IE 8 (if it ever worked)
-- updated status tab
-- updated help section
-- minor bug fixes
-- code cleanup
 
 The complete changelog can be found here: https://plugins.svn.wordpress.org/shariff/trunk/changelog.txt

@@ -3,7 +3,7 @@
  * Plugin Name: Shariff Wrapper
  * Plugin URI: https://wordpress.org/plugins-wp/shariff/
  * Description: Shariff provides share buttons that respect the privacy of your visitors and follow the General Data Protection Regulation (GDPR).
- * Version: 4.5.0
+ * Version: 4.5.2
  * Author: Jan-Peter Lambeck & 3UU
  * Author URI: https://wordpress.org/plugins/shariff/
  * License: MIT
@@ -33,7 +33,7 @@ $shariff3uu = array_merge( $shariff3uu_basic, $shariff3uu_design, $shariff3uu_ad
  */
 function shariff3uu_update() {
 	// Adjust code version.
-	$code_version = '4.5.0';
+	$code_version = '4.5.1';
 
 	// Get options.
 	$shariff3uu = $GLOBALS['shariff3uu'];
@@ -45,6 +45,21 @@ function shariff3uu_update() {
 	}
 }
 add_action( 'admin_init', 'shariff3uu_update' );
+
+/**
+ * Add privacy policy suggestions to WordPress privacy generator introduced in WordPress 4.9.6.
+ */
+function shariff3uu_privacy() {
+	if ( function_exists( 'wp_add_privacy_policy_content' ) ) {
+		$content = __( '<h2>Social Media Plugin "Shariff Wrapper"</h2>
+
+On our website we offer you the possibility to use so called "Social Media Buttons". To protect your data, we use a solution called "Shariff". Hereby the share buttons are implemented as static images, which contain a link to the corresponding social network site. If you click on such a button, you will be redirected to the respective social network site in the same way, as normal links would do as well. Only in that moment of time the provider of the social network site will get information about you, for example your IP address. If you do not click on such a share button, no data will be transmitted. Information about the collection and usage of your date on the social network sites can be found in the corresponding terms of use of the respective provider. More information about the plugin and the Shariff solution can be found here: <a href="https://wordpress.org/plugins/shariff/">https://wordpress.org/plugins/shariff/</a>
+
+On our website we offer share buttons for the following services / companies: AddThis, Diaspora, Facebook, Flattr, Flipboard, GooglePlus, LinkedIn, Mastodon, Odnoklassniki, Patreon, PayPal, Pinterest, Pocket, Qzone, Reddit, Stumbleupon, Telegram, TencentWeibo, Threema, Tumblr, Twitter, VK, Wallabag, Weibo, WhatsApp, Xing.', 'shariff' );
+		wp_add_privacy_policy_content( 'Shariff Wrapper', wp_kses_post( wpautop( $content, false ) ) );
+	}
+}
+add_action( 'admin_init', 'shariff3uu_privacy' );
 
 /** Require Shariff Widget. */
 require dirname( __FILE__ ) . '/includes/class-shariff-widget.php';
@@ -947,7 +962,7 @@ function shariff3uu_render( $atts ) {
 	// Enqueues the stylesheet (loading it here makes sure that it is only loaded on pages that actually contain shariff buttons).
 	// If SCRIPT_DEBUG is set to true, the non minified version will be loaded.
 	if ( defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG === true ) {
-		wp_enqueue_style( 'shariffcss', plugins_url( '/css/shariff.min.css', __FILE__ ), '', $shariff3uu['version'] );
+		wp_enqueue_style( 'shariffcss', plugins_url( '/css/shariff.css', __FILE__ ), '', $shariff3uu['version'] );
 	} else {
 		wp_enqueue_style( 'shariffcss', plugins_url( '/css/shariff.min.css', __FILE__ ), '', $shariff3uu['version'] );
 	}
@@ -983,7 +998,7 @@ function shariff3uu_render( $atts ) {
 	if ( array_key_exists( 'title', $atts ) ) {
 		$share_title = rawurlencode( wp_strip_all_tags( $atts['title'] ) );
 	} else {
-		$share_title = rawurlencode( html_entity_decode( wp_strip_all_tags( get_the_title() ), ENT_COMPAT, 'UTF-8' ) );
+		$share_title = rawurlencode( wp_strip_all_tags( html_entity_decode( get_the_title(), ENT_COMPAT, 'UTF-8' ) ) );
 	}
 
 	// Sets the transient name.
@@ -1089,13 +1104,13 @@ function shariff3uu_render( $atts ) {
 			$output .= ' data-backendurl="' . $shariff3uu['external_host'] . '"';
 		} // Elseif test the subapi setting.
 		elseif ( isset( $shariff3uu['subapi'] ) && 1 === $shariff3uu['subapi'] ) {
-			$output .= ' data-backendurl="' . get_bloginfo( 'wpurl' ) . '/wp-json/shariff/v1/share_counts?"';
+			$output .= ' data-backendurl="' . strtok( get_bloginfo( 'wpurl' ), '?' ) . '/wp-json/shariff/v1/share_counts?"';
 		} // Elseif pretty permalinks are not activated fall back to manual rest route.
 		elseif ( ! get_option( 'permalink_structure' ) ) {
 			$output .= ' data-backendurl="?rest_route=/shariff/v1/share_counts&"';
 		} // Else use the home url.
 		else {
-			$output .= ' data-backendurl="' . rtrim( home_url(), '/' ) . '/wp-json/shariff/v1/share_counts?"';
+			$output .= ' data-backendurl="' . rtrim( strtok( home_url(), '?' ), '/' ) . '/wp-json/shariff/v1/share_counts?"';
 		}
 	}
 	$output .= '>';
@@ -1107,7 +1122,7 @@ function shariff3uu_render( $atts ) {
 		}
 		if ( 0 === $share_counts['total'] && array_key_exists( 'headline_zero', $atts ) && ! empty( $atts['headline_zero'] ) ) {
 			$atts['headline_zero'] = str_replace( '%total', '<span class="shariff-total">' . absint( $share_counts['total'] ) . '</span>', $atts['headline_zero'] );
-			$output .= '<div class="ShariffHeadline">' . $atts['headline_zero'] . '</div>';
+			$output               .= '<div class="ShariffHeadline">' . $atts['headline_zero'] . '</div>';
 		} else {
 			$atts['headline'] = str_replace( '%total', '<span class="shariff-total">' . absint( $share_counts['total'] ) . '</span>', $atts['headline'] );
 			$output          .= '<div class="ShariffHeadline">' . $atts['headline'] . '</div>';

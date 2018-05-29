@@ -148,7 +148,7 @@ class Shariff_Widget extends WP_Widget {
 			// Replace brackets [ and ] with ( and ).
 			$page_title = str_replace( '[', '(', $page_title );
 			$page_title = str_replace( ']', ')', $page_title );
-			$page_title = ' title="' . $page_title . '"';
+			$page_title = ' title="' . wp_strip_all_tags( html_entity_decode( $page_title, ENT_COMPAT, 'UTF-8' ) ) . '"';
 		}
 
 		// Same for media.
@@ -156,8 +156,6 @@ class Shariff_Widget extends WP_Widget {
 		if ( array_key_exists( 'services', $shariff3uu ) && strstr( $shariff3uu['services'], 'pinterest' ) && ( strpos( $original_shorttag, 'media=' ) === false ) ) {
 			if ( isset( $shariff3uu['default_pinterest'] ) ) {
 				$media = ' media="' . $shariff3uu['default_pinterest'] . '"';
-			} else {
-				$media = ' media="' . plugins_url( '/images/defaultHint.png', __FILE__ ) . '"';
 			}
 		}
 
