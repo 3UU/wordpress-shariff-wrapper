@@ -4,7 +4,7 @@ Tags: Shariff, GDPR, DSGVO, share buttons, sharing
 Requires at least: 4.7
 Requires PHP: 5.6
 Tested up to: 4.9
-Stable tag: 4.5.1
+Stable tag: 4.5.2
 License: MIT
 License URI: http://opensource.org/licenses/mit
 
@@ -151,6 +151,11 @@ These are bugs or unexpected glitches that we know of, but that do not have an i
 - If the first post on the start page is password protected and Shariff is disabled on protected posts, a widget at the end of the loop will not be rendered.
 
 == Changelog ==
+
+= 4.5.2 =
+- added support for share count requests of multilingual sites
+- updated button translations for Twitter and Pinterest (thanks to Jessica, @jess78)
+- updated to Facebook Graph API v3.0
 
 = 4.5.1 =
 - added support for the new WordPress Privacy Policy Guide added in 4.9.6

@@ -3,7 +3,7 @@
  * Plugin Name: Shariff Wrapper
  * Plugin URI: https://wordpress.org/plugins-wp/shariff/
  * Description: Shariff provides share buttons that respect the privacy of your visitors and follow the General Data Protection Regulation (GDPR).
- * Version: 4.5.1
+ * Version: 4.5.2
  * Author: Jan-Peter Lambeck & 3UU
  * Author URI: https://wordpress.org/plugins/shariff/
  * License: MIT
@@ -998,7 +998,7 @@ function shariff3uu_render( $atts ) {
 	if ( array_key_exists( 'title', $atts ) ) {
 		$share_title = rawurlencode( wp_strip_all_tags( $atts['title'] ) );
 	} else {
-		$share_title = rawurlencode( html_entity_decode( wp_strip_all_tags( get_the_title() ), ENT_COMPAT, 'UTF-8' ) );
+		$share_title = rawurlencode( wp_strip_all_tags( html_entity_decode( get_the_title(), ENT_COMPAT, 'UTF-8' ) ) );
 	}
 
 	// Sets the transient name.
@@ -1104,13 +1104,13 @@ function shariff3uu_render( $atts ) {
 			$output .= ' data-backendurl="' . $shariff3uu['external_host'] . '"';
 		} // Elseif test the subapi setting.
 		elseif ( isset( $shariff3uu['subapi'] ) && 1 === $shariff3uu['subapi'] ) {
-			$output .= ' data-backendurl="' . get_bloginfo( 'wpurl' ) . '/wp-json/shariff/v1/share_counts?"';
+			$output .= ' data-backendurl="' . strtok( get_bloginfo( 'wpurl' ), '?' ) . '/wp-json/shariff/v1/share_counts?"';
 		} // Elseif pretty permalinks are not activated fall back to manual rest route.
 		elseif ( ! get_option( 'permalink_structure' ) ) {
 			$output .= ' data-backendurl="?rest_route=/shariff/v1/share_counts&"';
 		} // Else use the home url.
 		else {
-			$output .= ' data-backendurl="' . rtrim( home_url(), '/' ) . '/wp-json/shariff/v1/share_counts?"';
+			$output .= ' data-backendurl="' . rtrim( strtok( home_url(), '?' ), '/' ) . '/wp-json/shariff/v1/share_counts?"';
 		}
 	}
 	$output .= '>';
