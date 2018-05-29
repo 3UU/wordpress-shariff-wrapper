@@ -39,6 +39,8 @@ if ( isset( $frontend ) && 1 === $frontend ) {
 	$button_text_array = array(
 		'de' => 'twittern',
 		'en' => 'tweet',
+		'fr' => 'tweeter',
+		'it' => 'twitta',
 		'ja' => 'のつぶやき',
 		'ko' => '짹짹',
 		'ru' => 'твит',

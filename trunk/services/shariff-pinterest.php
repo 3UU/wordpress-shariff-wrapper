@@ -70,8 +70,10 @@ if ( isset( $frontend ) && 1 === $frontend ) {
 
 	// Button text label.
 	$button_text_array = array(
-		'de' => 'pinnen',
-		'en' => 'pin it',
+		'de' => 'merken',
+		'en' => 'save',
+		'fr' => 'enregistrer',
+		'it' => 'salva',
 	);
 
 	// Button alt label.
