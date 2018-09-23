@@ -31,13 +31,15 @@ if ( isset( $frontend ) && 1 === $frontend ) {
 
 	// Button text label.
 	$button_text_array = array(
-		'de' => 'rss-feed',
-		'en' => 'rss feed',
+		'de' => 'RSS-Feed',
+		'en' => 'RSS feed',
+		'fr' => 'flux RSS',
 	);
 
 	// Button alt label.
 	$button_title_array = array(
-		'de' => 'rss-feed',
-		'en' => 'rss feed',
+		'de' => 'RSS-Feed',
+		'en' => 'RSS feed',
+		'fr' => 'S\'abonner au flux RSS',
 	);
 }
