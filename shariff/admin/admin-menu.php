@@ -1691,7 +1691,7 @@ function shariff3uu_help_section_callback() {
 			echo '<div style="display:table-cell;border:1px solid;padding:10px"></div>';
 			echo '<div style="display:table-cell;border:1px solid;padding:10px">http://www.mydomain.com/feed/rss/</div>';
 			echo '<div style="display:table-cell;border:1px solid;padding:10px">[shariff rssfeed="http://www.mydomain.com/feed/rss2/"]</div>';
-			echo '<div style="display:table-cell;border:1px solid;padding:10px">' . esc_html__( 'Changes the rss feed url to another feed.', 'shariff' ) . '</div>';
+			echo '<div style="display:table-cell;border:1px solid;padding:10px">' . esc_html__( 'Changes the RSS feed url to another feed.', 'shariff' ) . '</div>';
 		echo '</div>';
 
 	echo '</div>';
