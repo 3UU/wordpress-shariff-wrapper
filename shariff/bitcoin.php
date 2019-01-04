@@ -1,4 +1,4 @@
-<?php
+<?php /** @noinspection PhpCSValidationInspection */
 /**
  * Generates an QR code for bitcoin.
  *

@@ -19,6 +19,19 @@ If you need any help or have specific questions regarding development and contri
 
 ## Changelog
 
+= 4.5.3 =
+- removed LinkedIn Share Counts due to LinkedIn removing them completely
+- removed GooglePlus Share Counts due to Google shutting GooglePlus down
+- removed OpenShareCount due to the service having shut down
+- removed NewShareCount due to the service having shut down
+- removed Mastodon temporarily until a new working solution is available
+- deprecated GooglePlus as a service, will be removed with the next release
+- added TwitCount (twitcount.com) as an alternative for Twitter share counts
+- updated to Facebook Graph API v3.2
+- updated to WordPress Coding Standards 2.0
+- corrected minor typos
+- added the new logo thanks to Philipp Wildfeuer (@phil_sauvage)
+
 = 4.5.2 =
 - added support for share count requests of multilingual sites
 - updated button translations for Twitter and Pinterest (thanks to Jessica, @jess78)
