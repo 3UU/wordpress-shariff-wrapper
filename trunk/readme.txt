@@ -1,10 +1,10 @@
 === Shariff Wrapper ===
 Contributors: starguide, 3UU
 Tags: Shariff, GDPR, DSGVO, share buttons, sharing
-Requires at least: 4.7
-Requires PHP: 5.6
-Tested up to: 4.9
-Stable tag: 4.5.2
+Requires at least: 4.9
+Requires PHP: 7.2
+Tested up to: 5.0
+Stable tag: 4.5.3
 License: MIT
 License URI: http://opensource.org/licenses/mit
 
@@ -12,7 +12,7 @@ Shariff provides share buttons that respect the privacy of your visitors and fol
 
 == Description ==
 
-The "original" share buttons automatically transmit data of your visitors to the social network sites as soon as they visit your website. They do not need to click on a share button for this and therefore have no choice, if they want their data to be send. The German computer magazine c't has developed "Shariff" `(ʃɛɹɪf)` that follows the General Data Protection Regulation (GDPR - Regulation (EU) 2016/679). This plugin adapts the Shariff concept and provides an easy to use solution for WordPress. We currently support 32 services in 25 languages: AddThis, Bitcoin, Diaspora, Facebook, Flattr, Flipboard, GooglePlus, LinkedIn, mailto, Mastodon, Odnoklassniki, Patreon, PayPal, PayPal.me, Pinterest, Pocket, Printer, Qzone, Reddit, RSS, SMS, Stumbleupon, Telegram, TencentWeibo, Threema, Tumblr, Twitter, VK, Wallabag, Weibo, WhatsApp, Xing.
+The "original" share buttons automatically transmit data of your visitors to the social network sites as soon as they visit your website. They do not need to click on a share button for this and therefore have no choice, if they want their data to be send. The German computer magazine c't has developed "Shariff" `(ʃɛɹɪf)` that follows the General Data Protection Regulation (GDPR - Regulation (EU) 2016/679). This plugin adapts the Shariff concept and provides an easy to use solution for WordPress. We currently support 30 services in 25 languages: AddThis, Bitcoin, Diaspora, Facebook, Flattr, Flipboard, LinkedIn, mailto, Odnoklassniki, Patreon, PayPal, PayPal.me, Pinterest, Pocket, Printer, Qzone, Reddit, RSS, SMS, Stumbleupon, Telegram, TencentWeibo, Threema, Tumblr, Twitter, VK, Wallabag, Weibo, WhatsApp, Xing.
 
 For more information about the Shariff project check out the original [GitHub project](https://github.com/heiseonline/shariff) and read about the project itself [c’t information page](http://ct.de/shariff) (in German).
 
@@ -152,6 +152,19 @@ These are bugs or unexpected glitches that we know of, but that do not have an i
 
 == Changelog ==
 
+= 4.5.3 =
+- removed LinkedIn Share Counts due to LinkedIn removing them completely
+- removed GooglePlus Share Counts due to Google shutting GooglePlus down
+- removed OpenShareCount due to the service having shut down
+- removed NewShareCount due to the service having shut down
+- removed Mastodon temporarily until a new working solution is available
+- deprecated GooglePlus as a service, will be removed with the next release
+- added TwitCount (twitcount.com) as an alternative for Twitter share counts
+- updated to Facebook Graph API v3.2
+- updated to WordPress Coding Standards 2.0
+- corrected minor typos
+- added the new logo thanks to Philipp Wildfeuer (@phil_sauvage)
+
 = 4.5.2 =
 - added support for share count requests of multilingual sites
 - updated button translations for Twitter and Pinterest (thanks to Jessica, @jess78)
@@ -169,78 +182,5 @@ These are bugs or unexpected glitches that we know of, but that do not have an i
 - new option to show different headlines based on share counts
 - updated button languages, now supporting 25 languages
 - fixed a bug causing share counts to not being displayed properly
-
-= 4.4.4 =
-- added support for automatic addition to bbpress forums, topics and replies
-- fixed a bug that caused "hideshariff" to not function properly
-
-= 4.4.3 =
-- new support for additional manual AMP integrations
-- fixed a PHP error on certain server configurations
-- new support for the print button on AMP pages
-- fixed a markup typo
-- minor css improvements
-
-= 4.4.2 =
-- new support for the "AMP for WP" plugin by Ahmed and Mohammed Kaludi
-- improved support for the "AMP for WordPress" plugin by Automattic
-- new additional workaround for servers without $_SERVER for category pages
-- minor bug fixes
-
-= 4.4.1 =
-- new service wallabag (thanks to Torsten, @knodderdachs)
-- minor bug fixes
-- updated help section
-
-= 4.4.0 =
-- new service Telegram (thanks to Daniel Sturm, @dcsturm)
-- new service Flipboard (thanks to csigncsign, @csigncsign)
-- new service Mastodon (thanks to scroom, @scroom)
-- new service Qzone
-- new service Weibo
-- new service TencentWeibo
-- new service SMS (will work on iOS, might not work on other phones)
-- new support of the "AMP for WordPress" plugin by Automattic
-- new option to set a custom text for the info button
-- new option to disable the metabox
-- new option to add shariff to CPTs before the content
-- new ranking table now also shows pages
-- new fix to prevent Shariff buttons from being displayed on admin pages
-- new fix to support WP-CLI (thanks to Daniel Jagszent, @d--j)
-- fixed HTML errors regarding self closing tags (thanks to Tooni, @tooni)
-- fixed a missing closing tag under certain conditions (thanks to Pat, @fortythousandmiles)
-- removed GooglePlus share counts due to Google removing the API
-- added Czech translation of the buttons
-- updated a lot of button translations
-- updated to Facebook Graph API 2.12
-- updated a lot of strings to allow for easier translation
-- updated the reddit icon
-- updated help section
-- improved documentation of the REST API endpoint for share counts (thanks to David)
-- major improvements in regards to code quality
-- minor css improvements
-- minor security improvements
-- removed the mail form for the time being due to technical and legal due diligence
-- if you need the mail form functionality, please stick to version 4.3
-- https://downloads.wordpress.org/plugin/shariff.4.3.0.zip
-
-= 4.3.0 =
-- new service Odnoklassniki (thanks to rockhit)
-- new meta box allows for individual settings per post or page
-- new option to hide share counts that are zero
-- new option to disable dynamic cache lifespan (not recommended)
-- new option to set the button size to small, medium or large
-- new option to add a custom class to the container around Shariff
-- new option to open links in a popup (thanks to jackennils)
-- new option to use NewShareCount instead of OpenShareCount (Twitter)
-- added timestamp variable to be accessible via shortcode
-- fixed post timestamp for caching under certain conditions
-- fixed Facebook share count error for never crawled pages
-- fixed empty tab after sharing on certain mobile devices
-- fixed custom title attribute (thanks to kschlager)
-- updated Flattr user id for the future (thanks to poetaster)
-- reduced changelog on wordpress.org (thanks to timse201)
-- minor css improvements
-- updated help section
 
 The complete changelog can be found here: https://plugins.svn.wordpress.org/shariff/trunk/changelog.txt

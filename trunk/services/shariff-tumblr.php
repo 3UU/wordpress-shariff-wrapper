@@ -16,16 +16,16 @@ if ( isset( $frontend ) && 1 === $frontend ) {
 	$service_url = esc_url( 'https://www.tumblr.com/widgets/share/tool' );
 
 	// Domain.
-	$wpurl  = get_bloginfo( 'wpurl' );
-	$domain = trim( $wpurl, '/' );
+	$wpurl      = get_bloginfo( 'wpurl' );
+	$domainname = trim( $wpurl, '/' );
 	if ( ! preg_match( '#^http(s)?://#', $domain ) ) {
-		$domain = 'http://' . $domain;
+		$domainname = 'http://' . $domainname;
 	}
-	$url_parts = wp_parse_url( $domain );
-	$domain    = preg_replace( '/^www\./', '', $url_parts['host'] );
+	$url_parts  = wp_parse_url( $domain );
+	$domainname = preg_replace( '/^www\./', '', $url_parts['host'] );
 
 	// Build button URL.
-	$button_url = $service_url . '?posttype=link&canonicalUrl=' . $share_url . '&tags=' . rawurlencode( $domain );
+	$button_url = $service_url . '?posttype=link&canonicalUrl=' . $share_url . '&tags=' . rawurlencode( $domainname );
 
 	// Colors.
 	$main_color      = '#36465d';

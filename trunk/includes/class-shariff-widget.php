@@ -44,10 +44,13 @@ class Shariff_Widget extends WP_Widget {
 	 */
 	public function form( $instance ) {
 		// Set widgets defaults.
-		$instance = wp_parse_args( (array) $instance, array(
-			'shariff-title' => '',
-			'shariff-tag'   => '[shariff]',
-		));
+		$instance = wp_parse_args(
+			(array) $instance,
+			array(
+				'shariff-title' => '',
+				'shariff-tag'   => '[shariff]',
+			)
+		);
 		// Sets the title.
 		echo '<p style="border-bottom: 1px solid #DFDFDF;"><strong>' . esc_html__( 'Title', 'shariff' ) . '</strong></p>';
 		// Set the title.
@@ -71,13 +74,16 @@ class Shariff_Widget extends WP_Widget {
 		$instance = $old_instance;
 
 		// Sets the widget conf defaults.
-		$new_instance = wp_parse_args( (array) $new_instance, array(
-			'shariff-title' => '',
-			'shariff-tag'   => '[shariff]',
-		));
+		$new_instance = wp_parse_args(
+			(array) $new_instance,
+			array(
+				'shariff-title' => '',
+				'shariff-tag'   => '[shariff]',
+			)
+		);
 
 		// Checks the input values.
-		$instance['shariff-title'] = (string) strip_tags( $new_instance['shariff-title'] );
+		$instance['shariff-title'] = (string) wp_strip_all_tags( $new_instance['shariff-title'] );
 		$instance['shariff-tag']   = (string) wp_kses( $new_instance['shariff-tag'], $GLOBALS['allowed_tags'] );
 
 		// Saves the config.
@@ -95,9 +101,8 @@ class Shariff_Widget extends WP_Widget {
 		$shariff3uu = $GLOBALS['shariff3uu'];
 
 		// Creates the container.
-		// @codingStandardsIgnoreStart
-		echo $args['before_widget'];
-		// @codingStandardsIgnoreEnd
+		$allowed_tags = wp_kses_allowed_html( 'post' );
+		echo wp_kses( $args['before_widget'], $allowed_tags );
 
 		// Prints the title of the widget, if provided.
 		if ( empty( $instance['shariff-title'] ) ) {
@@ -168,9 +173,7 @@ class Shariff_Widget extends WP_Widget {
 		}
 
 		// Closes the Container.
-		// @codingStandardsIgnoreStart
-		echo $args['after_widget'];
-		// @codingStandardsIgnoreEnd
+		echo wp_kses( $args['after_widget'], $allowed_tags );
 	} // End of widget.
 } // End of class ShariffWidget.
 add_action( 'widgets_init', array( 'Shariff_Widget', 'register' ) );

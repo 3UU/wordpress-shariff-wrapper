@@ -138,10 +138,8 @@ if ( isset( $GLOBALS['shariff3UU']['version'] ) && -1 === version_compare( $GLOB
 	// Delete old cache directory and db entry.
 	if ( is_multisite() ) {
 		global $wpdb;
-		$current_blog_id = get_current_blog_id();
-		// @codingStandardsIgnoreStart
+		// phpcs:ignore
 		$blogs = $wpdb->get_results( "SELECT blog_id FROM {$wpdb->blogs}", ARRAY_A );
-		// @codingStandardsIgnoreEnd
 		if ( $blogs ) {
 			foreach ( $blogs as $blog ) {
 				// Switch to each blog.
@@ -177,10 +175,8 @@ function shariff_removeoldcachedir() {
 	$cache_dir2 = $upload_dir['basedir'] . '/1970';
 	shariff_removeoldfiles( $cache_dir );
 	// Remove /1970/01 and /1970 if they are empty.
-	// @codingStandardsIgnoreStart
-	@rmdir( $cache_dir );
-	@rmdir( $cache_dir2 );
-	// @codingStandardsIgnoreEnd
+	rmdir( $cache_dir );
+	rmdir( $cache_dir2 );
 }
 
 /**
@@ -193,14 +189,10 @@ function shariff_removeoldfiles( $directory ) {
 		if ( is_dir( $file ) ) {
 			shariff_removeoldfiles( $file );
 		} elseif ( substr( $file, -4 ) === '.dat' ) {
-			// @codingStandardsIgnoreStart
-			@unlink($file);
-			// @codingStandardsIgnoreEnd
+			unlink( $file );
 		}
 	}
-	// @codingStandardsIgnoreStart
-	@rmdir( $directory );
-	// @codingStandardsIgnoreEnd
+	rmdir( $directory );
 }
 
 /**
@@ -236,10 +228,8 @@ if ( isset( $GLOBALS['shariff3UU']['version'] ) && -1 === version_compare( $GLOB
 
 	// Delete user meta entry shariff3UU_ignore_notice to display update message again after an update (check for multisite).
 	if ( is_multisite() ) {
-		$current_blog_id = get_current_blog_id();
-		// @codingStandardsIgnoreStart
+		// phpcs:ignore
 		$blogs = $wpdb->get_results( "SELECT blog_id FROM {$wpdb->blogs}", ARRAY_A );
-		// @codingStandardsIgnoreEnd
 		if ( $blogs ) {
 			foreach ( $blogs as $blog ) {
 				// Switch to each blog.
@@ -247,11 +237,9 @@ if ( isset( $GLOBALS['shariff3UU']['version'] ) && -1 === version_compare( $GLOB
 				// Delete user meta entry shariff3UU_ignore_notice.
 				$users = get_users( 'role=administrator' );
 				foreach ( $users as $user ) {
-					// @codingStandardsIgnoreStart
 					if ( get_user_meta( $user->ID, 'shariff3UU_ignore_notice', true ) ) {
 						delete_user_meta( $user->ID, 'shariff3UU_ignore_notice' );
 					}
-					// @codingStandardsIgnoreEnd
 				}
 				// Switch back to main.
 				restore_current_blog();
@@ -261,11 +249,9 @@ if ( isset( $GLOBALS['shariff3UU']['version'] ) && -1 === version_compare( $GLOB
 		// Delete user meta entry shariff3UU_ignore_notice.
 		$users = get_users( 'role=administrator' );
 		foreach ( $users as $user ) {
-			// @codingStandardsIgnoreStart
 			if ( get_user_meta( $user->ID, 'shariff3UU_ignore_notice', true ) ) {
 				delete_user_meta( $user->ID, 'shariff3UU_ignore_notice' );
 			}
-			// @codingStandardsIgnoreEnd
 		}
 	}
 }
@@ -311,10 +297,8 @@ if ( isset( $GLOBALS['shariff3UU']['version'] ) && -1 === version_compare( $GLOB
 // Purge transients (check for multisite).
 if ( is_multisite() ) {
 	global $wpdb;
-	$current_blog_id = get_current_blog_id();
-	// @codingStandardsIgnoreStart
+	// phpcs:ignore
 	$blogs = $wpdb->get_results( "SELECT blog_id FROM {$wpdb->blogs}", ARRAY_A );
-	// @codingStandardsIgnoreEnd
 	if ( $blogs ) {
 		foreach ( $blogs as $blog ) {
 			// Switch to each blog.
@@ -338,15 +322,11 @@ function shariff3uu_purge_transients() {
 	if ( ! isset( $wpdb ) ) {
 		global $wpdb;
 	}
-
 	// Delete transients.
-	// @codingStandardsIgnoreStart
-	$sql = 'DELETE FROM ' . $wpdb->options . ' WHERE option_name LIKE "_transient_timeout_shariff%"';
-	$wpdb->query($sql);
-	$sql = 'DELETE FROM ' . $wpdb->options . ' WHERE option_name LIKE "_transient_shariff%"';
-	$wpdb->query($sql);
-	// @codingStandardsIgnoreEnd
-
+	// phpcs:disable
+	$wpdb->query( 'DELETE FROM ' . $wpdb->options . ' WHERE option_name LIKE "_transient_timeout_shariff%"' );
+	$wpdb->query( 'DELETE FROM ' . $wpdb->options . ' WHERE option_name LIKE "_transient_shariff%"' );
+	// phpcs:enable
 	// Clear object cache.
 	wp_cache_flush();
 }
