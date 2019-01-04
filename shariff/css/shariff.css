@@ -65,7 +65,7 @@
     width: 32px;
     height: 20px;
     padding: 7px 1px;
-    box-sizing: content-box;
+    box-sizing: content-box !important;
 }
 .shariff-button::before {
     content: none !important;

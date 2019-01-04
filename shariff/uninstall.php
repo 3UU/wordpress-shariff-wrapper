@@ -13,10 +13,8 @@ if ( ! defined( 'WP_UNINSTALL_PLUGIN' ) ) {
 // Delete options (even old ones), remove cron job and clear cache.
 if ( is_multisite() ) {
 	global $wpdb;
-	$current_blog_id = get_current_blog_id();
-	// @codingStandardsIgnoreStart
+	// phpcs:ignore
 	$blogs = $wpdb->get_results( "SELECT blog_id FROM {$wpdb->blogs}", ARRAY_A );
-	// @codingStandardsIgnoreEnd
 	if ( $blogs ) {
 		foreach ( $blogs as $blog ) {
 			// Switch to each blog.
@@ -72,15 +70,11 @@ function shariff3uu_purge_transients() {
 	if ( ! isset( $wpdb ) ) {
 		global $wpdb;
 	}
-
 	// Delete transients.
-	// @codingStandardsIgnoreStart
-	$sql = 'DELETE FROM ' . $wpdb->options . ' WHERE option_name LIKE "_transient_timeout_shariff%"';
-	$wpdb->query($sql);
-	$sql = 'DELETE FROM ' . $wpdb->options . ' WHERE option_name LIKE "_transient_shariff%"';
-	$wpdb->query($sql);
-	// @codingStandardsIgnoreEnd
-
+	// phpcs:disable
+	$wpdb->query( 'DELETE FROM ' . $wpdb->options . ' WHERE option_name LIKE "_transient_timeout_shariff%"' );
+	$wpdb->query( 'DELETE FROM ' . $wpdb->options . ' WHERE option_name LIKE "_transient_shariff%"' );
+	// phpcs:enable
 	// Clear object cache.
 	wp_cache_flush();
 }
