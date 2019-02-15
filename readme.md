@@ -19,6 +19,14 @@ If you need any help or have specific questions regarding development and contri
 
 ## Changelog
 
+= 4.5.4 =
+- removed GooglePlus due to Google shutting GooglePlus down
+- updated WhatsApp share link to support WhatsApp Web (thanks to Oliver, @oliverpw)
+- updated Spanish translations (thanks to Torsten, @torstenbulk)
+- fixed a PHP notice in regards to Tumblr (thanks to Mario, @mariobartlack)
+- fixed a conflict with another plugin (thanks to David, @daveshine)
+- tested with WordPress 5.1
+
 = 4.5.3 =
 - removed LinkedIn Share Counts due to LinkedIn removing them completely
 - removed GooglePlus Share Counts due to Google shutting GooglePlus down

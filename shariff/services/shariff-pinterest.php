@@ -72,6 +72,7 @@ if ( isset( $frontend ) && 1 === $frontend ) {
 	$button_text_array = array(
 		'de' => 'merken',
 		'en' => 'save',
+		'es' => 'ahorrar',
 		'fr' => 'enregistrer',
 		'it' => 'salva',
 	);
@@ -83,7 +84,7 @@ if ( isset( $frontend ) && 1 === $frontend ) {
 		'da' => 'Del på Pinterest',
 		'de' => 'Bei Pinterest pinnen',
 		'en' => 'Pin it on Pinterest',
-		'es' => 'Compartir en Pinterest',
+		'es' => 'Ahorrar en Pinterest',
 		'fi' => 'Jaa Pinterestissä',
 		'fr' => 'Partager sur Pinterest',
 		'hr' => 'Podijelite na Pinterest',
