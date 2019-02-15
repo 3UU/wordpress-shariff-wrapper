@@ -3,8 +3,8 @@ Contributors: starguide, 3UU
 Tags: Shariff, GDPR, DSGVO, share buttons, sharing
 Requires at least: 4.9
 Requires PHP: 7.2
-Tested up to: 5.0
-Stable tag: 4.5.3
+Tested up to: 5.1
+Stable tag: 4.5.4
 License: MIT
 License URI: http://opensource.org/licenses/mit
 
@@ -151,6 +151,14 @@ These are bugs or unexpected glitches that we know of, but that do not have an i
 - If the first post on the start page is password protected and Shariff is disabled on protected posts, a widget at the end of the loop will not be rendered.
 
 == Changelog ==
+
+= 4.5.4 =
+- removed GooglePlus due to Google shutting GooglePlus down
+- updated WhatsApp share link to support WhatsApp Web (thanks to Oliver, @oliverpw)
+- updated Spanish translations (thanks to Torsten, @torstenbulk)
+- fixed a PHP notice in regards to Tumblr (thanks to Mario, @mariobartlack)
+- fixed a conflict with another plugin (thanks to David, @daveshine)
+- tested with WordPress 5.1
 
 = 4.5.3 =
 - removed LinkedIn Share Counts due to LinkedIn removing them completely
