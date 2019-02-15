@@ -18,10 +18,10 @@ if ( isset( $frontend ) && 1 === $frontend ) {
 	// Domain.
 	$wpurl      = get_bloginfo( 'wpurl' );
 	$domainname = trim( $wpurl, '/' );
-	if ( ! preg_match( '#^http(s)?://#', $domain ) ) {
+	if ( ! preg_match( '#^http(s)?://#', $domainname ) ) {
 		$domainname = 'http://' . $domainname;
 	}
-	$url_parts  = wp_parse_url( $domain );
+	$url_parts  = wp_parse_url( $domainname );
 	$domainname = preg_replace( '/^www\./', '', $url_parts['host'] );
 
 	// Build button URL.
