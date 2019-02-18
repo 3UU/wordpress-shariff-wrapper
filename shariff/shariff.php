@@ -3,7 +3,7 @@
  * Plugin Name: Shariff Wrapper
  * Plugin URI: https://wordpress.org/plugins-wp/shariff/
  * Description: Shariff provides share buttons that respect the privacy of your visitors and follow the General Data Protection Regulation (GDPR).
- * Version: 4.5.4
+ * Version: 4.6.0
  * Author: Jan-Peter Lambeck & 3UU
  * Author URI: https://wordpress.org/plugins/shariff/
  * License: MIT
@@ -33,7 +33,7 @@ $shariff3uu = array_merge( $shariff3uu_basic, $shariff3uu_design, $shariff3uu_ad
  */
 function shariff3uu_update() {
 	// Adjust code version.
-	$code_version = '4.5.4';
+	$code_version = '4.6.0';
 
 	// Get options.
 	$shariff3uu = $GLOBALS['shariff3uu'];
@@ -863,7 +863,12 @@ add_shortcode( 'shariff', 'shariff3uu_render' );
  */
 function shariff3uu_render( $atts ) {
 	// Get options.
-	$shariff3uu = $GLOBALS['shariff3uu'];
+	$shariff3uu_basic     = (array) get_option( 'shariff3uu_basic' );
+	$shariff3uu_design    = (array) get_option( 'shariff3uu_design' );
+	$shariff3uu_advanced  = (array) get_option( 'shariff3uu_advanced' );
+	$shariff3uu_statistic = (array) get_option( 'shariff3uu_statistic' );
+	$shariff3uu           = array_merge( $shariff3uu_basic, $shariff3uu_design, $shariff3uu_advanced, $shariff3uu_statistic );
+
 	if ( array_key_exists( 'dynamic_css', $shariff3uu ) && ! empty( $shariff3uu['dynamic_css'] ) ) {
 		$dynamic_css = $shariff3uu['dynamic_css'];
 	} else {
@@ -1136,10 +1141,13 @@ function shariff3uu_render( $atts ) {
 	// Start the ul list with design classes.
 	$output .= '<ul class="shariff-buttons ';
 	// Theme.
-	if ( array_key_exists( 'theme', $atts ) ) {
+	if ( array_key_exists( 'theme', $atts ) && 'wcag' !== $atts['theme'] ) {
 		$output .= 'theme-' . esc_html( $atts['theme'] ) . ' ';
 	} else {
 		$output .= 'theme-default ';
+		if ( array_key_exists( 'theme', $atts ) && 'wcag' === $atts['theme'] ) {
+			$output .= 'wcag_colors ';
+		}
 	}
 	// Orientation.
 	if ( array_key_exists( 'orientation', $atts ) ) {
@@ -1206,8 +1214,14 @@ function shariff3uu_render( $atts ) {
 				// Includes service file.
 				include $path_service_file;
 
+				// Replace $main_color with $wcag_color and $secondary_color with $wcag_secondary, if $wacg_theme is selected.
+				if ( isset( $atts['theme'] ) && 'wcag' === $atts['theme'] && isset( $wcag_color ) && '' !== $wcag_color ) {
+					$main_color      = $wcag_color;
+					$secondary_color = '#000';
+				}
+
 				// Info button for default theme.
-				if ( ! array_key_exists( 'maincolor', $atts ) && 'info' === $service && ( ( array_key_exists( 'theme', $atts ) && 'default' === $atts['theme'] || ( array_key_exists( 'theme', $atts ) && 'round' === $atts['theme'] ) ) || ! array_key_exists( 'theme', $atts ) ) ) {
+				if ( ! array_key_exists( 'maincolor', $atts ) && 'info' === $service && ( ( array_key_exists( 'theme', $atts ) && 'default' === $atts['theme'] ) || ( array_key_exists( 'theme', $atts ) && 'round' === $atts['theme'] ) || ( array_key_exists( 'theme', $atts ) && 'wcag' === $atts['theme'] ) || ! array_key_exists( 'theme', $atts ) ) ) {
 					$main_color      = '#fff';
 					$secondary_color = '#eee';
 				}
@@ -1400,33 +1414,35 @@ function shariff3uu_render( $atts ) {
 				$output .= '">' . $svg_icon . '</span>';
 
 				// Shariff text.
-				$output .= '<span class="shariff-text';
-				// AMP?
-				if ( function_exists( 'is_amp_endpoint' ) && is_amp_endpoint() ) {
-					// Theme white?
-					if ( isset( $atts['theme'] ) && 'white' === $atts['theme'] ) {
-						if ( array_key_exists( 'maincolor', $atts ) ) {
-							$output .= ' shariff-text-color';
-							$css     = '.shariff-text-color{color:' . $atts['maincolor'] . '}';
-						} else {
-							$output .= ' shariff-' . $service . '-text-color';
-							$css     = '.shariff-' . $service . '-text-color{color:' . $main_color . '}';
+				if ( ( ! isset( $atts['theme'] ) || ( isset( $atts['theme'] ) && 'round' !== $atts['theme'] ) ) && 'info' !== $service ) {
+					$output .= '<span class="shariff-text';
+					// AMP?
+					if ( function_exists( 'is_amp_endpoint' ) && is_amp_endpoint() ) {
+						// Theme white?
+						if ( isset( $atts['theme'] ) && 'white' === $atts['theme'] ) {
+							if ( array_key_exists( 'maincolor', $atts ) ) {
+								$output .= ' shariff-text-color';
+								$css     = '.shariff-text-color{color:' . $atts['maincolor'] . '}';
+							} else {
+								$output .= ' shariff-' . $service . '-text-color';
+								$css     = '.shariff-' . $service . '-text-color{color:' . $main_color . '}';
+							}
+							if ( false === strpos( $dynamic_css, $css ) ) {
+								$dynamic_css .= $css;
+							}
 						}
-						if ( false === strpos( $dynamic_css, $css ) ) {
-							$dynamic_css .= $css;
+					} else {
+						// Theme white?
+						if ( isset( $atts['theme'] ) && 'white' === $atts['theme'] ) {
+							if ( array_key_exists( 'maincolor', $atts ) ) {
+								$output .= '" style="color:' . $atts['maincolor'];
+							} else {
+								$output .= '" style="color:' . $main_color;
+							}
 						}
 					}
-				} else {
-					// Theme white?
-					if ( isset( $atts['theme'] ) && 'white' === $atts['theme'] ) {
-						if ( array_key_exists( 'maincolor', $atts ) ) {
-							$output .= '" style="color:' . $atts['maincolor'];
-						} else {
-							$output .= '" style="color:' . $main_color;
-						}
-					}
+					$output .= '">' . $button_text . '</span>&nbsp;';
 				}
-				$output .= '">' . $button_text . '</span>&nbsp;';
 
 				// Share counts?
 				if ( array_key_exists( 'sharecounts', $atts ) && 1 === $atts['sharecounts'] && 1 === $backend_available && ! isset( $shariff3uu['disable'][ $service ] ) ) {
@@ -1468,10 +1484,11 @@ function shariff3uu_render( $atts ) {
 					$backend_service_array[] = $service;
 				}
 
-				// Resets the $backend, $mobile_only and $same_window variables.
+				// Reset variables.
 				$backend_available = '';
 				$mobile_only       = '';
 				$same_window       = '';
+				$wcag_color        = '';
 			} // End if service file exists.
 		} // End if is real and fully setup service.
 	} // End foreach() loop.

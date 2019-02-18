@@ -400,7 +400,7 @@ function shariff3uu_options_init() {
 	// Fifth tab (statistic).
 	add_settings_section(
 		'shariff3uu_statistic_section',
-		__( 'shariff3uu_statistic', 'shariff' ),
+		__( 'Statistic', 'shariff' ),
 		'shariff3uu_statistic_section_callback',
 		'shariff3uu_statistic'
 	);
@@ -1060,13 +1060,14 @@ function shariff3uu_radio_theme_render() {
 		$options['theme'] = '';
 	}
 	$plugins_url = plugins_url();
-	echo '<div style="display:grid;grid-template-columns:75px auto;grid-template-rows:45px 45px 45px 45px 45px;grid-auto-flow: column;align-items:center">
+	echo '<div style="display:grid;grid-template-columns:75px auto;grid-template-rows:44px 45px 45px 45px 45px 45px;grid-auto-flow: column;align-items:center">
 		<div><input type="radio" name="shariff3uu_design[theme]" value="" ' . checked( $options['theme'], '', 0 ) . '>default</div>
 		<div><input type="radio" name="shariff3uu_design[theme]" value="color" ' . checked( $options['theme'], 'color', 0 ) . '>color</div>
 		<div><input type="radio" name="shariff3uu_design[theme]" value="grey" ' . checked( $options['theme'], 'grey', 0 ) . '>grey</div>
 		<div><input type="radio" name="shariff3uu_design[theme]" value="white" ' . checked( $options['theme'], 'white', 0 ) . '>white</div>
 		<div><input type="radio" name="shariff3uu_design[theme]" value="round" ' . checked( $options['theme'], 'round', 0 ) . '>round</div>
-		<img alt="Shariff Designs" src="' . esc_url( $plugins_url ) . '/shariff/images/shariff_designs.png" style="grid-row: 1 / span 2;align-self:baseline">
+		<div><input type="radio" name="shariff3uu_design[theme]" value="wcag" ' . checked( $options['theme'], 'wcag', 0 ) . '>wcag</div>
+		<img alt="Shariff Designs" src="' . esc_url( $plugins_url ) . '/shariff/images/shariff_designs.png" style="grid-row: 1 / span 6;align-self:baseline">
 	</div>';
 }
 
@@ -1725,7 +1726,7 @@ function shariff3uu_help_section_callback() {
 		// Theme.
 		echo '<div style="display:table-row">';
 			echo '<div style="display:table-cell;border:1px solid;padding:10px">theme</div>';
-			echo '<div style="display:table-cell;border:1px solid;padding:10px">default<br>color<br>grey<br>white<br>round</div>';
+			echo '<div style="display:table-cell;border:1px solid;padding:10px">default<br>color<br>grey<br>white<br>round<br>wcag</div>';
 			echo '<div style="display:table-cell;border:1px solid;padding:10px">default</div>';
 			echo '<div style="display:table-cell;border:1px solid;padding:10px">[shariff theme="round"]</div>';
 			echo '<div style="display:table-cell;border:1px solid;padding:10px">' . esc_html__( 'Determines the main design of the buttons.', 'shariff' ) . '</div>';
