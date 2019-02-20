@@ -4,7 +4,7 @@ Tags: Shariff, GDPR, DSGVO, share buttons, sharing
 Requires at least: 4.9
 Requires PHP: 7.2
 Tested up to: 5.1
-Stable tag: 4.5.4
+Stable tag: 4.6.0
 License: MIT
 License URI: http://opensource.org/licenses/mit
 
@@ -152,10 +152,14 @@ These are bugs or unexpected glitches that we know of, but that do not have an i
 
 == Changelog ==
 
-= 4.5.4 =
-- removed GooglePlus due to Google shutting GooglePlus down
+= 4.6.0 =
+- new high contrast theme (WCAG)
+- improved support for WPML for easier translation of headlines and info button texts
 - updated WhatsApp share link to support WhatsApp Web (thanks to Oliver, @oliverpw)
 - updated Spanish translations (thanks to Torsten, @torstenbulk)
+- updated Pinterest API
+- updated VK API
+- removed GooglePlus due to Google shutting GooglePlus down
 - fixed a PHP notice in regards to Tumblr (thanks to Mario, @mariobartlack)
 - fixed a conflict with another plugin (thanks to David, @daveshine)
 - tested with WordPress 5.1

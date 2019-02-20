@@ -19,10 +19,14 @@ If you need any help or have specific questions regarding development and contri
 
 ## Changelog
 
-= 4.5.4 =
-- removed GooglePlus due to Google shutting GooglePlus down
+= 4.6.0 =
+- new high contrast theme (WCAG)
+- improved support for WPML for easier translation of headlines and info button texts
 - updated WhatsApp share link to support WhatsApp Web (thanks to Oliver, @oliverpw)
 - updated Spanish translations (thanks to Torsten, @torstenbulk)
+- updated Pinterest API
+- updated VK API
+- removed GooglePlus due to Google shutting GooglePlus down
 - fixed a PHP notice in regards to Tumblr (thanks to Mario, @mariobartlack)
 - fixed a conflict with another plugin (thanks to David, @daveshine)
 - tested with WordPress 5.1

@@ -21,6 +21,7 @@ if ( isset( $frontend ) && 1 === $frontend ) {
 	// Colors.
 	$main_color      = '#527498';
 	$secondary_color = '#4273c8';
+	$wcag_color      = '#3A5773';
 
 	// SVG icon.
 	$svg_icon = '<svg width="32px" height="20px" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 34 32"><path fill="' . $main_color . '" d="M34.2 9.3q0.4 1.1-2.7 5.3-0.4 0.6-1.2 1.5-1.4 1.8-1.6 2.3-0.3 0.7 0.3 1.4 0.3 0.4 1.4 1.5h0l0.1 0.1q2.5 2.3 3.4 3.9 0.1 0.1 0.1 0.2t0.1 0.5 0 0.6-0.4 0.5-1.1 0.2l-4.6 0.1q-0.4 0.1-1-0.1t-0.9-0.4l-0.4-0.2q-0.5-0.4-1.2-1.1t-1.2-1.4-1.1-1-1-0.3q-0.1 0-0.1 0.1t-0.3 0.3-0.4 0.5-0.3 0.9-0.1 1.4q0 0.3-0.1 0.5t-0.1 0.3l-0.1 0.1q-0.3 0.3-0.9 0.4h-2.1q-1.3 0.1-2.6-0.3t-2.3-0.9-1.8-1.2-1.3-1l-0.4-0.4q-0.2-0.2-0.5-0.5t-1.3-1.6-1.9-2.7-2.2-3.8-2.3-4.9q-0.1-0.3-0.1-0.5t0.1-0.3l0.1-0.1q0.3-0.3 1-0.3l4.9 0q0.2 0 0.4 0.1t0.3 0.2l0.1 0.1q0.3 0.2 0.4 0.6 0.4 0.9 0.8 1.8t0.7 1.5l0.3 0.5q0.5 1.1 1 1.9t0.9 1.2 0.7 0.7 0.6 0.3 0.5-0.1q0 0 0.1-0.1t0.2-0.4 0.2-0.8 0.2-1.4 0-2.2q0-0.7-0.2-1.3t-0.2-0.8l-0.1-0.2q-0.4-0.6-1.5-0.8-0.2 0 0.1-0.4 0.3-0.3 0.7-0.5 0.9-0.5 4.3-0.4 1.5 0 2.4 0.2 0.4 0.1 0.6 0.2t0.4 0.4 0.2 0.6 0.1 0.8 0 1 0 1.3 0 1.5q0 0.2 0 0.8t0 0.9 0.1 0.7 0.2 0.7 0.4 0.4q0.1 0 0.3 0.1t0.5-0.2 0.7-0.6 0.9-1.2 1.2-1.9q1.1-1.9 1.9-4 0.1-0.2 0.2-0.3t0.2-0.2l0.1-0.1 0.1 0t0.2-0.1 0.4 0l5.1 0q0.7-0.1 1.1 0t0.6 0.3z"/></svg>';
@@ -58,7 +59,7 @@ if ( isset( $frontend ) && 1 === $frontend ) {
 	);
 } elseif ( isset( $backend ) && 1 === $backend ) {
 	// Fetch counts.
-	$vk = sanitize_text_field( wp_remote_retrieve_body( wp_remote_get( 'http://vk.com/share.php?act=count&url=' . $post_url ) ) );
+	$vk = sanitize_text_field( wp_remote_retrieve_body( wp_remote_get( 'https://vk.com/share.php?act=count&url=' . $post_url ) ) );
 	if ( isset( $vk ) ) {
 		preg_match( '/^VK.Share.count\((\d+),\s+(\d+)\);$/i', $vk, $matches );
 		$vk_count = intval( $matches[2] );

@@ -21,6 +21,7 @@ if ( isset( $frontend ) && 1 === $frontend ) {
 	// Set the Colors (Hexadecimal including the #).
 	$main_color      = '#f52828';
 	$secondary_color = '#373737';
+	$wcag_color      = '#B30A0A';
 
 	// SVG icon.
 	$svg_icon = '<svg width="24px" height="24px" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path fill="' . $main_color . '" d="M0 0h8v24H0V0zm9 9h7v7H9V9zm0-9h15v8H9V0z"/></svg>';
