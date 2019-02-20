@@ -13,7 +13,7 @@ if ( ! class_exists( 'WP' ) ) {
 // Check if we need the frontend or the backend part.
 if ( isset( $frontend ) && 1 === $frontend ) {
 	// Service URL.
-	$service_url = esc_url( 'https://getpocket.com/edit' );
+	$service_url = esc_url( 'https://getpocket.com/save' );
 
 	// Build button URL.
 	$button_url = $service_url . '?url=' . $share_url . '&title=' . $share_title;
@@ -31,13 +31,36 @@ if ( isset( $frontend ) && 1 === $frontend ) {
 
 	// Button text label.
 	$button_text_array = array(
-		'de' => 'pocket',
+		'de' => 'Pocket',
 		'en' => 'pocket',
 	);
 
 	// Button alt label.
 	$button_title_array = array(
+		'bg' => 'Запазване в Pocket',
+		'cs' => 'Uložit do Pocket',
+		'da' => 'Gem i Pocket',
 		'de' => 'Bei Pocket speichern',
 		'en' => 'Save to Pocket',
+		'es' => 'Guardar en Pocket',
+		'fi' => 'Tallenna kohtaan Pocket',
+		'fr' => 'Enregistrer dans Pocket',
+		'hr' => 'Spremi u Pocket',
+		'hu' => 'Mentés "Pocket"-be',
+		'it' => 'Salva in Pocket',
+		'ja' => '「ポケット」に保存',
+		'ko' => 'Pocket에 저장',
+		'nl' => 'Opslaan in Pocket',
+		'no' => 'Lagre i Pocket',
+		'pl' => 'Zapisz w Pocket',
+		'pt' => 'Salvar em Pocket',
+		'ro' => 'Salvați în Pocket',
+		'ru' => 'Сохранить в Pocket',
+		'sk' => 'Uložiť do priečinka Pocket',
+		'sl' => 'Shrani v Pocket',
+		'sr' => 'Sačuvaj u Pocket',
+		'sv' => 'Spara till Pocket',
+		'tr' => 'Pocket e kaydet',
+		'zh' => '保存到Pocket',
 	);
 }
