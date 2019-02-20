@@ -13,7 +13,7 @@ if ( ! class_exists( 'WP' ) ) {
 // Check if we need the frontend or the backend part.
 if ( isset( $frontend ) && 1 === $frontend ) {
 	// Service URL.
-	$service_url = esc_url( 'https://www.xing.com/social_plugins/share' );
+	$service_url = esc_url( 'https://www.xing.com/spi/shares/new' );
 
 	// Build button URL.
 	$button_url = $service_url . '?url=' . $share_url;

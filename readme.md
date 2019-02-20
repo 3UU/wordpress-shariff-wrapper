@@ -24,8 +24,10 @@ If you need any help or have specific questions regarding development and contri
 - improved support for WPML for easier translation of headlines and info button texts
 - updated WhatsApp share link to support WhatsApp Web (thanks to Oliver, @oliverpw)
 - updated Spanish translations (thanks to Torsten, @torstenbulk)
-- updated Pinterest API
-- updated VK API
+- updated Pinterest Share Count API
+- updated VK Share Count API
+- updated Pocket API
+- updated XING API
 - removed GooglePlus due to Google shutting GooglePlus down
 - fixed a PHP notice in regards to Tumblr (thanks to Mario, @mariobartlack)
 - fixed a conflict with another plugin (thanks to David, @daveshine)
