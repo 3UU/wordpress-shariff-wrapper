@@ -21,6 +21,7 @@ if ( isset( $frontend ) && 1 === $frontend ) {
 	// Colors.
 	$main_color      = '#f8694d';
 	$secondary_color = '#f75b44';
+	$wcag_color      = '#AC2207';
 
 	// SVG icon.
 	$svg_icon = '<svg width="32px" height="20px" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32"><path fill="' . $main_color . '" d="M28.2 12.8h-8.9v-8.9c0-0.4-0.4-0.8-0.8-0.8h-4.9c-0.4 0-0.8 0.4-0.8 0.8v8.9h-8.9c-0.4 0-0.8 0.4-0.8 0.8v4.9c0 0.4 0.4 0.8 0.8 0.8h8.9v8.9c0 0.4 0.4 0.8 0.8 0.8h4.9c0.4 0 0.8-0.4 0.8-0.8v-8.9h8.9c0.4 0 0.8-0.4 0.8-0.8v-4.9c0-0.4-0.4-0.8-0.8-0.8z"/></svg>';

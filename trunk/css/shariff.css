@@ -121,6 +121,11 @@
     background-color: transparent;
     margin: 0;
 }
+/* theme wcag */
+.shariff .wcag_colors .shariff-count {
+    color: #fff !important;
+    background-color: rgba(255, 255, 255, 0.2);
+}
 /* theme round */
 .shariff .shariff-buttons.theme-round li {
     width: 35px !important;
@@ -314,6 +319,10 @@
     border: 1px solid #ddd;
     width: 35px;
 }
+.shariff .wcag_colors .info a {
+    border: 1px solid #575757;
+    width: 35px;
+}
 .shariff .shariff-button.info {
     width: 35px;
     flex: 0 0 auto !important;
@@ -321,8 +330,14 @@
 .shariff .theme-default .shariff-button.shariff-nocustomcolor.info svg path {
     fill: #999;
 }
+.shariff .theme-default.wcag_colors .shariff-button.shariff-nocustomcolor.info svg path {
+    fill: #595959;
+}
 .shariff .theme-round .shariff-button.shariff-nocustomcolor.info svg path {
     fill: #999;
+}
+.shariff .theme-round.wcag_colors .shariff-button.shariff-nocustomcolor.info svg path {
+    fill: #595959;
 }
 .shariff .buttonsize-small .shariff-button.info {
     width: 25px;

@@ -12,7 +12,7 @@ if ( ! class_exists( 'WP' ) ) {
 }
 
 // Set services that have a share count API / backend.
-$shariff3uu_services_backend = array( 'facebook', 'twitter', 'pinterest', 'linkedin', 'xing', 'reddit', 'stumbleupon', 'tumblr', 'vk', 'addthis', 'flattr', 'odnoklassniki' );
+$shariff3uu_services_backend = array( 'facebook', 'twitter', 'pinterest', 'xing', 'reddit', 'stumbleupon', 'tumblr', 'vk', 'addthis', 'flattr', 'odnoklassniki' );
 
 
 // Adds the actions for the admin page.
@@ -55,25 +55,25 @@ function shariff3uu_options_init() {
 	/** First tab - basic */
 
 	// Registers first tab (basic) settings and calls sanitize function.
-	register_setting( 'basic', 'shariff3uu_basic', 'shariff3uu_basic_sanitize' );
+	register_setting( 'shariff3uu_basic', 'shariff3uu_basic', 'shariff3uu_basic_sanitize' );
 
 	// First tab - basic options.
 	add_settings_section(
 		'shariff3uu_basic_section',
 		__( 'Basic options', 'shariff' ),
 		'shariff3uu_basic_section_callback',
-		'basic'
+		'shariff3uu_basic'
 	);
 
 	// Services.
-	add_settings_field( 'shariff3uu_text_services', '<div style="width:450px">' . __( 'Enable the following services in the provided order:', 'shariff' ) . '</div>', 'shariff3uu_text_services_render', 'basic', 'shariff3uu_basic_section' );
+	add_settings_field( 'shariff3uu_text_services', '<div style="width:450px">' . __( 'Enable the following services in the provided order:', 'shariff' ) . '</div>', 'shariff3uu_text_services_render', 'shariff3uu_basic', 'shariff3uu_basic_section' );
 
 	// Add after.
 	add_settings_field(
 		'shariff3uu_multiplecheckbox_add_after',
 		__( 'Add the Shariff buttons <u>after</u> all:', 'shariff' ),
 		'shariff3uu_multiplecheckbox_add_after_render',
-		'basic',
+		'shariff3uu_basic',
 		'shariff3uu_basic_section'
 	);
 
@@ -82,7 +82,7 @@ function shariff3uu_options_init() {
 		'shariff3uu_checkbox_add_before',
 		__( 'Add the Shariff buttons <u>before</u> all:', 'shariff' ),
 		'shariff3uu_multiplecheckbox_add_before_render',
-		'basic',
+		'shariff3uu_basic',
 		'shariff3uu_basic_section'
 	);
 
@@ -91,7 +91,7 @@ function shariff3uu_options_init() {
 		'shariff3uu_checkbox_disable_on_protected',
 		__( 'Disable the Shariff buttons on password protected posts.', 'shariff' ),
 		'shariff3uu_checkbox_disable_on_protected_render',
-		'basic',
+		'shariff3uu_basic',
 		'shariff3uu_basic_section'
 	);
 
@@ -100,30 +100,30 @@ function shariff3uu_options_init() {
 		'shariff3uu_checkbox_disable_outside_loop',
 		__( 'Disable the Shariff buttons outside of the main loop.', 'shariff' ),
 		'shariff3uu_checkbox_disable_outside_loop_render',
-		'basic',
+		'shariff3uu_basic',
 		'shariff3uu_basic_section'
 	);
 
 	// Add to custom WordPress hooks.
-	add_settings_field( 'shariff3uu_text_custom_hooks', __( 'Add Shariff to the following custom WordPress hooks:', 'shariff' ), 'shariff3uu_text_custom_hooks_render', 'basic', 'shariff3uu_basic_section' );
+	add_settings_field( 'shariff3uu_text_custom_hooks', __( 'Add Shariff to the following custom WordPress hooks:', 'shariff' ), 'shariff3uu_text_custom_hooks_render', 'shariff3uu_basic', 'shariff3uu_basic_section' );
 
 	// Shortcode to use for custom hook.
-	add_settings_field( 'shariff3uu_text_custom_hooks_shortcode', __( 'Use the following shortcode for the custom hooks:', 'shariff' ), 'shariff3uu_text_custom_hooks_shortcode_render', 'basic', 'shariff3uu_basic_section' );
+	add_settings_field( 'shariff3uu_text_custom_hooks_shortcode', __( 'Use the following shortcode for the custom hooks:', 'shariff' ), 'shariff3uu_text_custom_hooks_shortcode_render', 'shariff3uu_basic', 'shariff3uu_basic_section' );
 
 	/** Second tab - design */
 
 	// Registers second tab (design) settings and calls sanitize function.
-	register_setting( 'design', 'shariff3uu_design', 'shariff3uu_design_sanitize' );
+	register_setting( 'shariff3uu_design', 'shariff3uu_design', 'shariff3uu_design_sanitize' );
 
 	// Second tab - design options.
-	add_settings_section( 'shariff3uu_design_section', __( 'Design options', 'shariff' ), 'shariff3uu_design_section_callback', 'design' );
+	add_settings_section( 'shariff3uu_design_section', __( 'Design options', 'shariff' ), 'shariff3uu_design_section_callback', 'shariff3uu_design' );
 
 	// Button language.
 	add_settings_field(
 		'shariff3uu_select_language',
 		'<div style="width:450px">' . esc_html__( 'Default button language:', 'shariff' ) . '</div>',
 		'shariff3uu_select_language_render',
-		'design',
+		'shariff3uu_design',
 		'shariff3uu_design_section'
 	);
 
@@ -132,7 +132,7 @@ function shariff3uu_options_init() {
 		'shariff3uu_checkbox_autolang',
 		__( 'Automatically set button language based on locale (e.g. set by WPML).', 'shariff' ),
 		'shariff3uu_checkbox_autolang_render',
-		'design',
+		'shariff3uu_design',
 		'shariff3uu_design_section'
 	);
 
@@ -141,7 +141,7 @@ function shariff3uu_options_init() {
 		'shariff3uu_radio_theme',
 		__( 'Shariff button design:', 'shariff' ),
 		'shariff3uu_radio_theme_render',
-		'design',
+		'shariff3uu_design',
 		'shariff3uu_design_section'
 	);
 
@@ -150,7 +150,7 @@ function shariff3uu_options_init() {
 		'shariff3uu_checkbox_buttonsize',
 		__( 'Button size:', 'shariff' ),
 		'shariff3uu_checkbox_buttonsize_render',
-		'design',
+		'shariff3uu_design',
 		'shariff3uu_design_section'
 	);
 
@@ -159,7 +159,7 @@ function shariff3uu_options_init() {
 		'shariff3uu_checkbox_buttonsstretch',
 		__( 'Stretch buttons horizontally to full width.', 'shariff' ),
 		'shariff3uu_checkbox_buttonstretch_render',
-		'design',
+		'shariff3uu_design',
 		'shariff3uu_design_section'
 	);
 
@@ -168,7 +168,7 @@ function shariff3uu_options_init() {
 		'shariff3uu_number_borderradius',
 		__( 'Border radius for the round theme (1-50):', 'shariff' ),
 		'shariff3uu_number_borderradius_render',
-		'design',
+		'shariff3uu_design',
 		'shariff3uu_design_section'
 	);
 
@@ -177,7 +177,7 @@ function shariff3uu_options_init() {
 		'shariff3uu_text_maincolor',
 		__( 'Custom main color for <b>all</b> buttons (hexadecimal):', 'shariff' ),
 		'shariff3uu_text_maincolor_render',
-		'design',
+		'shariff3uu_design',
 		'shariff3uu_design_section'
 	);
 
@@ -186,7 +186,7 @@ function shariff3uu_options_init() {
 		'shariff3uu_text_secondarycolor',
 		__( 'Custom secondary color for <b>all</b> buttons (hexadecimal):', 'shariff' ),
 		'shariff3uu_text_secondarycolor_render',
-		'design',
+		'shariff3uu_design',
 		'shariff3uu_design_section'
 	);
 
@@ -195,7 +195,7 @@ function shariff3uu_options_init() {
 		'shariff3uu_checkbox_vertical',
 		__( 'Shariff button orientation <b>vertical</b>.', 'shariff' ),
 		'shariff3uu_checkbox_vertical_render',
-		'design',
+		'shariff3uu_design',
 		'shariff3uu_design_section'
 	);
 
@@ -204,7 +204,7 @@ function shariff3uu_options_init() {
 		'shariff3uu_radio_align',
 		__( 'Alignment of the Shariff buttons:', 'shariff' ),
 		'shariff3uu_radio_align_render',
-		'design',
+		'shariff3uu_design',
 		'shariff3uu_design_section'
 	);
 
@@ -213,7 +213,7 @@ function shariff3uu_options_init() {
 		'shariff3uu_radio_align_widget',
 		__( 'Alignment of the Shariff buttons in the widget:', 'shariff' ),
 		'shariff3uu_radio_align_widget_render',
-		'design',
+		'shariff3uu_design',
 		'shariff3uu_design_section'
 	);
 
@@ -222,7 +222,7 @@ function shariff3uu_options_init() {
 		'shariff3uu_text_headline',
 		__( 'Headline above all Shariff buttons:', 'shariff' ),
 		'shariff3uu_text_headline_render',
-		'design',
+		'shariff3uu_design',
 		'shariff3uu_design_section'
 	);
 
@@ -231,7 +231,7 @@ function shariff3uu_options_init() {
 		'shariff3uu_text_headline_zero',
 		__( 'Alternative headline, if share counts are zero:', 'shariff' ),
 		'shariff3uu_text_headline_zero_render',
-		'design',
+		'shariff3uu_design',
 		'shariff3uu_design_section'
 	);
 
@@ -240,7 +240,7 @@ function shariff3uu_options_init() {
 		'shariff3uu_text_style',
 		__( 'Custom CSS <u>attributes</u> for the container <u>around</u> Shariff:', 'shariff' ),
 		'shariff3uu_text_style_render',
-		'design',
+		'shariff3uu_design',
 		'shariff3uu_design_section'
 	);
 
@@ -249,7 +249,7 @@ function shariff3uu_options_init() {
 		'shariff3uu_text_cssclass',
 		__( 'Custom CSS <u>class</u> for the container <u>around</u> Shariff:', 'shariff' ),
 		'shariff3uu_text_cssclass_render',
-		'design',
+		'shariff3uu_design',
 		'shariff3uu_design_section'
 	);
 
@@ -258,7 +258,7 @@ function shariff3uu_options_init() {
 		'shariff3uu_checkbox_hideuntilcss',
 		__( 'Hide buttons until page is fully loaded.', 'shariff' ),
 		'shariff3uu_checkbox_hideuntilcss_render',
-		'design',
+		'shariff3uu_design',
 		'shariff3uu_design_section'
 	);
 
@@ -267,21 +267,21 @@ function shariff3uu_options_init() {
 		'shariff3uu_checkbox_popup',
 		__( 'Open links in a popup (requires JavaScript).', 'shariff' ),
 		'shariff3uu_checkbox_popup_render',
-		'design',
+		'shariff3uu_design',
 		'shariff3uu_design_section'
 	);
 
 	/** Third tab - advanced */
 
 	// Registers third tab (advanced) settings and calls sanitize function.
-	register_setting( 'advanced', 'shariff3uu_advanced', 'shariff3uu_advanced_sanitize' );
+	register_setting( 'shariff3uu_advanced', 'shariff3uu_advanced', 'shariff3uu_advanced_sanitize' );
 
 	// Third tab - advanced options.
 	add_settings_section(
 		'shariff3uu_advanced_section',
 		__( 'Advanced options', 'shariff' ),
 		'shariff3uu_advanced_section_callback',
-		'advanced'
+		'shariff3uu_advanced'
 	);
 
 	// Info url.
@@ -289,7 +289,7 @@ function shariff3uu_options_init() {
 		'shariff3uu_text_info_url',
 		'<div style="width:450px">' . __( 'Custom link for the info button:', 'shariff' ) . '</div>',
 		'shariff3uu_text_info_url_render',
-		'advanced',
+		'shariff3uu_advanced',
 		'shariff3uu_advanced_section'
 	);
 
@@ -298,7 +298,7 @@ function shariff3uu_options_init() {
 		'shariff3uu_text_info_text',
 		__( 'Custom text for the info button:', 'shariff' ),
 		'shariff3uu_text_info_text_render',
-		'advanced',
+		'shariff3uu_advanced',
 		'shariff3uu_advanced_section'
 	);
 
@@ -307,7 +307,7 @@ function shariff3uu_options_init() {
 		'shariff3uu_text_twittervia',
 		__( 'Twitter username for the via tag:', 'shariff' ),
 		'shariff3uu_text_twittervia_render',
-		'advanced',
+		'shariff3uu_advanced',
 		'shariff3uu_advanced_section'
 	);
 
@@ -316,7 +316,7 @@ function shariff3uu_options_init() {
 		'shariff3uu_text_flattruser',
 		__( 'Flattr username:', 'shariff' ),
 		'shariff3uu_text_flattruser_render',
-		'advanced',
+		'shariff3uu_advanced',
 		'shariff3uu_advanced_section'
 	);
 
@@ -325,7 +325,7 @@ function shariff3uu_options_init() {
 		'shariff3uu_text_patreonid',
 		__( 'Patreon username:', 'shariff' ),
 		'shariff3uu_text_patreonid_render',
-		'advanced',
+		'shariff3uu_advanced',
 		'shariff3uu_advanced_section'
 	);
 
@@ -334,7 +334,7 @@ function shariff3uu_options_init() {
 		'shariff3uu_text_paypalbuttonid',
 		__( 'PayPal hosted button ID:', 'shariff' ),
 		'shariff3uu_text_paypalbuttonid_render',
-		'advanced',
+		'shariff3uu_advanced',
 		'shariff3uu_advanced_section'
 	);
 
@@ -343,7 +343,7 @@ function shariff3uu_options_init() {
 		'shariff3uu_text_paypalmeid',
 		__( 'PayPal.Me ID:', 'shariff' ),
 		'shariff3uu_text_paypalmeid_render',
-		'advanced',
+		'shariff3uu_advanced',
 		'shariff3uu_advanced_section'
 	);
 
@@ -352,7 +352,7 @@ function shariff3uu_options_init() {
 		'shariff3uu_text_bitcoinaddress',
 		__( 'Bitcoin address:', 'shariff' ),
 		'shariff3uu_text_bitcoinaddress_render',
-		'advanced',
+		'shariff3uu_advanced',
 		'shariff3uu_advanced_section'
 	);
 
@@ -361,7 +361,7 @@ function shariff3uu_options_init() {
 		'shariff3uu_text_rssfeed',
 		__( 'RSS feed:', 'shariff' ),
 		'shariff3uu_text_rssfeed_render',
-		'advanced',
+		'shariff3uu_advanced',
 		'shariff3uu_advanced_section'
 	);
 
@@ -370,7 +370,7 @@ function shariff3uu_options_init() {
 		'shariff3uu_text_default_pinterest',
 		__( 'Default image for Pinterest:', 'shariff' ),
 		'shariff3uu_text_default_pinterest_render',
-		'advanced',
+		'shariff3uu_advanced',
 		'shariff3uu_advanced_section'
 	);
 
@@ -379,7 +379,7 @@ function shariff3uu_options_init() {
 		'shariff3uu_number_shortcodeprio',
 		__( 'Shortcode priority:', 'shariff' ),
 		'shariff3uu_number_shortcodeprio_render',
-		'advanced',
+		'shariff3uu_advanced',
 		'shariff3uu_advanced_section'
 	);
 
@@ -388,21 +388,21 @@ function shariff3uu_options_init() {
 		'shariff3uu_checkbox_disable_metabox',
 		__( 'Disable the metabox.', 'shariff' ),
 		'shariff3uu_checkbox_disable_metabox_render',
-		'advanced',
+		'shariff3uu_advanced',
 		'shariff3uu_advanced_section'
 	);
 
 	/** Fifth tab - statistic */
 
 	// Registers fifth tab (statistic) settings and calls sanitize function.
-	register_setting( 'statistic', 'shariff3uu_statistic', 'shariff3uu_statistic_sanitize' );
+	register_setting( 'shariff3uu_statistic', 'shariff3uu_statistic', 'shariff3uu_statistic_sanitize' );
 
 	// Fifth tab (statistic).
 	add_settings_section(
 		'shariff3uu_statistic_section',
 		__( 'Statistic', 'shariff' ),
 		'shariff3uu_statistic_section_callback',
-		'statistic'
+		'shariff3uu_statistic'
 	);
 
 	// Statistic.
@@ -410,7 +410,7 @@ function shariff3uu_options_init() {
 		'shariff3uu_checkbox_backend',
 		'<div style="width:450px">' . __( 'Enable statistic.', 'shariff' ) . '</div>',
 		'shariff3uu_checkbox_backend_render',
-		'statistic',
+		'shariff3uu_statistic',
 		'shariff3uu_statistic_section'
 	);
 
@@ -419,7 +419,7 @@ function shariff3uu_options_init() {
 		'shariff3uu_checkbox_sharecounts',
 		__( 'Show share counts on buttons.', 'shariff' ),
 		'shariff3uu_checkbox_sharecounts_render',
-		'statistic',
+		'shariff3uu_statistic',
 		'shariff3uu_statistic_section'
 	);
 
@@ -428,7 +428,7 @@ function shariff3uu_options_init() {
 		'shariff3uu_checkbox_hidezero',
 		__( 'Hide share counts when they are zero.', 'shariff' ),
 		'shariff3uu_checkbox_hidezero_render',
-		'statistic',
+		'shariff3uu_statistic',
 		'shariff3uu_statistic_section'
 	);
 
@@ -437,7 +437,7 @@ function shariff3uu_options_init() {
 		'shariff3uu_text_fb_id',
 		__( 'Facebook App ID:', 'shariff' ),
 		'shariff3uu_text_fb_id_render',
-		'statistic',
+		'shariff3uu_statistic',
 		'shariff3uu_statistic_section'
 	);
 
@@ -446,7 +446,7 @@ function shariff3uu_options_init() {
 		'shariff3uu_text_fb_secret',
 		__( 'Facebook App Secret:', 'shariff' ),
 		'shariff3uu_text_fb_secret_render',
-		'statistic',
+		'shariff3uu_statistic',
 		'shariff3uu_statistic_section'
 	);
 
@@ -455,7 +455,7 @@ function shariff3uu_options_init() {
 		'shariff3uu_checkbox_automaticcache',
 		__( 'Fill cache automatically.', 'shariff' ),
 		'shariff3uu_checkbox_automaticcache_render',
-		'statistic',
+		'shariff3uu_statistic',
 		'shariff3uu_statistic_section'
 	);
 
@@ -464,7 +464,7 @@ function shariff3uu_options_init() {
 		'shariff3uu_number_ranking',
 		__( 'Number of posts on ranking tab:', 'shariff' ),
 		'shariff3uu_number_ranking_render',
-		'statistic',
+		'shariff3uu_statistic',
 		'shariff3uu_statistic_section'
 	);
 
@@ -473,7 +473,7 @@ function shariff3uu_options_init() {
 		'shariff3uu_number_ttl',
 		__( 'Cache TTL in seconds (60 - 7200):', 'shariff' ),
 		'shariff3uu_number_ttl_render',
-		'statistic',
+		'shariff3uu_statistic',
 		'shariff3uu_statistic_section'
 	);
 
@@ -482,7 +482,7 @@ function shariff3uu_options_init() {
 		'shariff3uu_checkbox_disable_dynamic_cache',
 		__( 'Disable the dynamic cache lifespan (not recommended).', 'shariff' ),
 		'shariff3uu_checkbox_disable_dynamic_cache_render',
-		'statistic',
+		'shariff3uu_statistic',
 		'shariff3uu_statistic_section'
 	);
 
@@ -491,7 +491,7 @@ function shariff3uu_options_init() {
 		'shariff3uu_multiplecheckbox_disable_services',
 		__( 'Disable the following services (share counts only):', 'shariff' ),
 		'shariff3uu_multiplecheckbox_disable_services_render',
-		'statistic',
+		'shariff3uu_statistic',
 		'shariff3uu_statistic_section'
 	);
 
@@ -500,7 +500,7 @@ function shariff3uu_options_init() {
 		'shariff3uu_text_external_host',
 		__( 'External API for share counts:', 'shariff' ),
 		'shariff3uu_text_external_host_render',
-		'statistic',
+		'shariff3uu_statistic',
 		'shariff3uu_statistic_section'
 	);
 
@@ -509,7 +509,7 @@ function shariff3uu_options_init() {
 		'shariff3uu_checkbox_external_direct',
 		__( 'Request external API directly.', 'shariff' ),
 		'shariff3uu_checkbox_external_direct_render',
-		'statistic',
+		'shariff3uu_statistic',
 		'shariff3uu_statistic_section'
 	);
 
@@ -518,7 +518,7 @@ function shariff3uu_options_init() {
 		'shariff3uu_checkbox_subapi',
 		__( 'Local API not reachable in root.', 'shariff' ),
 		'shariff3uu_checkbox_subapi_render',
-		'statistic',
+		'shariff3uu_statistic',
 		'shariff3uu_statistic_section'
 	);
 
@@ -529,7 +529,7 @@ function shariff3uu_options_init() {
 		'shariff3uu_help_section',
 		__( 'Shariff Help', 'shariff' ),
 		'shariff3uu_help_section_callback',
-		'help'
+		'shariff3uu_help'
 	);
 
 	/** Seventh tab - status */
@@ -539,7 +539,7 @@ function shariff3uu_options_init() {
 		'shariff3uu_status_section',
 		__( 'Status', 'shariff' ),
 		'shariff3uu_status_section_callback',
-		'status'
+		'shariff3uu_status'
 	);
 
 	/** Eight tab - ranking */
@@ -549,7 +549,7 @@ function shariff3uu_options_init() {
 		'shariff3uu_ranking_section',
 		__( 'Ranking', 'shariff' ),
 		'shariff3uu_ranking_section_callback',
-		'ranking'
+		'shariff3uu_ranking'
 	);
 }
 
@@ -1060,47 +1060,14 @@ function shariff3uu_radio_theme_render() {
 		$options['theme'] = '';
 	}
 	$plugins_url = plugins_url();
-	echo '<div style="display:table;border-spacing:10px;margin:-15px 0 -5px -5px;border-collapse:separate">
-		<div style="display:table-row">
-			<div style="display:table-cell;vertical-align:middle;min-width:75px">
-				<input type="radio" name="shariff3uu_design[theme]" value="" ' . checked( $options['theme'], '', 0 ) . '>default
-			</div>
-			<div class="shariff_options-cell">
-				<img alt="default" src="' . esc_url( $plugins_url ) . '/shariff/images/defaultBtns.png">
-			</div>
-		</div>
-		<div style="display:table-row">
-			<div style="display:table-cell;vertical-align:middle;min-width:75px">
-				<input type="radio" name="shariff3uu_design[theme]" value="color" ' . checked( $options['theme'], 'color', 0 ) . '>color
-			</div>
-			<div class="shariff_options-cell">
-				<img alt="color" src="' . esc_url( $plugins_url ) . '/shariff/images/colorBtns.png">
-			</div>
-		</div>
-		<div style="display:table-row">
-			<div style="display:table-cell;vertical-align:middle;min-width:75px">
-				<input type="radio" name="shariff3uu_design[theme]" value="grey" ' . checked( $options['theme'], 'grey', 0 ) . '>grey
-			</div>
-			<div class="shariff_options-cell">
-				<img alt="grey" src="' . esc_url( $plugins_url ) . '/shariff/images/greyBtns.png">
-			</div>
-		</div>
-		<div style="display:table-row">
-			<div style="display:table-cell;vertical-align:middle;min-width:75px">
-				<input type="radio" name="shariff3uu_design[theme]" value="white" ' . checked( $options['theme'], 'white', 0 ) . '>white
-			</div>
-			<div class="shariff_options-cell">
-				<img alt="white" src="' . esc_url( $plugins_url ) . '/shariff/images/whiteBtns.png">
-			</div>
-		</div>
-		<div style="display:table-row">
-			<div style="display:table-cell;vertical-align:middle;min-width:75px">
-				<input type="radio" name="shariff3uu_design[theme]" value="round" ' . checked( $options['theme'], 'round', 0 ) . '>round
-			</div>
-			<div class="shariff_options-cell">
-				<img alt="round" src="' . esc_url( $plugins_url ) . '/shariff/images/roundBtns.png">
-			</div>
-		</div>
+	echo '<div style="display:grid;grid-template-columns:75px auto;grid-template-rows:44px 45px 45px 45px 45px 45px;grid-auto-flow: column;align-items:center">
+		<div><input type="radio" name="shariff3uu_design[theme]" value="" ' . checked( $options['theme'], '', 0 ) . '>default</div>
+		<div><input type="radio" name="shariff3uu_design[theme]" value="color" ' . checked( $options['theme'], 'color', 0 ) . '>color</div>
+		<div><input type="radio" name="shariff3uu_design[theme]" value="grey" ' . checked( $options['theme'], 'grey', 0 ) . '>grey</div>
+		<div><input type="radio" name="shariff3uu_design[theme]" value="white" ' . checked( $options['theme'], 'white', 0 ) . '>white</div>
+		<div><input type="radio" name="shariff3uu_design[theme]" value="round" ' . checked( $options['theme'], 'round', 0 ) . '>round</div>
+		<div><input type="radio" name="shariff3uu_design[theme]" value="wcag" ' . checked( $options['theme'], 'wcag', 0 ) . '>wcag</div>
+		<img alt="Shariff Designs" src="' . esc_url( $plugins_url ) . '/shariff/images/shariff_designs.png" style="grid-row: 1 / span 6;align-self:baseline">
 	</div>';
 }
 
@@ -1759,7 +1726,7 @@ function shariff3uu_help_section_callback() {
 		// Theme.
 		echo '<div style="display:table-row">';
 			echo '<div style="display:table-cell;border:1px solid;padding:10px">theme</div>';
-			echo '<div style="display:table-cell;border:1px solid;padding:10px">default<br>color<br>grey<br>white<br>round</div>';
+			echo '<div style="display:table-cell;border:1px solid;padding:10px">default<br>color<br>grey<br>white<br>round<br>wcag</div>';
 			echo '<div style="display:table-cell;border:1px solid;padding:10px">default</div>';
 			echo '<div style="display:table-cell;border:1px solid;padding:10px">[shariff theme="round"]</div>';
 			echo '<div style="display:table-cell;border:1px solid;padding:10px">' . esc_html__( 'Determines the main design of the buttons.', 'shariff' ) . '</div>';
@@ -2460,81 +2427,81 @@ function shariff3uu_options_page() {
 		// phpcs:ignore
 		$active_tab = $_GET['tab'];
 	} else {
-		$active_tab = 'basic';
+		$active_tab = 'shariff3uu_basic';
 	}
 
 	// Tabs.
 	echo '<h2 class="nav-tab-wrapper">';
 		// Basic.
-		echo '<a href="?page=shariff3uu&tab=basic" class="nav-tab ';
-	if ( 'basic' === $active_tab ) {
+		echo '<a href="?page=shariff3uu&tab=shariff3uu_basic" class="nav-tab ';
+	if ( 'shariff3uu_basic' === $active_tab ) {
 		echo 'nav-tab-active';
 	}
 		echo '">' . esc_html__( 'Basic', 'shariff' ) . '</a>';
 		// Design.
-		echo '<a href="?page=shariff3uu&tab=design" class="nav-tab ';
-	if ( 'design' === $active_tab ) {
+		echo '<a href="?page=shariff3uu&tab=shariff3uu_design" class="nav-tab ';
+	if ( 'shariff3uu_design' === $active_tab ) {
 		echo 'nav-tab-active';
 	}
 		echo '">' . esc_html__( 'Design', 'shariff' ) . '</a>';
 		// Advanced.
-		echo '<a href="?page=shariff3uu&tab=advanced" class="nav-tab ';
-	if ( 'advanced' === $active_tab ) {
+		echo '<a href="?page=shariff3uu&tab=shariff3uu_advanced" class="nav-tab ';
+	if ( 'shariff3uu_advanced' === $active_tab ) {
 		echo 'nav-tab-active';
 	}
 		echo '">' . esc_html__( 'Advanced', 'shariff' ) . '</a>';
 		// Statistic.
-		echo '<a href="?page=shariff3uu&tab=statistic" class="nav-tab ';
-	if ( 'statistic' === $active_tab ) {
+		echo '<a href="?page=shariff3uu&tab=shariff3uu_statistic" class="nav-tab ';
+	if ( 'shariff3uu_statistic' === $active_tab ) {
 		echo 'nav-tab-active';
 	}
 		echo '">' . esc_html__( 'Statistic', 'shariff' ) . '</a>';
 		// Help.
-		echo '<a href="?page=shariff3uu&tab=help" class="nav-tab ';
-	if ( 'help' === $active_tab ) {
+		echo '<a href="?page=shariff3uu&tab=shariff3uu_help" class="nav-tab ';
+	if ( 'shariff3uu_help' === $active_tab ) {
 		echo 'nav-tab-active';
 	}
 		echo '">' . esc_html__( 'Help', 'shariff' ) . '</a>';
 		// Status.
-		echo '<a href="?page=shariff3uu&tab=status" class="nav-tab ';
-	if ( 'status' === $active_tab ) {
+		echo '<a href="?page=shariff3uu&tab=shariff3uu_status" class="nav-tab ';
+	if ( 'shariff3uu_status' === $active_tab ) {
 		echo 'nav-tab-active';
 	}
 		echo '">' . esc_html__( 'Status', 'shariff' ) . '</a>';
 		// Ranking.
-		echo '<a href="?page=shariff3uu&tab=ranking" class="nav-tab ';
-	if ( 'ranking' === $active_tab ) {
+		echo '<a href="?page=shariff3uu&tab=shariff3uu_ranking" class="nav-tab ';
+	if ( 'shariff3uu_ranking' === $active_tab ) {
 		echo 'nav-tab-active';
 	}
 		echo '">' . esc_html__( 'Ranking', 'shariff' ) . '</a>';
 	echo '</h2>';
 
 	// Content of tabs.
-	if ( 'basic' === $active_tab ) {
-		settings_fields( 'basic' );
-		do_settings_sections( 'basic' );
+	if ( 'shariff3uu_basic' === $active_tab ) {
+		settings_fields( 'shariff3uu_basic' );
+		do_settings_sections( 'shariff3uu_basic' );
 		submit_button();
-	} elseif ( 'design' === $active_tab ) {
-		settings_fields( 'design' );
-		do_settings_sections( 'design' );
+	} elseif ( 'shariff3uu_design' === $active_tab ) {
+		settings_fields( 'shariff3uu_design' );
+		do_settings_sections( 'shariff3uu_design' );
 		submit_button();
-	} elseif ( 'advanced' === $active_tab ) {
-		settings_fields( 'advanced' );
-		do_settings_sections( 'advanced' );
+	} elseif ( 'shariff3uu_advanced' === $active_tab ) {
+		settings_fields( 'shariff3uu_advanced' );
+		do_settings_sections( 'shariff3uu_advanced' );
 		submit_button();
-	} elseif ( 'statistic' === $active_tab ) {
-		settings_fields( 'statistic' );
-		do_settings_sections( 'statistic' );
+	} elseif ( 'shariff3uu_statistic' === $active_tab ) {
+		settings_fields( 'shariff3uu_statistic' );
+		do_settings_sections( 'shariff3uu_statistic' );
 		submit_button();
-	} elseif ( 'help' === $active_tab ) {
-		settings_fields( 'help' );
-		do_settings_sections( 'help' );
-	} elseif ( 'status' === $active_tab ) {
-		settings_fields( 'status' );
-		do_settings_sections( 'status' );
-	} elseif ( 'ranking' === $active_tab ) {
-		settings_fields( 'ranking' );
-		do_settings_sections( 'ranking' );
+	} elseif ( 'shariff3uu_help' === $active_tab ) {
+		settings_fields( 'shariff3uu_help' );
+		do_settings_sections( 'shariff3uu_help' );
+	} elseif ( 'shariff3uu_status' === $active_tab ) {
+		settings_fields( 'shariff3uu_status' );
+		do_settings_sections( 'shariff3uu_status' );
+	} elseif ( 'shariff3uu_ranking' === $active_tab ) {
+		settings_fields( 'shariff3uu_ranking' );
+		do_settings_sections( 'shariff3uu_ranking' );
 	}
 
 	// End of form.
