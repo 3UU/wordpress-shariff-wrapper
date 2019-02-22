@@ -75,7 +75,7 @@ if ( isset( $frontend ) && 1 === $frontend ) {
 	);
 
 	// Fetch counts.
-	$xing      = sanitize_text_field( wp_remote_retrieve_body( wp_remote_post( 'https://www.xing-share.com/spi/shares/statistics', $xing_post_options ) ) );
+	$xing      = sanitize_text_field( wp_remote_retrieve_body( wp_remote_post( 'https://www.xing.com/spi/shares/statistics', $xing_post_options ) ) );
 	$xing_json = json_decode( $xing, true );
 
 	// Store results, if we have some and record errors, if enabled (e.g. request from the status tab).

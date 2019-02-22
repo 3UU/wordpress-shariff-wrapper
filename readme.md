@@ -19,6 +19,12 @@ If you need any help or have specific questions regarding development and contri
 
 ## Changelog
 
+= 4.6.1 =
+- replaced Stumbleupon with its successor Mix (thanks to Mark)
+- added an option to hide WhatsApp on desktop devices
+- updated Odnoklassniki API
+- fixed an issue with WPML and some older Shariff setups
+
 = 4.6.0 =
 - new high contrast theme (WCAG)
 - improved support for WPML for easier translation of headlines and info button texts

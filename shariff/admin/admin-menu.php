@@ -12,7 +12,7 @@ if ( ! class_exists( 'WP' ) ) {
 }
 
 // Set services that have a share count API / backend.
-$shariff3uu_services_backend = array( 'facebook', 'twitter', 'pinterest', 'xing', 'reddit', 'stumbleupon', 'tumblr', 'vk', 'addthis', 'flattr', 'odnoklassniki' );
+$shariff3uu_services_backend = array( 'facebook', 'twitter', 'pinterest', 'xing', 'reddit', 'tumblr', 'vk', 'addthis', 'flattr', 'odnoklassniki' );
 
 
 // Adds the actions for the admin page.
@@ -374,6 +374,15 @@ function shariff3uu_options_init() {
 		'shariff3uu_advanced_section'
 	);
 
+	// Hide WhatsApp.
+	add_settings_field(
+		'shariff3uu_checkbox_hide_whatsapp',
+		__( 'Hide WhatsApp on desktop devices.', 'shariff' ),
+		'shariff3uu_checkbox_hide_whatsapp_render',
+		'shariff3uu_advanced',
+		'shariff3uu_advanced_section'
+	);
+
 	// Shortcode priority.
 	add_settings_field(
 		'shariff3uu_number_shortcodeprio',
@@ -704,6 +713,9 @@ function shariff3uu_advanced_sanitize( $input ) {
 	if ( isset( $input['default_pinterest'] ) ) {
 		$valid['default_pinterest'] = sanitize_text_field( $input['default_pinterest'] );
 	}
+	if ( isset( $input['hide_whatsapp'] ) ) {
+		$valid['hide_whatsapp'] = absint( $input['hide_whatsapp'] );
+	}
 	if ( isset( $input['shortcodeprio'] ) ) {
 		$valid['shortcodeprio'] = absint( $input['shortcodeprio'] );
 	}
@@ -824,9 +836,9 @@ function shariff3uu_text_services_render() {
 		$services = '';
 	}
 	echo '<input type="text" name="shariff3uu_basic[services]" value="' . esc_html( $services ) . '" size="90" placeholder="twitter|facebook|linkedin|info">';
-	echo '<p><code>addthis|bitcoin|diaspora|facebook|flattr|flipboard|info|linkedin|mailto</code></p>';
+	echo '<p><code>addthis|bitcoin|diaspora|facebook|flattr|flipboard|info|linkedin|mailto|mix</code></p>';
 	echo '<p><code>odnoklassniki|patreon|paypal|paypalme|pinterest|pocket|printer|qzone|reddit</code></p>';
-	echo '<p><code>rss|sms|stumbleupon|telegram|tencentweibo|threema|tumblr|twitter|vk|wallabag|weibo</code></p>';
+	echo '<p><code>rss|sms|telegram|tencentweibo|threema|tumblr|twitter|vk|wallabag|weibo</code></p>';
 	echo '<p><code>whatsapp|xing</code></p>';
 	echo '<p>' . esc_html__( 'Use the pipe sign | (Alt Gr + &lt; or &#8997; + 7) between two or more services.', 'shariff' ) . '</p>';
 }
@@ -1397,6 +1409,17 @@ function shariff3uu_text_default_pinterest_render() {
 }
 
 /**
+ * Hide WhatsApp on Desktop.
+ */
+function shariff3uu_checkbox_hide_whatsapp_render() {
+	echo '<input type="checkbox" name="shariff3uu_advanced[hide_whatsapp]" ';
+	if ( isset( $GLOBALS['shariff3uu_advanced']['hide_whatsapp'] ) ) {
+		echo checked( $GLOBALS['shariff3uu_advanced']['hide_whatsapp'], 1, 0 );
+	}
+	echo ' value="1">';
+}
+
+/**
  * Shortcode Priority.
  */
 function shariff3uu_number_shortcodeprio_render() {
@@ -1710,7 +1733,7 @@ function shariff3uu_help_section_callback() {
 		// Services.
 		echo '<div style="display:table-row">';
 			echo '<div style="display:table-cell;border:1px solid;padding:10px">services</div>';
-			echo '<div style="display:table-cell;border:1px solid;padding:10px">addthis<br>bitcoin<br>diaspora<br>facebook<br>flattr<br>flipboard<br>info<br>linkedin<br>mailto<br>odnoklassniki<br>patreon<br>paypal<br>paypalme<br>pinterest<br>pocket<br>printer<br>qzone<br>reddit<br>rss<br>sms<br>stumbleupon<br>telegram<br>tencentweibo<br>threema<br>tumblr<br>twitter<br>vk<br>wallabag<br>weibo<br>whatsapp<br>xing</div>';
+			echo '<div style="display:table-cell;border:1px solid;padding:10px">addthis<br>bitcoin<br>diaspora<br>facebook<br>flattr<br>flipboard<br>info<br>linkedin<br>mailto<br>mix<br>odnoklassniki<br>patreon<br>paypal<br>paypalme<br>pinterest<br>pocket<br>printer<br>qzone<br>reddit<br>rss<br>sms<br>telegram<br>tencentweibo<br>threema<br>tumblr<br>twitter<br>vk<br>wallabag<br>weibo<br>whatsapp<br>xing</div>';
 			echo '<div style="display:table-cell;border:1px solid;padding:10px">twitter|facebook|linkedin|info</div>';
 			echo '<div style="display:table-cell;border:1px solid;padding:10px">[shariff services="facebook|twitter|mailto"]</div>';
 			echo '<div style="display:table-cell;border:1px solid;padding:10px">' . esc_html__( 'Determines which buttons to show and in which order.', 'shariff' ) . '</div>';

@@ -257,27 +257,6 @@ if ( isset( $GLOBALS['shariff3UU']['version'] ) && -1 === version_compare( $GLOB
 }
 
 /**
- * Migration < 4.4
- */
-if ( isset( $GLOBALS['shariff3UU']['version'] ) && -1 === version_compare( $GLOBALS['shariff3UU']['version'], '4.4.0' ) ) {
-	// Remove hide update notice setting.
-	delete_option( 'shariff3UU_hide_update_notice' );
-	// Create new options.
-	$GLOBALS['shariff3uu_basic']     = (array) get_option( 'shariff3UU_basic' );
-	$GLOBALS['shariff3uu_design']    = (array) get_option( 'shariff3UU_design' );
-	$GLOBALS['shariff3uu_advanced']  = (array) get_option( 'shariff3UU_advanced' );
-	$GLOBALS['shariff3uu_statistic'] = (array) get_option( 'shariff3UU_statistic' );
-	// Delete old options.
-	delete_option( 'shariff3UU_basic' );
-	delete_option( 'shariff3UU_design' );
-	delete_option( 'shariff3UU_advanced' );
-	delete_option( 'shariff3UU_mailform' );
-	delete_option( 'shariff3UU_statistic' );
-	// Update version.
-	$GLOBALS['shariff3UU']['version'] = '4.4.0';
-}
-
-/**
  * Migration < 4.5
  */
 if ( isset( $GLOBALS['shariff3UU']['version'] ) && -1 === version_compare( $GLOBALS['shariff3UU']['version'], '4.5.0' ) ) {
@@ -331,10 +310,6 @@ function shariff3uu_purge_transients() {
 	wp_cache_flush();
 }
 
-// Remove Shariff cron job and add it again, if wanted.
-wp_clear_scheduled_hook( 'shariff3UU_fill_cache' );
-do_action( 'shariff3uu_save_statistic_options' );
-
 // Set new version.
 $GLOBALS['shariff3uu']['version']       = $code_version;
 $GLOBALS['shariff3uu_basic']['version'] = $code_version;
@@ -343,14 +318,26 @@ $GLOBALS['shariff3uu_basic']['version'] = $code_version;
  * Remove empty elements and save to options table.
  */
 // Basic.
+delete_option( 'shariff3uu_basic' );
 $shariff3uu_basic = array_filter( $GLOBALS['shariff3uu_basic'] );
 update_option( 'shariff3uu_basic', $shariff3uu_basic );
 // Design.
+delete_option( 'shariff3uu_design' );
 $shariff3uu_design = array_filter( $GLOBALS['shariff3uu_design'] );
 update_option( 'shariff3uu_design', $shariff3uu_design );
 // Advanced.
+delete_option( 'shariff3uu_advanced' );
 $shariff3uu_advanced = array_filter( $GLOBALS['shariff3uu_advanced'] );
 update_option( 'shariff3uu_advanced', $shariff3uu_advanced );
 // Statistic.
+delete_option( 'shariff3uu_statistic' );
 $shariff3uu_statistic = array_filter( $GLOBALS['shariff3uu_statistic'] );
 update_option( 'shariff3uu_statistic', $shariff3uu_statistic );
+
+// Remove old settings.
+delete_option( 'shariff3UU_mailform' );
+delete_option( 'shariff3UU_hide_update_notice' );
+
+// Remove Shariff cron job and add it again, if wanted.
+wp_clear_scheduled_hook( 'shariff3uu_fill_cache' );
+do_action( 'shariff3uu_save_statistic_options' );
