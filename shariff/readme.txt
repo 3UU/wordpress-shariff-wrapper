@@ -4,7 +4,7 @@ Tags: Shariff, GDPR, DSGVO, share buttons, sharing
 Requires at least: 4.9
 Requires PHP: 7.2
 Tested up to: 5.1
-Stable tag: 4.5.4
+Stable tag: 4.6.1
 License: MIT
 License URI: http://opensource.org/licenses/mit
 
@@ -151,6 +151,12 @@ These are bugs or unexpected glitches that we know of, but that do not have an i
 - If the first post on the start page is password protected and Shariff is disabled on protected posts, a widget at the end of the loop will not be rendered.
 
 == Changelog ==
+
+= 4.6.1 =
+- replaced Stumbleupon with its successor Mix (thanks to Mark)
+- added an option to hide WhatsApp on desktop devices
+- updated Odnoklassniki API
+- fixed an issue with WPML and some older Shariff setups
 
 = 4.6.0 =
 - new high contrast theme (WCAG)
