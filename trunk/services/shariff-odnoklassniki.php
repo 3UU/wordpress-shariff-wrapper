@@ -13,10 +13,10 @@ if ( ! class_exists( 'WP' ) ) {
 // Check if we need the frontend or the backend part.
 if ( isset( $frontend ) && 1 === $frontend ) {
 	// Service URL.
-	$service_url = esc_url( 'https://www.odnoklassniki.ru/dk' );
+	$service_url = esc_url( 'https://connect.ok.ru/offer' );
 
 	// Build button URL.
-	$button_url = $service_url . '?st.cmd=addShare&st._surl=' . $share_url . '&title=' . $share_title;
+	$button_url = $service_url . '?url=' . $share_url . '&title=' . $share_title;
 
 	// Colors.
 	$main_color      = '#ee8208';
@@ -58,14 +58,14 @@ if ( isset( $frontend ) && 1 === $frontend ) {
 	);
 } elseif ( isset( $backend ) && 1 === $backend ) {
 	// Fetch share counts.
-	$odnoklassniki = sanitize_text_field( wp_remote_retrieve_body( wp_remote_get( 'https://connect.ok.ru/dk?st.cmd=extLike&uid=odklcnt0&ref=' . $post_url ) ) );
+	$odnoklassniki = sanitize_text_field( wp_remote_retrieve_body( wp_remote_get( 'https://connect.ok.ru/dk?st.cmd=extLike&tp=json&ref=' . $post_url ) ) );
 
-	// Check results.
-	preg_match( '/^ODKL\.updateCount\(\'odklcnt0\',\'(\d+)\'\);$/i', $odnoklassniki, $ok_shares );
+	// Decode the json response.
+	$odnoklassniki_json = json_decode( $odnoklassniki, true );
 
 	// Store results and record errors, if enabled (e.g. request from the status tab).
-	if ( isset( $ok_shares ) && ! empty( $ok_shares ) ) {
-		$share_counts['odnoklassniki'] = intval( $ok_shares[1] );
+	if ( isset( $odnoklassniki_json ) && ! empty( $odnoklassniki_json ) ) {
+		$share_counts['odnoklassniki'] = intval( $odnoklassniki_json['count'] );
 	} elseif ( isset( $record_errors ) && 1 === $record_errors ) {
 		$service_errors['odnoklassniki'] = $odnoklassniki;
 	}
