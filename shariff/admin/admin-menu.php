@@ -12,8 +12,7 @@ if ( ! class_exists( 'WP' ) ) {
 }
 
 // Set services that have a share count API / backend.
-$shariff3uu_services_backend = array( 'facebook', 'twitter', 'pinterest', 'xing', 'reddit', 'tumblr', 'vk', 'addthis', 'flattr', 'odnoklassniki' );
-
+$shariff3uu_services_backend = array( 'facebook', 'twitter', 'pinterest', 'xing', 'reddit', 'tumblr', 'vk', 'addthis', 'flattr', 'odnoklassniki', 'buffer' );
 
 // Adds the actions for the admin page.
 add_action( 'admin_menu', 'shariff3uu_add_admin_menu' );
@@ -30,7 +29,12 @@ function shariff3uu_admin_style( $hook ) {
 	if ( 'settings_page_shariff3uu' === $hook ) {
 		// Scripts for pinterest default image media uploader.
 		wp_enqueue_media();
-		wp_register_script( 'shariff_mediaupload', plugins_url( '../js/shariff-media.js', __FILE__ ), array( 'jquery' ), '1.0', true );
+		$shariffjsmedia_url  = plugins_url( '/js/shariff-media.js', dirname( __FILE__ ) );
+		$shariffjsmedia_path = untrailingslashit( ABSPATH ) . wp_make_link_relative( $shariffjsmedia_url );
+		if ( ! file_exists( $shariffjsmedia_path ) ) {
+			$shariffjsmedia_url = plugins_url( 'shariff/js/shariff-media.js', basename( __DIR__ ) );
+		}
+		wp_register_script( 'shariff_mediaupload', $shariffjsmedia_url, array( 'jquery' ), '1.0', true );
 		$translation_array = array(
 			'choose_image' => __( 'Choose image', 'shariff' ),
 		);
@@ -836,10 +840,9 @@ function shariff3uu_text_services_render() {
 		$services = '';
 	}
 	echo '<input type="text" name="shariff3uu_basic[services]" value="' . esc_html( $services ) . '" size="90" placeholder="twitter|facebook|linkedin|info">';
-	echo '<p><code>addthis|bitcoin|diaspora|facebook|flattr|flipboard|info|linkedin|mailto|mix</code></p>';
-	echo '<p><code>odnoklassniki|patreon|paypal|paypalme|pinterest|pocket|printer|qzone|reddit</code></p>';
-	echo '<p><code>rss|sms|telegram|tencentweibo|threema|tumblr|twitter|vk|wallabag|weibo</code></p>';
-	echo '<p><code>whatsapp|xing</code></p>';
+	echo '<p><code>addthis|bitcoin|buffer|diaspora|facebook|flattr|flipboard|info|linkedin|mailto|mewe|mix</code></p>';
+	echo '<p><code>odnoklassniki|patreon|paypal|paypalme|pinterest|pocket|printer|qzone|reddit|rss|sms</code></p>';
+	echo '<p><code>telegram|tencentweibo|threema|tumblr|twitter|vk|wallabag|weibo|whatsapp|xing</code></p>';
 	echo '<p>' . esc_html__( 'Use the pipe sign | (Alt Gr + &lt; or &#8997; + 7) between two or more services.', 'shariff' ) . '</p>';
 }
 
@@ -1733,7 +1736,7 @@ function shariff3uu_help_section_callback() {
 		// Services.
 		echo '<div style="display:table-row">';
 			echo '<div style="display:table-cell;border:1px solid;padding:10px">services</div>';
-			echo '<div style="display:table-cell;border:1px solid;padding:10px">addthis<br>bitcoin<br>diaspora<br>facebook<br>flattr<br>flipboard<br>info<br>linkedin<br>mailto<br>mix<br>odnoklassniki<br>patreon<br>paypal<br>paypalme<br>pinterest<br>pocket<br>printer<br>qzone<br>reddit<br>rss<br>sms<br>telegram<br>tencentweibo<br>threema<br>tumblr<br>twitter<br>vk<br>wallabag<br>weibo<br>whatsapp<br>xing</div>';
+			echo '<div style="display:table-cell;border:1px solid;padding:10px">addthis<br>bitcoin<br>buffer<br>diaspora<br>facebook<br>flattr<br>flipboard<br>info<br>linkedin<br>mailto<br>mewe<br>mix<br>odnoklassniki<br>patreon<br>paypal<br>paypalme<br>pinterest<br>pocket<br>printer<br>qzone<br>reddit<br>rss<br>sms<br>telegram<br>tencentweibo<br>threema<br>tumblr<br>twitter<br>vk<br>wallabag<br>weibo<br>whatsapp<br>xing</div>';
 			echo '<div style="display:table-cell;border:1px solid;padding:10px">twitter|facebook|linkedin|info</div>';
 			echo '<div style="display:table-cell;border:1px solid;padding:10px">[shariff services="facebook|twitter|mailto"]</div>';
 			echo '<div style="display:table-cell;border:1px solid;padding:10px">' . esc_html__( 'Determines which buttons to show and in which order.', 'shariff' ) . '</div>';

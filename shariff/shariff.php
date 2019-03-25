@@ -3,7 +3,7 @@
  * Plugin Name: Shariff Wrapper
  * Plugin URI: https://wordpress.org/plugins-wp/shariff/
  * Description: Shariff provides share buttons that respect the privacy of your visitors and follow the General Data Protection Regulation (GDPR).
- * Version: 4.6.1
+ * Version: 4.6.2
  * Author: Jan-Peter Lambeck & 3UU
  * Author URI: https://wordpress.org/plugins/shariff/
  * License: MIT
@@ -33,7 +33,7 @@ $shariff3uu = array_merge( $shariff3uu_basic, $shariff3uu_design, $shariff3uu_ad
  */
 function shariff3uu_update() {
 	// Adjust code version.
-	$code_version = '4.6.1';
+	$code_version = '4.6.2';
 
 	// Get options.
 	$shariff3uu = $GLOBALS['shariff3uu'];
@@ -974,29 +974,56 @@ function shariff3uu_render( $atts ) {
 	// Enqueues the stylesheet (loading it here makes sure that it is only loaded on pages that actually contain shariff buttons).
 	// If SCRIPT_DEBUG is set to true, the non minified version will be loaded.
 	if ( defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG === true ) {
-		wp_enqueue_style( 'shariffcss', plugins_url( '/css/shariff.css', __FILE__ ), '', $shariff3uu['version'] );
+		$shariffcss_url  = plugins_url( '/css/shariff.css', __FILE__ );
+		$shariffcss_path = untrailingslashit( ABSPATH ) . wp_make_link_relative( $shariffcss_url );
+		if ( ! file_exists( $shariffcss_path ) ) {
+			$shariffcss_url = plugins_url( basename( __DIR__ ) . '/css/shariff.css' );
+		}
 	} else {
-		wp_enqueue_style( 'shariffcss', plugins_url( '/css/shariff.min.css', __FILE__ ), '', $shariff3uu['version'] );
+		$shariffcss_url  = plugins_url( '/css/shariff.min.css', __FILE__ );
+		$shariffcss_path = untrailingslashit( ABSPATH ) . wp_make_link_relative( $shariffcss_url );
+		if ( ! file_exists( $shariffcss_path ) ) {
+			$shariffcss_url = plugins_url( basename( __DIR__ ) . '/css/shariff.min.css' );
+		}
 	}
+	wp_enqueue_style( 'shariffcss', $shariffcss_url, '', $shariff3uu['version'] );
 
 	// Enqueues the share count script (the JS should be loaded at the footer - make sure that wp_footer() is present in your theme!)
 	// If SCRIPT_DEBUG is set to true, the non minified version will be loaded.
 	if ( array_key_exists( 'backend', $atts ) && 'on' === $atts['backend'] ) {
 		if ( defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG === true ) {
-			wp_enqueue_script( 'shariffjs', plugins_url( '/js/shariff.js', __FILE__ ), '', $shariff3uu['version'], true );
+			$shariffjs_url  = plugins_url( '/js/shariff.js', __FILE__ );
+			$shariffjs_path = untrailingslashit( ABSPATH ) . wp_make_link_relative( $shariffjs_url );
+			if ( ! file_exists( $shariffjs_path ) ) {
+				$shariffjs_url = plugins_url( basename( __DIR__ ) . '/js/shariff.js' );
+			}
 		} else {
-			wp_enqueue_script( 'shariffjs', plugins_url( '/js/shariff.min.js', __FILE__ ), '', $shariff3uu['version'], true );
+			$shariffjs_url  = plugins_url( '/js/shariff.min.js', __FILE__ );
+			$shariffjs_path = untrailingslashit( ABSPATH ) . wp_make_link_relative( $shariffjs_url );
+			if ( ! file_exists( $shariffjs_path ) ) {
+				$shariffjs_url = plugins_url( basename( __DIR__ ) . '/js/shariff.min.js' );
+			}
 		}
+		wp_enqueue_script( 'shariffjs', $shariffjs_url, '', $shariff3uu['version'], true );
 	}
 
 	// Enqueues the popup script (the JS should be loaded at the footer - make sure that wp_footer() is present in your theme!).
 	// If SCRIPT_DEBUG is set to true, the non minified version will be loaded.
 	if ( array_key_exists( 'popup', $atts ) && 1 === $atts['popup'] ) {
 		if ( defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG === true ) {
-			wp_enqueue_script( 'shariff_popup', plugins_url( '/js/shariff-popup.js', __FILE__ ), '', $shariff3uu['version'], true );
+			$shariffjspopup_url  = plugins_url( '/js/shariff-popup.js', __FILE__ );
+			$shariffjspopup_path = untrailingslashit( ABSPATH ) . wp_make_link_relative( $shariffjspopup_url );
+			if ( ! file_exists( $shariffjspopup_path ) ) {
+				$shariffjspopup_url = plugins_url( basename( __DIR__ ) . '/js/shariff-popup.js' );
+			}
 		} else {
-			wp_enqueue_script( 'shariff_popup', plugins_url( '/js/shariff-popup.min.js', __FILE__ ), '', $shariff3uu['version'], true );
+			$shariffjspopup_url  = plugins_url( '/js/shariff-popup.min.js', __FILE__ );
+			$shariffjspopup_path = untrailingslashit( ABSPATH ) . wp_make_link_relative( $shariffjspopup_url );
+			if ( ! file_exists( $shariffjspopup_path ) ) {
+				$shariffjspopup_url = plugins_url( basename( __DIR__ ) . '/js/shariff-popup.min.js' );
+			}
 		}
+		wp_enqueue_script( 'shariff_popup', $shariffjspopup_url, '', $shariff3uu['version'], true );
 	}
 
 	// Sets the share url.

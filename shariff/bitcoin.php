@@ -12,7 +12,7 @@ require './includes/phpqrcode.php';
 $bitcoinaddress = htmlspecialchars( $_GET['bitcoinaddress'] );
 
 // Creates the page.
-echo '<html><head><title>Bitcoin</title></head><body>';
+echo '<html lang="en"><head><title>Bitcoin</title></head><body>';
 echo '<div style="text-align:center;"><h1>Bitcoin</h1></div>';
 echo '<p style="text-align:center;"><a href="bitcoin:' . $bitcoinaddress . '">bitcoin:' . $bitcoinaddress . '</a></p>';
 echo '<p style="text-align:center;">';
