@@ -53,4 +53,4 @@ if ( isset( $frontend ) && 1 === $frontend ) {
 		'sr' => 'Podeli na Mix',
 		'sv' => 'Dela på Mix',
 	);
-} 
+}

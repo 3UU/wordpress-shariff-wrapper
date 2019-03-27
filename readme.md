@@ -19,6 +19,11 @@ If you need any help or have specific questions regarding development and contri
 
 ## Changelog
 
+= 4.6.2 =
+- new service MeWe
+- new service Buffer
+- fixed an issue in case the plugin dir has been moved via symlink
+
 = 4.6.1 =
 - replaced Stumbleupon with its successor Mix (thanks to Mark)
 - added an option to hide WhatsApp on desktop devices
