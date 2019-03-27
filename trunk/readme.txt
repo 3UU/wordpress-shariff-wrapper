@@ -2,9 +2,9 @@
 Contributors: starguide, 3UU
 Tags: Shariff, GDPR, DSGVO, share buttons, sharing
 Requires at least: 4.9
-Requires PHP: 7.1
+Requires PHP: 7.0
 Tested up to: 5.1
-Stable tag: 4.6.1
+Stable tag: 4.6.2
 License: MIT
 License URI: http://opensource.org/licenses/mit
 
@@ -12,7 +12,7 @@ Shariff provides share buttons that respect the privacy of your visitors and fol
 
 == Description ==
 
-The "original" share buttons automatically transmit data of your visitors to the social network sites as soon as they visit your website. They do not need to click on a share button for this and therefore have no choice, if they want their data to be send. The German computer magazine c't has developed "Shariff" `(ʃɛɹɪf)` that follows the General Data Protection Regulation (GDPR - Regulation (EU) 2016/679). This plugin adapts the Shariff concept and provides an easy to use solution for WordPress. We currently support 30 services in 25 languages: AddThis, Bitcoin, Diaspora, Facebook, Flattr, Flipboard, LinkedIn, mailto, Odnoklassniki, Patreon, PayPal, PayPal.me, Pinterest, Pocket, Printer, Qzone, Reddit, RSS, SMS, Stumbleupon, Telegram, TencentWeibo, Threema, Tumblr, Twitter, VK, Wallabag, Weibo, WhatsApp, Xing.
+The "original" share buttons automatically transmit data of your visitors to the social network sites as soon as they visit your website. They do not need to click on a share button for this and therefore have no choice, if they want their data to be send. The German computer magazine c't has developed "Shariff" `(ʃɛɹɪf)` that follows the General Data Protection Regulation (GDPR - Regulation (EU) 2016/679). This plugin adapts the Shariff concept and provides an easy to use solution for WordPress. We currently support 32 services in 25 languages: AddThis, Bitcoin, Buffer, Diaspora, Facebook, Flattr, Flipboard, LinkedIn, mailto, MeWe, Odnoklassniki, Patreon, PayPal, PayPal.me, Pinterest, Pocket, Printer, Qzone, Reddit, RSS, SMS, Stumbleupon, Telegram, TencentWeibo, Threema, Tumblr, Twitter, VK, Wallabag, Weibo, WhatsApp, Xing.
 
 For more information about the Shariff project check out the original [GitHub project](https://github.com/heiseonline/shariff) and read about the project itself [c’t information page](http://ct.de/shariff) (in German).
 
@@ -151,6 +151,11 @@ These are bugs or unexpected glitches that we know of, but that do not have an i
 - If the first post on the start page is password protected and Shariff is disabled on protected posts, a widget at the end of the loop will not be rendered.
 
 == Changelog ==
+
+= 4.6.2 =
+- new service MeWe
+- new service Buffer
+- fixed an issue in case the plugin dir has been moved via symlink
 
 = 4.6.1 =
 - replaced Stumbleupon with its successor Mix (thanks to Mark)
