@@ -29,12 +29,8 @@ function shariff3uu_admin_style( $hook ) {
 	if ( 'settings_page_shariff3uu' === $hook ) {
 		// Scripts for pinterest default image media uploader.
 		wp_enqueue_media();
-		$shariffjsmedia_url  = plugins_url( '/js/shariff-media.js', dirname( __FILE__ ) );
-		$shariffjsmedia_path = untrailingslashit( ABSPATH ) . wp_make_link_relative( $shariffjsmedia_url );
-		if ( ! file_exists( $shariffjsmedia_path ) ) {
-			$shariffjsmedia_url = plugins_url( 'shariff/js/shariff-media.js', basename( __DIR__ ) );
-		}
-		wp_register_script( 'shariff_mediaupload', $shariffjsmedia_url, array( 'jquery' ), '1.0', true );
+		$shariff_js_media_url = trailingslashit( plugins_url() ) . 'shariff/js/shariff-media.js';
+		wp_register_script( 'shariff_mediaupload', $shariff_js_media_url, array( 'jquery' ), '1.0', true );
 		$translation_array = array(
 			'choose_image' => __( 'Choose image', 'shariff' ),
 		);
