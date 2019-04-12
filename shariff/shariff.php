@@ -18,14 +18,15 @@ if ( ! class_exists( 'WP' ) ) {
 	die();
 }
 
+// Force the creation as a global variable in order to work with WP-CLI.
+global $shariff3uu_basic, $shariff3uu_design, $shariff3uu_advanced, $shariff3uu_statistic, $shariff3uu;
+
 // Get options (needed for front- and backend).
 $shariff3uu_basic     = (array) get_option( 'shariff3uu_basic' );
 $shariff3uu_design    = (array) get_option( 'shariff3uu_design' );
 $shariff3uu_advanced  = (array) get_option( 'shariff3uu_advanced' );
 $shariff3uu_statistic = (array) get_option( 'shariff3uu_statistic' );
 
-// Force the creation as a global variable in order to work with WP-CLI.
-global $shariff3uu;
 $shariff3uu = array_merge( $shariff3uu_basic, $shariff3uu_design, $shariff3uu_advanced, $shariff3uu_statistic );
 
 /**
