@@ -13,7 +13,7 @@ if ( ! class_exists( 'WP' ) ) {
 // Check if we need the frontend or the backend part.
 if ( isset( $frontend ) && 1 === $frontend ) {
 	// Service URL.
-	$service_url = 'https://wa.me/';
+	$service_url = 'https://api.whatsapp.com/send';
 
 	// Build button URL.
 	$button_url = $service_url . '?text=' . $share_title . '%20' . $share_url;

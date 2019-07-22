@@ -13,24 +13,13 @@ if ( ! class_exists( 'WP' ) ) {
 // Check if we need the frontend or the backend part.
 if ( isset( $frontend ) && 1 === $frontend ) {
 	// Service URL.
-	$service_url = esc_url( 'https://flattr.com/submit/auto' );
+	$service_url = esc_url( 'https://flattr.com/domain/' );
 
-	// Lang tag.
-	if ( isset( $atts['lang'] ) ) {
-		$lang = $atts['lang'] . '_' . strtoupper( $atts['lang'] );
-	} else {
-		$lang = 'en_US';
-	}
-
-	// Flattr user.
-	if ( array_key_exists( 'flattruser', $atts ) ) {
-		$flattruser = esc_html( $atts['flattruser'] );
-	} else {
-		$flattruser = '';
-	}
+	// Get WP URL.
+	$wp_url = wp_parse_url( get_bloginfo( 'url' ) );
 
 	// Build button URL.
-	$button_url = $service_url . '?url=' . $share_url . '&title=' . $share_title . '&language=' . $lang . '&fid=' . $flattruser;
+	$button_url = $service_url . preg_replace('#^www\.(.+\.)#i', '$1', $wp_url['host'] );
 
 	// Colors.
 	$main_color      = '#7ea352';
@@ -56,17 +45,4 @@ if ( isset( $frontend ) && 1 === $frontend ) {
 		'fr' => 'Flattré!',
 		'es' => 'Flattr!',
 	);
-} elseif ( isset( $backend ) && 1 === $backend ) {
-	// Fetch counts.
-	$flattr      = sanitize_text_field( wp_remote_retrieve_body( wp_remote_get( 'https://api.flattr.com/rest/v2/things/lookup/?url=' . $post_url ) ) );
-	$flattr_json = json_decode( $flattr, true );
-
-	// Store results, if we have some. If no thing was found, set it to 0. Record errors, if enabled (e.g. request from the status tab).
-	if ( isset( $flattr_json['flattrs'] ) ) {
-		$share_counts['flattr'] = intval( $flattr_json['flattrs'] );
-	} elseif ( isset( $flattr_json['description'] ) && 'No thing was found' === $flattr_json['description'] ) {
-		$share_counts['flattr'] = 0;
-	} elseif ( isset( $record_errors ) && 1 === $record_errors ) {
-		$service_errors['flattr'] = $flattr;
-	}
 }

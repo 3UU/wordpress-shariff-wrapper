@@ -1,8 +1,8 @@
 <?php
 /**
- * Will be included by shariff3UU_update() only if needed.
+ * Will be included by shariff3uu_update() only if needed.
  * Put all update task here. Make sure that all "older" updates are checked first.
- * At least you must set $GLOBALS["shariff3UU"]["version"] = [YOUR VERSION]; to avoid includes later on.
+ * At least you must set $shariff3uu['version'] = [YOUR VERSION]; to avoid includes later on.
  *
  * @package WordPress
  */
@@ -17,98 +17,98 @@ if ( ! class_exists( 'WP' ) ) {
  * Split options in database according to new setting tabs.
  * Delete old cache directory.
  */
-if ( isset( $GLOBALS['shariff3UU']['version'] ) && -1 === version_compare( $GLOBALS['shariff3UU']['version'], '2.2.5' ) ) {
+if ( isset( $shariff3uu['version'] ) && -1 === version_compare( $shariff3uu['version'], '2.2.5' ) ) {
 
 	// Basic options.
-	if ( isset( $GLOBALS['shariff3UU']['version'] ) ) {
-		$GLOBALS['shariff3UU_basic']['version'] = $GLOBALS['shariff3UU']['version'];
+	if ( isset( $shariff3uu['version'] ) ) {
+		$shariff3uu_basic['version'] = $shariff3uu['version'];
 	}
-	if ( isset( $GLOBALS['shariff3UU']['services'] ) ) {
-		$GLOBALS['shariff3UU_basic']['services'] = $GLOBALS['shariff3UU']['services'];
+	if ( isset( $shariff3uu['services'] ) ) {
+		$shariff3uu_basic['services'] = $shariff3uu['services'];
 	}
-	if ( isset( $GLOBALS['shariff3UU']['add_after_all_posts'] ) ) {
-		$GLOBALS['shariff3UU_basic']['add_after']['posts'] = $GLOBALS['shariff3UU']['add_after_all_posts'];
+	if ( isset( $shariff3uu['add_after_all_posts'] ) ) {
+		$shariff3uu_basic['add_after']['posts'] = $shariff3uu['add_after_all_posts'];
 	}
-	if ( isset( $GLOBALS['shariff3UU']['add_after_all_overview'] ) ) {
-		$GLOBALS['shariff3UU_basic']['add_after']['posts_blogpage'] = $GLOBALS['shariff3UU']['add_after_all_overview'];
+	if ( isset( $shariff3uu['add_after_all_overview'] ) ) {
+		$shariff3uu_basic['add_after']['posts_blogpage'] = $shariff3uu['add_after_all_overview'];
 	}
-	if ( isset( $GLOBALS['shariff3UU']['add_after_all_pages'] ) ) {
-		$GLOBALS['shariff3UU_basic']['add_after']['pages'] = $GLOBALS['shariff3UU']['add_after_all_pages'];
+	if ( isset( $shariff3uu['add_after_all_pages'] ) ) {
+		$shariff3uu_basic['add_after']['pages'] = $shariff3uu['add_after_all_pages'];
 	}
-	if ( isset( $GLOBALS['shariff3UU']['add_after_all_custom_type'] ) ) {
-		$GLOBALS['shariff3UU_basic']['add_after']['custom_type'] = $GLOBALS['shariff3UU']['add_after_all_custom_type'];
+	if ( isset( $shariff3uu['add_after_all_custom_type'] ) ) {
+		$shariff3uu_basic['add_after']['custom_type'] = $shariff3uu['add_after_all_custom_type'];
 	}
-	if ( isset( $GLOBALS['shariff3UU']['add_before_all_posts'] ) ) {
-		$GLOBALS['shariff3UU_basic']['add_before']['posts'] = $GLOBALS['shariff3UU']['add_before_all_posts'];
+	if ( isset( $shariff3uu['add_before_all_posts'] ) ) {
+		$shariff3uu_basic['add_before']['posts'] = $shariff3uu['add_before_all_posts'];
 	}
-	if ( isset( $GLOBALS['shariff3UU']['add_before_all_overview'] ) ) {
-		$GLOBALS['shariff3UU_basic']['add_before']['posts_blogpage'] = $GLOBALS['shariff3UU']['add_before_all_overview'];
+	if ( isset( $shariff3uu['add_before_all_overview'] ) ) {
+		$shariff3uu_basic['add_before']['posts_blogpage'] = $shariff3uu['add_before_all_overview'];
 	}
-	if ( isset( $GLOBALS['shariff3UU']['add_before_all_pages'] ) ) {
-		$GLOBALS['shariff3UU_basic']['add_before']['pages'] = $GLOBALS['shariff3UU']['add_before_all_pages'];
+	if ( isset( $shariff3uu['add_before_all_pages'] ) ) {
+		$shariff3uu_basic['add_before']['pages'] = $shariff3uu['add_before_all_pages'];
 	}
-	if ( isset( $GLOBALS['shariff3UU']['disable_on_protected'] ) ) {
-		$GLOBALS['shariff3UU_basic']['disable_on_protected'] = $GLOBALS['shariff3UU']['disable_on_protected'];
+	if ( isset( $shariff3uu['disable_on_protected'] ) ) {
+		$shariff3uu_basic['disable_on_protected'] = $shariff3uu['disable_on_protected'];
 	}
-	if ( isset( $GLOBALS['shariff3UU']['backend'] ) ) {
-		$GLOBALS['shariff3UU_basic']['backend'] = $GLOBALS['shariff3UU']['backend'];
+	if ( isset( $shariff3uu['backend'] ) ) {
+		$shariff3uu_basic['backend'] = $shariff3uu['backend'];
 	}
 
 	// Design options.
-	if ( isset( $GLOBALS['shariff3UU']['language'] ) ) {
-		$GLOBALS['shariff3UU_design']['language'] = $GLOBALS['shariff3UU']['language'];
+	if ( isset( $shariff3uu['language'] ) ) {
+		$shariff3uu_design['language'] = $shariff3uu['language'];
 	}
-	if ( isset( $GLOBALS['shariff3UU']['theme'] ) ) {
-		$GLOBALS['shariff3UU_design']['theme'] = $GLOBALS['shariff3UU']['theme'];
+	if ( isset( $shariff3uu['theme'] ) ) {
+		$shariff3uu_design['theme'] = $shariff3uu['theme'];
 	}
-	if ( isset( $GLOBALS['shariff3UU']['buttonsize'] ) ) {
-		$GLOBALS['shariff3UU_design']['buttonsize'] = $GLOBALS['shariff3UU']['buttonsize'];
+	if ( isset( $shariff3uu['buttonsize'] ) ) {
+		$shariff3uu_design['buttonsize'] = $shariff3uu['buttonsize'];
 	}
-	if ( isset( $GLOBALS['shariff3UU']['vertical'] ) ) {
-		$GLOBALS['shariff3UU_design']['vertical'] = $GLOBALS['shariff3UU']['vertical'];
+	if ( isset( $shariff3uu['vertical'] ) ) {
+		$shariff3uu_design['vertical'] = $shariff3uu['vertical'];
 	}
-	if ( isset( $GLOBALS['shariff3UU']['align'] ) ) {
-		$GLOBALS['shariff3UU_design']['align'] = $GLOBALS['shariff3UU']['align'];
+	if ( isset( $shariff3uu['align'] ) ) {
+		$shariff3uu_design['align'] = $shariff3uu['align'];
 	}
-	if ( isset( $GLOBALS['shariff3UU']['align_widget'] ) ) {
-		$GLOBALS['shariff3UU_design']['align_widget'] = $GLOBALS['shariff3UU']['align_widget'];
+	if ( isset( $shariff3uu['align_widget'] ) ) {
+		$shariff3uu_design['align_widget'] = $shariff3uu['align_widget'];
 	}
-	if ( isset( $GLOBALS['shariff3UU']['style'] ) ) {
-		$GLOBALS['shariff3UU_design']['style'] = $GLOBALS['shariff3UU']['style'];
+	if ( isset( $shariff3uu['style'] ) ) {
+		$shariff3uu_design['style'] = $shariff3uu['style'];
 	}
 
 	// Advanced options.
-	if ( isset( $GLOBALS['shariff3UU']['info_url'] ) ) {
-		$GLOBALS['shariff3UU_advanced']['info_url'] = $GLOBALS['shariff3UU']['info_url'];
+	if ( isset( $shariff3uu['info_url'] ) ) {
+		$shariff3uu_advanced['info_url'] = $shariff3uu['info_url'];
 	}
-	if ( isset( $GLOBALS['shariff3UU']['twitter_via'] ) ) {
-		$GLOBALS['shariff3UU_advanced']['twitter_via'] = $GLOBALS['shariff3UU']['twitter_via'];
+	if ( isset( $shariff3uu['twitter_via'] ) ) {
+		$shariff3uu_advanced['twitter_via'] = $shariff3uu['twitter_via'];
 	}
-	if ( isset( $GLOBALS['shariff3UU']['flattruser'] ) ) {
-		$GLOBALS['shariff3UU_advanced']['flattruser'] = $GLOBALS['shariff3UU']['flattruser'];
+	if ( isset( $shariff3uu['flattruser'] ) ) {
+		$shariff3uu_advanced['flattruser'] = $shariff3uu['flattruser'];
 	}
-	if ( isset( $GLOBALS['shariff3UU']['default_pinterest'] ) ) {
-		$GLOBALS['shariff3UU_advanced']['default_pinterest'] = $GLOBALS['shariff3UU']['default_pinterest'];
+	if ( isset( $shariff3uu['default_pinterest'] ) ) {
+		$shariff3uu_advanced['default_pinterest'] = $shariff3uu['default_pinterest'];
 	}
 
 	// Mailform options.
-	if ( isset( $GLOBALS['shariff3UU']['mail_add_post_content'] ) ) {
-		$GLOBALS['shariff3UU_mailform']['mail_add_post_content'] = $GLOBALS['shariff3UU']['mail_add_post_content'];
+	if ( isset( $shariff3uu['mail_add_post_content'] ) ) {
+		$GLOBALS['shariff3UU_mailform']['mail_add_post_content'] = $shariff3uu['mail_add_post_content'];
 	}
-	if ( isset( $GLOBALS['shariff3UU']['mail_sender_name'] ) ) {
-		$GLOBALS['shariff3UU_mailform']['mail_sender_name'] = $GLOBALS['shariff3UU']['mail_sender_name'];
+	if ( isset( $shariff3uu['mail_sender_name'] ) ) {
+		$GLOBALS['shariff3UU_mailform']['mail_sender_name'] = $shariff3uu['mail_sender_name'];
 	}
-	if ( isset( $GLOBALS['shariff3UU']['mail_sender_from'] ) ) {
-		$GLOBALS['shariff3UU_mailform']['mail_sender_from'] = $GLOBALS['shariff3UU']['mail_sender_from'];
+	if ( isset( $shariff3uu['mail_sender_from'] ) ) {
+		$GLOBALS['shariff3UU_mailform']['mail_sender_from'] = $shariff3uu['mail_sender_from'];
 	}
 	// Default options should be as save as possible, same reason the statistics are disabled by default.
 	$GLOBALS['shariff3UU_mailform']['require_sender'] = 1;
 
 	// Update global.
-	$GLOBALS['shariff3UU'] = array_merge( $GLOBALS['shariff3UU_basic'], $GLOBALS['shariff3UU_design'], $GLOBALS['shariff3UU_advanced'], $GLOBALS['shariff3UU_mailform'] );
+	$shariff3uu = array_merge( $shariff3uu_basic, $shariff3uu_design, $shariff3uu_advanced, $GLOBALS['shariff3UU_mailform'] );
 
 	// Update version.
-	$GLOBALS['shariff3UU']['version'] = '2.3.0';
+	$shariff3uu['version'] = '2.3.0';
 }
 
 /**
@@ -116,23 +116,23 @@ if ( isset( $GLOBALS['shariff3UU']['version'] ) && -1 === version_compare( $GLOB
  * Update options that were moved.
  * Delete old cache directory and db entry.
  */
-if ( isset( $GLOBALS['shariff3UU']['version'] ) && -1 === version_compare( $GLOBALS['shariff3UU']['version'], '3.3.0' ) ) {
+if ( isset( $shariff3uu['version'] ) && -1 === version_compare( $shariff3uu['version'], '3.3.0' ) ) {
 
 	// Update options that were moved.
-	if ( isset( $GLOBALS['shariff3UU']['backend'] ) ) {
-		$GLOBALS['shariff3UU_statistic']['backend'] = $GLOBALS['shariff3UU']['backend'];
+	if ( isset( $shariff3uu['backend'] ) ) {
+		$shariff3uu_statistic['backend'] = $shariff3uu['backend'];
 	}
-	if ( isset( $GLOBALS['shariff3UU']['fb_id'] ) ) {
-		$GLOBALS['shariff3UU_statistic']['fb_id'] = $GLOBALS['shariff3UU']['fb_id'];
+	if ( isset( $shariff3uu['fb_id'] ) ) {
+		$shariff3uu_statistic['fb_id'] = $shariff3uu['fb_id'];
 	}
-	if ( isset( $GLOBALS['shariff3UU']['fb_secret'] ) ) {
-		$GLOBALS['shariff3UU_statistic']['fb_secret'] = $GLOBALS['shariff3UU']['fb_secret'];
+	if ( isset( $shariff3uu['fb_secret'] ) ) {
+		$shariff3uu_statistic['fb_secret'] = $shariff3uu['fb_secret'];
 	}
-	if ( isset( $GLOBALS['shariff3UU']['ttl'] ) ) {
-		$GLOBALS['shariff3UU_statistic']['ttl'] = $GLOBALS['shariff3UU']['ttl'];
+	if ( isset( $shariff3uu['ttl'] ) ) {
+		$shariff3uu_statistic['ttl'] = $shariff3uu['ttl'];
 	}
-	if ( isset( $GLOBALS['shariff3UU']['disable'] ) ) {
-		$GLOBALS['shariff3UU_statistic']['disable'] = $GLOBALS['shariff3UU']['disable'];
+	if ( isset( $shariff3uu['disable'] ) ) {
+		$shariff3uu_statistic['disable'] = $shariff3uu['disable'];
 	}
 
 	// Delete old cache directory and db entry.
@@ -160,10 +160,10 @@ if ( isset( $GLOBALS['shariff3UU']['version'] ) && -1 === version_compare( $GLOB
 	}
 
 	// Disable Twitter backend due to new service OpenShareCount.com.
-	$GLOBALS['shariff3UU_statistic']['disable']['twitter'] = 1;
+	$shariff3uu_statistic['disable']['twitter'] = 1;
 
 	// Update version.
-	$GLOBALS['shariff3UU']['version'] = '3.3.0';
+	$shariff3uu['version'] = '3.3.0';
 }
 
 /**
@@ -198,31 +198,31 @@ function shariff_removeoldfiles( $directory ) {
 /**
  * Migration < 4.0
  */
-if ( isset( $GLOBALS['shariff3UU']['version'] ) && -1 === version_compare( $GLOBALS['shariff3UU']['version'], '4.0.0' ) ) {
+if ( isset( $shariff3uu['version'] ) && -1 === version_compare( $shariff3uu['version'], '4.0.0' ) ) {
 
 	// Set new option share counts, if statistic is enabled.
-	if ( isset( $GLOBALS['shariff3UU_statistic']['backend'] ) ) {
-		$GLOBALS['shariff3UU_statistic']['sharecounts'] = 1;
+	if ( isset( $shariff3uu_statistic['backend'] ) ) {
+		$shariff3uu_statistic['sharecounts'] = 1;
 	}
 
 	// Disable share counts if WP version < 4.4.
 	if ( version_compare( get_bloginfo( 'version' ), '4.4.0' ) < 1 ) {
-		unset( $GLOBALS['shariff3UU_statistic']['backend'] );
+		unset( $shariff3uu_statistic['backend'] );
 	}
 
 	// Change button language to WordPress language, if it is set to auto and http_negotiate_language is not available (auto will not work without it).
-	if ( ! isset( $GLOBALS['shariff3UU_design']['lang'] ) && ! function_exists( 'http_negotiate_language' ) ) {
-		$GLOBALS['shariff3UU_design']['lang'] = substr( get_bloginfo( 'language' ), 0, 2 );
+	if ( ! isset( $shariff3uu_design['lang'] ) && ! function_exists( 'http_negotiate_language' ) ) {
+		$shariff3uu_design['lang'] = substr( get_bloginfo( 'language' ), 0, 2 );
 	}
 
 	// Update version.
-	$GLOBALS['shariff3UU']['version'] = '4.0.0';
+	$shariff3uu['version'] = '4.0.0';
 }
 
 /**
  * Migration < 4.2
  */
-if ( isset( $GLOBALS['shariff3UU']['version'] ) && -1 === version_compare( $GLOBALS['shariff3UU']['version'], '4.2.0' ) ) {
+if ( isset( $shariff3uu['version'] ) && -1 === version_compare( $shariff3uu['version'], '4.2.0' ) ) {
 	// Make sure we have the $wpdb class ready.
 	global $wpdb;
 
@@ -259,14 +259,14 @@ if ( isset( $GLOBALS['shariff3UU']['version'] ) && -1 === version_compare( $GLOB
 /**
  * Migration < 4.5
  */
-if ( isset( $GLOBALS['shariff3UU']['version'] ) && -1 === version_compare( $GLOBALS['shariff3UU']['version'], '4.5.0' ) ) {
+if ( isset( $shariff3uu['version'] ) && -1 === version_compare( $shariff3uu['version'], '4.5.0' ) ) {
 	// Update language settings.
-	if ( ! isset( $GLOBALS['shariff3UU_design']['lang'] ) ) {
-		$GLOBALS['shariff3UU_design']['autolang'] = 1;
-		$GLOBALS['shariff3UU_design']['lang']     = substr( get_locale(), 0, 2 );
+	if ( ! isset( $shariff3uu_design['lang'] ) ) {
+		$shariff3uu_design['autolang'] = 1;
+		$shariff3uu_design['lang']     = substr( get_locale(), 0, 2 );
 	}
 	// Update version.
-	$GLOBALS['shariff3UU']['version'] = '4.5.0';
+	$shariff3uu['version'] = '4.5.0';
 }
 
 /**
@@ -311,27 +311,27 @@ function shariff3uu_purge_transients() {
 }
 
 // Set new version.
-$GLOBALS['shariff3uu']['version']       = $code_version;
-$GLOBALS['shariff3uu_basic']['version'] = $code_version;
+$shariff3uu['version']       = $code_version;
+$shariff3uu_basic['version'] = $code_version;
 
 /**
- * Remove empty elements and save to options table.
+ * Remove empty elements and save to options table. We had a mix up with shariff3uu and shariff3UU in the past and update_option is not case senitive. Therefore we actually need to delete and recreate it.
  */
 // Basic.
 delete_option( 'shariff3uu_basic' );
-$shariff3uu_basic = array_filter( $GLOBALS['shariff3uu_basic'] );
+$shariff3uu_basic = array_filter( $shariff3uu_basic );
 update_option( 'shariff3uu_basic', $shariff3uu_basic );
 // Design.
 delete_option( 'shariff3uu_design' );
-$shariff3uu_design = array_filter( $GLOBALS['shariff3uu_design'] );
+$shariff3uu_design = array_filter( $shariff3uu_design );
 update_option( 'shariff3uu_design', $shariff3uu_design );
 // Advanced.
 delete_option( 'shariff3uu_advanced' );
-$shariff3uu_advanced = array_filter( $GLOBALS['shariff3uu_advanced'] );
+$shariff3uu_advanced = array_filter( $shariff3uu_advanced );
 update_option( 'shariff3uu_advanced', $shariff3uu_advanced );
 // Statistic.
 delete_option( 'shariff3uu_statistic' );
-$shariff3uu_statistic = array_filter( $GLOBALS['shariff3uu_statistic'] );
+$shariff3uu_statistic = array_filter( $shariff3uu_statistic );
 update_option( 'shariff3uu_statistic', $shariff3uu_statistic );
 
 // Remove old settings.
