@@ -3,7 +3,7 @@
  * Plugin Name: Shariff Wrapper
  * Plugin URI: https://wordpress.org/plugins-wp/shariff/
  * Description: Shariff provides share buttons that respect the privacy of your visitors and follow the General Data Protection Regulation (GDPR).
- * Version: 4.6.2
+ * Version: 4.6.3
  * Author: Jan-Peter Lambeck & 3UU
  * Author URI: https://wordpress.org/plugins/shariff/
  * License: MIT
@@ -33,18 +33,25 @@ $shariff3uu = array_merge( $shariff3uu_basic, $shariff3uu_design, $shariff3uu_ad
  */
 function shariff3uu_update() {
 	// Adjust code version.
-	$code_version = '4.6.2';
+	$code_version = '4.6.3';
 
-	// Get options.
-	$shariff3uu = $GLOBALS['shariff3uu'];
+	// Get basic options.
+	$shariff3uu_basic = (array) get_option( 'shariff3uu_basic' );
 
 	// Check if the installed version is older than the code version and include updates.php if necessary.
-	if ( empty( $shariff3uu['version'] ) || ( isset( $shariff3uu['version'] ) && version_compare( $shariff3uu['version'], $code_version ) === -1 ) ) {
+	if ( empty( $shariff3uu_basic['version'] ) || ( isset( $shariff3uu_basic['version'] ) && version_compare( $shariff3uu_basic['version'], $code_version ) === -1 ) ) {
+		// Get the other options.
+		$shariff3uu_design    = (array) get_option( 'shariff3uu_design' );
+		$shariff3uu_advanced  = (array) get_option( 'shariff3uu_advanced' );
+		$shariff3uu_statistic = (array) get_option( 'shariff3uu_statistic' );
+		$shariff3uu           = array_merge( $shariff3uu_basic, $shariff3uu_design, $shariff3uu_advanced, $shariff3uu_statistic );
 		// Include updates.php.
 		include dirname( __FILE__ ) . '/updates.php';
 	}
 }
 add_action( 'admin_init', 'shariff3uu_update' );
+// In case WP-CLI is used and the backend is never visited, we add it to cli_init as well.
+add_action( 'cli_init', 'shariff3uu_update' );
 
 /**
  * Add privacy policy suggestions to WordPress privacy generator introduced in WordPress 4.9.6.
@@ -1193,9 +1200,7 @@ function shariff3uu_render( $atts ) {
 	// Loops through all desired services.
 	foreach ( $service_array as $service ) {
 		// Check if necessary usernames are set and display warning to admins, if needed.
-		if ( 'flattr' === $service && ! array_key_exists( 'flattruser', $atts ) ) {
-			$flattr_error = 1;
-		} elseif ( 'paypal' === $service && ! array_key_exists( 'paypalbuttonid', $atts ) ) {
+		if ( 'paypal' === $service && ! array_key_exists( 'paypalbuttonid', $atts ) ) {
 			$paypal_error = 1;
 		} elseif ( 'paypalme' === $service && ! array_key_exists( 'paypalmeid', $atts ) ) {
 			$paypalme_error = 1;
@@ -1518,10 +1523,6 @@ function shariff3uu_render( $atts ) {
 		update_option( 'shariff3uu_design', $shariff3uu_design );
 	}
 
-	// Displays a warning to admins if flattr is set, but no flattr username was provided.
-	if ( 1 === $flattr_error && current_user_can( 'manage_options' ) ) {
-		$output .= '<div class="shariff-warning">' . __( 'Username for Flattr is missing!', 'shariff' ) . '</div>';
-	}
 	// Displays a warning to admins if patreon is set, but no patreon username was provided.
 	if ( 1 === $patreon_error && current_user_can( 'manage_options' ) ) {
 		$output .= '<div class="shariff-warning">' . __( 'Username for patreon is missing!', 'shariff' ) . '</div>';
@@ -1572,7 +1573,6 @@ function shariff3uu_meta( $atts ) {
  * Clears transients and removes cron job upon deactivation.
  */
 function shariff3uu_deactivate() {
-	global $wpdb;
 	// Checks for multisite.
 	if ( is_multisite() && function_exists( 'get_sites' ) && class_exists( 'WP_Site_Query' ) ) {
 		$sites = get_sites();

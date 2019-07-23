@@ -19,10 +19,6 @@ function shariff3uu_service_notice() {
 	$services = array();
 	// Check if any services are set and if user can manage options.
 	if ( isset( $GLOBALS['shariff3uu']['services'] ) && current_user_can( 'manage_options' ) ) {
-		// Flattr.
-		if ( strpos( $GLOBALS['shariff3uu']['services'], 'flattr' ) !== false && empty( $GLOBALS['shariff3uu']['flattruser'] ) ) {
-			$services[] = 'Flattr';
-		}
 		// Patreon.
 		if ( strpos( $GLOBALS['shariff3uu']['services'], 'patreon' ) !== false && empty( $GLOBALS['shariff3uu']['patreonid'] ) ) {
 			$services[] = 'Patreon';

@@ -2,6 +2,15 @@
 
 == Changelog ==
 
+= 4.6.3 =
+- updated the WhatsApp share link to work with all devices again (thanks to @hanshansenxxx)
+- updated to Facebook Graph API v3.3
+- updated the Flattr button to reflect the new Flattr (thanks to Chris, @camthor)
+- fixed an update issue with WP CLI
+- removed the Facebook share counts request without APP ID and Secret
+- Facebook now always requires an APP ID and Secret for share counts
+- removed Flattr counts due to Flattr removing the API
+
 = 4.6.2 =
 - new service MeWe
 - new service Buffer
