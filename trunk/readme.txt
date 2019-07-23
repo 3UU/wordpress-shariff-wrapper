@@ -153,7 +153,7 @@ These are bugs or unexpected glitches that we know of, but that do not have an i
 == Changelog ==
 
 = 4.6.3 =
-- updated the WhatsApp share link to work with all devices again (thanks to @hanshansenxxx)
+- updated the WhatsApp share link (thanks to @hanshansenxxx and @korbball)
 - updated to Facebook Graph API v3.3
 - updated the Flattr button to reflect the new Flattr (thanks to Chris, @camthor)
 - fixed an update issue with WP CLI
