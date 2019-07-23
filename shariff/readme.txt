@@ -3,8 +3,8 @@ Contributors: starguide, 3UU
 Tags: Shariff, GDPR, DSGVO, share buttons, sharing
 Requires at least: 4.9
 Requires PHP: 7.0
-Tested up to: 5.1
-Stable tag: 4.6.2
+Tested up to: 5.2
+Stable tag: 4.6.3
 License: MIT
 License URI: http://opensource.org/licenses/mit
 
@@ -151,6 +151,15 @@ These are bugs or unexpected glitches that we know of, but that do not have an i
 - If the first post on the start page is password protected and Shariff is disabled on protected posts, a widget at the end of the loop will not be rendered.
 
 == Changelog ==
+
+= 4.6.3 =
+- updated the WhatsApp share link to work with all devices again (thanks to @hanshansenxxx)
+- updated to Facebook Graph API v3.3
+- updated the Flattr button to reflect the new Flattr (thanks to Chris, @camthor)
+- fixed an update issue with WP CLI
+- removed the Facebook share counts request without APP ID and Secret
+- Facebook now always requires an APP ID and Secret for share counts
+- removed Flattr counts due to Flattr removing the API
 
 = 4.6.2 =
 - new service MeWe

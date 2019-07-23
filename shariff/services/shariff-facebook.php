@@ -58,7 +58,7 @@ if ( isset( $frontend ) && 1 === $frontend ) {
 		'zh' => '在Facebook上分享',
 	);
 } elseif ( isset( $backend ) && 1 === $backend ) {
-	// Use the FB ID and Secret, if available, else use the normal way.
+	// Use the FB ID and Secret, if available.
 	if ( isset( $shariff3uu['fb_id'] ) && isset( $shariff3uu['fb_secret'] ) ) {
 		// On 32-bit PHP installations the constant is 4 and we have to disable the check because the id is too long.
 		if ( ( defined( PHP_INT_SIZE ) && PHP_INT_SIZE === '4' ) || ! defined( PHP_INT_SIZE ) ) {
@@ -70,17 +70,11 @@ if ( isset( $frontend ) && 1 === $frontend ) {
 		// Create the FB access token.
 		$fb_token = $fb_app_id . '|' . $fb_app_secret;
 		// Use the token to get the share counts.
-		$facebook = sanitize_text_field( wp_remote_retrieve_body( wp_remote_get( 'https://graph.facebook.com/v3.2/?access_token=' . $fb_token . '&fields=engagement&id=' . $post_url ) ) );
+		$facebook = sanitize_text_field( wp_remote_retrieve_body( wp_remote_get( 'https://graph.facebook.com/v3.3/?access_token=' . $fb_token . '&fields=engagement&id=' . $post_url ) ) );
 		// Decode the json response.
 		$facebook_json = json_decode( $facebook, true );
 		// Set nofbid in case the page has not yet been crawled by Facebook and no ID is provided.
 		$nofbid = '0';
-	} else {
-		$facebook = sanitize_text_field( wp_remote_retrieve_body( wp_remote_get( 'https://graph.facebook.com/?id=' . $post_url ) ) );
-		// Decode the json response.
-		$facebook_json = json_decode( $facebook, true );
-		// Set nofbid in case the page has not yet been crawled by Facebook and no ID is provided.
-		$nofbid = 1;
 	}
 
 	/**

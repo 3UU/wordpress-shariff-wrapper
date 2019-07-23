@@ -12,7 +12,7 @@ if ( ! class_exists( 'WP' ) ) {
 }
 
 // Set services that have a share count API / backend.
-$shariff3uu_services_backend = array( 'facebook', 'twitter', 'pinterest', 'xing', 'reddit', 'tumblr', 'vk', 'addthis', 'flattr', 'odnoklassniki', 'buffer' );
+$shariff3uu_services_backend = array( 'facebook', 'twitter', 'pinterest', 'xing', 'reddit', 'tumblr', 'vk', 'addthis', 'odnoklassniki', 'buffer' );
 
 // Adds the actions for the admin page.
 add_action( 'admin_menu', 'shariff3uu_add_admin_menu' );
@@ -307,15 +307,6 @@ function shariff3uu_options_init() {
 		'shariff3uu_text_twittervia',
 		__( 'Twitter username for the via tag:', 'shariff' ),
 		'shariff3uu_text_twittervia_render',
-		'shariff3uu_advanced',
-		'shariff3uu_advanced_section'
-	);
-
-	// Flattr username.
-	add_settings_field(
-		'shariff3uu_text_flattruser',
-		__( 'Flattr username:', 'shariff' ),
-		'shariff3uu_text_flattruser_render',
 		'shariff3uu_advanced',
 		'shariff3uu_advanced_section'
 	);
@@ -1324,18 +1315,6 @@ function shariff3uu_text_twittervia_render() {
 }
 
 /**
- * Flattr username.
- */
-function shariff3uu_text_flattruser_render() {
-	if ( isset( $GLOBALS['shariff3uu_advanced']['flattruser'] ) ) {
-		$flattruser = $GLOBALS['shariff3uu_advanced']['flattruser'];
-	} else {
-		$flattruser = '';
-	}
-	echo '<input type="text" name="shariff3uu_advanced[flattruser]" value="' . esc_html( $flattruser ) . '" size="50" placeholder="' . esc_html__( 'username', 'shariff' ) . '">';
-}
-
-/**
  * Patreon username.
  */
 function shariff3uu_text_patreonid_render() {
@@ -1849,14 +1828,6 @@ function shariff3uu_help_section_callback() {
 			echo '<div style="display:table-cell;border:1px solid;padding:10px">[shariff twitter_via="your_twittername"]</div>';
 			echo '<div style="display:table-cell;border:1px solid;padding:10px">' . esc_html__( 'Sets the Twitter via tag.', 'shariff' ) . '</div>';
 		echo '</div>';
-		// Flattruser.
-		echo '<div style="display:table-row">';
-			echo '<div style="display:table-cell;border:1px solid;padding:10px">flattruser</div>';
-			echo '<div style="display:table-cell;border:1px solid;padding:10px"></div>';
-			echo '<div style="display:table-cell;border:1px solid;padding:10px"></div>';
-			echo '<div style="display:table-cell;border:1px solid;padding:10px">[shariff flattruser="your_username"]</div>';
-			echo '<div style="display:table-cell;border:1px solid;padding:10px">' . esc_html__( 'Sets the Flattr username.', 'shariff' ) . '</div>';
-		echo '</div>';
 		// Patreonid.
 		echo '<div style="display:table-row">';
 			echo '<div style="display:table-cell;border:1px solid;padding:10px">patreonid</div>';
@@ -2022,6 +1993,8 @@ function shariff3uu_status_section_callback() {
 					echo '<div class="shariff_status-table">';
 			if ( isset( $shariff3uu['disable'][ $service ] ) && 1 === $shariff3uu['disable'][ $service ] ) {
 				echo '<div style="display:table-row"><div style="display:table-cell;font-weight:bold">' . esc_html__( 'Disabled', 'shariff' ) . '</div></div>';
+			} elseif ( 'facebook' === $service && ( ! isset( $shariff3uu['fb_id'] ) || ! isset( $shariff3uu['fb_secret'] ) ) ) {
+				echo '<div style="display:table-row"><div style="display:table-cell;font-weight:bold;color:#ff0000">' . esc_html__( 'Facebook shut down the possibility to request share counts without an APP ID and Secret. Therefore, you need to create a Facebook APP ID and Secret and enter it in the settings on the Statistic tab. Google will provide you with many tutorials. Simple search for “facebook app id secret” and you will find one in your language.', 'shariff' ) . '</div></div>';
 			} elseif ( ! array_key_exists( $service, $service_errors ) ) {
 				echo '<div style="display:table-row"><div style="display:table-cell;font-weight:bold;color:green">' . esc_html__( 'OK', 'shariff' ) . '</div></div>';
 				echo '<div style="display:table-row"><div style="display:table-cell">' . esc_html__( 'Share Count:', 'shariff' ) . ' ' . absint( $share_counts[ $service ] ) . '</div></div>';
