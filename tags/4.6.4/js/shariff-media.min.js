@@ -1,0 +1,1 @@
+jQuery(document).ready(function(a){a("#shariff-upload-btn").click(function(c){c.preventDefault();var b=wp.media({title:shariff_media.choose_image,multiple:false}).open().on("select",function(){var d=b.state().get("selection").first();console.log(d);var e=d.toJSON().url;a("#shariff-image-url").val(e)})})});
