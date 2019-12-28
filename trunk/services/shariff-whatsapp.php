@@ -16,7 +16,7 @@ if ( isset( $frontend ) && 1 === $frontend ) {
 	$service_url = 'https://api.whatsapp.com/send';
 
 	// Build button URL.
-	$button_url = $service_url . '?text=' . $share_title . '%20' . $share_url;
+	$button_url = $service_url . '?text=' . $share_url . '%20' . $share_title;
 
 	// Colors.
 	$main_color      = '#34af23';
