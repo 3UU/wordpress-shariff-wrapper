@@ -19,6 +19,11 @@ If you need any help or have specific questions regarding development and contri
 
 ## Changelog
 
+= 4.6.5 =
+- updated to Facebook Graph API v6.0
+- fixed minor bug
+- tested for WordPress 5.4
+
 = 4.6.4 =
 - fixed the settings link on the plugin overview page for certain environments (thanks to @midgard)
 - updated to Facebook Graph API v5.0
