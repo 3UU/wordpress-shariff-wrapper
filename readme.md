@@ -19,6 +19,18 @@ If you need any help or have specific questions regarding development and contri
 
 ## Changelog
 
+= 4.6.5 =
+- updated to Facebook Graph API v6.0
+- fixed minor bug
+- tested for WordPress 5.4
+
+= 4.6.4 =
+- fixed the settings link on the plugin overview page for certain environments (thanks to @midgard)
+- updated to Facebook Graph API v5.0
+- updated the WhatsApp link to swap url and title for a working image preview
+- removed nofollow from the info button
+- remvoed Xing share counts due to Xing disabling the API
+
 = 4.6.3 =
 - updated the WhatsApp share link to work with all devices again (thanks to @hanshansenxxx)
 - updated to Facebook Graph API v3.3

@@ -12,7 +12,7 @@ if ( ! class_exists( 'WP' ) ) {
 }
 
 // Set services that have a share count API / backend.
-$shariff3uu_services_backend = array( 'facebook', 'twitter', 'pinterest', 'xing', 'reddit', 'tumblr', 'vk', 'addthis', 'odnoklassniki', 'buffer' );
+$shariff3uu_services_backend = array( 'facebook', 'twitter', 'pinterest', 'reddit', 'tumblr', 'vk', 'addthis', 'odnoklassniki', 'buffer' );
 
 // Adds the actions for the admin page.
 add_action( 'admin_menu', 'shariff3uu_add_admin_menu' );

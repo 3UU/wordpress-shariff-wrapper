@@ -3,7 +3,7 @@
  * Plugin Name: Shariff Wrapper
  * Plugin URI: https://wordpress.org/plugins-wp/shariff/
  * Description: Shariff provides share buttons that respect the privacy of your visitors and follow the General Data Protection Regulation (GDPR).
- * Version: 4.6.3
+ * Version: 4.6.5
  * Author: Jan-Peter Lambeck & 3UU
  * Author URI: https://wordpress.org/plugins/shariff/
  * License: MIT
@@ -33,7 +33,7 @@ $shariff3uu = array_merge( $shariff3uu_basic, $shariff3uu_design, $shariff3uu_ad
  */
 function shariff3uu_update() {
 	// Adjust code version.
-	$code_version = '4.6.3';
+	$code_version = '4.6.5';
 
 	// Get basic options.
 	$shariff3uu_basic = (array) get_option( 'shariff3uu_basic' );
@@ -170,7 +170,7 @@ function shariff3uu_meta_links( $links, $file ) {
 	if ( $file === $plugin ) {
 		return array_merge(
 			$links,
-			array( '<a href="' . home_url() . '/wp-admin/options-general.php?page=shariff3uu">' . __( 'Settings', 'shariff' ) . '</a>', '<a href="https://wordpress.org/support/plugin/shariff" target="_blank">' . __( 'Support Forum', 'shariff' ) . '</a>' )
+			array( '<a href="' . site_url() . '/wp-admin/options-general.php?page=shariff3uu">' . __( 'Settings', 'shariff' ) . '</a>', '<a href="https://wordpress.org/support/plugin/shariff" target="_blank">' . __( 'Support Forum', 'shariff' ) . '</a>' )
 		);
 	}
 	return $links;
@@ -1329,7 +1329,10 @@ function shariff3uu_render( $atts ) {
 					if ( 'facebook' !== $service ) {
 						$output .= 'noopener ';
 					}
-					$output .= 'nofollow"';
+					if ( 'info' !== $service ) {
+						$output .= 'nofollow';
+					}
+					$output .= '"';
 				}
 				$output .= ' class="shariff-link';
 
