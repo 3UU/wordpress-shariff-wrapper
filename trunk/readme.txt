@@ -3,8 +3,8 @@ Contributors: starguide, 3UU
 Tags: Shariff, GDPR, DSGVO, share buttons, sharing
 Requires at least: 4.9
 Requires PHP: 7.0
-Tested up to: 5.3
-Stable tag: 4.6.4
+Tested up to: 5.4
+Stable tag: 4.6.5
 License: MIT
 License URI: http://opensource.org/licenses/mit
 
@@ -144,12 +144,17 @@ These are bugs or unexpected glitches that we know of, but that do not have an i
 
 == Changelog ==
 
+= 4.6.5 =
+- updated to Facebook Graph API v6.0
+- fixed minor bug
+- tested for WordPress 5.4
+
 = 4.6.4 =
 - fixed the settings link on the plugin overview page for certain environments (thanks to @midgard)
 - updated to Facebook Graph API v5.0
 - updated the WhatsApp link to swap url and title for a working image preview
 - removed nofollow from the info button
-- remvoed Xing share counts due to Xing disabling the API
+- removed Xing share counts due to Xing disabling the API
 
 = 4.6.3 =
 - updated the WhatsApp share link to work with all devices again (thanks to @hanshansenxxx)
