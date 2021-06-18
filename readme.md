@@ -19,6 +19,14 @@ If you need any help or have specific questions regarding development and contri
 
 ## Changelog
 
+= 4.6.7 =
+- updated to Facebook Graph API v11.0
+- changed FB request to og_object (thanks to richard67)
+
+= 4.6.6 =
+- Fix sanitize_callback parameter to avoid warnings with api requests
+- tested for 5.7
+
 = 4.6.5 =
 - updated to Facebook Graph API v6.0
 - fixed minor bug

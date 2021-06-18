@@ -2,6 +2,14 @@
 
 == Changelog ==
 
+= 4.6.7 =
+- updated to Facebook Graph API v11.0
+- changed FB request to og_object (thanks to richard67)
+
+= 4.6.6 =
+- Fix sanitize_callback parameter to avoid warnings with api requests
+- tested for 5.7
+
 = 4.6.4 =
 - fixed the settings link on the plugin overview page for certain environments (thanks to @midgard)
 - updated to Facebook Graph API v5.0
