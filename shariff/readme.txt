@@ -2,9 +2,9 @@
 Contributors: starguide, 3UU
 Tags: Shariff, GDPR, DSGVO, share buttons, sharing
 Requires at least: 4.9
-Requires PHP: 7.0
-Tested up to: 5.4
-Stable tag: 4.6.5
+Requires PHP: 7.2
+Tested up to: 5.7.3
+Stable tag: 4.6.7
 License: MIT
 License URI: http://opensource.org/licenses/mit
 
@@ -47,7 +47,8 @@ Yes. You can use <code>do_shortcode('[shariff services="totalnumber"]')</code> t
 = Is there an action hook to use the share counts every time they get updated? =
 Yes. You can use
 <code>function your_awesome_function( $share_counts ) {
-   // $share_counts is an array including all enabled services, the timestamp of the update and the url of the post.
+   // $share_counts is an array including all enabled services, 
+   // the timestamp of the update and the url of the post.
    // do stuff
 } 
 add_action( 'shariff_share_counts', 'your_awesome_function' );</code>
@@ -143,6 +144,14 @@ These are bugs or unexpected glitches that we know of, but that do not have an i
 - If the first post on the start page is password protected and Shariff is disabled on protected posts, a widget at the end of the loop will not be rendered.
 
 == Changelog ==
+
+= 4.6.7 =
+- updated to Facebook Graph API v11.0
+- changed FB request to og_object (thanks to richard67)
+
+= 4.6.6 =
+- Fix sanitize_callback parameter to avoid warnings with api requests
+- tested for 5.7
 
 = 4.6.5 =
 - updated to Facebook Graph API v6.0
