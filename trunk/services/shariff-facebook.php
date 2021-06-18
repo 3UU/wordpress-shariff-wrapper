@@ -70,7 +70,7 @@ if ( isset( $frontend ) && 1 === $frontend ) {
 		// Create the FB access token.
 		$fb_token = $fb_app_id . '|' . $fb_app_secret;
 		// Use the token to get the share counts.
-		$facebook = sanitize_text_field( wp_remote_retrieve_body( wp_remote_get( 'https://graph.facebook.com/v6.0/?access_token=' . $fb_token . '&fields=engagement&id=' . $post_url ) ) );
+		$facebook = sanitize_text_field( wp_remote_retrieve_body( wp_remote_get( 'https://graph.facebook.com/v11.0/?access_token=' . $fb_token . '&fields=og_object%7Bengagement%7D&id=' . $post_url ) ) );
 		// Decode the json response.
 		$facebook_json = json_decode( $facebook, true );
 		// Set nofbid in case the page has not yet been crawled by Facebook and no ID is provided.
@@ -81,14 +81,8 @@ if ( isset( $frontend ) && 1 === $frontend ) {
 	* Stores results - uses engagement (Graph API > 2.12) if it exists, otherwise uses share_count - ordered based on proximity of occurrence.
 	* Records errors, if enabled (e.g. request from the status tab).
 	*/
-	if ( isset( $facebook_json['engagement'] ) && isset( $facebook_json['engagement']['share_count'] ) ) {
-		$share_counts['facebook'] = intval( $facebook_json['engagement']['reaction_count'] ) + intval( $facebook_json['engagement']['comment_count'] ) + intval( $facebook_json['engagement']['share_count'] ) + intval( $facebook_json['engagement']['comment_plugin_count'] );
-	} elseif ( isset( $facebook_json['share'] ) && isset( $facebook_json['share']['share_count'] ) ) {
-		$share_counts['facebook'] = intval( $facebook_json['share']['share_count'] );
-	} elseif ( isset( $facebook_json['data'] ) && isset( $facebook_json['data'][0] ) && isset( $facebook_json['data'][0]['total_count'] ) ) {
-		$share_counts['facebook'] = intval( $facebook_json['data'][0]['total_count'] );
-	} elseif ( isset( $facebook_json['data'] ) && isset( $facebook_json['data'][0] ) && isset( $facebook_json['data'][0]['share_count'] ) ) {
-		$share_counts['facebook'] = intval( $facebook_json['data'][0]['share_count'] );
+	if ( isset( $facebook_json['og_object'] ) && isset( $facebook_json['og_object']['engagement'] ) && isset( $facebook_json['og_object']['engagement']['count'] ) ) {
+		$share_counts['facebook'] = intval( $facebook_json['og_object']['engagement']['count'] );
 	} elseif ( isset( $facebook_json['id'] ) && ! isset( $facebook_json['error'] ) && 1 === $nofbid ) {
 		$share_counts['facebook'] = '0';
 	} elseif ( isset( $record_errors ) && 1 === $record_errors ) {

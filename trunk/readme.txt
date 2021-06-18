@@ -4,7 +4,7 @@ Tags: Shariff, GDPR, DSGVO, share buttons, sharing
 Requires at least: 4.9
 Requires PHP: 7.2
 Tested up to: 5.7.3
-Stable tag: 4.6.6
+Stable tag: 4.6.7
 License: MIT
 License URI: http://opensource.org/licenses/mit
 
@@ -144,6 +144,10 @@ These are bugs or unexpected glitches that we know of, but that do not have an i
 - If the first post on the start page is password protected and Shariff is disabled on protected posts, a widget at the end of the loop will not be rendered.
 
 == Changelog ==
+
+= 4.6.7 =
+- updated to Facebook Graph API v11.0
+- changed FB request to og_object (thanks to richard67)
 
 = 4.6.6 =
 - Fix sanitize_callback parameter to avoid warnings with api requests
