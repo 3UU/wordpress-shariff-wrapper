@@ -3,7 +3,7 @@ Contributors: starguide, 3UU
 Tags: Shariff, GDPR, DSGVO, share buttons, sharing
 Requires at least: 4.9
 Requires PHP: 7.2
-Tested up to: 6.0.0
+Tested up to: 6.1.0
 Stable tag: 4.6.7
 License: MIT
 License URI: http://opensource.org/licenses/mit
