@@ -12,7 +12,7 @@ if ( ! class_exists( 'WP' ) ) {
 }
 
 // Set services that have a share count API / backend.
-$shariff3uu_services_backend = array( 'facebook', 'twitter', 'pinterest', 'reddit', 'tumblr', 'vk', 'addthis', 'odnoklassniki', 'buffer' );
+$shariff3uu_services_backend = array( 'facebook', 'pinterest', 'reddit', 'tumblr', 'vk', 'addthis', 'odnoklassniki', 'buffer' );
 
 // Adds the actions for the admin page.
 add_action( 'admin_menu', 'shariff3uu_add_admin_menu' );
@@ -827,9 +827,9 @@ function shariff3uu_text_services_render() {
 		$services = '';
 	}
 	echo '<input type="text" name="shariff3uu_basic[services]" value="' . esc_html( $services ) . '" size="90" placeholder="twitter|facebook|linkedin|info">';
-	echo '<p><code>addthis|bitcoin|buffer|diaspora|facebook|flattr|flipboard|info|linkedin|mailto|mewe|mix</code></p>';
-	echo '<p><code>odnoklassniki|patreon|paypal|paypalme|pinterest|pocket|printer|qzone|reddit|rss|sms</code></p>';
-	echo '<p><code>telegram|tencentweibo|threema|tumblr|twitter|vk|wallabag|weibo|whatsapp|xing</code></p>';
+	echo '<p><code>addthis|bitcoin|buffer|diaspora|facebook|flipboard|info|linkedin|mailto|mewe|mix</code></p>';
+	echo '<p><code>odnoklassniki|patreon|paypal|paypalme|pinterest|pocket|printer|reddit|rss|sms</code></p>';
+	echo '<p><code>telegram|threema|tumblr|twitter|vk|wallabag|weibo|whatsapp|xing</code></p>';
 	echo '<p>' . esc_html__( 'Use the pipe sign | (Alt Gr + &lt; or &#8997; + 7) between two or more services.', 'shariff' ) . '</p>';
 }
 
@@ -1429,7 +1429,6 @@ function shariff3uu_checkbox_disable_metabox_render() {
 function shariff3uu_statistic_section_callback() {
 	echo esc_html__( 'This determines how share counts are handled by Shariff.', 'shariff' );
 	echo '<br>';
-	echo esc_html__( 'Notice: Twitter does not offer official share counts anymore. As an alternative share counts for Twitter can be requested via twitcount.com. You will need to register with them for it to work. Otherwise the count will always be zero.', 'shariff' );
 	if ( isset( $GLOBALS['shariff3uu_statistic']['external_direct'] ) ) {
 		echo '<br><span style="color:red;font-weight:bold;">';
 			echo esc_html__( 'Warning: ', 'shariff' );
@@ -1621,8 +1620,7 @@ function shariff3uu_help_section_callback() {
 	echo '<p>';
 		printf(
 			wp_kses(
-				// Translators: %1$s and %2$s will be replaced with the correct URLs to the authors websites.
-				__( 'The WordPress plugin "Shariff Wrapper" has been developed by <a href="%1$s" target="_blank">Jan-Peter Lambeck</a> and  <a href="%2$s" target="_blank">3UU</a> in order to help protect the privacy of your visitors. ', 'shariff' ),
+				__( 'The WordPress plugin "Shariff Wrapper" has been developed by Jan-Peter Lambeck and <a href="%2$s" target="_blank">3UU</a> in order to help protect the privacy of your visitors. ', 'shariff' ),
 				array(
 					'a' => array(
 						'href'   => true,
@@ -1664,22 +1662,6 @@ function shariff3uu_help_section_callback() {
 		);
 	echo '</p>';
 	echo '<p>';
-		// Translators: %s will be replaced with the correct URL to the authors twitter account.
-		printf(
-			wp_kses(
-				// Translators: %s will be replaced with the correct URL to the authors twitter account.
-				__( 'You can also follow <a href="%s" target=_blank">@jplambeck</a> on Twitter.', 'shariff' ),
-				array(
-					'a' => array(
-						'href'   => true,
-						'target' => true,
-					),
-				)
-			),
-			'https://twitter.com/jplambeck'
-		);
-	echo '</p>';
-	echo '<p>';
 		// Translators: %s will be replaced with the correct URL to the wordpress.org review page.
 		printf(
 			wp_kses(
@@ -1711,7 +1693,7 @@ function shariff3uu_help_section_callback() {
 		// Services.
 		echo '<div style="display:table-row">';
 			echo '<div style="display:table-cell;border:1px solid;padding:10px">services</div>';
-			echo '<div style="display:table-cell;border:1px solid;padding:10px">addthis<br>bitcoin<br>buffer<br>diaspora<br>facebook<br>flattr<br>flipboard<br>info<br>linkedin<br>mailto<br>mewe<br>mix<br>odnoklassniki<br>patreon<br>paypal<br>paypalme<br>pinterest<br>pocket<br>printer<br>qzone<br>reddit<br>rss<br>sms<br>telegram<br>tencentweibo<br>threema<br>tumblr<br>twitter<br>vk<br>wallabag<br>weibo<br>whatsapp<br>xing</div>';
+			echo '<div style="display:table-cell;border:1px solid;padding:10px">addthis<br>bitcoin<br>buffer<br>diaspora<br>facebook<br>flipboard<br>info<br>linkedin<br>mailto<br>mewe<br>mix<br>odnoklassniki<br>patreon<br>paypal<br>paypalme<br>pinterest<br>pocket<br>printer<br>reddit<br>rss<br>sms<br>telegram<br>threema<br>tumblr<br>twitter<br>vk<br>wallabag<br>weibo<br>whatsapp<br>xing</div>';
 			echo '<div style="display:table-cell;border:1px solid;padding:10px">twitter|facebook|linkedin|info</div>';
 			echo '<div style="display:table-cell;border:1px solid;padding:10px">[shariff services="facebook|twitter|mailto"]</div>';
 			echo '<div style="display:table-cell;border:1px solid;padding:10px">' . esc_html__( 'Determines which buttons to show and in which order.', 'shariff' ) . '</div>';
