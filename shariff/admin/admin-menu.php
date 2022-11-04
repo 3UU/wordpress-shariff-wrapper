@@ -1621,8 +1621,7 @@ function shariff3uu_help_section_callback() {
 	echo '<p>';
 		printf(
 			wp_kses(
-				// Translators: %1$s and %2$s will be replaced with the correct URLs to the authors websites.
-				__( 'The WordPress plugin "Shariff Wrapper" has been developed by <a href="%1$s" target="_blank">Jan-Peter Lambeck</a> and  <a href="%2$s" target="_blank">3UU</a> in order to help protect the privacy of your visitors. ', 'shariff' ),
+				__( 'The WordPress plugin "Shariff Wrapper" has been developed by Jan-Peter Lambeck and <a href="%2$s" target="_blank">3UU</a> in order to help protect the privacy of your visitors. ', 'shariff' ),
 				array(
 					'a' => array(
 						'href'   => true,
@@ -1661,22 +1660,6 @@ function shariff3uu_help_section_callback() {
 			),
 			'https://wordpress.org/plugins/shariff/#faq',
 			'https://wordpress.org/support/plugin/shariff'
-		);
-	echo '</p>';
-	echo '<p>';
-		// Translators: %s will be replaced with the correct URL to the authors twitter account.
-		printf(
-			wp_kses(
-				// Translators: %s will be replaced with the correct URL to the authors twitter account.
-				__( 'You can also follow <a href="%s" target=_blank">@jplambeck</a> on Twitter.', 'shariff' ),
-				array(
-					'a' => array(
-						'href'   => true,
-						'target' => true,
-					),
-				)
-			),
-			'https://twitter.com/jplambeck'
 		);
 	echo '</p>';
 	echo '<p>';
