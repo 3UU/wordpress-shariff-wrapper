@@ -19,6 +19,12 @@ If you need any help or have specific questions regarding development and contri
 
 ## Changelog
 
+= 4.6.8 =
+- updated to Facebook Graph API v15.0
+- removed depricated services Flattr, QZone and TencientWeibo
+- removed Twitter share counts via Twitcount
+- removed broken links from help tab
+
 = 4.6.7 =
 - updated to Facebook Graph API v11.0
 - changed FB request to og_object (thanks to richard67)
