@@ -147,7 +147,7 @@ These are bugs or unexpected glitches that we know of, but that do not have an i
 
 = 4.6.8 =
 - updated to Facebook Graph API v15.0
-- removed depricated services Flattr, QZone and TencientWeibo
+- removed deprecated services Flattr, QZone and TencientWeibo
 - removed Twitter share counts via Twitcount
 - removed broken links from help tab
 
