@@ -19,6 +19,10 @@ If you need any help or have specific questions regarding development and contri
 
 ## Changelog
 
+= 4.6.9 =
+- new service Mastodon (thanks to Nikita @kytta@fosstodon.org by providing s2f.kytta.dev)
+- updated LinkedIn share link
+
 = 4.6.8 =
 - updated to Facebook Graph API v15.0
 - removed deprecated services Flattr, QZone and TencientWeibo
