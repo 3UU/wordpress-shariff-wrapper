@@ -13,10 +13,10 @@ if ( ! class_exists( 'WP' ) ) {
 // Check if we need the frontend or the backend part.
 if ( isset( $frontend ) && 1 === $frontend ) {
 	// Service URL.
-	$service_url = esc_url( 'https://www.linkedin.com/shareArticle?mini=true' );
+	$service_url = esc_url( 'https://www.linkedin.com/sharing/share-offsite/' );
 
 	// Build button URL.
-	$button_url = $service_url . '&url=' . $share_url . '&title=' . $share_title;
+	$button_url = $service_url . '?url=' . $share_url;
 
 	// Colors.
 	$main_color      = '#0077b5';
