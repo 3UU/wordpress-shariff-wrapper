@@ -310,6 +310,15 @@ function shariff3uu_options_init() {
 		'shariff3uu_advanced',
 		'shariff3uu_advanced_section'
 	);
+	
+	// Mastodon via.
+	add_settings_field(
+		'shariff3uu_text_mastodonvia',
+		__( 'Mastodon username for the via tag:', 'shariff' ),
+		'shariff3uu_text_mastodonvia_render',
+		'shariff3uu_advanced',
+		'shariff3uu_advanced_section'
+	);
 
 	// Patreon username.
 	add_settings_field(
@@ -683,6 +692,9 @@ function shariff3uu_advanced_sanitize( $input ) {
 	if ( isset( $input['twitter_via'] ) ) {
 		$valid['twitter_via'] = str_replace( '@', '', sanitize_text_field( $input['twitter_via'] ) );
 	}
+	if ( isset( $input['mastodon_via'] ) ) {
+		$valid['mastodon_via'] = ltrim( sanitize_text_field( $input['mastodon_via'] ), "@");
+	}
 	if ( isset( $input['flattruser'] ) ) {
 		$valid['flattruser'] = sanitize_text_field( $input['flattruser'] );
 	}
@@ -826,8 +838,8 @@ function shariff3uu_text_services_render() {
 	} else {
 		$services = '';
 	}
-	echo '<input type="text" name="shariff3uu_basic[services]" value="' . esc_html( $services ) . '" size="90" placeholder="twitter|facebook|linkedin|info">';
-	echo '<p><code>addthis|bitcoin|buffer|diaspora|facebook|flipboard|info|linkedin|mailto|mewe|mix</code></p>';
+	echo '<input type="text" name="shariff3uu_basic[services]" value="' . esc_html( $services ) . '" size="90" placeholder="mastodon|facebook|linkedin|info">';
+	echo '<p><code>addthis|bitcoin|buffer|diaspora|facebook|flipboard|info|linkedin|mailto|mastodon|mewe|mix</code></p>';
 	echo '<p><code>odnoklassniki|patreon|paypal|paypalme|pinterest|pocket|printer|reddit|rss|sms</code></p>';
 	echo '<p><code>telegram|threema|tumblr|twitter|vk|wallabag|weibo|whatsapp|xing</code></p>';
 	echo '<p>' . esc_html__( 'Use the pipe sign | (Alt Gr + &lt; or &#8997; + 7) between two or more services.', 'shariff' ) . '</p>';
@@ -1315,6 +1327,18 @@ function shariff3uu_text_twittervia_render() {
 }
 
 /**
+ * Mastodon via attribute.
+ */
+function shariff3uu_text_mastodonvia_render() {
+	if ( isset( $GLOBALS['shariff3uu_advanced']['mastodon_via'] ) ) {
+		$mastodon_via = $GLOBALS['shariff3uu_advanced']['mastodon_via'];
+	} else {
+		$mastodon_via = '';
+	}
+	echo '<input type="text" name="shariff3uu_advanced[mastodon_via]" value="' . esc_html( $mastodon_via ) . '" size="50" placeholder="' . esc_html__( 'username', 'shariff' ) . '">';
+}
+
+/**
  * Patreon username.
  */
 function shariff3uu_text_patreonid_render() {
@@ -1693,9 +1717,9 @@ function shariff3uu_help_section_callback() {
 		// Services.
 		echo '<div style="display:table-row">';
 			echo '<div style="display:table-cell;border:1px solid;padding:10px">services</div>';
-			echo '<div style="display:table-cell;border:1px solid;padding:10px">addthis<br>bitcoin<br>buffer<br>diaspora<br>facebook<br>flipboard<br>info<br>linkedin<br>mailto<br>mewe<br>mix<br>odnoklassniki<br>patreon<br>paypal<br>paypalme<br>pinterest<br>pocket<br>printer<br>reddit<br>rss<br>sms<br>telegram<br>threema<br>tumblr<br>twitter<br>vk<br>wallabag<br>weibo<br>whatsapp<br>xing</div>';
-			echo '<div style="display:table-cell;border:1px solid;padding:10px">twitter|facebook|linkedin|info</div>';
-			echo '<div style="display:table-cell;border:1px solid;padding:10px">[shariff services="facebook|twitter|mailto"]</div>';
+			echo '<div style="display:table-cell;border:1px solid;padding:10px">addthis<br>bitcoin<br>buffer<br>diaspora<br>facebook<br>flipboard<br>info<br>linkedin<br>mailto<br>mastodon<br>mewe<br>mix<br>odnoklassniki<br>patreon<br>paypal<br>paypalme<br>pinterest<br>pocket<br>printer<br>reddit<br>rss<br>sms<br>telegram<br>threema<br>tumblr<br>twitter<br>vk<br>wallabag<br>weibo<br>whatsapp<br>xing</div>';
+			echo '<div style="display:table-cell;border:1px solid;padding:10px">mastodon|facebook|linkedin|info</div>';
+			echo '<div style="display:table-cell;border:1px solid;padding:10px">[shariff services="facebook|mastodon|mailto"]</div>';
 			echo '<div style="display:table-cell;border:1px solid;padding:10px">' . esc_html__( 'Determines which buttons to show and in which order.', 'shariff' ) . '</div>';
 		echo '</div>';
 		// Backend.
@@ -1809,6 +1833,14 @@ function shariff3uu_help_section_callback() {
 			echo '<div style="display:table-cell;border:1px solid;padding:10px"></div>';
 			echo '<div style="display:table-cell;border:1px solid;padding:10px">[shariff twitter_via="your_twittername"]</div>';
 			echo '<div style="display:table-cell;border:1px solid;padding:10px">' . esc_html__( 'Sets the Twitter via tag.', 'shariff' ) . '</div>';
+		echo '</div>';
+		// Mastodon_via.
+		echo '<div style="display:table-row">';
+			echo '<div style="display:table-cell;border:1px solid;padding:10px">mastodon_via</div>';
+			echo '<div style="display:table-cell;border:1px solid;padding:10px"></div>';
+			echo '<div style="display:table-cell;border:1px solid;padding:10px"></div>';
+			echo '<div style="display:table-cell;border:1px solid;padding:10px">[shariff mastodon_via="your_mastodonname"]</div>';
+			echo '<div style="display:table-cell;border:1px solid;padding:10px">' . esc_html__( 'Sets the Mastodon via tag.', 'shariff' ) . '</div>';
 		echo '</div>';
 		// Patreonid.
 		echo '<div style="display:table-row">';

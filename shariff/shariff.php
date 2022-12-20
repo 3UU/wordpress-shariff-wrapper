@@ -3,7 +3,7 @@
  * Plugin Name: Shariff Wrapper
  * Plugin URI: https://wordpress.org/plugins-wp/shariff/
  * Description: Shariff provides share buttons that respect the privacy of your visitors and follow the General Data Protection Regulation (GDPR).
- * Version: 4.6.8
+ * Version: 4.6.9
  * Author: Jan-Peter Lambeck & 3UU
  * Author URI: https://wordpress.org/plugins/shariff/
  * License: MIT
@@ -34,7 +34,7 @@ $shariff3uu = array_merge( $shariff3uu_basic, $shariff3uu_design, $shariff3uu_ad
  */
 function shariff3uu_update() {
 	// Adjust code version.
-	$code_version = '4.6.8';
+	$code_version = '4.6.9';
 
 	// Get basic options.
 	$shariff3uu_basic = (array) get_option( 'shariff3uu_basic' );
@@ -64,7 +64,7 @@ function shariff3uu_privacy() {
 
 On our website we offer you the possibility to use so called "Social Media Buttons". To protect your data, we use a solution called "Shariff". Hereby the share buttons are implemented as static images, which contain a link to the corresponding social network site. If you click on such a button, you will be redirected to the respective social network site in the same way, as normal links would do as well. Only in that moment of time the provider of the social network site will get information about you, for example your IP address. If you do not click on such a share button, no data will be transmitted. Information about the collection and usage of your date on the social network sites can be found in the corresponding terms of use of the respective provider. More information about the plugin and the Shariff solution can be found here: <a href="https://wordpress.org/plugins/shariff/">https://wordpress.org/plugins/shariff/</a>
 
-On our website we offer share buttons for the following services / companies: AddThis, Diaspora, Facebook, Flattr, Flipboard, LinkedIn, Mix, Odnoklassniki, Patreon, PayPal, Pinterest, Pocket, Qzone, Reddit, Telegram, TencentWeibo, Threema, Tumblr, Twitter, VK, Wallabag, Weibo, WhatsApp, Xing.',
+On our website we offer share buttons for the following services / companies: AddThis, Diaspora, Facebook, Flattr, Flipboard, LinkedIn, Mastodon, Mix, Odnoklassniki, Patreon, PayPal, Pinterest, Pocket, Qzone, Reddit, Telegram, TencentWeibo, Threema, Tumblr, Twitter, VK, Wallabag, Weibo, WhatsApp, Xing.',
 			'shariff'
 		);
 		wp_add_privacy_policy_content( 'Shariff Wrapper', wp_kses_post( wpautop( $content, false ) ) );
@@ -204,7 +204,7 @@ function shariff3uu_sanitize_api() {
 				'services'  => array(
 					'sanitize_callback' => 'sanitize_text_field',
 					'required'          => true,
-					'description'       => __( 'A list of services separated by |. Example: twitter|facebook|xing', 'shariff' ),
+					'description'       => __( 'A list of services separated by |. Example: mastodon|facebook|linkedin', 'shariff' ),
 				),
 				'timestamp' => array(
 					'sanitize_callback' => 'absint',
@@ -467,7 +467,7 @@ function shariff3uu_fill_cache() {
 
 	// Avoid errors if no services are given - instead use the default set of services.
 	if ( empty( $GLOBALS['shariff3uu']['services'] ) ) {
-		$services = 'twitter|facebook|linkedin';
+		$services = 'mastodon|facebook|linkedin';
 	} else {
 		$services = $GLOBALS['shariff3uu']['services'];
 	}
@@ -892,7 +892,7 @@ function shariff3uu_render( $atts ) {
 
 	// Avoids errors if no attributes are given - instead uses the old set of services to make it backward compatible.
 	if ( empty( $shariff3uu['services'] ) ) {
-		$shariff3uu['services'] = 'twitter|facebook|linkedin|info';
+		$shariff3uu['services'] = 'mastodon|facebook|linkedin|info';
 	}
 
 	// Uses the backend option for every option that is not set in the shorttag.
