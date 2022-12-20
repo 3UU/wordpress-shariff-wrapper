@@ -2,9 +2,15 @@
 
 == Changelog ==
 
-= 4.6.8 =
+= 4.6.9 =
 - new service Mastodon (thanks to Nikita @kytta@fosstodon.org by providing s2f.kytta.dev)
 - updated LinkedIn share link
+
+= 4.6.8 =
+- updated to Facebook Graph API v15.0
+- removed deprecated services Flattr, QZone and TencientWeibo
+- removed Twitter share counts via Twitcount
+- removed broken links from help tab
 
 = 4.6.7 =
 - updated to Facebook Graph API v11.0
