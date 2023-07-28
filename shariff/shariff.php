@@ -886,7 +886,7 @@ function shariff3uu_render( $atts ) {
 	}
 
 	// Stops all further actions if we are on an admin page.
-	if ( is_admin() ) {
+	if ( is_admin() && ! wp_doing_ajax() ) {
 		return null;
 	}
 
