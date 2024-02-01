@@ -70,7 +70,7 @@ if ( isset( $frontend ) && 1 === $frontend ) {
 		// Create the FB access token.
 		$fb_token = $fb_app_id . '|' . $fb_app_secret;
 		// Use the token to get the share counts.
-		$facebook = sanitize_text_field( wp_remote_retrieve_body( wp_remote_get( 'https://graph.facebook.com/v15.0/?access_token=' . $fb_token . '&fields=og_object%7Bengagement%7D&id=' . $post_url ) ) );
+		$facebook = sanitize_text_field( wp_remote_retrieve_body( wp_remote_get( 'https://graph.facebook.com/v19.0/?access_token=' . $fb_token . '&fields=og_object%7Bengagement%7D&id=' . $post_url ) ) );
 		// Decode the json response.
 		$facebook_json = json_decode( $facebook, true );
 		// Set nofbid in case the page has not yet been crawled by Facebook and no ID is provided.
