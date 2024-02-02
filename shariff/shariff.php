@@ -64,7 +64,7 @@ function shariff3uu_privacy() {
 
 On our website we offer you the possibility to use so called "Social Media Buttons". To protect your data, we use a solution called "Shariff". Hereby the share buttons are implemented as static images, which contain a link to the corresponding social network site. If you click on such a button, you will be redirected to the respective social network site in the same way, as normal links would do as well. Only in that moment of time the provider of the social network site will get information about you, for example your IP address. If you do not click on such a share button, no data will be transmitted. Information about the collection and usage of your date on the social network sites can be found in the corresponding terms of use of the respective provider. More information about the plugin and the Shariff solution can be found here: <a href="https://wordpress.org/plugins/shariff/">https://wordpress.org/plugins/shariff/</a>
 
-On our website we offer share buttons for the following services / companies: AddThis, Diaspora, Facebook, Flattr, Flipboard, LinkedIn, Mastodon, Mix, Odnoklassniki, Patreon, PayPal, Pinterest, Pocket, Qzone, Reddit, Telegram, TencentWeibo, Threema, Tumblr, Twitter, VK, Wallabag, Weibo, WhatsApp, Xing.',
+On our website we offer share buttons for the following services / companies: Diaspora, Facebook, Flattr, Flipboard, LinkedIn, Mastodon, Mix, Odnoklassniki, Patreon, PayPal, Pinterest, Pocket, Qzone, Reddit, Telegram, TencentWeibo, Threema, Tumblr, Twitter, VK, Wallabag, Weibo, WhatsApp, Xing.',
 			'shariff'
 		);
 		wp_add_privacy_policy_content( 'Shariff Wrapper', wp_kses_post( wpautop( $content, false ) ) );

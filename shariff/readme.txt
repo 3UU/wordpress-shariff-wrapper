@@ -12,7 +12,7 @@ Shariff provides share buttons that respect the privacy of your visitors and fol
 
 == Description ==
 
-The "original" share buttons automatically transmit data of your visitors to the social network sites as soon as they visit your website. They do not need to click on a share button for this and therefore have no choice, if they want their data to be send. The German computer magazine c't has developed "Shariff" `(ʃɛɹɪf)` that follows the General Data Protection Regulation (GDPR - Regulation (EU) 2016/679). This plugin adapts the Shariff concept and provides an easy to use solution for WordPress. We currently support 30 services in 25 languages: AddThis, Bitcoin, Buffer, Diaspora, Facebook, Flipboard, LinkedIn, mailto, Mastodon, MeWe, Odnoklassniki, Patreon, PayPal, PayPal.me, Pinterest, Pocket, Printer, Reddit, RSS, SMS, Stumbleupon, Telegram, Threema, Tumblr, Twitter, VK, Wallabag, Weibo, WhatsApp, Xing.
+The "original" share buttons automatically transmit data of your visitors to the social network sites as soon as they visit your website. They do not need to click on a share button for this and therefore have no choice, if they want their data to be send. The German computer magazine c't has developed "Shariff" `(ʃɛɹɪf)` that follows the General Data Protection Regulation (GDPR - Regulation (EU) 2016/679). This plugin adapts the Shariff concept and provides an easy to use solution for WordPress. We currently support 29 services in 25 languages: Bitcoin, Buffer, Diaspora, Facebook, Flipboard, LinkedIn, mailto, Mastodon, MeWe, Odnoklassniki, Patreon, PayPal, PayPal.me, Pinterest, Pocket, Printer, Reddit, RSS, SMS, Stumbleupon, Telegram, Threema, Tumblr, Twitter, VK, Wallabag, Weibo, WhatsApp, Xing.
 
 For more information about the Shariff project check out the original [GitHub project](https://github.com/heiseonline/shariff) and read about the project itself [c’t information page](http://ct.de/shariff) (in German).
 
@@ -150,6 +150,7 @@ These are bugs or unexpected glitches that we know of, but that do not have an i
 - updated Twitter icon and text to reflect the name change to X (thanks to @gerobe)
 - updated to Facebook Graph API v19.0
 - updated to allow calls to Shariff from AJAX callbacks (thanks to @jchnkl)
+- removed deprecated service AddThis
 
 = 4.6.9 =
 - new service Mastodon (thanks to Nikita @kytta@fosstodon.org by providing s2f.kytta.dev)
