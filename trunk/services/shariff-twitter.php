@@ -26,55 +26,39 @@ if ( isset( $frontend ) && 1 === $frontend ) {
 	$button_url = $service_url . '?url=' . $share_url . '&text=' . $share_title . $twitter_via;
 
 	// Colors.
-	$main_color      = '#55acee';
-	$secondary_color = '#32bbf5';
-	$wcag_color      = '#115A92';
+	$main_color      = '#000';
+	$secondary_color = '#595959';
+	$wcag_color      = '#595959';
 
 	// SVG icon.
-	$svg_icon = '<svg width="32px" height="20px" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 30 32"><path fill="' . $main_color . '" d="M29.7 6.8q-1.2 1.8-3 3.1 0 0.3 0 0.8 0 2.5-0.7 4.9t-2.2 4.7-3.5 4-4.9 2.8-6.1 1q-5.1 0-9.3-2.7 0.6 0.1 1.5 0.1 4.3 0 7.6-2.6-2-0.1-3.5-1.2t-2.2-3q0.6 0.1 1.1 0.1 0.8 0 1.6-0.2-2.1-0.4-3.5-2.1t-1.4-3.9v-0.1q1.3 0.7 2.8 0.8-1.2-0.8-2-2.2t-0.7-2.9q0-1.7 0.8-3.1 2.3 2.8 5.5 4.5t7 1.9q-0.2-0.7-0.2-1.4 0-2.5 1.8-4.3t4.3-1.8q2.7 0 4.5 1.9 2.1-0.4 3.9-1.5-0.7 2.2-2.7 3.4 1.8-0.2 3.5-0.9z"/></svg>';
+	$svg_icon = '<svg width="32px" height="20px" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path fill="' . $main_color . '" d="M14.258 10.152L23.176 0h-2.113l-7.747 8.813L7.133 0H0l9.352 13.328L0 23.973h2.113l8.176-9.309 6.531 9.309h7.133zm-2.895 3.293l-.949-1.328L2.875 1.56h3.246l6.086 8.523.945 1.328 7.91 11.078h-3.246zm0 0"/></svg>';
 
 	// Backend available?
 	$backend_available = 0;
 
-	// Button text label.
-	$button_text_array = array(
-		'de' => 'twittern',
-		'en' => 'tweet',
-		'fr' => 'tweeter',
-		'it' => 'twitta',
-		'ja' => 'のつぶやき',
-		'ko' => '짹짹',
-		'ru' => 'твит',
-		'sr' => 'твеет',
-		'zh' => '鸣叫',
-	);
-
 	// Button alt label.
 	$button_title_array = array(
-		'bg' => 'Сподели в Twitter',
-		'cs' => 'Sdílet na Twiiteru',
-		'da' => 'Del på Twitter',
-		'de' => 'Bei Twitter teilen',
-		'en' => 'Share on Twitter',
-		'es' => 'Compartir en Twitter',
-		'fi' => 'Jaa Twitterissä',
-		'fr' => 'Partager sur Twitter',
-		'hr' => 'Podijelite na Twitteru',
-		'hu' => 'Megosztás Twitteren',
-		'it' => 'Condividi su Twitter',
-		'ja' => 'ツイッター上で共有',
-		'ko' => '트위터에서 공유하기',
-		'nl' => 'Delen op Twitter',
-		'no' => 'Del på Twitter',
-		'pl' => 'Udostępnij na Twitterze',
-		'pt' => 'Compartilhar no Twitter',
-		'ro' => 'Partajează pe Twitter',
-		'ru' => 'Поделиться на Twitter',
-		'sk' => 'Zdieľať na Twitteri',
-		'sl' => 'Deli na Twitterju',
-		'sr' => 'Podeli na Twitter-u',
-		'sv' => 'Dela på Twitter',
-		'tr' => 'Twitter\'da paylaş',
-		'zh' => '在Twitter上分享',
+		'bg' => 'Сподели във X',
+		'cs' => 'Sdílet na X',
+		'da' => 'Del på X',
+		'de' => 'Bei X teilen',
+		'en' => 'Share on X',
+		'es' => 'Compartir en X',
+		'fi' => 'Jaa X',
+		'fr' => 'Partager sur X',
+		'hr' => 'Podijelite na X',
+		'hu' => 'Megosztás X',
+		'it' => 'Condividi su X',
+		'nl' => 'Delen op X',
+		'no' => 'Del på X',
+		'pl' => 'Udostępnij na X',
+		'pt' => 'Compartilhar no X',
+		'ro' => 'Partajează pe X',
+		'ru' => 'Поделиться на X',
+		'sk' => 'Zdieľať na X',
+		'sl' => 'Deli na X',
+		'sr' => 'Podeli na X',
+		'sv' => 'Dela på X',
+		'tr' => 'X\'ta paylaş',
 	);
 }

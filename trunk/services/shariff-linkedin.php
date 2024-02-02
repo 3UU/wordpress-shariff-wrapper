@@ -34,7 +34,7 @@ if ( isset( $frontend ) && 1 === $frontend ) {
 		'bg' => 'cподеляне',
 		'cs' => 'sdílet',
 		'da' => 'del',
-		'de' => 'mitteilen',
+		'de' => 'teilen',
 		'en' => 'share',
 		'es' => 'compartir',
 		'fi' => 'Jaa',
