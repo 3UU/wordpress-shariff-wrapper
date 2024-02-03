@@ -2,6 +2,13 @@
 
 == Changelog ==
 
+= 4.6.10 =
+- security fix (thanks to Dmitrii Ignatyev from CleanTalk inc.)
+- updated Twitter icon and text to reflect the name change to X (thanks to @gerobe)
+- updated to Facebook Graph API v19.0
+- updated to allow calls to Shariff from AJAX callbacks (thanks to @jchnkl)
+- removed deprecated service AddThis
+
 = 4.6.9 =
 - new service Mastodon (thanks to Nikita @kytta@fosstodon.org by providing s2f.kytta.dev)
 - updated LinkedIn share link

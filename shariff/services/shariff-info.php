@@ -44,7 +44,7 @@ if ( isset( $frontend ) && 1 === $frontend ) {
 
 	// Button alt label.
 	if ( array_key_exists( 'info_text', $atts ) ) {
-		$button_title_array = array( 'en' => $atts['info_text'] );
+		$button_title_array = array( 'en' => esc_html( $atts['info_text'] ) );
 	} else {
 		$button_title_array = array(
 			'bg' => 'Повече информация',
