@@ -32,7 +32,8 @@ if ( isset( $frontend ) && 1 === $frontend ) {
 	// Button text label.
 	$button_text_array = array(
 		'de' => 'Pocket',
-		'en' => 'pocket',
+		'en' => 'Pocket',
+		'fr' => 'Pocket',
 	);
 
 	// Button alt label.
