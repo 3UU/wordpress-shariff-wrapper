@@ -33,6 +33,12 @@ if ( isset( $frontend ) && 1 === $frontend ) {
 		$mobile_only = 0;
 	}
 
+	// Button text label.
+	$button_text_array = array(
+		'en' => 'Whatsapp',
+		'fr' => 'Whatsapp',
+	);
+
 	// Button alt label.
 	$button_title_array = array(
 		'bg' => 'Сподели в Whatsapp',
