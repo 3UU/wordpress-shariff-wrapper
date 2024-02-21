@@ -28,8 +28,9 @@ if ( isset( $frontend ) && 1 === $frontend ) {
 
 	// Button text label.
 	$button_text_array = array(
-		'de' => 'wallabag it',
-		'en' => 'wallabag it',
+		'de' => 'wallabag',
+		'en' => 'wallabag',
+		'fr' => 'wallabag',
 	);
 
 	// Button alt label.
