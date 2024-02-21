@@ -36,5 +36,6 @@ if ( isset( $frontend ) && 1 === $frontend ) {
 	$button_title_array = array(
 		'de' => 'Bei wallabag speichern',
 		'en' => 'Save to wallabag',
+		'fr' => 'Sauvegarder dans wallabag',
 	);
 }
