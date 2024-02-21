@@ -30,6 +30,12 @@ if ( isset( $frontend ) && 1 === $frontend ) {
 	// Mobile only?
 	$mobile_only = 0;
 
+	// Button text label.
+	$button_text_array = array(
+		'en' => 'Telegram',
+		'fr' => 'Telegram',
+	);
+
 	// Button alt label.
 	$button_title_array = array(
 		'bg' => 'Сподели в Telegram',
