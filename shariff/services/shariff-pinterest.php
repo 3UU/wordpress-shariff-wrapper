@@ -87,7 +87,7 @@ if ( isset( $frontend ) && 1 === $frontend ) {
 		'en' => 'Pin it on Pinterest',
 		'es' => 'Ahorrar en Pinterest',
 		'fi' => 'Jaa Pinterestissä',
-		'fr' => 'Partager sur Pinterest',
+		'fr' => 'Enregistrer sur Pinterest',
 		'hr' => 'Podijelite na Pinterest',
 		'hu' => 'Megosztás Pinteresten',
 		'it' => 'Condividi su Pinterest',
