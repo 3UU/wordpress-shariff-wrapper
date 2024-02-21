@@ -38,7 +38,7 @@ if ( isset( $frontend ) && 1 === $frontend ) {
 		'en' => 'Share on Reddit',
 		'es' => 'Compartir en Reddit',
 		'fi' => 'Jaa Redditissä',
-		'fr' => 'Partager sur Reddit',
+		'fr' => 'Publier sur Reddit',
 		'hr' => 'Podijelite na Reddit',
 		'hu' => 'Megosztás Redditen',
 		'it' => 'Condividi su Reddit',
