@@ -29,6 +29,12 @@ if ( isset( $frontend ) && 1 === $frontend ) {
 	// Backend available?
 	$backend_available = 1;
 
+	// Button text label.
+	$button_text_array = array(
+		'en' => 'Buffer',
+		'fr' => 'Buffer',
+	);
+
 	// Button alt label.
 	$button_title_array = array(
 		'bg' => 'Сподели в buffer',
