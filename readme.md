@@ -19,6 +19,9 @@ If you need any help or have specific questions regarding development and contri
 
 ## Changelog
 
+= 4.6.11 =
+- security fix
+
 = 4.6.10 =
 - security fix (thanks to Dmitrii Ignatyev from CleanTalk inc.)
 - updated Twitter icon and text to reflect the name change to X (thanks to @gerobe)
