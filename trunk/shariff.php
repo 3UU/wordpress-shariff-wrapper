@@ -3,7 +3,7 @@
  * Plugin Name: Shariff Wrapper
  * Plugin URI: https://wordpress.org/plugins-wp/shariff/
  * Description: Shariff provides share buttons that respect the privacy of your visitors and follow the General Data Protection Regulation (GDPR).
- * Version: 4.6.10
+ * Version: 4.6.11
  * Author: Jan-Peter Lambeck & 3UU
  * Author URI: https://wordpress.org/plugins/shariff/
  * License: MIT
@@ -34,7 +34,7 @@ $shariff3uu = array_merge( $shariff3uu_basic, $shariff3uu_design, $shariff3uu_ad
  */
 function shariff3uu_update() {
 	// Adjust code version.
-	$code_version = '4.6.10';
+	$code_version = '4.6.11';
 
 	// Get basic options.
 	$shariff3uu_basic = (array) get_option( 'shariff3uu_basic' );
@@ -1097,11 +1097,11 @@ function shariff3uu_render( $atts ) {
 	$output .= '<div class="shariff';
 	// Alignment.
 	if ( array_key_exists( 'align', $atts ) && 'none' !== $atts['align'] ) {
-		$output .= ' shariff-align-' . $atts['align'];
+		$output .= ' shariff-align-' . esc_attr( $atts['align'] );
 	}
 	// Alignment widget.
 	if ( array_key_exists( 'align_widget', $atts ) && 'none' !== $atts['align_widget'] ) {
-		$output .= ' shariff-widget-align-' . $atts['align_widget'];
+		$output .= ' shariff-widget-align-' . esc_attr( $atts['align_widget'] );
 	}
 	// Button Stretch.
 	// phpcs:ignore
