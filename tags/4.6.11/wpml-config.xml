@@ -1,0 +1,12 @@
+<wpml-config>
+  <admin-texts>
+    <key name="shariff3uu_design">
+      <key name="headline"/>
+      <key name="headline_zero"/>
+    </key>
+    <key name="shariff3uu_advanced">
+      <key name="info_url"/>
+      <key name="info_text"/>
+    </key>
+  </admin-texts>
+</wpml-config>
