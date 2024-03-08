@@ -29,6 +29,12 @@ if ( isset( $frontend ) && 1 === $frontend ) {
 	// Mobile only?
 	$mobile_only = 1;
 
+	// Button text label.
+	$button_text_array = array(
+		'en' => 'Threema',
+		'fr' => 'Threema',
+	);
+
 	// Button alt label.
 	$button_title_array = array(
 		'bg' => 'Сподели в Threema',
