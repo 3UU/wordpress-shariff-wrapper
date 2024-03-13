@@ -29,6 +29,12 @@ if ( isset( $frontend ) && 1 === $frontend ) {
 	// Mobile only?
 	$mobile_only = 1;
 
+	// Button text label.
+	$button_text_array = array(
+		'en' => 'SMS',
+		'fr' => 'SMS',
+	);
+
 	// Button alt label.
 	$button_title_array = array(
 		'bg' => 'Сподели в SMS',
@@ -38,7 +44,7 @@ if ( isset( $frontend ) && 1 === $frontend ) {
 		'en' => 'Share on SMS',
 		'es' => 'Compartir en SMS',
 		'fi' => 'Jaa SMS',
-		'fr' => 'Partager sur SMS',
+		'fr' => 'Envoyer par SMS',
 		'hr' => 'Podijelite na SMS',
 		'hu' => 'Megosztás SMS',
 		'it' => 'Condividi su SMS',
